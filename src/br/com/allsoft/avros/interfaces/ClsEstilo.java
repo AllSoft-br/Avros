@@ -25,7 +25,7 @@ import java.awt.Color;
  * @author Luana
  * 
  */
-public class Estilo {
+public class ClsEstilo {
     //Cores
     static Color formbg = new Color(255,255,255);
     

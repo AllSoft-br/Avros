@@ -16,21 +16,13 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
- *
+ * Esta é a classe do formulário principal do projeto Avros
+ * 
  * @author Luana
  */
 public class FrmPrincipal extends javax.swing.JFrame {
 
-    //Variáveis
-    Image img = null;
 
     /**
      * Creates new form FraPrincipal
@@ -48,21 +40,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        deskPrincipal = new javax.swing.JDesktopPane(){
-            @Override
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                if (img != null) {
-                    Dimension dimension = this.getSize();
-                    int x = (int)(dimension.getWidth() - img.getWidth(this)) / 2;
-                    int y = (int)(dimension.getHeight() - img.getHeight(this)) / 2;
-
-                    g.drawImage(img, x, y, img.getWidth(this), img.getHeight(this), this);
-                } else {
-                    g.drawString("Imagem não encontrada.", 50, 50);
-                }
-            }
-        };
+        deskPrincipal = new ClsDesktopComImagem("/br/com/allsoft/avros/img/logo.png");
         menuBar = new javax.swing.JMenuBar();
         mnuPrincipal = new javax.swing.JMenu();
         mniConta = new javax.swing.JMenuItem();
@@ -93,8 +71,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         );
         deskPrincipalLayout.setVerticalGroup(
             deskPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 449, Short.MAX_VALUE)
+            .addGap(0, 451, Short.MAX_VALUE)
         );
+
+        menuBar.setBackground(new java.awt.Color(153, 255, 204));
+        menuBar.setBorder(null);
+        menuBar.setBorderPainted(false);
 
         mnuPrincipal.setText("Avros");
 
@@ -235,11 +217,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniSenhaActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        try {
-            img = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource("/br/com/allsoft/avros/img/logopequeno.png"), "img.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+      
     }//GEN-LAST:event_formWindowOpened
 
     /**

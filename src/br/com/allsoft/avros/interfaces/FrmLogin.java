@@ -156,19 +156,11 @@ public class FrmLogin extends javax.swing.JFrame {
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
         }
-
-        /**
-         * if(txtLogin.getText().equals(login)&&
-         * (txtSenha.getText().equals(senha))){ new
-         * FrmPrincipal().setVisible(true); this.dispose(); }else{
-         * JOptionPane.showMessageDialog(null, "Usuário ou senha incorreto.");
-        }
-         */
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         Container a = this.getContentPane();
-        a.setBackground(Estilo.formbg);
+        a.setBackground(ClsEstilo.formbg);
     }//GEN-LAST:event_formWindowOpened
 
     /**
