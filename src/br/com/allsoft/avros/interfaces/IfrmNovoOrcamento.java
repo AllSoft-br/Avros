@@ -41,6 +41,7 @@ public class IfrmNovoOrcamento extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+<<<<<<< HEAD
         bgpPagamento = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -133,6 +134,10 @@ public class IfrmNovoOrcamento extends javax.swing.JInternalFrame {
         btnImprimir.setFont(ClsEstilo.botaoFonte);
         btnImprimir.setForeground(ClsEstilo.botaoCor);
         btnImprimir.setText("Imprimir");
+=======
+        setClosable(true);
+        setMaximizable(true);
+>>>>>>> origin/master
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

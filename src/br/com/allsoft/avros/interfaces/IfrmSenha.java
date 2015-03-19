@@ -41,6 +41,7 @@ public class IfrmSenha extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+<<<<<<< HEAD
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -82,6 +83,10 @@ public class IfrmSenha extends javax.swing.JInternalFrame {
         jLabel5.setText("Confirma senha");
 
         jTextField1.setText("jTextField1");
+=======
+        setClosable(true);
+        setMaximizable(true);
+>>>>>>> origin/master
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

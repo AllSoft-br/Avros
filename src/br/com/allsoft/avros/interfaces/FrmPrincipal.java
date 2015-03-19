@@ -82,7 +82,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menuBar.setBackground(new java.awt.Color(153, 255, 204));
         menuBar.setBorder(null);
         menuBar.setBorderPainted(false);
+<<<<<<< HEAD
         menuBar.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+=======
+>>>>>>> origin/master
 
         mnuPrincipal.setText("Avros");
         mnuPrincipal.setFont(ClsEstilo.labelMenuFonte);

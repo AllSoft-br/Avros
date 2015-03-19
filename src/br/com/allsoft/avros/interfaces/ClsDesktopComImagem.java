@@ -51,7 +51,11 @@ public class ClsDesktopComImagem extends JDesktopPane {
             int x = (int) (dimension.getWidth() - img.getWidth(this)) / 2;
             int y = (int) (dimension.getHeight() - img.getHeight(this)) / 2;
 
+<<<<<<< HEAD
             g.setColor(ClsEstilo.formbg); // define a cor de fundo branco    
+=======
+            g.setColor(Color.WHITE); // define a cor de fundo branco    
+>>>>>>> origin/master
             g.fillRect(0, 0, getWidth(), getHeight()); // define a cor de fundo branco
             
             g.drawImage(img, x, y, img.getWidth(this), img.getHeight(this), this);

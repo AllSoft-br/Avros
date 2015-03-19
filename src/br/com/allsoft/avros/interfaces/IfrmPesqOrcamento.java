@@ -41,6 +41,7 @@ public class IfrmPesqOrcamento extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+<<<<<<< HEAD
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -70,6 +71,10 @@ public class IfrmPesqOrcamento extends javax.swing.JInternalFrame {
         jLabel1.setText("Pesquisar orçamento");
 
         jLabel2.setText("RG do cliente");
+=======
+        setClosable(true);
+        setMaximizable(true);
+>>>>>>> origin/master
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -43,6 +43,7 @@ public class IfrmPagamentos extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setMaximizable(true);
+<<<<<<< HEAD
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -60,6 +61,8 @@ public class IfrmPagamentos extends javax.swing.JInternalFrame {
                 formInternalFrameOpened(evt);
             }
         });
+=======
+>>>>>>> origin/master
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

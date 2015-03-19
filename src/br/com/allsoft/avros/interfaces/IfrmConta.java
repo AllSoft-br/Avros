@@ -41,6 +41,7 @@ public class IfrmConta extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+<<<<<<< HEAD
         bgpSexo = new javax.swing.ButtonGroup();
         jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -133,6 +134,10 @@ public class IfrmConta extends javax.swing.JInternalFrame {
         lblEditarNome.setFont(ClsEstilo.linkFonte);
         lblEditarNome.setForeground(ClsEstilo.linkCor);
         lblEditarNome.setText("Editar");
+=======
+        setClosable(true);
+        setMaximizable(true);
+>>>>>>> origin/master
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
