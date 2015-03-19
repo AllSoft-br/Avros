@@ -16,21 +16,13 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
- *
+ * Esta é a classe do formulário principal do projeto Avros
+ * 
  * @author Luana
  */
 public class FrmPrincipal extends javax.swing.JFrame {
 
-    //Variáveis
-    Image img = null;
 
     /**
      * Creates new form FraPrincipal
@@ -48,21 +40,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        deskPrincipal = new javax.swing.JDesktopPane(){
-            @Override
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                if (img != null) {
-                    Dimension dimension = this.getSize();
-                    int x = (int)(dimension.getWidth() - img.getWidth(this)) / 2;
-                    int y = (int)(dimension.getHeight() - img.getHeight(this)) / 2;
-
-                    g.drawImage(img, x, y, img.getWidth(this), img.getHeight(this), this);
-                } else {
-                    g.drawString("Imagem não encontrada.", 50, 50);
-                }
-            }
-        };
+        deskPrincipal = new ClsDesktopComImagem("/br/com/allsoft/avros/img/logo.png");
         menuBar = new javax.swing.JMenuBar();
         mnuPrincipal = new javax.swing.JMenu();
         mniConta = new javax.swing.JMenuItem();
@@ -73,10 +51,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuOrcamento = new javax.swing.JMenu();
         mniNovo = new javax.swing.JMenuItem();
         mniPesquisar = new javax.swing.JMenuItem();
-        mnuCaixa = new javax.swing.JMenu();
-        mniPagamentos = new javax.swing.JMenuItem();
+        mnuSessao = new javax.swing.JMenu();
+        mniAgendar = new javax.swing.JMenuItem();
+        mniPagar = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(601, 500));
+        setPreferredSize(new java.awt.Dimension(600, 500));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -84,6 +65,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
 
         deskPrincipal.setBackground(new java.awt.Color(255, 255, 255));
+        deskPrincipal.setMinimumSize(new java.awt.Dimension(601, 451));
+        deskPrincipal.setName(""); // NOI18N
 
         javax.swing.GroupLayout deskPrincipalLayout = new javax.swing.GroupLayout(deskPrincipal);
         deskPrincipal.setLayout(deskPrincipalLayout);
@@ -93,12 +76,19 @@ public class FrmPrincipal extends javax.swing.JFrame {
         );
         deskPrincipalLayout.setVerticalGroup(
             deskPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 449, Short.MAX_VALUE)
+            .addGap(0, 451, Short.MAX_VALUE)
         );
 
+        menuBar.setBackground(new java.awt.Color(153, 255, 204));
+        menuBar.setBorder(null);
+        menuBar.setBorderPainted(false);
+        menuBar.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+
         mnuPrincipal.setText("Avros");
+        mnuPrincipal.setFont(ClsEstilo.labelMenuFonte);
 
         mniConta.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
+        mniConta.setFont(ClsEstilo.labelMenuFonte);
         mniConta.setText("Minha conta");
         mniConta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,6 +98,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuPrincipal.add(mniConta);
 
         mniSenha.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        mniSenha.setFont(ClsEstilo.labelMenuFonte);
         mniSenha.setText("Alterar Senha");
         mniSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,8 +110,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menuBar.add(mnuPrincipal);
 
         mnuCadastro.setText("Cadastro");
+        mnuCadastro.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
 
         mniCliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        mniCliente.setFont(ClsEstilo.labelMenuFonte);
         mniCliente.setText("Cliente");
         mniCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,6 +123,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuCadastro.add(mniCliente);
 
         mniUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        mniUsuario.setFont(ClsEstilo.labelMenuFonte);
         mniUsuario.setText("Usuário");
         mniUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,8 +135,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menuBar.add(mnuCadastro);
 
         mnuOrcamento.setText("Orçamento");
+        mnuOrcamento.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
 
         mniNovo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        mniNovo.setFont(ClsEstilo.labelMenuFonte);
         mniNovo.setText("Novo");
         mniNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,6 +148,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuOrcamento.add(mniNovo);
 
         mniPesquisar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mniPesquisar.setFont(ClsEstilo.labelMenuFonte);
         mniPesquisar.setText("Pesquisar");
         mniPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,18 +159,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         menuBar.add(mnuOrcamento);
 
-        mnuCaixa.setText("Caixa");
+        mnuSessao.setText("Sessão");
+        mnuSessao.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
 
-        mniPagamentos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK));
-        mniPagamentos.setText("Pagamentos");
-        mniPagamentos.addActionListener(new java.awt.event.ActionListener() {
+        mniAgendar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK));
+        mniAgendar.setFont(ClsEstilo.labelMenuFonte);
+        mniAgendar.setText("Agendar");
+        mniAgendar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniPagamentosActionPerformed(evt);
+                mniAgendarActionPerformed(evt);
             }
         });
-        mnuCaixa.add(mniPagamentos);
+        mnuSessao.add(mniAgendar);
 
-        menuBar.add(mnuCaixa);
+        mniPagar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK));
+        mniPagar.setText("Pagar");
+        mniPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniPagarActionPerformed(evt);
+            }
+        });
+        mnuSessao.add(mniPagar);
+
+        menuBar.add(mnuSessao);
 
         setJMenuBar(menuBar);
 
@@ -181,11 +189,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(deskPrincipal)
+            .addComponent(deskPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(deskPrincipal, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(deskPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -222,11 +230,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         obj.setVisible(true);
     }//GEN-LAST:event_mniPesquisarActionPerformed
 
-    private void mniPagamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniPagamentosActionPerformed
-        IfrmPagamentos obj = new IfrmPagamentos();
+    private void mniAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAgendarActionPerformed
+        IfrmAgendarSessao obj = new IfrmAgendarSessao();
         deskPrincipal.add(obj);
         obj.setVisible(true);
-    }//GEN-LAST:event_mniPagamentosActionPerformed
+    }//GEN-LAST:event_mniAgendarActionPerformed
 
     private void mniSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSenhaActionPerformed
         IfrmSenha obj = new IfrmSenha();
@@ -235,12 +243,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniSenhaActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        try {
-            img = javax.imageio.ImageIO.read(new java.net.URL(getClass().getResource("/br/com/allsoft/avros/img/logopequeno.png"), "img.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+      
     }//GEN-LAST:event_formWindowOpened
+
+    private void mniPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniPagarActionPerformed
+        IfrmPagarSessao obj = new IfrmPagarSessao();
+        deskPrincipal.add(obj);
+        obj.setVisible(true);
+    }//GEN-LAST:event_mniPagarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -280,16 +290,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane deskPrincipal;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem mniAgendar;
     private javax.swing.JMenuItem mniCliente;
     private javax.swing.JMenuItem mniConta;
     private javax.swing.JMenuItem mniNovo;
-    private javax.swing.JMenuItem mniPagamentos;
+    private javax.swing.JMenuItem mniPagar;
     private javax.swing.JMenuItem mniPesquisar;
     private javax.swing.JMenuItem mniSenha;
     private javax.swing.JMenuItem mniUsuario;
     private javax.swing.JMenu mnuCadastro;
-    private javax.swing.JMenu mnuCaixa;
     private javax.swing.JMenu mnuOrcamento;
     private javax.swing.JMenu mnuPrincipal;
+    private javax.swing.JMenu mnuSessao;
     // End of variables declaration//GEN-END:variables
 }

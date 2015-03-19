@@ -17,6 +17,8 @@
 
 package br.com.allsoft.avros.interfaces;
 
+import java.awt.Container;
+
 /**
  *
  * @author Luana
@@ -39,21 +41,191 @@ public class IfrmConta extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bgpSexo = new javax.swing.ButtonGroup();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtNickname = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
+        rdoFeminino = new javax.swing.JRadioButton();
+        rdoMasculino = new javax.swing.JRadioButton();
+        btnSalvar = new javax.swing.JButton();
+        lblLogo = new javax.swing.JLabel();
+        lblEditarNick = new javax.swing.JLabel();
+        lblEditarNome = new javax.swing.JLabel();
+
+        jLabel8.setText("jLabel8");
+
+        setClosable(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
+
+        jLabel1.setFont(ClsEstilo.tituloFonte);
+        jLabel1.setForeground(ClsEstilo.tituloCor);
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Minha conta");
+
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel2.setText("Olá, Fulano da Silva!");
+
+        jLabel3.setFont(ClsEstilo.labelFonte);
+        jLabel3.setForeground(ClsEstilo.labelCor);
+        jLabel3.setText("Nome");
+
+        jLabel4.setFont(ClsEstilo.labelFonte);
+        jLabel4.setForeground(ClsEstilo.labelCor);
+        jLabel4.setText("Nickname");
+
+        jLabel5.setFont(ClsEstilo.labelFonte);
+        jLabel5.setForeground(ClsEstilo.labelCor);
+        jLabel5.setText("Sexo");
+
+        txtNickname.setFont(ClsEstilo.textoInputFonte);
+        txtNickname.setForeground(ClsEstilo.textoInputCor);
+        txtNickname.setText("Fulano_Silva");
+        txtNickname.setEnabled(false);
+
+        jTextField1.setFont(ClsEstilo.textoInputFonte);
+        jTextField1.setForeground(ClsEstilo.textoInputCor);
+        jTextField1.setText("Fulano da Silva");
+        jTextField1.setEnabled(false);
+
+        bgpSexo.add(rdoFeminino);
+        rdoFeminino.setFont(ClsEstilo.labelFonte);
+        rdoFeminino.setForeground(ClsEstilo.labelCor);
+        rdoFeminino.setText("Feminino");
+
+        bgpSexo.add(rdoMasculino);
+        rdoMasculino.setFont(ClsEstilo.labelFonte);
+        rdoMasculino.setForeground(ClsEstilo.labelCor);
+        rdoMasculino.setText("Masculino");
+
+        btnSalvar.setFont(ClsEstilo.botaoFonte);
+        btnSalvar.setForeground(ClsEstilo.botaoCor);
+        btnSalvar.setText("Salvar");
+
+        lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/logopequeno.png"))); // NOI18N
+
+        lblEditarNick.setFont(ClsEstilo.linkFonte);
+        lblEditarNick.setForeground(ClsEstilo.linkCor);
+        lblEditarNick.setText("Editar");
+
+        lblEditarNome.setFont(ClsEstilo.linkFonte);
+        lblEditarNome.setForeground(ClsEstilo.linkCor);
+        lblEditarNome.setText("Editar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(rdoMasculino)
+                                    .addComponent(txtNickname)
+                                    .addComponent(jTextField1)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(rdoFeminino)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblEditarNick)
+                            .addComponent(lblEditarNome))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(160, 160, 160)
+                .addComponent(btnSalvar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtNickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblEditarNick))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblEditarNome))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(rdoFeminino))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rdoMasculino))
+                    .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(btnSalvar)
+                .addGap(26, 26, 26))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        Container a = this.getContentPane();
+        a.setBackground(ClsEstilo.formbg);
+    }//GEN-LAST:event_formInternalFrameOpened
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup bgpSexo;
+    private javax.swing.JButton btnSalvar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblEditarNick;
+    private javax.swing.JLabel lblEditarNome;
+    private javax.swing.JLabel lblLogo;
+    private javax.swing.JRadioButton rdoFeminino;
+    private javax.swing.JRadioButton rdoMasculino;
+    private javax.swing.JTextField txtNickname;
     // End of variables declaration//GEN-END:variables
 }
