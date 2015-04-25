@@ -23,15 +23,13 @@ import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.interfaces.FrmLogin;
-import br.com.allsoft.avros.interfaces.IfrmNovoOrcamento;
+import br.com.allsoft.avros.interfaces.IfrmCadOrcamento;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -264,7 +262,7 @@ public class JDBCInsere {
 
         ResultSet rs = stmt.getGeneratedKeys();
         if (rs != null && rs.next()) {
-            IfrmNovoOrcamento.orcamento.setId(rs.getInt(1));
+            IfrmCadOrcamento.orcamento.setId(rs.getInt(1));
         }
 
         stmt.close();

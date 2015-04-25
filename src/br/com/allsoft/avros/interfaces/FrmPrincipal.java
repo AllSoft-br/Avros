@@ -328,7 +328,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void mniNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNovoActionPerformed
         if (!bNovoOrcamento) {
-            IfrmNovoOrcamento obj = new IfrmNovoOrcamento();
+            IfrmCadOrcamento obj = new IfrmCadOrcamento();
             deskPrincipal.add(obj);
             obj.setVisible(true);
 

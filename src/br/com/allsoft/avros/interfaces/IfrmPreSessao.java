@@ -22,7 +22,6 @@ import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.VerificaCpf;
-import static br.com.allsoft.avros.interfaces.IfrmNovoOrcamento.orcamento;
 import br.com.allsoft.avros.msgBox.MsgErro;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -412,7 +411,7 @@ public class IfrmPreSessao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtOrcamentoKeyTyped
 
     private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
-        FrmPrincipal.addFrame(new IfrmAgendarSessao(orcamento, cliente));
+        FrmPrincipal.addFrame(new IfrmCadSessao(orcamento, cliente));
     }//GEN-LAST:event_btnAbrirActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
