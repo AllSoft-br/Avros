@@ -31,12 +31,12 @@ import javax.swing.JOptionPane;
  *
  * @author Luana
  */
-public class IfrmConta extends javax.swing.JInternalFrame {
+public class IfrmEditConta extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form ifrmConta
      */
-    public IfrmConta() {
+    public IfrmEditConta() {
         initComponents();
     }
 
@@ -271,7 +271,7 @@ public class IfrmConta extends javax.swing.JInternalFrame {
                 bnome = true;
                 
             } catch (SQLException ex) {
-                Logger.getLogger(IfrmConta.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(IfrmEditConta.class.getName()).log(Level.SEVERE, null, ex);
                 
                 //Se houver erro no processo, fica false de novo
                 bnome = false;
@@ -293,7 +293,7 @@ public class IfrmConta extends javax.swing.JInternalFrame {
                 //Se o processo for concluído com sucesso, volta para true
                 bnick = true;
             } catch (SQLException ex) {
-                Logger.getLogger(IfrmConta.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(IfrmEditConta.class.getName()).log(Level.SEVERE, null, ex);
                 
                 //Se houver erro no processo, fica false de novo
                 bnick = false;

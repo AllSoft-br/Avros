@@ -298,7 +298,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void mniContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniContaActionPerformed
         if (!bConta) {
-            IfrmConta obj = new IfrmConta();
+            IfrmEditConta obj = new IfrmEditConta();
             deskPrincipal.add(obj);
             obj.setVisible(true);
 
@@ -338,7 +338,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void mniPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniPesquisarActionPerformed
         if (!bPesqOrcamento) {
-            IfrmPesqOrcamento obj = new IfrmPesqOrcamento();
+            IfrmConsOrcamento obj = new IfrmConsOrcamento();
             deskPrincipal.add(obj);
             obj.setVisible(true);
 
@@ -358,7 +358,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void mniSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSenhaActionPerformed
         if (!bSenha) {
-            IfrmSenha obj = new IfrmSenha();
+            IfrmEditSenha obj = new IfrmEditSenha();
             deskPrincipal.add(obj);
             obj.setVisible(true);
 
