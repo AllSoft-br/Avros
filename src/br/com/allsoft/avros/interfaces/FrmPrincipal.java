@@ -256,6 +256,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         mniVerOrcamento.setFont(ClsEstilo.labelMenuFonte);
         mniVerOrcamento.setText("Orçamento");
+        mniVerOrcamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniVerOrcamentoActionPerformed(evt);
+            }
+        });
         mnuConsultar.add(mniVerOrcamento);
 
         mniVerSessoes.setFont(ClsEstilo.labelMenuFonte);
@@ -432,6 +437,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         deskPrincipal.add(obj);
         obj.setVisible(true);
     }//GEN-LAST:event_mniRepresentanteActionPerformed
+
+    private void mniVerOrcamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVerOrcamentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniVerOrcamentoActionPerformed
 
     /**
      * @param args the command line arguments
