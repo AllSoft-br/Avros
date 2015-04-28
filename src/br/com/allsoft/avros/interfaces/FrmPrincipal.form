@@ -111,6 +111,17 @@
                 <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="if(FrmLogin.usuario.isAdmin()){"/>
               </AuxValues>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mniRepresentante">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ClsEstilo.labelMenuFonte" type="code"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Representante"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniRepresentanteActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="mnuOrcamento">
@@ -224,7 +235,7 @@
                 <Property name="text" type="java.lang.String" value="Sess&#xf5;es"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="mniVerUsuario">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="ClsEstilo.labelMenuFonte" type="code"/>
@@ -235,12 +246,23 @@
                 <Property name="text" type="java.lang.String" value="Usu&#xe1;rios"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniVerUsuarioActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="}"/>
                 <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="if(FrmLogin.usuario.isAdmin()){"/>
               </AuxValues>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mniVerRepresentantes">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ClsEstilo.labelMenuFonte" type="code"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Representantes"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniVerRepresentantesActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

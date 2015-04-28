@@ -231,9 +231,15 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         lblResp.setBackground(ClsEstilo.formbg);
         lblResp.setFont(ClsEstilo.linkFonte);
         lblResp.setForeground(ClsEstilo.linkCor);
-        lblResp.setText("Clique aqui para ver os dependentes.");
+        lblResp.setText("Clique aqui para visualizar os dependentes.");
+        lblResp.setToolTipText("");
         lblResp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblResp.setOpaque(true);
+        lblResp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblRespMouseClicked(evt);
+            }
+        });
 
         ftxtNasc.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         ftxtNasc.setForeground(ClsEstilo.textoInputCor);
@@ -367,8 +373,10 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         String qtde = "0";
         qtde = String.valueOf(qto);
 
-        if (qto > 0) {
-            lblResp.setText("Clique aqui para adicionar dependentes.");
+        if (qto == 0) {
+            lblResp.setText("Clique aqui para adicionar um dependente.");
+        } else {
+            lblResp.setText("Clique aqui para visualizar dependentes.");
         }
 
         lblSauda.setText(representante.getNome() + " tem " + qtde + " dependente(s).");
@@ -459,6 +467,13 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
     private void rdoMStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rdoMStateChanged
         sexo = !sexo;
     }//GEN-LAST:event_rdoMStateChanged
+
+    private void lblRespMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRespMouseClicked
+        if (qto == 0){
+            FrmPrincipal.addFrame(new IfrmCadClienteMenor(representante));
+            
+        }
+    }//GEN-LAST:event_lblRespMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -416,12 +416,16 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="ClsEstilo.linkCor" type="code"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Clique aqui para ver os dependentes."/>
+        <Property name="text" type="java.lang.String" value="Clique aqui para visualizar os dependentes."/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Cursor em Forma de M&#xe3;o"/>
         </Property>
         <Property name="opaque" type="boolean" value="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblRespMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="ftxtNasc">
       <Properties>

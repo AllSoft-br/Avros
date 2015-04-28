@@ -181,10 +181,10 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
             }
         });
         cboParentesco.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 cboParentescoCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 
@@ -302,8 +302,6 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
             if (cboParentesco.getSelectedIndex() == (cboParentesco.getItemCount() - 1)) {
                 try {
                     parentescoId = JDBCInsere.inserirParentesco(txtQual.getText());
-
-                    System.out.println(parentescoId);
                 } catch (SQLException | IOException ex) {
                     Logger.getLogger(IfrmCadResp.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -320,11 +318,22 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
                     responsavel.setTel(tel);
                     responsavel.setFeminino(rdoFeminino.isSelected());
 
-                    try {
-                        JDBCInsere.inserirClienteMenor(responsavel, menor, parentescoId, FrmLogin.usuario.getId());
-                        this.dispose();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(IfrmCadResp.class.getName()).log(Level.SEVERE, null, ex);
+                    if (menor.getId() < 1) {
+                        try {
+                            JDBCInsere.inserirClienteMenor(responsavel, menor, parentescoId, FrmLogin.usuario.getId());
+                            this.dispose();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(IfrmCadResp.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        try {
+                            responsavel.setId(JDBCInsere.inserirRepresentante(responsavel));
+                            JDBCInsere.inserirRelCliRep(responsavel.getId(), menor.getId(), parentescoId);
+                            
+                            JOptionPane.showMessageDialog(this, "O representante de " + menor.getNome() + " foi cadastrado com sucesso.");
+                        } catch (SQLException ex) {
+                            Logger.getLogger(IfrmCadResp.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "CPF inválido.");
@@ -358,7 +367,7 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
 
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
-        
+
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 

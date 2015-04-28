@@ -93,7 +93,7 @@ public class ClienteDAO {
      * 
      * @param nascimento 
      */
-    public void setNascDate(Date nascimento) {
+    public void setNascimento(Date nascimento) {
         this.nascimento = nascimento;
     }
 

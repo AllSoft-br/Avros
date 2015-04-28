@@ -27,9 +27,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  * Classe para consultas gerais no BD.
@@ -292,7 +289,7 @@ public class JDBCConsulta {
             cliente.setId(rs.getInt(ClsBD.getCliId()));
             cliente.setIdUsuario(rs.getInt(ClsBD.getCliIdUsuario()));
             cliente.setCpf(rs.getString(ClsBD.getCliCpf()));
-            cliente.setNascDate(rs.getDate(ClsBD.getCliNasc()));
+            cliente.setNascimento(rs.getDate(ClsBD.getCliNasc()));
             cliente.setFeminino(rs.getBoolean(ClsBD.getCliSexo()));
             cliente.setTel(rs.getString(ClsBD.getCliTel()));
 
@@ -302,7 +299,7 @@ public class JDBCConsulta {
     }
 
     /**
-     * Retorna todos os clientes cadastrados
+     * Retorna todos os representantes cadastrados
      *
      * @return List de ClienteDAO
      */
@@ -322,7 +319,7 @@ public class JDBCConsulta {
             cliente.setIdUsuario(rs.getInt(ClsBD.getCliIdUsuario()));
             cliente.setCpf(rs.getString(ClsBD.getCliCpf()));
             cliente.setFeminino(rs.getBoolean(ClsBD.getCliSexo()));
-            cliente.setNascDate(rs.getDate(ClsBD.getCliNasc()));
+            cliente.setNascimento(rs.getDate(ClsBD.getCliNasc()));
             cliente.setTel(rs.getString(ClsBD.getCliTel()));
 
             clientes.add(cliente);
@@ -352,7 +349,7 @@ public class JDBCConsulta {
             cliente.setId(rs.getInt(ClsBD.getCliId()));
             cliente.setIdUsuario(rs.getInt(ClsBD.getCliIdUsuario()));
             cliente.setCpf(rs.getString(ClsBD.getCliCpf()));
-            cliente.setNascDate(rs.getDate(ClsBD.getCliNasc()));
+            cliente.setNascimento(rs.getDate(ClsBD.getCliNasc()));
             cliente.setFeminino(rs.getBoolean(ClsBD.getCliSexo()));
             cliente.setTel(rs.getString(ClsBD.getCliTel()));
 
@@ -362,7 +359,7 @@ public class JDBCConsulta {
     }
 
     /**
-     * Procura clientes com o nome parametrizado no BD
+     * Procura representantes com o nome parametrizado no BD
      *
      * @param nome nome do representante
      * @return UsuarioDAO encontrado
@@ -385,7 +382,7 @@ public class JDBCConsulta {
             cliente.setId(rs.getInt(ClsBD.getCliId()));
             cliente.setIdUsuario(rs.getInt(ClsBD.getCliIdUsuario()));
             cliente.setCpf(rs.getString(ClsBD.getCliCpf()));
-            cliente.setNascDate(rs.getDate(ClsBD.getCliNasc()));
+            cliente.setNascimento(rs.getDate(ClsBD.getCliNasc()));
             cliente.setFeminino(rs.getBoolean(ClsBD.getCliSexo()));
             cliente.setTel(rs.getString(ClsBD.getCliTel()));
 
@@ -422,6 +419,98 @@ public class JDBCConsulta {
         }
 
         return representante;
+    }
+    
+    /**
+     * Método que pesquisa um representante no banco de dados pelo ID
+     *
+     * @param cpf cpf do representante a ser pesquisado
+     * @return objeto ClienteDAO
+     */
+    public static RepresentanteDAO representanteCpf(String cpf) throws SQLException {
+        RepresentanteDAO representante = new RepresentanteDAO();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        nomeTabela = ClsBD.getTblRepresentante();
+
+        PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
+                + " where " + ClsBD.getRepCpf() + " = " + cpf);
+
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            representante.setNome(rs.getString(ClsBD.getRepnome()));
+            representante.setId(rs.getInt(ClsBD.getRepId()));
+            representante.setCpf(rs.getString(ClsBD.getRepCpf()));
+            representante.setNascimento(rs.getDate(ClsBD.getRepNasc()));
+            representante.setFeminino(rs.getBoolean(ClsBD.getRepSexo()));
+            representante.setTel(rs.getString(ClsBD.getRepTel()));
+
+        }
+
+        return representante;
+    }
+    
+    /**
+     * Procura representantes com o nome parametrizado no BD
+     *
+     * @param nome nome do representante
+     * @return representantes encontrados
+     * @throws java.sql.SQLException
+     */
+    public static List<RepresentanteDAO> representanteNome(String nome) throws SQLException {
+        List<RepresentanteDAO> representantes = new ArrayList<>();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        nomeTabela = ClsBD.getTblRepresentante();
+
+        PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
+                + " where " + ClsBD.getRepnome() + " like '" + nome + "%'"
+                + " OR " + ClsBD.getRepnome() + " like '%" + nome + "'"
+                + " OR " + ClsBD.getRepnome() + " like '%" + nome + "%'");
+
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            RepresentanteDAO representante = new RepresentanteDAO();
+            representante.setNome(rs.getString(ClsBD.getRepnome()));
+            representante.setId(rs.getInt(ClsBD.getRepId()));
+            representante.setCpf(rs.getString(ClsBD.getRepCpf()));
+            representante.setNascimento(rs.getDate(ClsBD.getRepNasc()));
+            representante.setFeminino(rs.getBoolean(ClsBD.getRepSexo()));
+            representante.setTel(rs.getString(ClsBD.getRepTel()));
+
+            representantes.add(representante);
+        }
+
+        return representantes;
+    }
+    
+    /**
+     * Procura todos os representantes no BD
+     * 
+     * @return todos os representantes encontrados
+     */
+    public static List<RepresentanteDAO> representanteTodos() throws SQLException {
+        List<RepresentanteDAO> representantes = new ArrayList<>();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        nomeTabela = ClsBD.getTblRepresentante();
+
+        PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela);
+
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            RepresentanteDAO representante = new RepresentanteDAO();
+            representante.setNome(rs.getString(ClsBD.getRepnome()));
+            representante.setId(rs.getInt(ClsBD.getRepId()));
+            representante.setCpf(rs.getString(ClsBD.getRepCpf()));
+            representante.setNascimento(rs.getDate(ClsBD.getRepNasc()));
+            representante.setFeminino(rs.getBoolean(ClsBD.getRepSexo()));
+            representante.setTel(rs.getString(ClsBD.getRepTel()));
+
+            representantes.add(representante);
+        }
+
+        return representantes;
     }
 
     /**

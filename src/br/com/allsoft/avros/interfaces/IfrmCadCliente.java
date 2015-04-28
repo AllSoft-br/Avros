@@ -298,6 +298,7 @@ public class IfrmCadCliente extends javax.swing.JInternalFrame {
                 } else {
                     try {
                         JDBCInsere.inserirCliente(cliente, FrmLogin.usuario.getId());
+                        JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso.");
                         limpaCampos();
                     } catch (SQLException ex) {
                         Logger.getLogger(IfrmCadCliente.class.getName()).log(Level.SEVERE, null, ex);

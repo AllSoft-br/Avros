@@ -29,6 +29,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 
 /**
@@ -40,6 +41,45 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
     //Variáveis
     ClienteDAO cliente = new ClienteDAO();
     boolean sexo = false;
+    
+    //Métodos
+    private void atualiza(){
+        lblResp.setVisible(false);
+        String tipo = "não especificado";
+
+        try {
+            if (cliente.idade() < 18) {
+                tipo = "menor de idade";
+                lblResp.setVisible(true);
+            } else {
+                tipo = "maior de idade";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        lblSauda.setText(cliente.getNome() + " é " + tipo + ".");
+        txtNome.setText(cliente.getNome());
+        txtCpf.setText(VerificaCpf.imprimeCpf(cliente.getCpf()));
+        txtUsuario.setEditable(false);
+        ftxtNasc.setText(Datas.sqlparaString(cliente.getNascimento()));
+        txtTel.setText(cliente.getTel());
+
+        if (cliente.isFeminino()) {
+            rdoF.setSelected(true);
+        } else {
+            rdoM.setSelected(true);
+        }
+
+        try {
+            txtUsuario.setText(JDBCConsulta.usuarioId(cliente.getIdUsuario()).getNick());
+        } catch (SQLException ex) {
+            this.dispose();
+            MsgErro msg = new MsgErro("Ocorreu um erro ao carregar informações do cliente.");
+            msg.setVisible(true);
+            Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * Creates new form ifrmConta
@@ -377,42 +417,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 
-
-        lblResp.setVisible(false);
-        String tipo = "não especificado";
-
-        try {
-            if (cliente.idade() < 18) {
-                tipo = "menor de idade";
-                lblResp.setVisible(true);
-            } else {
-                tipo = "maior de idade";
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        lblSauda.setText(cliente.getNome() + " é " + tipo + ".");
-        txtNome.setText(cliente.getNome());
-        txtCpf.setText(VerificaCpf.imprimeCpf(cliente.getCpf()));
-        txtUsuario.setEditable(false);
-        ftxtNasc.setText(Datas.sqlparaString(cliente.getNascimento()));
-        txtTel.setText(cliente.getTel());
-
-        if (cliente.isFeminino()) {
-            rdoF.setSelected(true);
-        } else {
-            rdoM.setSelected(true);
-        }
-
-        try {
-            txtUsuario.setText(JDBCConsulta.usuarioId(cliente.getIdUsuario()).getNick());
-        } catch (SQLException ex) {
-            this.dispose();
-            MsgErro msg = new MsgErro("Ocorreu um erro ao carregar informações do cliente.");
-            msg.setVisible(true);
-            Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        atualiza();
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void lblEditarNomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarNomeMouseClicked
@@ -428,6 +433,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
 
             try {
                 JDBCUpdate.clienteNome(editado.getNome(), id);
+                cliente.setNome(editado.getNome());
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -437,6 +443,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
             editado.setNascimento(ftxtNasc.getText());
             try {
                 JDBCUpdate.clienteNasc(editado.getNascimento(), id);
+                cliente.setNascimento(editado.getNascimento());
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -446,6 +453,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
             editado.setTel(txtTel.getText());
             try {
                 JDBCUpdate.clienteTel(editado.getTel(), id);
+                cliente.setTel(editado.getTel());
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -460,10 +468,13 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
 
             try {
                 JDBCUpdate.clienteSexo(feminino, id);
+                cliente.setFeminino(feminino);
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        atualiza();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
@@ -498,7 +509,14 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
             representante = JDBCConsulta.parentesco(cliente);
             representante = JDBCConsulta.representanteId(representante.getId());
 
-            FrmPrincipal.addFrame(new IfrmEditRepres(representante));
+            if(representante.getCpf() == null){
+                int j = JOptionPane.showConfirmDialog(this, "Este cliente não possui representante cadastrado. Deseja cadastrar agora?", "Representante não encontrado", JOptionPane.OK_CANCEL_OPTION);
+                if(j == JOptionPane.OK_OPTION){
+                    FrmPrincipal.addFrame(new IfrmCadResp(cliente));
+                }
+            } else {
+                FrmPrincipal.addFrame(new IfrmEditRepres(representante));
+            }
         } catch (SQLException ex) {
             MsgErro msg = new MsgErro("Ocorreu um erro ao carregar informações do representante.");
             msg.setVisible(true);

@@ -75,6 +75,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuCadastro = new javax.swing.JMenu();
         mniCliente = new javax.swing.JMenuItem();
         mniUsuario = new javax.swing.JMenuItem();
+        mniRepresentante = new javax.swing.JMenuItem();
         mnuOrcamento = new javax.swing.JMenu();
         mniNovo = new javax.swing.JMenuItem();
         mniPesquisar = new javax.swing.JMenuItem();
@@ -85,7 +86,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mniVerCliente = new javax.swing.JMenuItem();
         mniVerOrcamento = new javax.swing.JMenuItem();
         mniVerSessoes = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        mniVerUsuario = new javax.swing.JMenuItem();
+        mniVerRepresentantes = new javax.swing.JMenuItem();
         mnuAvancado = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
@@ -179,6 +181,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
             mnuCadastro.add(mniUsuario);
         }
 
+        mniRepresentante.setFont(ClsEstilo.labelMenuFonte);
+        mniRepresentante.setText("Representante");
+        mniRepresentante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniRepresentanteActionPerformed(evt);
+            }
+        });
+        mnuCadastro.add(mniRepresentante);
+
         menuBar.add(mnuCadastro);
 
         mnuOrcamento.setText("Orçamento");
@@ -251,17 +262,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mniVerSessoes.setText("Sessões");
         mnuConsultar.add(mniVerSessoes);
 
-        jMenuItem2.setFont(ClsEstilo.labelMenuFonte);
-        jMenuItem2.setForeground(ClsEstilo.labelCor);
-        jMenuItem2.setText("Usuários");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        mniVerUsuario.setFont(ClsEstilo.labelMenuFonte);
+        mniVerUsuario.setForeground(ClsEstilo.labelCor);
+        mniVerUsuario.setText("Usuários");
+        mniVerUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                mniVerUsuarioActionPerformed(evt);
             }
         });
         if(FrmLogin.usuario.isAdmin()){
-            mnuConsultar.add(jMenuItem2);
+            mnuConsultar.add(mniVerUsuario);
         }
+
+        mniVerRepresentantes.setFont(ClsEstilo.labelMenuFonte);
+        mniVerRepresentantes.setText("Representantes");
+        mniVerRepresentantes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniVerRepresentantesActionPerformed(evt);
+            }
+        });
+        mnuConsultar.add(mniVerRepresentantes);
 
         menuBar.add(mnuConsultar);
 
@@ -389,17 +409,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
         JDBCAuditoria.logOut(FrmLogin.usuario);
     }//GEN-LAST:event_mniSairActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void mniVerUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVerUsuarioActionPerformed
         IfrmConsUsuario obj = new IfrmConsUsuario();
         deskPrincipal.add(obj);
         obj.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_mniVerUsuarioActionPerformed
 
     private void mniVerClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVerClienteActionPerformed
         IfrmConsCliente obj = new IfrmConsCliente();
         deskPrincipal.add(obj);
         obj.setVisible(true);
     }//GEN-LAST:event_mniVerClienteActionPerformed
+
+    private void mniVerRepresentantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVerRepresentantesActionPerformed
+        IfrmConsRepresentante obj = new IfrmConsRepresentante();
+        deskPrincipal.add(obj);
+        obj.setVisible(true);
+    }//GEN-LAST:event_mniVerRepresentantesActionPerformed
+
+    private void mniRepresentanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRepresentanteActionPerformed
+        IfrmCadResp1 obj = new IfrmCadResp1();
+        deskPrincipal.add(obj);
+        obj.setVisible(true);
+    }//GEN-LAST:event_mniRepresentanteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -439,7 +471,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected static javax.swing.JDesktopPane deskPrincipal;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mniAgendar;
     private javax.swing.JMenuItem mniCliente;
@@ -447,12 +478,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mniNovo;
     private javax.swing.JMenuItem mniPagar;
     private javax.swing.JMenuItem mniPesquisar;
+    private javax.swing.JMenuItem mniRepresentante;
     private javax.swing.JMenuItem mniSair;
     private javax.swing.JMenuItem mniSenha;
     private javax.swing.JMenuItem mniUsuario;
     private javax.swing.JMenuItem mniVerCliente;
     private javax.swing.JMenuItem mniVerOrcamento;
+    private javax.swing.JMenuItem mniVerRepresentantes;
     private javax.swing.JMenuItem mniVerSessoes;
+    private javax.swing.JMenuItem mniVerUsuario;
     private javax.swing.JMenu mnuAvancado;
     private javax.swing.JMenu mnuCadastro;
     private javax.swing.JMenu mnuConsultar;

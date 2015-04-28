@@ -75,8 +75,46 @@ public class JDBCInsere {
         //salva modificações na tabela auditoria
         JDBCAuditoria.inserirCliente(FrmLogin.usuario, cliente);
 
-        JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso.");
+    }
+    
+    /**
+     * Método que insere um novo representante no banco de dados.
+     *
+     * @param representante objeto do tipo ClienteDAO com informações do representante a ser
+ inserido.
+     * @return ID do representante
+     * @throws SQLException
+     */
+    public static int inserirRepresentante(RepresentanteDAO representante) throws SQLException {
+        nomeTabela = ClsBD.getTblRepresentante();
 
+        con = ConexaoMySQL.getConexaoMySQL();
+        con.setAutoCommit(false);
+        
+        String sql = "insert into " + nomeTabela + "(" + ClsBD.getRepnome() + ", " + ClsBD.getRepCpf() + ", "
+                + ClsBD.getRepNasc() + ", " + ClsBD.getRepTel() + ", " + ClsBD.getRepSexo()
+                + ") values (?,?,?,?,?)";
+
+        PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        // preenche os valores
+        stmt.setString(1, representante.getNome());
+        stmt.setString(2, representante.getCpf());
+        stmt.setDate(3, representante.getNascimento());
+        stmt.setString(4, representante.getTel());
+        stmt.setBoolean(5, representante.isFeminino());
+
+        stmt.execute();
+        
+        ResultSet rs = stmt.getGeneratedKeys();
+        if (rs != null && rs.next()) {
+            representante.setId(rs.getInt(1));
+        }
+        
+        stmt.close();
+        con.commit();
+        con.close();
+
+        return representante.getId();
     }
 
     /**
@@ -163,6 +201,34 @@ public class JDBCInsere {
         JDBCAuditoria.inserirRespresentante(FrmLogin.usuario, responsavel);
         JDBCAuditoria.inserirCliente(FrmLogin.usuario, menor);
 
+    }
+    
+    /**
+     * Relaciona um cliente menor com um responsável.
+     * 
+     * @param repId ID do representante
+     * @param cliId ID do cliente menor de idade
+     * @param parentescoId ID do tipo de parentesco
+     * @throws SQLException 
+     */
+    public static void inserirRelCliRep(int repId, int cliId, int parentescoId) throws SQLException {
+        nomeTabela = ClsBD.getTblCliente();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        String sql = "insert into " + ClsBD.getTblRel()
+                + "(" + ClsBD.getRelClienteId() + ", "
+                + ClsBD.getRelParentescoId() + ", "
+                + ClsBD.getRelRepresentanteId() + ") values(?,?,?)";
+
+        PreparedStatement stmt = con.prepareStatement(sql);
+        // preenche os valores 
+        stmt.setInt(1, cliId);
+        stmt.setInt(2, parentescoId);
+        stmt.setInt(3, repId);
+
+        stmt.execute();
+        stmt.close();
+        con.close();
     }
 
     /**
