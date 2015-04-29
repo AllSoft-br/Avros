@@ -70,7 +70,6 @@ public class Relatorio {
             jf.setVisible(true);
             jf.setSize(new Dimension(800, 600));
             jf.setLocation(300, 100);
-            jf.setDefaultCloseOperation(JInternalFrame.EXIT_ON_CLOSE);
             jf.setClosable(true);
             jf.setIconifiable(true);
             

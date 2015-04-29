@@ -20,13 +20,14 @@ import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.ClsBD;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
+import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.dao.UsuarioDAO;
-import java.util.ArrayList;
-import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe para consultas gerais no BD.
@@ -420,7 +421,7 @@ public class JDBCConsulta {
 
         return representante;
     }
-    
+
     /**
      * Método que pesquisa um representante no banco de dados pelo ID
      *
@@ -449,7 +450,7 @@ public class JDBCConsulta {
 
         return representante;
     }
-    
+
     /**
      * Procura representantes com o nome parametrizado no BD
      *
@@ -483,10 +484,10 @@ public class JDBCConsulta {
 
         return representantes;
     }
-    
+
     /**
      * Procura todos os representantes no BD
-     * 
+     *
      * @return todos os representantes encontrados
      */
     public static List<RepresentanteDAO> representanteTodos() throws SQLException {
@@ -517,10 +518,10 @@ public class JDBCConsulta {
      * Método que pesquisa orçamento pelo CPF do representante, e retorna uma
      * lista com todos os orçamentos que ele possui.
      *
-     * @param id ID do representante
+     * @param id ID do cliente
      * @return ArrayList com os orçamentos encontrados
      */
-    public static List<OrcamentoDAO> orcamentos(int id) throws SQLException {
+    public static List<OrcamentoDAO> orcamentoIdCli(int id) throws SQLException {
         List<OrcamentoDAO> orcamentos = new ArrayList<>();
 
         con = ConexaoMySQL.getConexaoMySQL();
@@ -574,5 +575,110 @@ public class JDBCConsulta {
         }
 
         return orcamento;
+    }
+
+    /**
+     * Método que pesquisa sessão pelo ID do cliente, e retorna uma lista com
+     * todos as sessões que ele possui.
+     *
+     * @param id ID do cliente
+     * @return ArrayList com os orçamentos encontrados
+     * @throws java.sql.SQLException
+     */
+    public static List<SessaoDAO> sessaoIdCli(int id) throws SQLException {
+        List<SessaoDAO> sessoes = new ArrayList<>();
+        List<OrcamentoDAO> orcamentos = new ArrayList<>();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        orcamentos = orcamentoIdCli(id);
+
+        int qtde = orcamentos.size();
+        for (int i = 0; i < qtde; i++) {
+            nomeTabela = ClsBD.getTblSessao();
+
+            PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
+                    + " where " + ClsBD.getSesIdOrc() + " = '" + orcamentos.get(i).getId() + "'");
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                SessaoDAO sessao = new SessaoDAO();
+
+                sessao.setId(rs.getInt(ClsBD.getSesId()));
+                sessao.setConcluida(rs.getBoolean(ClsBD.getSesConcluida()));
+                sessao.setData(rs.getDate(ClsBD.getSesData()));
+                sessao.setDesconto(rs.getInt(ClsBD.getSesDesconto()));
+                sessao.setHora(rs.getTime(ClsBD.getSesHora()));
+                sessao.setIdOrcamento(rs.getInt(ClsBD.getSesIdOrc()));
+                sessao.setPagamento(rs.getString(ClsBD.getSesTipoPagamento()));
+                sessao.setValor(rs.getInt(ClsBD.getSesValor()));
+
+                sessoes.add(sessao);
+            }
+        }
+
+        return sessoes;
+    }
+
+    /**
+     * Método que pesquisa sessão pelo ID do orçamento, e retorna uma lista com
+     * todos as sessões que ele possui.
+     *
+     * @param id ID do orçamento
+     * @return ArrayList com as sessoes encontradas
+     * @throws java.sql.SQLException
+     */
+    public static List<SessaoDAO> sessaoIdOrc(int id) throws SQLException {
+        List<SessaoDAO> sessoes = new ArrayList<>();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        nomeTabela = ClsBD.getTblSessao();
+
+        PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
+                + " where " + ClsBD.getSesIdOrc() + " = '" + id + "'");
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            SessaoDAO sessao = new SessaoDAO();
+
+            sessao.setId(rs.getInt(ClsBD.getSesId()));
+            sessao.setConcluida(rs.getBoolean(ClsBD.getSesConcluida()));
+            sessao.setData(rs.getDate(ClsBD.getSesData()));
+            sessao.setDesconto(rs.getInt(ClsBD.getSesDesconto()));
+            sessao.setHora(rs.getTime(ClsBD.getSesHora()));
+            sessao.setIdOrcamento(rs.getInt(ClsBD.getSesIdOrc()));
+            sessao.setPagamento(rs.getString(ClsBD.getSesTipoPagamento()));
+            sessao.setValor(rs.getInt(ClsBD.getSesValor()));
+
+            sessoes.add(sessao);
+        }
+
+        return sessoes;
+    }
+    
+    public static SessaoDAO sessaoId(int id) throws SQLException {
+        SessaoDAO sessao = new SessaoDAO();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        nomeTabela = ClsBD.getTblSessao();
+
+        PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
+                + " where " + ClsBD.getSesId() + " = '" + id + "'");
+
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            sessao.setId(rs.getInt(ClsBD.getSesId()));
+            sessao.setConcluida(rs.getBoolean(ClsBD.getSesConcluida()));
+            sessao.setData(rs.getDate(ClsBD.getSesData()));
+            sessao.setDesconto(rs.getInt(ClsBD.getSesDesconto()));
+            sessao.setHora(rs.getTime(ClsBD.getSesHora()));
+            sessao.setIdOrcamento(rs.getInt(ClsBD.getSesIdOrc()));
+            sessao.setPagamento(rs.getString(ClsBD.getSesTipoPagamento()));
+            sessao.setValor(rs.getInt(ClsBD.getSesValor()));
+        }
+
+        return sessao;
     }
 }

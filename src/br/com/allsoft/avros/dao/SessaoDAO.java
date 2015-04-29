@@ -36,8 +36,25 @@ public class SessaoDAO {
     private Date data; //Data agendada para a sessão
     private Time hora; //Hora agendada
     private String pagamento;
+    private String cliente;
+    private String cpf;
 
-    //Gettes e Setteres
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
     public String getPagamento() {
         return pagamento;
     }

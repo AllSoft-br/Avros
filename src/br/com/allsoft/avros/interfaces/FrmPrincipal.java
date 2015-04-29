@@ -265,6 +265,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         mniVerSessoes.setFont(ClsEstilo.labelMenuFonte);
         mniVerSessoes.setText("Sessões");
+        mniVerSessoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniVerSessoesActionPerformed(evt);
+            }
+        });
         mnuConsultar.add(mniVerSessoes);
 
         mniVerUsuario.setFont(ClsEstilo.labelMenuFonte);
@@ -439,8 +444,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniRepresentanteActionPerformed
 
     private void mniVerOrcamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVerOrcamentoActionPerformed
-        // TODO add your handling code here:
+        IfrmConsOrcamento obj = new IfrmConsOrcamento();
+        deskPrincipal.add(obj);
+        obj.setVisible(true);
     }//GEN-LAST:event_mniVerOrcamentoActionPerformed
+
+    private void mniVerSessoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVerSessoesActionPerformed
+        IfrmConsSessao obj = new IfrmConsSessao();
+        deskPrincipal.add(obj);
+        obj.setVisible(true);
+    }//GEN-LAST:event_mniVerSessoesActionPerformed
 
     /**
      * @param args the command line arguments

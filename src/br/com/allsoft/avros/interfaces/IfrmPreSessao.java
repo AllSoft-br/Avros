@@ -85,8 +85,8 @@ public class IfrmPreSessao extends javax.swing.JInternalFrame {
      * Da corpo a tabela e a cria com os orçamentos listados
      *
      * @param orcamentos lista de ojava.sql.Date dataSql =
-     * orcamentos.get(i).getCriacao(); SimpleDateFormat format = new
-     * SimpleDateFormat("dd/MM/yyyy"); format.format(dataSql);rçamentos
+ orcamentoIdCli.get(i).getCriacao(); SimpleDateFormat format = new
+ SimpleDateFormat("dd/MM/yyyy"); format.format(dataSql);rçamentos
      * @param qtde quantidade de orçamentos listados
      */
     private void preencheTabela(List<OrcamentoDAO> orcamentos, int qtde) {
@@ -306,7 +306,7 @@ public class IfrmPreSessao extends javax.swing.JInternalFrame {
                     List<OrcamentoDAO> orcamentos = new ArrayList<>();
 
                     try {
-                        orcamentos = JDBCConsulta.orcamentos(cliente.getId());
+                        orcamentos = JDBCConsulta.orcamentoIdCli(cliente.getId());
 
                         int qtde = orcamentos.size();
 
