@@ -456,4 +456,29 @@ public class JDBCUpdate {
         stmt.close();
         con.close();
     }
+    
+    /**
+     * Muda o status de uma sessao
+     * 
+     * @param id da sessao
+     * @param status true = paga, false = não pagou
+     * @throws SQLException 
+     */
+    public static void sessaoConcluida(int id, boolean status) throws SQLException{
+        nomeTabela = ClsBD.getTblSessao();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        String sql = "UPDATE " + nomeTabela
+                + " set " + ClsBD.getSesConcluida() + "= ? "
+                + "where " + ClsBD.getSesId() + " = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        // preenche os valores
+        stmt.setBoolean(1, status);
+        stmt.setInt(2, id);
+
+        stmt.execute();
+        stmt.close();
+        con.close();
+    }
 }

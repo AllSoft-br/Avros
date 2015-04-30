@@ -24,6 +24,7 @@ import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.VerificaCpf;
 import br.com.allsoft.avros.msgBox.MsgErro;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -85,7 +86,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
     private void preencheCampos() {
         lblValorDesconto.setVisible(false);
         ftxtDesconto.setVisible(false);
-        
+
         java.util.Date data = new java.util.Date(sessao.getHora().getTime());
 
         try {
@@ -96,7 +97,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
             msg.setVisible(true);
             Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
+
         lblOrcCod.setText(String.valueOf(orcamento.getId()));
         lblCodSes.setText(String.valueOf(sessao.getId()));
         lblNome.setText(cliente.getNome());
@@ -109,6 +110,16 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
             rdoCartao.setSelected(true);
         } else if (sessao.getPagamento().equalsIgnoreCase("Dinheiro")) {
             rdoDinheiro.setSelected(true);
+        }
+
+        if (sessao.isConcluida()) {
+            lblStatus.setForeground(Color.green);
+            lblStatus.setText("Pagamento efetuado");
+            lblEditarStatus.setText("Marcar como 'Pagamento pendente'");
+        } else {
+            lblStatus.setForeground(Color.red);
+            lblStatus.setText("Pagamento pendente");
+            lblEditarStatus.setText("Marcar como 'Pagamento efetuado'");
         }
 
         atualizaValor();
@@ -198,6 +209,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
         jXTree1 = new org.jdesktop.swingx.JXTree();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
         jSpinner1 = new javax.swing.JSpinner();
+        jLabel12 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -227,6 +239,9 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
         lblEditarHora = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         lblCodSes = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
+        lblEditarStatus = new javax.swing.JLabel();
 
         jLabel6.setText("jLabel6");
 
@@ -248,6 +263,8 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
         jScrollPane3.setViewportView(jXTree1);
 
         jXLabel1.setText("jXLabel1");
+
+        jLabel12.setText("jLabel12");
 
         setClosable(true);
         setIconifiable(true);
@@ -417,6 +434,27 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
         lblCodSes.setForeground(ClsEstilo.textoInputCor);
         lblCodSes.setText("000");
 
+        jLabel11.setFont(ClsEstilo.labelDestaqueFonte);
+        jLabel11.setForeground(ClsEstilo.labelDestaqueCor);
+        jLabel11.setText("Status:");
+        jLabel11.setToolTipText("");
+
+        lblStatus.setFont(ClsEstilo.labelDestaqueFonte);
+        lblStatus.setForeground(ClsEstilo.labelDinheiroCor);
+        lblStatus.setText("Pagamento pendente");
+
+        lblEditarStatus.setBackground(ClsEstilo.formbg);
+        lblEditarStatus.setFont(ClsEstilo.linkFonte);
+        lblEditarStatus.setForeground(ClsEstilo.linkCor);
+        lblEditarStatus.setText("Marcar como \"Pagamento efetuado\"");
+        lblEditarStatus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblEditarStatus.setOpaque(true);
+        lblEditarStatus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblEditarStatusMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -425,7 +463,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -457,12 +495,14 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
                                 .addComponent(dateData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lblEditarData)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnSalvar)
                                 .addGap(35, 35, 35))
-                            .addComponent(lblLogo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -481,7 +521,13 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblCodSes)))
+                                .addComponent(lblCodSes))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblStatus)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblEditarStatus)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -526,7 +572,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
                     .addComponent(jLabel9)
                     .addComponent(spnHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblEditarHora))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDesconto)
@@ -539,7 +585,12 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5)
                     .addComponent(lblValor)
                     .addComponent(btnSalvar))
-                .addGap(22, 22, 22))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(lblStatus)
+                    .addComponent(lblEditarStatus))
+                .addContainerGap())
         );
 
         pack();
@@ -573,7 +624,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         boolean funcionou = true;
-        
+
         if (rdoCartao.isEnabled()) {
             try {
                 editCartao();
@@ -627,8 +678,8 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
                 funcionou = false;
                 Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            if(funcionou){
+
+            if (funcionou) {
                 JOptionPane.showMessageDialog(this, "As modificações foram salvas com sucesso!");
             }
         }
@@ -647,6 +698,27 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
         spnHorario.setEnabled(true);
     }//GEN-LAST:event_lblEditarHoraMouseClicked
 
+    private void lblEditarStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarStatusMouseClicked
+        try {
+            JDBCUpdate.sessaoConcluida(sessao.getId(), !sessao.isConcluida());
+            sessao.setConcluida(!sessao.isConcluida());
+
+            if (sessao.isConcluida()) {
+                lblStatus.setForeground(Color.green);
+                lblStatus.setText("Pagamento efetuado");
+                lblEditarStatus.setText("Marcar como 'Pagamento pendente'");
+            } else {
+                lblStatus.setForeground(Color.red);
+                lblStatus.setText("Pagamento pendente");
+                lblEditarStatus.setText("Marcar como 'Pagamento efetuado'");
+            }
+        } catch (SQLException ex) {
+            MsgErro msg = new MsgErro("Não foi possível atualizar o status da sessão. Por favor tente mais tarde.");
+            msg.setVisible(true);
+            Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_lblEditarStatusMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalvar;
@@ -657,6 +729,8 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
     private org.jdesktop.swingx.painter.ImagePainter imagePainter1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -683,9 +757,11 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblEditarData;
     private javax.swing.JLabel lblEditarHora;
     private javax.swing.JLabel lblEditarPagam;
+    private javax.swing.JLabel lblEditarStatus;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblOrcCod;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblValor;
     private javax.swing.JLabel lblValorDesconto;
     private javax.swing.JRadioButton rdoCartao;
