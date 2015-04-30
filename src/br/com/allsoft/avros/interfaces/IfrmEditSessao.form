@@ -101,7 +101,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jSeparator1" max="32767" attributes="0"/>
@@ -133,39 +133,49 @@
                               <Component id="rdoCartao" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="rdoDinheiro" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="lblEditarPagam" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="dateData" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="lblEditarData" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="btnAgendar" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="btnSalvar" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="lblLogo" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="lblLogo" alignment="1" min="-2" pref="127" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblDesconto" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="spnHorario" min="-2" pref="74" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="lblEditarHora" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lblValorDesconto" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="ftxtDesconto" min="-2" pref="117" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="spnHorario" max="32767" attributes="0"/>
-                              </Group>
-                              <Component id="lblDesconto" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lblCodSes" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -180,7 +190,12 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblCodSes" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -203,11 +218,13 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="rdoCartao" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="rdoDinheiro" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblEditarPagam" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="dateData" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblEditarData" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="lblLogo" min="-2" pref="139" max="-2" attributes="0"/>
@@ -216,8 +233,9 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="spnHorario" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblEditarHora" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="10" max="32767" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="14" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lblDesconto" min="-2" max="-2" attributes="0"/>
@@ -230,7 +248,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblValor" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnAgendar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnSalvar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
           </Group>
@@ -316,6 +334,7 @@
           <Connection code="ClsEstilo.labelCor" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Cart&#xe3;o"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="rdoDinheiro">
@@ -327,6 +346,7 @@
           <Connection code="ClsEstilo.labelCor" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Dinheiro"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblDesconto">
@@ -340,9 +360,9 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="ClsEstilo.linkCor" type="code"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Fornecer desconto"/>
+        <Property name="text" type="java.lang.String" value="Editar desconto"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor Default"/>
+          <Color id="Cursor em Forma de M&#xe3;o"/>
         </Property>
         <Property name="opaque" type="boolean" value="true"/>
       </Properties>
@@ -433,12 +453,12 @@
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="MaskFormatter dateMask = new MaskFormatter();&#xa;dateMask.setPlaceholderCharacter(&apos;0&apos;) ; &#xa;dateMask.install(ftxtDesconto);"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="btnAgendar">
+    <Component class="javax.swing.JButton" name="btnSalvar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Agendar"/>
+        <Property name="text" type="java.lang.String" value="Salvar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgendarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
@@ -447,6 +467,9 @@
       </Properties>
     </Component>
     <Component class="org.jdesktop.swingx.JXDatePicker" name="dateData">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
@@ -454,13 +477,101 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="spnHorario">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(sm)"/>
-        <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="Date date = new Date();&#xa;SpinnerDateModel sm = new SpinnerDateModel(date, null, null, Calendar.MINUTE);"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="Date date = new Date();&#xa;SpinnerDateModel sm = new SpinnerDateModel();"/>
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="JSpinner.DateEditor de = new JSpinner.DateEditor(spnHorario, &quot;HH:mm&quot;);&#xa;de.getTextField().setEditable( false );&#xa;spnHorario.setEditor(de);"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblEditarPagam">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ClsEstilo.formbg" type="code"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ClsEstilo.linkFonte" type="code"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ClsEstilo.linkCor" type="code"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Editar"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Cursor em Forma de M&#xe3;o"/>
+        </Property>
+        <Property name="opaque" type="boolean" value="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblEditarPagamMouseClicked"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblEditarData">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ClsEstilo.formbg" type="code"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ClsEstilo.linkFonte" type="code"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ClsEstilo.linkCor" type="code"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Editar"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Cursor em Forma de M&#xe3;o"/>
+        </Property>
+        <Property name="opaque" type="boolean" value="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblEditarDataMouseClicked"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblEditarHora">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ClsEstilo.formbg" type="code"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ClsEstilo.linkFonte" type="code"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ClsEstilo.linkCor" type="code"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Editar"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Cursor em Forma de M&#xe3;o"/>
+        </Property>
+        <Property name="opaque" type="boolean" value="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblEditarHoraMouseClicked"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel10">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ClsEstilo.labelFonte" type="code"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ClsEstilo.labelCor" type="code"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Sess&#xe3;o c&#xf3;digo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblCodSes">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ClsEstilo.labelFonte" type="code"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="ClsEstilo.textoInputCor" type="code"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="000"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

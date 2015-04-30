@@ -305,10 +305,9 @@ public class JDBCInsere {
         return retorno;
     }
 
-    public static boolean inserirOrcamento(OrcamentoDAO orcamento) throws SQLException, IOException {
+    public static int inserirOrcamento(OrcamentoDAO orcamento) throws SQLException, IOException {
         nomeTabela = ClsBD.getTblOrcamento();
-        boolean deuCerto = false;
-
+        int cod = 0;
         con = ConexaoMySQL.getConexaoMySQL();
         con.setAutoCommit(false);
 
@@ -328,19 +327,14 @@ public class JDBCInsere {
 
         ResultSet rs = stmt.getGeneratedKeys();
         if (rs != null && rs.next()) {
-            IfrmCadOrcamento.orcamento.setId(rs.getInt(1));
+            cod = rs.getInt(1);
         }
 
         stmt.close();
         con.commit();
         con.close();
 
-        //salva modificações na tabela auditoria
-        JDBCAuditoria.inserirOrcamento(orcamento);
-
-        deuCerto = true;
-
-        return deuCerto;
+        return cod;
     }
 
     /**

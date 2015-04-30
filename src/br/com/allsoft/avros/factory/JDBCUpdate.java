@@ -17,11 +17,13 @@
 package br.com.allsoft.avros.factory;
 
 import br.com.allsoft.avros.dao.ClsBD;
+import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.interfaces.FrmLogin;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -353,5 +355,105 @@ public class JDBCUpdate {
         stmt.close();
         con.close();
 
+    }
+    
+    /**
+     * Muda a forma de pagamento de uma sessao
+     * 
+     * @param id da sessao
+     * @param pagamento novo pagamento
+     * @throws SQLException 
+     */
+    public static void sessaoPagamento(int id, String pagamento) throws SQLException{
+        nomeTabela = ClsBD.getTblSessao();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        String sql = "UPDATE " + nomeTabela
+                + " set " + ClsBD.getSesTipoPagamento() + "= ? "
+                + "where " + ClsBD.getSesId() + " = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        // preenche os valores
+        stmt.setString(1, pagamento);
+        stmt.setInt(2, id);
+
+        stmt.execute();
+        stmt.close();
+        con.close();
+    }
+    
+    /**
+     * Muda a data de uma sessao
+     * 
+     * @param id da sessao
+     * @param data nova data
+     * @throws SQLException 
+     */
+    public static void sessaoData(int id, Date data) throws SQLException{
+        nomeTabela = ClsBD.getTblSessao();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        String sql = "UPDATE " + nomeTabela
+                + " set " + ClsBD.getSesData() + "= ? "
+                + "where " + ClsBD.getSesId() + " = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        // preenche os valores
+        stmt.setDate(1, data);
+        stmt.setInt(2, id);
+
+        stmt.execute();
+        stmt.close();
+        con.close();
+    }
+    
+    /**
+     * Muda a forma de pagamento de uma sessao
+     * 
+     * @param id da sessao
+     * @param hora novo horario
+     * @throws SQLException 
+     */
+    public static void sessaoHora(int id, Time hora) throws SQLException{
+        nomeTabela = ClsBD.getTblSessao();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        String sql = "UPDATE " + nomeTabela
+                + " set " + ClsBD.getSesHora() + "= ? "
+                + "where " + ClsBD.getSesId() + " = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        // preenche os valores
+        stmt.setTime(1, hora);
+        stmt.setInt(2, id);
+
+        stmt.execute();
+        stmt.close();
+        con.close();
+    }
+    
+    /**
+     * Muda o valor de desconto de uma sessao
+     * 
+     * @param id da sessao
+     * @param desconto novo desconto
+     * @throws SQLException 
+     */
+    public static void sessaoDesconto(int id, double desconto) throws SQLException{
+        nomeTabela = ClsBD.getTblSessao();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        String sql = "UPDATE " + nomeTabela
+                + " set " + ClsBD.getSesDesconto() + "= ? "
+                + "where " + ClsBD.getSesId() + " = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        // preenche os valores
+        stmt.setDouble(1, desconto);
+        stmt.setInt(2, id);
+
+        stmt.execute();
+        stmt.close();
+        con.close();
     }
 }

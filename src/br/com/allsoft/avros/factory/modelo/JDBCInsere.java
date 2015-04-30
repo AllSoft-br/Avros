@@ -17,10 +17,6 @@
 package br.com.allsoft.avros.factory.modelo;
 
 import br.com.allsoft.avros.factory.ConexaoMySQL;
-import br.com.allsoft.avros.interfaces.FrmLogin;
-import br.com.allsoft.avros.interfaces.FrmPrincipal;
-import br.com.allsoft.avros.interfaces.IfrmAgendarSessao;
-import br.com.allsoft.avros.interfaces.IfrmNovoOrcamento;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -185,7 +181,7 @@ public class JDBCInsere {
         try {
             con = ConexaoMySQL.getConexaoMySQL();
             String sql = "insert into " + nomeTabela
-                    + "(" + ClsBD.getUsuarionome() + ", " + ClsBD.getUsuarionick() + ", " + ClsBD.getUsuarioSenha() 
+                    + "(" + ClsBD.getUsuarionome() + ", " + ClsBD.getUsuarionick() + ", " + ClsBD.getUsuarioSenha()
                     + ", " + ClsBD.getUsuarioAdmin() + ", " + ClsBD.getUsuarioCpf() + ") "
                     + "values (?,?,?,?,?)";
 
@@ -256,59 +252,53 @@ public class JDBCInsere {
         return retorno;
     }
 
-    public static boolean inserirOrcamento(OrcamentoDAO orcamento) throws SQLException, IOException {
+    /**
+     * Insere orçamento
+     *
+     * @param orcamento
+     * @return ID do orçamento inserido
+     * @throws SQLException
+     * @throws IOException
+     */
+    public static int inserirOrcamento(OrcamentoDAO orcamento) throws SQLException, IOException {
         nomeTabela = ClsBD.getTblOrcamento();
-        boolean deuCerto = false;
+        int cod = 0;
+        con = ConexaoMySQL.getConexaoMySQL();
+        con.setAutoCommit(false);
 
-        try {
-            con = ConexaoMySQL.getConexaoMySQL();
-            con.setAutoCommit(false);
+        String sql = "insert into " + nomeTabela
+                + "(" + ClsBD.getOrcClienteId() + ", "
+                + ClsBD.getOrcTipoPag() + ", " + ClsBD.getOrcValor() + ", " + ClsBD.getOrcNSessoes()
+                + ") values (?,?,?,?)";
 
-            String sql = "insert into " + nomeTabela
-                    + "(" + ClsBD.getOrcClienteId() + ", "
-                    + ClsBD.getOrcTipoPag() + ", " + ClsBD.getOrcValor() + ", " + ClsBD.getOrcNSessoes()
-                    + ") values (?,?,?,?)";
+        PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        // preenche os valores
+        stmt.setInt(1, orcamento.getIdCliente());
+        stmt.setString(2, orcamento.getTipoPagamento());
+        stmt.setDouble(3, orcamento.getValor());
+        stmt.setDouble(4, orcamento.getSessoes());
 
-            PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            // preenche os valores
-            stmt.setInt(1, orcamento.getIdCliente());
-            stmt.setString(2, orcamento.getTipoPagamento());
-            stmt.setDouble(3, orcamento.getValor());
-            stmt.setDouble(4, orcamento.getSessoes());
+        stmt.execute();
 
-            stmt.execute();
-
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs != null && rs.next()) {
-                IfrmNovoOrcamento.orcamento.setId(rs.getInt(1));
-            }
-
-            stmt.close();
-            con.commit();
-            con.close();
-
-            //salva modificações na tabela auditoria
-            JDBCAuditoria.inserirOrcamento(orcamento);
-
-            deuCerto = true;
-
-        } catch (SQLException e) {
-            Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, e);
-
-        } finally {
-            con.close();
+        ResultSet rs = stmt.getGeneratedKeys();
+        if (rs != null && rs.next()) {
+            cod = rs.getInt(1);
         }
 
-        return deuCerto;
+        stmt.close();
+        con.commit();
+        con.close();
+
+        return cod;
     }
 
     /**
      * Método para agendar uma nova sessão
-     * 
+     *
      * @param sessao objeto SessaoDAO
      * @return ID da sessão criada
      * @throws SQLException
-     * @throws IOException 
+     * @throws IOException
      */
     public static int inserirSessao(SessaoDAO sessao) throws SQLException, IOException {
         nomeTabela = ClsBD.getTblSessao();
@@ -332,12 +322,12 @@ public class JDBCInsere {
             stmt.setDouble(6, sessao.getValor());
 
             stmt.execute();
-            
+
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs != null && rs.next()) {
                 retorno = rs.getInt(1);
             }
-            
+
             stmt.close();
             con.commit();
             con.close();

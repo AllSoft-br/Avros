@@ -311,10 +311,9 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
-        
+
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
-
 
         lblAviso.setVisible(false);
     }//GEN-LAST:event_formInternalFrameOpened
@@ -344,7 +343,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
                 cliente = JDBCConsulta.clienteCpf(cpf);
             } catch (SQLException ex) {
                 MsgErro msg = new MsgErro("Ocorreu um erro ao procurar o cliente pelo CPF.");
-                    msg.setVisible(true);
+                msg.setVisible(true);
                 Logger.getLogger(IfrmCadOrcamento.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -392,26 +391,22 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
             orcamento.setIdCliente(cliente.getId());
             orcamento.setValor(vtotal);
             orcamento.setSessoes((Integer) spnSessoes.getValue());
-
-            //Se a inserção der certo, pergunta se o cliente deseja marcar uma nova sessão
             try {
-                if (JDBCInsere.inserirOrcamento(orcamento)) {
+                orcamento.setId(JDBCInsere.inserirOrcamento(orcamento));
 
-                    int j = JOptionPane.showConfirmDialog(this, "Orçamento salvo com sucesso. Deseja agendar uma sessão?", "Orçamento salvo", JOptionPane.OK_CANCEL_OPTION);
-                    if (j == JOptionPane.OK_OPTION) {
-                        FrmPrincipal.addFrame(new IfrmCadSessao(orcamento, cliente));
-                    }
-                    
-                    rbtnCartao.setSelected(false);
-                    rbtnDinheiro.setSelected(false);
-                    ftxtValor.setText("0,00");
-                    lblValSessao.setText("R$ 0,00");
-                    
-                } else {
-                    JOptionPane.showMessageDialog(null, "O orçamento não pôde ser salvo.");
+                int j = JOptionPane.showConfirmDialog(this, "Orçamento salvo com sucesso. Deseja agendar uma sessão?", "Orçamento salvo", JOptionPane.OK_CANCEL_OPTION);
+                if (j == JOptionPane.OK_OPTION) {
+                    FrmPrincipal.addFrame(new IfrmCadSessao(orcamento, cliente));
                 }
+
+                rbtnCartao.setSelected(false);
+                rbtnDinheiro.setSelected(false);
+                ftxtValor.setText("0,00");
+                lblValSessao.setText("R$ 0,00");
             } catch (SQLException | IOException ex) {
                 Logger.getLogger(IfrmCadOrcamento.class.getName()).log(Level.SEVERE, null, ex);
+                MsgErro msg = new MsgErro("Ocorreu um erro ao salvar o orçamento.");
+                msg.setVisible(true);
             }
 
         } else {

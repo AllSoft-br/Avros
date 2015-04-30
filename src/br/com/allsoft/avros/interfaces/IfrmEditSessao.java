@@ -16,22 +16,18 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
 import br.com.allsoft.avros.dao.ClienteDAO;
-import br.com.allsoft.avros.factory.JDBCInsere;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.dao.SessaoDAO;
+import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
+import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.VerificaCpf;
-import br.com.allsoft.avros.relatorios.Relatorio;
+import br.com.allsoft.avros.msgBox.MsgErro;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,26 +36,29 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
-import javax.swing.SpinnerModel;
 import javax.swing.text.MaskFormatter;
-import net.sf.jasperreports.engine.JRException;
 
 /**
  *
  * @author Luana
  */
-public class IfrmAgendarSessao extends javax.swing.JInternalFrame {
+public class IfrmEditSessao extends javax.swing.JInternalFrame {
 
     //Variáveis
-    OrcamentoDAO orcamento = new OrcamentoDAO();
-    ClienteDAO cliente = new ClienteDAO();
+    OrcamentoDAO orcamento;
+    ClienteDAO cliente;
+    SessaoDAO sessao;
 
     double vsessao;
     String pagamento;
 
     //Métodos
+    /**
+     * Atualiza o label de valor da sessão de acordo com modificações
+     */
     private void atualizaValor() {
         int sessoes = orcamento.getSessoes();
         double valor = orcamento.getValor();
@@ -83,15 +82,94 @@ public class IfrmAgendarSessao extends javax.swing.JInternalFrame {
         lblValor.setText("R$ " + sessao);
     }
 
+    private void preencheCampos() {
+        lblValorDesconto.setVisible(false);
+        ftxtDesconto.setVisible(false);
+        
+        java.util.Date data = new java.util.Date(sessao.getHora().getTime());
+
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+            data = format.parse(data.toString());
+        } catch (ParseException ex) {
+            MsgErro msg = new MsgErro("O horário da sessão não pôde ser carregado.");
+            msg.setVisible(true);
+            Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
+        lblOrcCod.setText(String.valueOf(orcamento.getId()));
+        lblCodSes.setText(String.valueOf(sessao.getId()));
+        lblNome.setText(cliente.getNome());
+        lblCpf.setText(VerificaCpf.imprimeCpf(cliente.getCpf()));
+        dateData.setDate(sessao.getData());
+        spnHorario.setValue(data);
+        ftxtDesconto.setText(Moeda.padraoVirgula(sessao.getDesconto()));
+
+        if ("Cartão".equalsIgnoreCase(sessao.getPagamento())) {
+            rdoCartao.setSelected(true);
+        } else if (sessao.getPagamento().equalsIgnoreCase("Dinheiro")) {
+            rdoDinheiro.setSelected(true);
+        }
+
+        atualizaValor();
+    }
+
+    private void editCartao() throws SQLException {
+        if (rdoCartao.isSelected()) {
+            sessao.setPagamento("Cartão");
+        } else if (rdoDinheiro.isSelected()) {
+            sessao.setPagamento("Dinheiro");
+        } else {
+            sessao.setPagamento("Não especificado");
+        }
+
+        JDBCUpdate.sessaoPagamento(sessao.getId(), sessao.getPagamento());
+    }
+
+    private void editData() throws SQLException {
+        Date dataUtil = dateData.getDate();
+
+        java.sql.Date dataSql = new java.sql.Date(dataUtil.getTime());
+
+        sessao.setData(dataSql);
+        JDBCUpdate.sessaoData(sessao.getId(), dataSql);
+    }
+
+    private void editHorario() throws ParseException, SQLException {
+        Date horaUtil = new Date();
+
+        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+        try {
+            horaUtil = format.parse(spnHorario.getValue().toString());
+        } catch (ParseException ex) {
+            Logger.getLogger(IfrmCadSessao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        java.sql.Time horaSql = new java.sql.Time(horaUtil.getTime());
+
+        sessao.setHora(horaSql);
+
+        JDBCUpdate.sessaoHora(sessao.getId(), horaSql);
+    }
+
+    private void editDesconto() throws ValorInvalidoMoedaException, SQLException {
+        double desconto = Moeda.retornaDouble(ftxtDesconto.getText());
+        sessao.setDesconto(desconto);
+
+        JDBCUpdate.sessaoDesconto(sessao.getId(), desconto);
+    }
+
     /**
      * Creates new form ifrmPagamentos
      *
-     * @param orcamento orçamento do qual a nova sessão fará parte
+     * @param orcamento orçamento do qual a sessão faz parte
      * @param cliente cliente que fará a sessão
+     * @param sessao sessao a ser editada
      */
-    public IfrmAgendarSessao(OrcamentoDAO orcamento, ClienteDAO cliente) {
+    public IfrmEditSessao(OrcamentoDAO orcamento, ClienteDAO cliente, SessaoDAO sessao) {
         this.orcamento = orcamento;
         this.cliente = cliente;
+        this.sessao = sessao;
 
         initComponents();
     }
@@ -136,28 +214,22 @@ public class IfrmAgendarSessao extends javax.swing.JInternalFrame {
         lblNome = new javax.swing.JLabel();
         lblCpf = new javax.swing.JLabel();
         ftxtDesconto = new javax.swing.JFormattedTextField();
-        btnAgendar = new javax.swing.JButton();
+        btnSalvar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         dateData = new org.jdesktop.swingx.JXDatePicker();
         jLabel9 = new javax.swing.JLabel();
         Date date = new Date();
-        SpinnerDateModel sm = new SpinnerDateModel(date, null, null, Calendar.MINUTE);
+        SpinnerDateModel sm = new SpinnerDateModel();
         spnHorario = new javax.swing.JSpinner(sm);
         jSeparator1 = new javax.swing.JSeparator();
+        lblEditarPagam = new javax.swing.JLabel();
+        lblEditarData = new javax.swing.JLabel();
+        lblEditarHora = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        lblCodSes = new javax.swing.JLabel();
 
         jLabel6.setText("jLabel6");
 
-        jXTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane1.setViewportView(jXTable1);
 
         javax.swing.GroupLayout jXGraph1Layout = new javax.swing.GroupLayout(jXGraph1);
@@ -228,15 +300,17 @@ public class IfrmAgendarSessao extends javax.swing.JInternalFrame {
         rdoCartao.setFont(ClsEstilo.labelFonte);
         rdoCartao.setForeground(ClsEstilo.labelCor);
         rdoCartao.setText("Cartão");
+        rdoCartao.setEnabled(false);
 
         rdoDinheiro.setFont(ClsEstilo.labelFonte);
         rdoDinheiro.setForeground(ClsEstilo.labelCor);
         rdoDinheiro.setText("Dinheiro");
+        rdoDinheiro.setEnabled(false);
 
         lblDesconto.setBackground(ClsEstilo.formbg);
         lblDesconto.setFont(ClsEstilo.linkFonte);
         lblDesconto.setForeground(ClsEstilo.linkCor);
-        lblDesconto.setText("Fornecer desconto");
+        lblDesconto.setText("Editar desconto");
         lblDesconto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblDesconto.setOpaque(true);
         lblDesconto.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -281,20 +355,67 @@ public class IfrmAgendarSessao extends javax.swing.JInternalFrame {
             }
         });
 
-        btnAgendar.setText("Agendar");
-        btnAgendar.addActionListener(new java.awt.event.ActionListener() {
+        btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgendarActionPerformed(evt);
+                btnSalvarActionPerformed(evt);
             }
         });
 
         jLabel8.setText("Data");
+
+        dateData.setEnabled(false);
 
         jLabel9.setText("Horário");
 
         JSpinner.DateEditor de = new JSpinner.DateEditor(spnHorario, "HH:mm");
         de.getTextField().setEditable( false );
         spnHorario.setEditor(de);
+        spnHorario.setEnabled(false);
+
+        lblEditarPagam.setBackground(ClsEstilo.formbg);
+        lblEditarPagam.setFont(ClsEstilo.linkFonte);
+        lblEditarPagam.setForeground(ClsEstilo.linkCor);
+        lblEditarPagam.setText("Editar");
+        lblEditarPagam.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblEditarPagam.setOpaque(true);
+        lblEditarPagam.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblEditarPagamMouseClicked(evt);
+            }
+        });
+
+        lblEditarData.setBackground(ClsEstilo.formbg);
+        lblEditarData.setFont(ClsEstilo.linkFonte);
+        lblEditarData.setForeground(ClsEstilo.linkCor);
+        lblEditarData.setText("Editar");
+        lblEditarData.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblEditarData.setOpaque(true);
+        lblEditarData.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblEditarDataMouseClicked(evt);
+            }
+        });
+
+        lblEditarHora.setBackground(ClsEstilo.formbg);
+        lblEditarHora.setFont(ClsEstilo.linkFonte);
+        lblEditarHora.setForeground(ClsEstilo.linkCor);
+        lblEditarHora.setText("Editar");
+        lblEditarHora.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblEditarHora.setOpaque(true);
+        lblEditarHora.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblEditarHoraMouseClicked(evt);
+            }
+        });
+
+        jLabel10.setFont(ClsEstilo.labelFonte);
+        jLabel10.setForeground(ClsEstilo.labelCor);
+        jLabel10.setText("Sessão código");
+
+        lblCodSes.setFont(ClsEstilo.labelFonte);
+        lblCodSes.setForeground(ClsEstilo.textoInputCor);
+        lblCodSes.setText("000");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -327,31 +448,40 @@ public class IfrmAgendarSessao extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(rdoCartao)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rdoDinheiro))
+                                .addComponent(rdoDinheiro)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblEditarPagam))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(dateData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnAgendar)
-                                .addGap(35, 35, 35))
-                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(dateData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(lblEditarData)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnSalvar)
+                                .addGap(35, 35, 35))
+                            .addComponent(lblLogo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblDesconto)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(spnHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblEditarHora))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblValorDesconto)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(ftxtDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel9)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(spnHorario))
-                                .addComponent(lblDesconto, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblCodSes)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -360,7 +490,11 @@ public class IfrmAgendarSessao extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(lblCodSes))
+                .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -379,17 +513,20 @@ public class IfrmAgendarSessao extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(rdoCartao)
-                            .addComponent(rdoDinheiro))
+                            .addComponent(rdoDinheiro)
+                            .addComponent(lblEditarPagam))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(dateData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(dateData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblEditarData)))
                     .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(spnHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(spnHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEditarHora))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDesconto)
@@ -401,7 +538,7 @@ public class IfrmAgendarSessao extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(lblValor)
-                    .addComponent(btnAgendar))
+                    .addComponent(btnSalvar))
                 .addGap(22, 22, 22))
         );
 
@@ -411,29 +548,11 @@ public class IfrmAgendarSessao extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
-        
+
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 
-        lblValorDesconto.setVisible(false);
-        ftxtDesconto.setVisible(false);
-
-        lblOrcCod.setText(String.valueOf(orcamento.getId()));
-        lblNome.setText(cliente.getNome());
-        lblCpf.setText(VerificaCpf.imprimeCpf(cliente.getCpf()));
-
-        if ("Cartão".equalsIgnoreCase(orcamento.getTipoPagamento())) {
-            rdoCartao.setSelected(true);
-            pagamento = "Cartão";
-        } else if (orcamento.getTipoPagamento().equalsIgnoreCase("Dinheiro")) {
-            rdoDinheiro.setSelected(true);
-            pagamento = "Dinheiro";
-        } else {
-            pagamento = "Não especificado";
-        }
-
-        atualizaValor();
-
+        preencheCampos();
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
@@ -452,56 +571,92 @@ public class IfrmAgendarSessao extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_ftxtDescontoKeyPressed
 
-    private void btnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarActionPerformed
-        SessaoDAO sessao = new SessaoDAO();
-
-        Date horaUtil = new Date();
-        Date dataUtil = dateData.getDate();
-
-        java.sql.Date dataSql = new java.sql.Date(dataUtil.getTime());
-        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
-        try {
-            horaUtil = format.parse(spnHorario.getValue().toString());
-        } catch (ParseException ex) {
-            Logger.getLogger(IfrmAgendarSessao.class.getName()).log(Level.SEVERE, null, ex);
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        boolean funcionou = true;
+        
+        if (rdoCartao.isEnabled()) {
+            try {
+                editCartao();
+            } catch (SQLException ex) {
+                MsgErro msg = new MsgErro("O método de pagamento não pôde ser salvo.");
+                msg.setVisible(true);
+                funcionou = false;
+                Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
-        java.sql.Time horaSql = new java.sql.Time(horaUtil.getTime());
+        if (dateData.isEnabled()) {
+            try {
+                editData();
+            } catch (SQLException ex) {
+                MsgErro msg = new MsgErro("A nova data da sessão não pôde ser salva.");
+                msg.setVisible(true);
+                funcionou = false;
+                Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-        sessao.setHora(horaSql);
-
-        try {
-            sessao.setDesconto(Moeda.retornaDouble(ftxtDesconto.getText()));
-        } catch (ValorInvalidoMoedaException ex) {
-            Logger.getLogger(IfrmAgendarSessao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        sessao.setIdOrcamento(orcamento.getId());
-        sessao.setValor(vsessao);
-        sessao.setPagamento(pagamento);
-        sessao.setData(dataSql);
 
-        try {
-            int id = (JDBCInsere.inserirSessao(sessao));
-            sessao.setId(id);
-            System.out.println(id);
-            Relatorio relatorio = new Relatorio();
-            relatorio.criaRelatorio(cliente.getCpf(), sessao.getId(), "sessaoAgend");
+        if (spnHorario.isEnabled()) {
+            try {
+                editHorario();
+            } catch (ParseException ex) {
+                MsgErro msg = new MsgErro("O horário selecionado não é válido. Por favor escolha outro.");
+                msg.setVisible(true);
+                funcionou = false;
+                Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                MsgErro msg = new MsgErro("O novo horário não pôde ser salvo.");
+                msg.setVisible(true);
+                funcionou = false;
+                Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (ftxtDesconto.isVisible()) {
+            try {
+                editDesconto();
+            } catch (ValorInvalidoMoedaException ex) {
+                MsgErro msg = new MsgErro("O valor de desconto selecionado não é válido. Por favor escolha um valor diferente.");
+                msg.setVisible(true);
+                funcionou = false;
+                Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                MsgErro msg = new MsgErro("O novo valor de desconto não pôde ser salvo.");
+                msg.setVisible(true);
+                funcionou = false;
+                Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-        } catch (SQLException | IOException | JRException ex) {
-            Logger.getLogger(IfrmAgendarSessao.class.getName()).log(Level.SEVERE, null, ex);
+            if(funcionou){
+                JOptionPane.showMessageDialog(this, "As modificações foram salvas com sucesso!");
+            }
         }
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
-    }//GEN-LAST:event_btnAgendarActionPerformed
+    private void lblEditarPagamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarPagamMouseClicked
+        rdoCartao.setEnabled(true);
+        rdoDinheiro.setEnabled(true);
+    }//GEN-LAST:event_lblEditarPagamMouseClicked
+
+    private void lblEditarDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarDataMouseClicked
+        dateData.setEnabled(true);
+    }//GEN-LAST:event_lblEditarDataMouseClicked
+
+    private void lblEditarHoraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarHoraMouseClicked
+        spnHorario.setEnabled(true);
+    }//GEN-LAST:event_lblEditarHoraMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgendar;
+    private javax.swing.JButton btnSalvar;
     private org.jdesktop.swingx.painter.CheckerboardPainter checkerboardPainter1;
     private org.jdesktop.swingx.painter.CompoundPainter compoundPainter1;
     private org.jdesktop.swingx.JXDatePicker dateData;
     private javax.swing.JFormattedTextField ftxtDesconto;
     private org.jdesktop.swingx.painter.ImagePainter imagePainter1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -522,8 +677,12 @@ public class IfrmAgendarSessao extends javax.swing.JInternalFrame {
     private org.jdesktop.swingx.JXRootPane jXRootPane1;
     private org.jdesktop.swingx.JXTable jXTable1;
     private org.jdesktop.swingx.JXTree jXTree1;
+    private javax.swing.JLabel lblCodSes;
     private javax.swing.JLabel lblCpf;
     private javax.swing.JLabel lblDesconto;
+    private javax.swing.JLabel lblEditarData;
+    private javax.swing.JLabel lblEditarHora;
+    private javax.swing.JLabel lblEditarPagam;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblOrcCod;

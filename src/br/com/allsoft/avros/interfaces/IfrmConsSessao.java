@@ -19,7 +19,6 @@ package br.com.allsoft.avros.interfaces;
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.dao.SessaoDAO;
-import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Moeda;
@@ -27,7 +26,6 @@ import br.com.allsoft.avros.formulas.VerificaCpf;
 import br.com.allsoft.avros.msgBox.MsgErro;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +48,7 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
     private OrcamentoDAO orcamento = new OrcamentoDAO();
     private ClienteDAO cliente = new ClienteDAO();
     private SessaoDAO sessao = new SessaoDAO();
+    Dimension form, tabela, scroll;
 
     //Métodos
     /**
@@ -62,33 +61,30 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
             public void valueChanged(ListSelectionEvent event) {
                 if (jtblSes.getSelectedRow() > -1) {
                     int linha = jtblSes.getSelectedRow();
-                    double valor = 0;
-                    double desconto = 0;
-
-                    try {
-                        valor = Moeda.retornaDouble((String) tblSes.getValueAt(linha, 5));
-                        desconto = Moeda.retornaDouble((String) tblSes.getValueAt(linha, 7));
-                    } catch (ValorInvalidoMoedaException ex) {
-                        Logger.getLogger(IfrmConsSessao.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
+                    
                     sessao.setId((int) tblSes.getValueAt(linha, 0));
                     sessao.setIdOrcamento((int) tblSes.getValueAt(linha, 1));
-                    sessao.setData((Date) tblSes.getValueAt(linha, 2));
-                    sessao.setCliente((String) tblSes.getValueAt(linha, 3));
                     sessao.setCpf((String) tblSes.getValueAt(linha, 4));
-                    sessao.setValor(valor);
-                    sessao.setPagamento((String) tblSes.getValueAt(linha, 6));
-                    sessao.setDesconto(desconto);
-
+                    
                     try {
-                        cliente = JDBCConsulta.clienteCpf(sessao.getCpf());
                         orcamento = JDBCConsulta.orcamento(sessao.getIdOrcamento());
+                        cliente = JDBCConsulta.clienteCpf(sessao.getCpf());
+                        sessao = JDBCConsulta.sessaoId(sessao.getId());
                     } catch (SQLException ex) {
                         Logger.getLogger(IfrmConsSessao.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                    btnAbrir.setEnabled(true);
+                    if (!(cliente.getNome() == null)) {
+                        if (!(orcamento.getTipoPagamento() == null)) {
+                            btnAbrir.setEnabled(true);
+                        } else {
+                            MsgErro msg = new MsgErro("Ocorreu ao carregar as informações do orçamento.");
+                            msg.setVisible(true);
+                        }
+                    } else {
+                        MsgErro msg = new MsgErro("Ocorreu ao carregar as informações do cliente.");
+                        msg.setVisible(true);
+                    }
                 }
             }
         });
@@ -103,6 +99,14 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
      * @param qtde quantidade de sessões listados
      */
     private void preencheTabela(List<SessaoDAO> sessoes, int qtde) {
+
+        this.setSize(form);
+        jtblSes.setSize(tabela);
+        jScrollPane1.setSize(scroll);
+        jScrollPane1.setVisible(true);
+        jtblSes.setVisible(true);
+        tblSes.setRowCount(0);
+
         //Preenche ela
         for (int i = 0; i < qtde; i++) {
             tblSes.addRow(new String[1]);
@@ -149,6 +153,7 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setResizable(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -337,8 +342,8 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
                     try {
                         sessoes = JDBCConsulta.sessaoIdCli(cliente.getId());
                         int qtde = sessoes.size();
-                        
-                        for (int i = 0; i < qtde; i++){
+
+                        for (int i = 0; i < qtde; i++) {
                             sessoes.get(i).setCliente(cliente.getNome());
                             sessoes.get(i).setCpf(cliente.getCpf());
                         }
@@ -366,7 +371,7 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
                 MsgErro msg = new MsgErro("Digite um CPF válido.");
                 msg.setVisible(true);
             }
-            
+
         } else if (rdoOrca.isSelected()) {
             int codigo = Integer.valueOf(txtOrcamento.getText());
             List<SessaoDAO> sessoes = new ArrayList<>();
@@ -389,22 +394,26 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
 
             if (!(orcamento.getTipoPagamento() == null) && !(cliente.getCpf() == null)) {
                 int qtde = sessoes.size();
-                
-                for (int i = 0; i < qtde; i++){
+                System.out.println(qtde);
+                for (int i = 0; i < qtde; i++) {
                     sessoes.get(i).setCliente(cliente.getNome());
                     sessoes.get(i).setCpf(cliente.getCpf());
                 }
-                
+
+                criaEventoSelecao();
                 preencheTabela(sessoes, qtde);
             } else {
                 JOptionPane.showMessageDialog(this, "Este orçamento não existe.");
             }
         } else if (rdoSessao.isSelected()) {
-            SessaoDAO sessao = new SessaoDAO();
             int id = Integer.valueOf(txtSessao.getText());
 
             try {
                 sessao = JDBCConsulta.sessaoId(id);
+                orcamento.setId(sessao.getIdOrcamento());
+                orcamento = JDBCConsulta.orcamento(orcamento.getId());
+                cliente = JDBCConsulta.clienteId(orcamento.getIdCliente());
+
                 btnAbrir.setEnabled(true);
                 JOptionPane.showMessageDialog(this, "Sessão encontrada!");
             } catch (SQLException ex) {
@@ -426,6 +435,10 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
 
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
+
+        form = this.getSize();
+        tabela = jtblSes.getSize();
+        scroll = jScrollPane1.getSize();
 
         this.setSize(508, 305);
 
@@ -468,7 +481,7 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtOrcamentoKeyTyped
 
     private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
-        FrmPrincipal.addFrame(new IfrmEditOrcamento(orcamento, cliente));
+        FrmPrincipal.addFrame(new IfrmEditSessao(orcamento, cliente, sessao));
     }//GEN-LAST:event_btnAbrirActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing

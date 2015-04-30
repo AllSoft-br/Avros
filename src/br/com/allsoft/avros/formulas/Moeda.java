@@ -127,6 +127,55 @@ public class Moeda {
     }
     
     /**
+     * Converte um valor para o padrão brasileiro de moedas a
+     * partir de um double.
+     * 
+     * @param valor double com o valor a ser convertido
+     * @return valor no padrão brasileiro 0,00
+     */
+    public static String padraoVirgula(double valor){
+        //para facilitar a visualização do valor, trocamos
+        //os pontos por virgula (padrão brasileiro
+        DecimalFormat df = new DecimalFormat("0.00");
+        String br = df.format(valor);
+        br = br.replace(".", ",");
+
+        return br;
+    }
+    
+    /**
+     * Pega uma String com um valor (com ou sem prefixo) e retorna
+     * um valor no formato brasileiro de moeda.
+     * @param valor String com o valor a ser convertido
+     * @return valor no formato 0,00
+     * @throws ValorInvalidoMoedaException caso a String valor contenha
+     * caracteres que não são números nem ' ', '.', ',', 'R', 'S' ou '$'
+     */
+    public static String padraoVirgula(String valor) throws ValorInvalidoMoedaException{
+        valor = valor.replace(",", ".");
+        valor = valor.replace("R", "");
+        valor = valor.replace("$", "");
+        valor = valor.replace("S", "");
+        valor = valor.replace(" ", "");
+        
+        if((!valor.matches(".*\\d.*")) && (!valor.matches("."))){
+            throw new ValorInvalidoMoedaException();
+        }
+        
+        //para poder armazenar o valor em forma de double,
+        //trocamos as virgulas por ponto (padrão americano de moeda)
+        double dvalor = Double.parseDouble(valor);
+
+        //para facilitar a visualização do valor, trocamos
+        //novamente os pontos por virgula (padrão brasileiro
+        DecimalFormat df = new DecimalFormat("0.00");
+        String br = df.format(dvalor);
+        br = br.replace(".", ",");
+
+        return br;
+    }
+    
+    /**
      * Método que toma como parâmetro um valor monetário no formato R$ 0,00 e
      * converte de volta para double
      * 
