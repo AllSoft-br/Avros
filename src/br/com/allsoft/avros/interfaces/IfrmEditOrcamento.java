@@ -20,12 +20,17 @@ package br.com.allsoft.avros.interfaces;
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
+import br.com.allsoft.avros.factory.JDBCConsulta;
+import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.VerificaCpf;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 
 /**
@@ -36,6 +41,40 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
     //Variáveis
     OrcamentoDAO orcamento;
     ClienteDAO cliente;
+    
+    //Métodos
+    private void editPagamento() throws SQLException{
+        String pagamento = "Não especificado";
+        
+        if(rdoCartao.isSelected()){
+            pagamento = "Cartão";
+        }
+        if(rdoDinheiro.isSelected()){
+            pagamento = "Dinheiro";
+        }
+        
+        JDBCUpdate.orcamentoPagamento(orcamento.getId(), pagamento);
+    }
+    
+    private void editValor() throws ValorInvalidoMoedaException, SQLException{
+        double valor = Moeda.retornaDouble(ftxtValor.getText());
+        
+        JDBCUpdate.orcamentoValor(orcamento.getId(), valor);
+    }
+    
+    private void editSessoes() throws SQLException{
+        int qtd = (int) spnSessoes.getValue();
+        
+        int j = JDBCConsulta.sessaoIdOrc(orcamento.getId()).size();
+        
+        if(qtd < j){
+            JOptionPane.showMessageDialog(this, "A quantidade de sessões inserida é menor que a quantidade de sessões já cadastrada neste orçamento. Por favor escolha um número maior.", "Erro", JOptionPane.ERROR_MESSAGE);
+            throw new SQLException("Quantidade de sessões digitada menor que a quantidade cadastrada.");
+        } else if(qtd == j){
+            JDBCUpdate.orcamentoSessoes(orcamento.getId(), qtd);
+            lblValSessao.setText(Moeda.padraoVirgula(orcamento.getValor() / qtd));
+        }
+    }
     
     /**
      * Creates new form ifrmPesqOrcamento
@@ -129,6 +168,11 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
         btnImprimir.setFont(ClsEstilo.botaoFonte);
         btnImprimir.setForeground(ClsEstilo.botaoCor);
         btnImprimir.setText("Imprimir");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(ClsEstilo.labelFonte);
         jLabel2.setForeground(ClsEstilo.labelCor);
@@ -146,12 +190,9 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
         jLabel5.setForeground(ClsEstilo.labelCor);
         jLabel5.setText("Valor total");
 
-        MaskFormatter dateMask = new MaskFormatter();
-        dateMask.setPlaceholderCharacter('0') ;
-        dateMask.install(ftxtValor);
         ftxtValor.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ftxtValor.setForeground(ClsEstilo.textoInputCor);
-        ftxtValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        ftxtValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
         ftxtValor.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         ftxtValor.setEnabled(false);
         ftxtValor.setFont(ClsEstilo.textoInputFonte);
@@ -346,7 +387,7 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
 
         lblCpf.setText(VerificaCpf.imprimeCpf(cliente.getCpf()));
         lblNome.setText(cliente.getNome());
-        ftxtValor.setText(Moeda.padraoBr(orcamento.getValor()));
+        ftxtValor.setText(Moeda.padraoVirgula(orcamento.getValor()));
         spnSessoes.setValue(orcamento.getSessoes());
         lblValSessao.setText(Moeda.calculaSessao(orcamento.getValor(), orcamento.getSessoes()));
     }//GEN-LAST:event_formInternalFrameOpened
@@ -360,7 +401,40 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-
+        boolean certo = true;
+        
+        if(rdoCartao.isEnabled()){
+            try {
+                editPagamento();
+            } catch (SQLException ex) {
+                certo = false;
+                Logger.getLogger(IfrmEditOrcamento.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        if(ftxtValor.isEnabled()){
+            try {
+                editValor();
+            } catch (ValorInvalidoMoedaException | SQLException ex) {
+                certo = false;
+                Logger.getLogger(IfrmEditOrcamento.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        if(spnSessoes.isEnabled()){
+            try {
+                editSessoes();
+            } catch (SQLException ex) {
+                certo = false;
+                Logger.getLogger(IfrmEditOrcamento.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        if(certo){
+            JOptionPane.showMessageDialog(this, "Modificações salvas com sucesso");
+        } else {
+            JOptionPane.showMessageDialog(this, "Não foi possível salvar todas as informações.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void spnSessoesStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnSessoesStateChanged
@@ -388,6 +462,10 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
     private void lblEditarSessoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarSessoesMouseClicked
         spnSessoes.setEnabled(true);
     }//GEN-LAST:event_lblEditarSessoesMouseClicked
+
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        
+    }//GEN-LAST:event_btnImprimirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

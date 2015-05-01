@@ -23,7 +23,6 @@ import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.VerificaCpf;
-import br.com.allsoft.avros.msgBox.MsgErro;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -78,12 +77,10 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
                         if (!(orcamento.getTipoPagamento() == null)) {
                             btnAbrir.setEnabled(true);
                         } else {
-                            MsgErro msg = new MsgErro("Ocorreu ao carregar as informações do orçamento.");
-                            msg.setVisible(true);
+                            JOptionPane.showMessageDialog(null, "Ocorreu ao carregar as informações do orçamento.", "Erro", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
-                        MsgErro msg = new MsgErro("Ocorreu ao carregar as informações do cliente.");
-                        msg.setVisible(true);
+                        JOptionPane.showMessageDialog(null, "Ocorreu ao carregar as informações do cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -330,8 +327,7 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
                 try {
                     cliente = JDBCConsulta.clienteCpf(cpf);
                 } catch (SQLException ex) {
-                    MsgErro msg = new MsgErro("Ocorreu ao carregar as informações do cliente.");
-                    msg.setVisible(true);
+                    JOptionPane.showMessageDialog(this, "Ocorreu ao carregar as informações do cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
                     cliente = null;
                     Logger.getLogger(IfrmConsSessao.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -360,16 +356,14 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
                             preencheTabela(sessoes, qtde);
                         }
                     } catch (SQLException ex) {
-                        MsgErro msg = new MsgErro("Ocorreu um erro ao buscar orçamento.");
-                        msg.setVisible(true);
+                        JOptionPane.showMessageDialog(this, "Ocorreu um erro ao buscar orçamento.", "Erro", JOptionPane.ERROR_MESSAGE);
                         Logger.getLogger(IfrmConsSessao.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "O cliente não está cadastrado no sistema.");
                 }
             } else {
-                MsgErro msg = new MsgErro("Digite um CPF válido.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(this, "Digite um CPF válido.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
         } else if (rdoOrca.isSelected()) {
@@ -380,15 +374,13 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
                 orcamento = JDBCConsulta.orcamento(codigo);
                 sessoes = JDBCConsulta.sessaoIdOrc(codigo);
             } catch (SQLException ex) {
-                MsgErro msg = new MsgErro("Ocorreu um erro ao carregar o orçamento.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar o orçamento.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsSessao.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 cliente = JDBCConsulta.clienteId(orcamento.getIdCliente());
             } catch (SQLException ex) {
-                MsgErro msg = new MsgErro("Ocorreu um erro ao carregar o cliente.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar o cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsSessao.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -417,8 +409,7 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
                 btnAbrir.setEnabled(true);
                 JOptionPane.showMessageDialog(this, "Sessão encontrada!");
             } catch (SQLException ex) {
-                MsgErro msg = new MsgErro("Ocorreu um erro ao carregar a sessão.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar a sessão.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsSessao.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

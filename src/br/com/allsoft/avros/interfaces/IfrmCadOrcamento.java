@@ -23,7 +23,6 @@ import br.com.allsoft.avros.factory.JDBCInsere;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.VerificaCpf;
-import br.com.allsoft.avros.msgBox.MsgErro;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -342,8 +341,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
             try {
                 cliente = JDBCConsulta.clienteCpf(cpf);
             } catch (SQLException ex) {
-                MsgErro msg = new MsgErro("Ocorreu um erro ao procurar o cliente pelo CPF.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar o cliente pelo CPF.", "Tente outra vez", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmCadOrcamento.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -403,10 +401,12 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
                 rbtnDinheiro.setSelected(false);
                 ftxtValor.setText("0,00");
                 lblValSessao.setText("R$ 0,00");
+                
+                JOptionPane.showMessageDialog(this, "Orçamento cadastrado com sucesso.");
             } catch (SQLException | IOException ex) {
                 Logger.getLogger(IfrmCadOrcamento.class.getName()).log(Level.SEVERE, null, ex);
-                MsgErro msg = new MsgErro("Ocorreu um erro ao salvar o orçamento.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao salvar o orçamento.", "Tente outra vez", JOptionPane.ERROR_MESSAGE);
+                
             }
 
         } else {

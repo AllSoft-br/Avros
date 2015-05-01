@@ -21,6 +21,7 @@ import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.factory.JDBCInsere;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.dao.SessaoDAO;
+import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.VerificaCpf;
 import br.com.allsoft.avros.relatorios.Relatorio;
@@ -40,6 +41,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerModel;
@@ -81,6 +83,22 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
         sessao = sessao.replace(".", ",");
 
         lblValor.setText("R$ " + sessao);
+    }
+    
+    private void verificaData() throws ParseException, SQLException{
+        Date hoje = new Date();
+        
+        Time horaEscolhida = Datas.dateParaTime((Date) spnHorario.getValue());
+        Time horaAgora = Datas.dateParaTime(hoje);
+        
+        java.sql.Date escolhidaSql = Datas.unificaData(new java.sql.Date(dateData.getDate().getTime()), horaEscolhida);
+        Date dataEscolhida = new Date(escolhidaSql.getTime());
+        
+        if(dataEscolhida.before(hoje)){
+            throw new SQLException("A data escolhida já aconteceu.");
+        } else {
+            //TODO procedure que verifica se o horário esta em uso
+        }
     }
 
     /**
@@ -400,7 +418,7 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
-        
+
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 
@@ -473,9 +491,12 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
             int id = (JDBCInsere.inserirSessao(sessao));
             sessao.setId(id);
             System.out.println(id);
-            Relatorio relatorio = new Relatorio();
-            relatorio.criaRelatorio(cliente.getCpf(), sessao.getId(), "sessaoAgend");
             
+            int j = JOptionPane.showConfirmDialog(this, "Sessão cadastrada com sucesso! Deseja imprimir o comprovante?");
+            if (j == JOptionPane.YES_OPTION) {
+                Relatorio relatorio = new Relatorio();
+                relatorio.criaRelatorio(cliente.getCpf(), sessao.getId(), "sessaoAgend");
+            }
         } catch (SQLException | IOException | JRException ex) {
             Logger.getLogger(IfrmCadSessao.class.getName()).log(Level.SEVERE, null, ex);
         }

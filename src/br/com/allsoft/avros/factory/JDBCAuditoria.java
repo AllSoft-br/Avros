@@ -29,19 +29,16 @@ import br.com.allsoft.avros.dao.UsuarioDAO;
  * @author Luana
  */
 public class JDBCAuditoria {
-    /**
-     * Método que insere a modificação feita pelo usuário na
-     * tabela de auditoria do BD.
-     * Utilizada para modificações abstratas no sistema, pois
-     * existem métodos mais específicos que podem ser utilizados
-     * em seu lugar com um grau maior de eficiência.
-     * 
-     * @param usuario usuário que fez a modificação
-     * @param modificacao o que o usuário modificiou no sistema
-     */
-    public static void inserirAbstrato(UsuarioDAO usuario, String modificacao){
-        
-    }
+    //Variáveis obrigatórias
+    String tabela; //Nome da tabela alterada
+    String acao; //Update, insert ou delete
+    String descricao; //Descrição da ação ocorrida. Texto que ficará à mostra no histórico
+    String sql; //Código sql utilizado
+    String antes = "-"; //No caso de updates, como o campo era antes
+    String depois = "-"; //No caso de updates, como o campo ficou no fim
+    int codDado; //ID do dado alterado
+    int idLogin; //ID do login que fez a alteração
+    
     
     /**
      * Método que grava a inserção de um novo cliente na

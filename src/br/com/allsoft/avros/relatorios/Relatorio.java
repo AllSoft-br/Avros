@@ -63,15 +63,12 @@ public class Relatorio {
             JRViewer jv = new JRViewer(jp);
             
             //Insert viewer to a JFrame to make it showable
-            JInternalFrame jf = new JInternalFrame();
-            FrmPrincipal.addFrame(jf);
+            JFrame jf = new JFrame();
             jf.getContentPane().add(jv);
             jf.validate();
             jf.setVisible(true);
             jf.setSize(new Dimension(800, 600));
             jf.setLocation(300, 100);
-            jf.setClosable(true);
-            jf.setIconifiable(true);
             
         } catch (JRException ex) {
             System.out.println(ex);
@@ -82,7 +79,9 @@ public class Relatorio {
     }
 
     public static void main(String[] args) throws SQLException, JRException {
+
         Relatorio ma = new Relatorio();
-        ma.criaRelatorio("99547502743", 1, "sessaoAgend");
+        ma.criaRelatorio("64837748274", 1, "sessaoAgend");
+        
     }
 }

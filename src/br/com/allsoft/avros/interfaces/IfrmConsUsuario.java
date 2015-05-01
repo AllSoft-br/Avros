@@ -19,7 +19,6 @@ package br.com.allsoft.avros.interfaces;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.formulas.VerificaCpf;
-import br.com.allsoft.avros.msgBox.MsgErro;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -356,8 +355,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
             try {
                 usuarios = JDBCConsulta.usuarioNome(nome);
             } catch (SQLException ex) {
-                MsgErro msg = new MsgErro("Ocorreu um erro ao pesquisar usuários pelo nome.");
-                    msg.setVisible(true);
+                    JOptionPane.showMessageDialog(this, "Ocorreu um erro ao pesquisar usuários pelo nome.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -370,8 +368,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
                 try {
                     user = JDBCConsulta.usuarioCpf(cpf);
                 } catch (SQLException ex) {
-                    MsgErro msg = new MsgErro("Ocorreu um erro ao pesquisar usuários pelo CPF.");
-                    msg.setVisible(true);
+                    JOptionPane.showMessageDialog(this, "Ocorreu um erro ao pesquisar usuários pelo CPF.", "Erro", JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(IfrmConsUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (user.getCpf().length() > 5) {
@@ -401,8 +398,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
             try {
                 user = JDBCConsulta.usuarioNick(nick);
             } catch (SQLException ex) {
-                MsgErro msg = new MsgErro("Ocorreu um erro ao pesquisar usuários pelo nickname.");
-                    msg.setVisible(true);
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao pesquisar usuários pelo nickname.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -439,8 +435,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
         try {
             usuarios = JDBCConsulta.usuarioTodos();
         } catch (SQLException ex) {
-            MsgErro msg = new MsgErro("Ocorreu um erro ao buscar os usuários cadastrados.");
-                    msg.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao buscar os usuários cadastrados.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmConsUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
         preencheTabela(usuarios);

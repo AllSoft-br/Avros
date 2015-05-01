@@ -404,7 +404,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void mniPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniPagarActionPerformed
         if (!bPagarSessao) {
-            IfrmPagarSessao obj = new IfrmPagarSessao();
+            IfrmConsSessao obj = new IfrmConsSessao();
             deskPrincipal.add(obj);
             obj.setVisible(true);
 

@@ -22,7 +22,6 @@ import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.VerificaCpf;
-import br.com.allsoft.avros.msgBox.MsgErro;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -75,8 +74,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
             txtUsuario.setText(JDBCConsulta.usuarioId(cliente.getIdUsuario()).getNick());
         } catch (SQLException ex) {
             this.dispose();
-            MsgErro msg = new MsgErro("Ocorreu um erro ao carregar informações do cliente.");
-            msg.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar informações do cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -152,7 +150,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
         jLabel1.setFont(ClsEstilo.tituloFonte);
         jLabel1.setForeground(ClsEstilo.tituloCor);
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Editar usuário");
+        jLabel1.setText("Editar cliente");
 
         lblSauda.setFont(ClsEstilo.labelDestaqueFonte);
         lblSauda.setForeground(ClsEstilo.labelDestaqueCor);
@@ -288,7 +286,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        ftxtNasc.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        ftxtNasc.setBorder(new javax.swing.border.SoftBevelBorder(1));
         ftxtNasc.setForeground(ClsEstilo.textoInputCor);
         ftxtNasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         ftxtNasc.setEnabled(false);
@@ -426,6 +424,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         int id = cliente.getId();
+        boolean certo = true;
         ClienteDAO editado = new ClienteDAO();
 
         if (txtNome.isEnabled()) {
@@ -435,6 +434,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
                 JDBCUpdate.clienteNome(editado.getNome(), id);
                 cliente.setNome(editado.getNome());
             } catch (SQLException ex) {
+                certo = false;
                 Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -445,6 +445,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
                 JDBCUpdate.clienteNasc(editado.getNascimento(), id);
                 cliente.setNascimento(editado.getNascimento());
             } catch (SQLException ex) {
+                certo = false;
                 Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -455,6 +456,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
                 JDBCUpdate.clienteTel(editado.getTel(), id);
                 cliente.setTel(editado.getTel());
             } catch (SQLException ex) {
+                certo = false;
                 Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -470,10 +472,16 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
                 JDBCUpdate.clienteSexo(feminino, id);
                 cliente.setFeminino(feminino);
             } catch (SQLException ex) {
+                certo = false;
                 Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
+        if(certo){
+            JOptionPane.showMessageDialog(this, "Informações salvas com sucesso.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Algumas informações não puderam ser salvas.");
+        }
         atualiza();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -518,8 +526,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
                 FrmPrincipal.addFrame(new IfrmEditRepres(representante));
             }
         } catch (SQLException ex) {
-            MsgErro msg = new MsgErro("Ocorreu um erro ao carregar informações do representante.");
-            msg.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar informações do representante.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmEditCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_lblRespMouseClicked

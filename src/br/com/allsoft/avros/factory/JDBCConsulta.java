@@ -77,16 +77,43 @@ public class JDBCConsulta {
 
         con = ConexaoMySQL.getConexaoMySQL();
         nomeTabela = ClsBD.getViewParente();
-
-        PreparedStatement stmt = con.prepareStatement("select count(" + ClsBD.getCliId() + ") as 'quantos' from " + nomeTabela
-                + " where " + ClsBD.getRepId() + " = " + id);
+        String sql = "select count(id_cli) as 'quantos' from " + nomeTabela
+                + " where id_rep = " + id;
+        PreparedStatement stmt = con.prepareStatement(sql);
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             retorno = rs.getInt("quantos");
         }
-
+        
         return retorno;
+    }
+    
+    /**
+     * Consulta os dependentes de um representante
+     * 
+     * @param id do representante
+     * @return list de dependentes
+     * @throws SQLException 
+     */
+    public static List<ClienteDAO> dependentes(int id) throws SQLException {
+        List<ClienteDAO> dependentes = new ArrayList<>();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        nomeTabela = ClsBD.getViewParente();
+
+        PreparedStatement stmt = con.prepareStatement("select id_cli as 'ids' from " + nomeTabela
+                + " where id_rep = " + id);
+
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            int idCli = rs.getInt("ids");
+            ClienteDAO menor = clienteId(idCli);
+            dependentes.add(menor);
+        }
+        
+
+        return dependentes;
     }
 
     /**
@@ -657,6 +684,13 @@ public class JDBCConsulta {
         return sessoes;
     }
     
+    /**
+     * Pesquisa uma sessão pelo ID
+     * 
+     * @param id da sessao
+     * @return sessao
+     * @throws SQLException 
+     */
     public static SessaoDAO sessaoId(int id) throws SQLException {
         SessaoDAO sessao = new SessaoDAO();
 
@@ -681,4 +715,7 @@ public class JDBCConsulta {
 
         return sessao;
     }
+    
+    
+    
 }

@@ -60,6 +60,7 @@ public class ClsBD {
     
     //Tabela usuario
     private static final String usuarioId = "id_login";
+    private static final String usuarioAtivo = "ativo";
     private static final String usuarionome = "nome";
     private static final String usuarioAdmin = "admin";
     private static final String usuarioCpf = "CPF";
@@ -89,7 +90,11 @@ public class ClsBD {
     private static final String sesIdOrc = "fk_cod_orc";
 
     //Views
-    private static final String viewParente = "parente";
+    private static final String viewParente = "cliente_menor";
+
+    public static String getUsuarioAtivo() {
+        return usuarioAtivo;
+    }
 
     public static String getViewParente() {
         return viewParente;

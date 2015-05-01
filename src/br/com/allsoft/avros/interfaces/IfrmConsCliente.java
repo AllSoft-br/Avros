@@ -18,10 +18,8 @@ package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.formulas.Consulta;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.VerificaCpf;
-import br.com.allsoft.avros.msgBox.MsgErro;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -63,8 +61,7 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
                     try {
                         cliente = JDBCConsulta.clienteId(id);
                     } catch (SQLException ex) {
-                        MsgErro msg = new MsgErro("O cliente não pôde ser carregado.");
-                        msg.setVisible(true);
+                        JOptionPane.showMessageDialog(null, "O cliente não pôde ser carregado.", "Erro", JOptionPane.ERROR_MESSAGE);
                         Logger.getLogger(IfrmConsCliente.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
@@ -347,8 +344,7 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
             try {
                 clientes = JDBCConsulta.clienteNome(nome);
             } catch (SQLException ex) {
-                MsgErro msg = new MsgErro("Ocorreu um erro ao pesquisar clientes pelo nome.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao pesquisar clientes pelo nome.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -361,8 +357,7 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
                 try {
                     cliente = JDBCConsulta.clienteCpf(cpf);
                 } catch (SQLException ex) {
-                    MsgErro msg = new MsgErro("Ocorreu um erro ao pesquisar clientes pelo CPF.");
-                    msg.setVisible(true);
+                    JOptionPane.showMessageDialog(null, "Ocorreu um erro ao pesquisar clientes pelo CPF.", "Erro", JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(IfrmConsCliente.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
@@ -398,8 +393,7 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
             clientes = JDBCConsulta.clienteTodos();
             preencheTabela(clientes);
         } catch (SQLException ex) {
-            MsgErro msg = new MsgErro("Ocorreu um erro durante a exibição dos clientes pesquisados.");
-            msg.setVisible(true);
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro durante a exibição dos clientes pesquisados.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmConsCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_lblVerTodosMouseClicked

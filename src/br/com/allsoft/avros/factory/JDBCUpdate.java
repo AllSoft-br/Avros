@@ -17,15 +17,12 @@
 package br.com.allsoft.avros.factory;
 
 import br.com.allsoft.avros.dao.ClsBD;
-import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.interfaces.FrmLogin;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -68,6 +65,32 @@ public class JDBCUpdate {
         FrmLogin.usuario.setSenha(senha);
 
         JOptionPane.showMessageDialog(null, "Senha atualizada com sucesso.");
+
+    }
+    
+    /**
+     * Modifica o status do usuario
+     * 
+     * @param ativo se esta ativo ou nao 
+     * @param id do usuario
+     * @throws SQLException 
+     */
+    public static void usuarioAtivo(boolean ativo, int id) throws SQLException {
+        nomeTabela = ClsBD.getTblLogin();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        String sql = "UPDATE " + nomeTabela
+                + " set " + ClsBD.getUsuarioAtivo() + "= ? "
+                + "where " + ClsBD.getUsuarioId() + " = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        // preenche os valores
+        stmt.setBoolean(1, ativo);
+        stmt.setInt(2, id);
+
+        stmt.execute();
+        stmt.close();
+        con.close();
 
     }
 
@@ -383,6 +406,82 @@ public class JDBCUpdate {
     }
     
     /**
+     * Muda a forma de pagamento de uma sessao
+     * 
+     * @param id do orcamento
+     * @param pagamento novo pagamento
+     * @throws SQLException 
+     */
+    public static void orcamentoPagamento(int id, String pagamento) throws SQLException{
+        nomeTabela = ClsBD.getTblOrcamento();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        String sql = "UPDATE " + nomeTabela
+                + " set " + ClsBD.getOrcTipoPag() + "= ? "
+                + "where " + ClsBD.getOrcId() + " = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        // preenche os valores
+        stmt.setString(1, pagamento);
+        stmt.setInt(2, id);
+
+        stmt.execute();
+        stmt.close();
+        con.close();
+    }
+    
+    /**
+     * Muda o valor de um orcamento
+     * 
+     * @param id
+     * @param valor
+     * @throws SQLException 
+     */
+    public static void orcamentoValor(int id, double valor) throws SQLException{
+        nomeTabela = ClsBD.getTblOrcamento();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        String sql = "UPDATE " + nomeTabela
+                + " set " + ClsBD.getOrcValor() + "= ? "
+                + "where " + ClsBD.getOrcId() + " = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        // preenche os valores
+        stmt.setDouble(1, valor);
+        stmt.setInt(2, id);
+
+        stmt.execute();
+        stmt.close();
+        con.close();
+    }
+    
+    /**
+     * Muda o número de sessões de um orcamento
+     * 
+     * @param id
+     * @param sessoes
+     * @throws SQLException 
+     */
+    public static void orcamentoSessoes(int id, int sessoes) throws SQLException{
+        nomeTabela = ClsBD.getTblOrcamento();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        String sql = "UPDATE " + nomeTabela
+                + " set " + ClsBD.getOrcNSessoes() + "= ? "
+                + "where " + ClsBD.getOrcId() + " = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        // preenche os valores
+        stmt.setInt(1, sessoes);
+        stmt.setInt(2, id);
+
+        stmt.execute();
+        stmt.close();
+        con.close();
+    }
+    
+    
+    /**
      * Muda a data de uma sessao
      * 
      * @param id da sessao
@@ -476,6 +575,24 @@ public class JDBCUpdate {
         // preenche os valores
         stmt.setBoolean(1, status);
         stmt.setInt(2, id);
+
+        stmt.execute();
+        stmt.close();
+        con.close();
+    }
+    
+    public static void removeRel(int idRepresentante, int idCliente) throws SQLException{
+        nomeTabela = ClsBD.getTblRel();
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        String sql = "DELETE from " + nomeTabela
+                + "where " + ClsBD.getRelRepresentanteId() + " = ?"
+                + " and " + ClsBD.getRelClienteId() + " = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        // preenche os valores
+        stmt.setInt(1, idRepresentante);
+        stmt.setInt(2, idCliente);
 
         stmt.execute();
         stmt.close();

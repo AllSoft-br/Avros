@@ -19,7 +19,6 @@ package br.com.allsoft.avros.interfaces;
 import br.com.allsoft.avros.factory.JDBCAuditoria;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.dao.UsuarioDAO;
-import br.com.allsoft.avros.msgBox.MsgErro;
 import java.awt.Container;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -32,8 +31,10 @@ import javax.swing.JOptionPane;
  */
 public class FrmLogin extends javax.swing.JFrame {
 
-    //Variáveis globais
+    //Variáveis
     public static UsuarioDAO usuario = new UsuarioDAO();
+    String logAntes = "";
+    int erros = 0;
 
     /**
      * Creates new form frmLogin
@@ -164,23 +165,30 @@ public class FrmLogin extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         String login = txtLogin.getText();
         char[] senha = txtSenha.getPassword();
-        
+
         try {
             usuario = JDBCConsulta.login(login, senha);
         } catch (SQLException ex) {
-            MsgErro msg = new MsgErro("Usuário ou senha inválidos.");
-            msg.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Verifique sua conexão com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        if(usuario.getId() > 0){
+
+        if (usuario.getId() > 0) {
             this.dispose();
             new FrmPrincipal().setVisible(true);
-            
+
             JDBCAuditoria.logIn(usuario);
         } else {
-            MsgErro msg = new MsgErro("Usuário ou senha inválidos.");
-            msg.setVisible(true);
+            if (login.equalsIgnoreCase(logAntes)) {
+                erros += 1;
+            }
+            logAntes = login;
+
+            if (erros > 2) {
+                JOptionPane.showMessageDialog(this, "O usuário " + login + " será bloqueado por conta do excesso de erros. Contate um administrador do sistema para desbloquear.", "Tente outra vez", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Nome de usuário ou senha inválidos.", "Tente outra vez", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 

@@ -23,7 +23,6 @@ import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.VerificaCpf;
-import br.com.allsoft.avros.msgBox.MsgErro;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -93,8 +92,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
             SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
             data = format.parse(data.toString());
         } catch (ParseException ex) {
-            MsgErro msg = new MsgErro("O horário da sessão não pôde ser carregado.");
-            msg.setVisible(true);
+            JOptionPane.showMessageDialog(this, "O horário da sessão não pôde ser carregado.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -629,8 +627,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
             try {
                 editCartao();
             } catch (SQLException ex) {
-                MsgErro msg = new MsgErro("O método de pagamento não pôde ser salvo.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(this, "O método de pagamento não pôde ser salvo.", "Erro", JOptionPane.ERROR_MESSAGE);
                 funcionou = false;
                 Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -640,8 +637,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
             try {
                 editData();
             } catch (SQLException ex) {
-                MsgErro msg = new MsgErro("A nova data da sessão não pôde ser salva.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(this, "A nova data da sessão não pôde ser salva.", "Erro", JOptionPane.ERROR_MESSAGE);
                 funcionou = false;
                 Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -652,13 +648,11 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
             try {
                 editHorario();
             } catch (ParseException ex) {
-                MsgErro msg = new MsgErro("O horário selecionado não é válido. Por favor escolha outro.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(this, "O horário selecionado não é válido. Por favor escolha outro.", "Erro", JOptionPane.ERROR_MESSAGE);
                 funcionou = false;
                 Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
-                MsgErro msg = new MsgErro("O novo horário não pôde ser salvo.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(this, "O novo horário não pôde ser salvo.", "Erro", JOptionPane.ERROR_MESSAGE);
                 funcionou = false;
                 Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -668,13 +662,11 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
             try {
                 editDesconto();
             } catch (ValorInvalidoMoedaException ex) {
-                MsgErro msg = new MsgErro("O valor de desconto selecionado não é válido. Por favor escolha um valor diferente.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(this, "O valor de desconto selecionado não é válido. Por favor escolha um valor diferente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 funcionou = false;
                 Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
-                MsgErro msg = new MsgErro("O novo valor de desconto não pôde ser salvo.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(this, "O novo valor de desconto não pôde ser salvo.", "Erro", JOptionPane.ERROR_MESSAGE);
                 funcionou = false;
                 Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -713,8 +705,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
                 lblEditarStatus.setText("Marcar como 'Pagamento efetuado'");
             }
         } catch (SQLException ex) {
-            MsgErro msg = new MsgErro("Não foi possível atualizar o status da sessão. Por favor tente mais tarde.");
-            msg.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Não foi possível atualizar o status da sessão. Por favor tente mais tarde.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_lblEditarStatusMouseClicked

@@ -212,10 +212,10 @@ public class JDBCInsere {
      * @throws SQLException 
      */
     public static void inserirRelCliRep(int repId, int cliId, int parentescoId) throws SQLException {
-        nomeTabela = ClsBD.getTblCliente();
+        nomeTabela = ClsBD.getTblRel();
 
         con = ConexaoMySQL.getConexaoMySQL();
-        String sql = "insert into " + ClsBD.getTblRel()
+        String sql = "insert into " + nomeTabela
                 + "(" + ClsBD.getRelClienteId() + ", "
                 + ClsBD.getRelParentescoId() + ", "
                 + ClsBD.getRelRepresentanteId() + ") values(?,?,?)";

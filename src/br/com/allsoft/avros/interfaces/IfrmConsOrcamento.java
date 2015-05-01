@@ -22,7 +22,6 @@ import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.VerificaCpf;
-import br.com.allsoft.avros.msgBox.MsgErro;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.Date;
@@ -295,8 +294,7 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
                     cliente = JDBCConsulta.clienteCpf(cpf);
 
                 } catch (SQLException ex) {
-                    MsgErro msg = new MsgErro("Ocorreu um erro ao carregar informações do representante.");
-                    msg.setVisible(true);
+                    JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar informações do representante.", "Erro", JOptionPane.ERROR_MESSAGE);
                     cliente = null;
                     Logger.getLogger(IfrmConsOrcamento.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -329,8 +327,7 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
                             }
                         }
                     } catch (SQLException ex) {
-                        MsgErro msg = new MsgErro("Ocorreu um erro ao buscar orçamento.");
-                        msg.setVisible(true);
+                        JOptionPane.showMessageDialog(null, "Ocorreu um erro ao buscar orçamento.", "Erro", JOptionPane.ERROR_MESSAGE);
                         Logger.getLogger(IfrmConsOrcamento.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -341,15 +338,13 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
             try {
                 orcamento = JDBCConsulta.orcamento(codigo);
             } catch (SQLException ex) {
-                MsgErro msg = new MsgErro("Ocorreu um erro ao carregar o orçamento.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar o orçamento.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsOrcamento.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 cliente = JDBCConsulta.clienteId(orcamento.getIdCliente());
             } catch (SQLException ex) {
-                MsgErro msg = new MsgErro("Ocorreu um erro ao carregar o cliente.");
-                msg.setVisible(true);
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar o cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsOrcamento.class.getName()).log(Level.SEVERE, null, ex);
             }
 

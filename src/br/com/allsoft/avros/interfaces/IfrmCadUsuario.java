@@ -19,7 +19,6 @@ package br.com.allsoft.avros.interfaces;
 import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.factory.JDBCInsere;
 import br.com.allsoft.avros.formulas.VerificaCpf;
-import br.com.allsoft.avros.msgBox.MsgErro;
 import br.com.allsoft.avros.naoUsar.GeraCPF;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -28,6 +27,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.hibernate.exception.ConstraintViolationException;
 
 /**
@@ -284,12 +284,13 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
                     txtNome.setText("");
                     txtCpf.setText("");
                     txtNick.setText("");
-
+                    
+                    JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso.");
                 } catch (IOException ex) {
                     Logger.getLogger(IfrmCadUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 } catch(ConstraintViolationException ex){
-                    MsgErro msg = new MsgErro(ex.getMessage());
-                    msg.setVisible(true);
+                    
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     txtNick.selectAll();
                 }
             } else {
