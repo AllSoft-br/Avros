@@ -22,12 +22,16 @@ import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.exceptions.AuditoriaException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * Classe para consultas gerais no BD.
@@ -124,14 +128,17 @@ public class JDBCConsulta {
      * @return objeto UsuarioDAO com todas as informações do usuário que logou
      * no sistema
      */
-    public static UsuarioDAO login(String login, char[] senha) throws SQLException {
+    public static UsuarioDAO login(String login, char[] senha) throws SQLException{
         UsuarioDAO usuario = new UsuarioDAO();
 
         con = ConexaoMySQL.getConexaoMySQL();
         nomeTabela = ClsBD.getTblLogin();
 
-        PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
-                + " where " + ClsBD.getUsuarionick() + " = '" + login + "' and " + ClsBD.getUsuarioSenha() + " = '" + String.valueOf(senha) + "'");
+        String sql = "select * from " + nomeTabela
+                + " where " + ClsBD.getUsuarionick() + " = '" + login 
+                + "' and " + ClsBD.getUsuarioSenha() + " = '" + String.valueOf(senha) 
+                + "' and ativo = true";
+        PreparedStatement stmt = con.prepareStatement(sql);
 
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
@@ -141,7 +148,14 @@ public class JDBCConsulta {
             usuario.setSenha(rs.getString(ClsBD.getUsuarioSenha()).toCharArray());
             usuario.setId(rs.getInt(ClsBD.getUsuarioId()));
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
-
+            usuario.setAtivo(true);
+        }
+        
+        try {
+            JDBCAuditoria.login(usuario, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCConsulta.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return usuario;
@@ -173,6 +187,8 @@ public class JDBCConsulta {
             usuario.setSenha(rs.getString(ClsBD.getUsuarioSenha()).toCharArray());
             usuario.setId(rs.getInt(ClsBD.getUsuarioId()));
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
+            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAtivo()));
+            usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
 
             usuarios.add(usuario);
         }
@@ -202,6 +218,8 @@ public class JDBCConsulta {
             usuario.setSenha(rs.getString(ClsBD.getUsuarioSenha()).toCharArray());
             usuario.setId(rs.getInt(ClsBD.getUsuarioId()));
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
+            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAtivo()));
+            usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
 
             usuarios.add(usuario);
         }
@@ -232,6 +250,8 @@ public class JDBCConsulta {
             usuario.setSenha(rs.getString(ClsBD.getUsuarioSenha()).toCharArray());
             usuario.setId(rs.getInt(ClsBD.getUsuarioId()));
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
+            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAtivo()));
+            usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
 
         }
 
@@ -261,6 +281,8 @@ public class JDBCConsulta {
             usuario.setSenha(rs.getString(ClsBD.getUsuarioSenha()).toCharArray());
             usuario.setId(rs.getInt(ClsBD.getUsuarioId()));
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
+            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAtivo()));
+            usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
 
         }
 
@@ -290,6 +312,8 @@ public class JDBCConsulta {
             usuario.setSenha(rs.getString(ClsBD.getUsuarioSenha()).toCharArray());
             usuario.setId(rs.getInt(ClsBD.getUsuarioId()));
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
+            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAtivo()));
+            usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
 
         }
 

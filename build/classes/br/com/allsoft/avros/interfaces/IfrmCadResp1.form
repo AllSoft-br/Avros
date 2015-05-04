@@ -49,18 +49,13 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="txtCpf" alignment="0" pref="160" max="32767" attributes="0"/>
                           <Component id="txtNome" alignment="0" max="32767" attributes="0"/>
+                          <Component id="ftxtNascimento" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="ftxtNascimento" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <Component id="rdoFeminino" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="rdoMasculino" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="txtTel" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="rdoFeminino" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="rdoMasculino" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="txtTel" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                       <Component id="lblLogo" min="-2" pref="140" max="-2" attributes="0"/>

@@ -692,7 +692,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
 
     private void lblEditarStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarStatusMouseClicked
         try {
-            JDBCUpdate.sessaoConcluida(sessao.getId(), !sessao.isConcluida());
+            JDBCUpdate.sessaoConcluida(sessao.getId(), !sessao.isConcluida(), sessao.getIdOrcamento());
             sessao.setConcluida(!sessao.isConcluida());
 
             if (sessao.isConcluida()) {

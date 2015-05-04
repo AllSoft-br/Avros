@@ -486,6 +486,9 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
         sessao.setValor(vsessao);
         sessao.setPagamento(pagamento);
         sessao.setData(dataSql);
+        sessao.setCliente(cliente.getNome());
+        sessao.setCpf(cliente.getCpf());
+        sessao.setIdOrcamento(orcamento.getId());
 
         try {
             int id = (JDBCInsere.inserirSessao(sessao));

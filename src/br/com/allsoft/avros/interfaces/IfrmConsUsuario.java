@@ -59,39 +59,39 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
                     if (tblUsuario.getValueAt(linha, 4).equals("Administrador")) {
                         admin = true;
                     }
-
-                    usuario.setId((int) tblUsuario.getValueAt(linha, 0));
-                    usuario.setNome((String) tblUsuario.getValueAt(linha, 1));
-                    usuario.setNick((String) tblUsuario.getValueAt(linha, 2));
-                    usuario.setCpf((String) tblUsuario.getValueAt(linha, 3));
-                    usuario.setAdmin(admin);
+                    try {
+                        usuario.setId((int) tblUsuario.getValueAt(linha, 0));
+                        usuario = JDBCConsulta.usuarioId(usuario.getId());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(IfrmConsUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                     btnAbrir.setEnabled(true);
                 }
             }
         });
     }
-    
+
     /**
      * Exclui dados repetidos da lista
-     * 
+     *
      * @param lista lista a verificar
      * @return lista sem dados repetidos
      */
-    private List<UsuarioDAO> excluiRepetidos(List<UsuarioDAO> lista){
+    private List<UsuarioDAO> excluiRepetidos(List<UsuarioDAO> lista) {
         int qtos = lista.size();
-        
-        for(int i = 0; i < qtos; i++){
+
+        for (int i = 0; i < qtos; i++) {
             UsuarioDAO ref = lista.get(i);
-            
-            for(int j = i + 1; j < qtos; j++){
-                if(ref.getId() == lista.get(j).getId()){
+
+            for (int j = i + 1; j < qtos; j++) {
+                if (ref.getId() == lista.get(j).getId()) {
                     lista.remove(j);
                     qtos = lista.size();
                 }
             }
         }
-        
+
         return lista;
     }
 
@@ -318,10 +318,9 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
-        
+
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
-
 
         form = this.getSize();
         tabela = jtblUsuario.getSize();
@@ -355,7 +354,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
             try {
                 usuarios = JDBCConsulta.usuarioNome(nome);
             } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, "Ocorreu um erro ao pesquisar usuários pelo nome.", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao pesquisar usuários pelo nome.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -402,7 +401,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
                 Logger.getLogger(IfrmConsUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            if (!(user == null) && (user.getCpf().length() > 0)) {
+            if (!(user.getCpf() == null)) {
                 int q = usuarios.size();
                 int h = user.getId();
                 boolean pode = false;

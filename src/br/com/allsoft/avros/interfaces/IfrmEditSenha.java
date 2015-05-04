@@ -195,7 +195,6 @@ public class IfrmEditSenha extends javax.swing.JInternalFrame {
                 
                 try {
                     JDBCUpdate.usuarioSenha(pswNova.getPassword(), FrmLogin.usuario.getId());
-                    JDBCAuditoria.modificaSenha(FrmLogin.usuario, nova);
                 } catch (SQLException ex) {
                     Logger.getLogger(IfrmEditSenha.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -19,6 +19,8 @@ package br.com.allsoft.avros.interfaces;
 import br.com.allsoft.avros.factory.JDBCAuditoria;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.exceptions.AuditoriaException;
+import br.com.allsoft.avros.factory.JDBCUpdate;
 import java.awt.Container;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -171,13 +173,13 @@ public class FrmLogin extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Verifique sua conexão com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+            return;
         }
 
         if (usuario.getId() > 0) {
             this.dispose();
             new FrmPrincipal().setVisible(true);
 
-            JDBCAuditoria.logIn(usuario);
         } else {
             if (login.equalsIgnoreCase(logAntes)) {
                 erros += 1;
@@ -185,7 +187,12 @@ public class FrmLogin extends javax.swing.JFrame {
             logAntes = login;
 
             if (erros > 2) {
-                JOptionPane.showMessageDialog(this, "O usuário " + login + " será bloqueado por conta do excesso de erros. Contate um administrador do sistema para desbloquear.", "Tente outra vez", JOptionPane.ERROR_MESSAGE);
+                try {
+                    JDBCUpdate.usuarioAtivo(false, login);
+                    JOptionPane.showMessageDialog(this, "O usuário " + login + " será bloqueado por conta do excesso de erros. Contate um administrador do sistema para desbloquear.", "Usuário bloqueado", JOptionPane.ERROR_MESSAGE);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Nome de usuário ou senha inválidos.", "Tente outra vez", JOptionPane.ERROR_MESSAGE);
             }

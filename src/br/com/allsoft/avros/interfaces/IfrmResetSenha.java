@@ -217,7 +217,6 @@ public class IfrmResetSenha extends javax.swing.JInternalFrame {
                 
                 try {
                     JDBCUpdate.usuarioSenha(pswNova.getPassword(), usuario.getId());
-                    JDBCAuditoria.modificaSenha(FrmLogin.usuario, nova);
                 } catch (SQLException ex) {
                     Logger.getLogger(IfrmResetSenha.class.getName()).log(Level.SEVERE, null, ex);
                 }

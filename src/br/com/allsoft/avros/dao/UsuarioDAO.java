@@ -30,9 +30,16 @@ public class UsuarioDAO {
     String cpf;
     char[] senha; //Por questões de segurança, a senha  será tratada como char[]
     boolean admin;
-    
+    boolean ativo;
 
-    //Getters e setters
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+    
     public String getCpf() {
         return cpf;
     }

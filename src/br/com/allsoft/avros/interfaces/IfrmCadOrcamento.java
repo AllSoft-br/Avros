@@ -21,6 +21,7 @@ import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.factory.JDBCInsere;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
+import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.VerificaCpf;
 import java.awt.Color;

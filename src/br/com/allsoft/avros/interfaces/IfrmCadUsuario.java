@@ -17,6 +17,7 @@
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.factory.JDBCInsere;
 import br.com.allsoft.avros.formulas.VerificaCpf;
 import br.com.allsoft.avros.naoUsar.GeraCPF;

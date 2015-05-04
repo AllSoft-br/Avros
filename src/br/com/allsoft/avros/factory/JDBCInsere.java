@@ -22,14 +22,16 @@ import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.interfaces.FrmLogin;
-import br.com.allsoft.avros.interfaces.IfrmCadOrcamento;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -55,6 +57,7 @@ public class JDBCInsere {
         nomeTabela = ClsBD.getTblCliente();
 
         con = ConexaoMySQL.getConexaoMySQL();
+        con.setAutoCommit(false);
         String sql = "insert into " + nomeTabela + "(" + ClsBD.getCliNome() + ", " + ClsBD.getCliCpf() + ", "
                 + ClsBD.getCliNasc() + ", " + ClsBD.getCliTel() + ", " + ClsBD.getCliSexo() + ", " + ClsBD.getCliIdUsuario()
                 + ") values (?,?,?,?,?, ?)";
@@ -67,21 +70,34 @@ public class JDBCInsere {
         stmt.setString(4, cliente.getTel());
         stmt.setBoolean(5, cliente.isFeminino());
         stmt.setInt(6, usuarioId);
+        
+        sql = stmt.toString();
 
         stmt.execute();
+
+        ResultSet rs = stmt.getGeneratedKeys();
+        if (rs != null && rs.next()) {
+            cliente.setId(rs.getInt(1));
+        }
         stmt.close();
+        con.commit();
         con.close();
 
-        //salva modificações na tabela auditoria
-        JDBCAuditoria.inserirCliente(FrmLogin.usuario, cliente);
+        try {
+            //salva modificações na tabela auditoria
+            JDBCAuditoria.inserirCliente(FrmLogin.usuario, cliente, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
-    
+
     /**
      * Método que insere um novo representante no banco de dados.
      *
-     * @param representante objeto do tipo ClienteDAO com informações do representante a ser
- inserido.
+     * @param representante objeto do tipo ClienteDAO com informações do
+     * representante a ser inserido.
      * @return ID do representante
      * @throws SQLException
      */
@@ -90,7 +106,7 @@ public class JDBCInsere {
 
         con = ConexaoMySQL.getConexaoMySQL();
         con.setAutoCommit(false);
-        
+
         String sql = "insert into " + nomeTabela + "(" + ClsBD.getRepnome() + ", " + ClsBD.getRepCpf() + ", "
                 + ClsBD.getRepNasc() + ", " + ClsBD.getRepTel() + ", " + ClsBD.getRepSexo()
                 + ") values (?,?,?,?,?)";
@@ -102,17 +118,26 @@ public class JDBCInsere {
         stmt.setDate(3, representante.getNascimento());
         stmt.setString(4, representante.getTel());
         stmt.setBoolean(5, representante.isFeminino());
+        
+        sql = stmt.toString();
 
         stmt.execute();
-        
+
         ResultSet rs = stmt.getGeneratedKeys();
         if (rs != null && rs.next()) {
             representante.setId(rs.getInt(1));
         }
-        
+
         stmt.close();
         con.commit();
         con.close();
+
+        try {
+            JDBCAuditoria.inserirRespresentante(FrmLogin.usuario, representante, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         return representante.getId();
     }
@@ -147,6 +172,8 @@ public class JDBCInsere {
         stmtR.setDate(3, responsavel.getNascimento());
         stmtR.setString(4, responsavel.getTel());
         stmtR.setBoolean(5, responsavel.isFeminino());
+        
+        sqlR = stmtR.toString();
 
         stmtR.execute();
 
@@ -163,6 +190,8 @@ public class JDBCInsere {
         stmtM.setString(4, menor.getTel());
         stmtM.setBoolean(5, menor.isFeminino());
         stmtM.setInt(6, usuarioId);
+        
+        sqlM = stmtM.toString();
 
         stmtM.execute();
 
@@ -188,6 +217,8 @@ public class JDBCInsere {
         stmt.setInt(1, menor.getId());
         stmt.setInt(2, parentescoId);
         stmt.setInt(3, responsavel.getId());
+        
+        sql = stmt.toString();
 
         stmt.execute();
 
@@ -197,19 +228,26 @@ public class JDBCInsere {
         con.commit();
         con.close();
 
-        //salva modificações na tabela auditoria
-        JDBCAuditoria.inserirRespresentante(FrmLogin.usuario, responsavel);
-        JDBCAuditoria.inserirCliente(FrmLogin.usuario, menor);
+        RepresentanteDAO parentesco = JDBCConsulta.parentesco(menor);
+
+        try {
+            JDBCAuditoria.inserirCliente(FrmLogin.usuario, menor, sqlM);
+            JDBCAuditoria.inserirRespresentante(FrmLogin.usuario, responsavel, sqlR);
+            JDBCAuditoria.inserirRel(FrmLogin.usuario, menor, responsavel, parentesco.getGrau(), sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
-    
+
     /**
      * Relaciona um cliente menor com um responsável.
-     * 
+     *
      * @param repId ID do representante
      * @param cliId ID do cliente menor de idade
      * @param parentescoId ID do tipo de parentesco
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static void inserirRelCliRep(int repId, int cliId, int parentescoId) throws SQLException {
         nomeTabela = ClsBD.getTblRel();
@@ -225,10 +263,23 @@ public class JDBCInsere {
         stmt.setInt(1, cliId);
         stmt.setInt(2, parentescoId);
         stmt.setInt(3, repId);
+        
+        sql = stmt.toString();
 
         stmt.execute();
         stmt.close();
         con.close();
+
+        ClienteDAO cliente = JDBCConsulta.clienteId(cliId);
+        RepresentanteDAO representante = JDBCConsulta.representanteId(repId);
+        String parentesco = JDBCConsulta.parentesco(cliente).getGrau();
+
+        try {
+            JDBCAuditoria.inserirRel(FrmLogin.usuario, cliente, representante, parentesco, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -242,6 +293,8 @@ public class JDBCInsere {
         nomeTabela = ClsBD.getTblLogin();
         try {
             con = ConexaoMySQL.getConexaoMySQL();
+            con.setAutoCommit(false);
+
             String sql = "insert into " + nomeTabela
                     + "(" + ClsBD.getUsuarionome() + ", " + ClsBD.getUsuarionick() + ", " + ClsBD.getUsuarioSenha()
                     + ", " + ClsBD.getUsuarioAdmin() + ", " + ClsBD.getUsuarioCpf() + ") "
@@ -254,13 +307,27 @@ public class JDBCInsere {
             stmt.setString(3, String.valueOf(usuario.getSenha()));
             stmt.setBoolean(4, usuario.isAdmin());
             stmt.setString(5, usuario.getCpf());
+            
+            sql = stmt.toString();
 
             stmt.execute();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs != null && rs.next()) {
+                usuario.setId(rs.getInt(1));
+            }
+
             stmt.close();
+            con.commit();
             con.close();
 
-            //salva modificações na tabela auditoria
-            JDBCAuditoria.inserirUsuario(FrmLogin.usuario, usuario);
+            try {
+                JDBCAuditoria.inserirUsuario(FrmLogin.usuario, usuario, sql);
+            } catch (AuditoriaException ex) {
+                JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         } catch (SQLException ex) {
             throw new ConstraintViolationException("O nickname/CPF já existe.", ex, "login");
         }
@@ -290,6 +357,8 @@ public class JDBCInsere {
         PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         // preenche os valores
         stmt.setString(1, parentesco);
+        
+        sql = stmt.toString();
 
         stmt.execute();
 
@@ -301,6 +370,13 @@ public class JDBCInsere {
         stmt.close();
         con.commit();
         con.close();
+
+        try {
+            JDBCAuditoria.inserirParentesco(FrmLogin.usuario, parentesco, retorno, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         return retorno;
     }
@@ -322,6 +398,8 @@ public class JDBCInsere {
         stmt.setString(2, orcamento.getTipoPagamento());
         stmt.setDouble(3, orcamento.getValor());
         stmt.setDouble(4, orcamento.getSessoes());
+        
+        sql = stmt.toString();
 
         stmt.execute();
 
@@ -333,6 +411,14 @@ public class JDBCInsere {
         stmt.close();
         con.commit();
         con.close();
+
+        orcamento.setId(cod);
+        try {
+            JDBCAuditoria.inserirOrcamento(FrmLogin.usuario, orcamento, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         return cod;
     }
@@ -364,6 +450,8 @@ public class JDBCInsere {
         stmt.setInt(4, sessao.getIdOrcamento());
         stmt.setString(5, sessao.getPagamento());
         stmt.setDouble(6, sessao.getValor());
+        
+        sql = stmt.toString();
 
         stmt.execute();
 
@@ -376,8 +464,14 @@ public class JDBCInsere {
         con.commit();
         con.close();
 
-        //salva modificações na tabela auditoria
-        JDBCAuditoria.inserirSessao(FrmLogin.usuario, sessao);
+        sessao.setId(retorno);
+
+        try {
+            JDBCAuditoria.inserirSessao(FrmLogin.usuario, sessao, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         return retorno;
     }

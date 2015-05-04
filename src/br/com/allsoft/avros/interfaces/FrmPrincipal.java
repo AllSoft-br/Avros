@@ -16,9 +16,13 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.factory.JDBCAuditoria;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 
 /**
@@ -95,6 +99,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(601, 500));
         setPreferredSize(new java.awt.Dimension(600, 500));
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -415,8 +425,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void mniSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSairActionPerformed
         new FrmLogin().setVisible(true);
         this.dispose();
-
-        JDBCAuditoria.logOut(FrmLogin.usuario);
     }//GEN-LAST:event_mniSairActionPerformed
 
     private void mniVerUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVerUsuarioActionPerformed
@@ -454,6 +462,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
         deskPrincipal.add(obj);
         obj.setVisible(true);
     }//GEN-LAST:event_mniVerSessoesActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            JDBCAuditoria.logout(FrmLogin.usuario);
+        } catch (AuditoriaException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

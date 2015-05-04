@@ -14,13 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.factory.JDBCAuditoria;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.formulas.VerificaCpf;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -36,13 +36,41 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
 
     //Variáveis
     UsuarioDAO usuario = new UsuarioDAO();
-    
+
+    //Métodos
+    private void preencheCampos() {
+        
+        String tipo;
+        String ativo = "";
+        if (usuario.isAdmin()) {
+            tipo = "administrador";
+        } else {
+            tipo = "comum";
+        }
+        if (usuario.isAtivo()) {
+            ativo = "Ativo";
+            lblAtivo.setForeground(Color.green);
+            btnExclui.setText("Desativar");
+        } else {
+            ativo = "Desativado";
+            lblAtivo.setForeground(Color.red);
+            btnExclui.setText("Ativar");
+        }
+
+        lblAtivo.setText(ativo);
+        lblSauda.setText("Usuário do tipo " + tipo + ".");
+        txtNome.setText(usuario.getNome());
+        txtNickname.setText(usuario.getNick());
+        txtCpf.setText(VerificaCpf.imprimeCpf(usuario.getCpf()));
+    }
+
     /**
      * Creates new form ifrmConta
+     * @param usuario
      */
     public IfrmEditUsuario(UsuarioDAO usuario) {
         initComponents();
-        
+
         this.usuario = usuario;
     }
 
@@ -73,7 +101,8 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         rdoComum = new javax.swing.JRadioButton();
         rdoAdmin = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
-        btnSenha1 = new javax.swing.JButton();
+        btnExclui = new javax.swing.JButton();
+        lblAtivo = new javax.swing.JLabel();
 
         jLabel8.setText("jLabel8");
 
@@ -105,7 +134,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
 
         lblSauda.setFont(ClsEstilo.labelDestaqueFonte);
         lblSauda.setForeground(ClsEstilo.labelDestaqueCor);
-        lblSauda.setText("Usuário: Fulano da Silva");
+        lblSauda.setText("Usuário do tipo administrador");
 
         jLabel3.setFont(ClsEstilo.labelFonte);
         jLabel3.setForeground(ClsEstilo.labelCor);
@@ -190,12 +219,16 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         jLabel5.setForeground(ClsEstilo.labelCor);
         jLabel5.setText("Tipo de usuário:");
 
-        btnSenha1.setText("Excluir usuário");
-        btnSenha1.addActionListener(new java.awt.event.ActionListener() {
+        btnExclui.setText("Desativar");
+        btnExclui.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSenha1ActionPerformed(evt);
+                btnExcluiActionPerformed(evt);
             }
         });
+
+        lblAtivo.setFont(ClsEstilo.labelFonte);
+        lblAtivo.setForeground(ClsEstilo.labelCor);
+        lblAtivo.setText("Ativo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -209,38 +242,41 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblSauda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnSalvar)
+                                .addGap(30, 30, 30)
+                                .addComponent(btnSenha)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnExclui)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel5)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(rdoComum)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(rdoAdmin))
                                                     .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                                                    .addComponent(txtNickname, javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(txtCpf, javax.swing.GroupLayout.Alignment.LEADING))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(txtNickname, javax.swing.GroupLayout.Alignment.LEADING))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(lblEditarNome)
-                                                    .addComponent(lblEditarNick))
-                                                .addGap(18, 18, 18)
-                                                .addComponent(lblLogo))))
+                                                    .addComponent(lblEditarNick)))
+                                            .addComponent(lblAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(26, 26, 26)
-                                        .addComponent(btnSalvar)
-                                        .addGap(30, 30, 30)
-                                        .addComponent(btnSenha)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnSenha1)))
-                                .addGap(0, 2, Short.MAX_VALUE)))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(rdoComum)
+                                                .addGap(42, 42, 42)
+                                                .addComponent(rdoAdmin))
+                                            .addComponent(jLabel5))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))))
                 .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
@@ -252,16 +288,22 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblSauda)
-                        .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtNickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblEditarNick))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblEditarNome))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblAtivo)
+                        .addGap(2, 2, 2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(txtNickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblEditarNick)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblEditarNome)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -269,15 +311,15 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
                     .addComponent(lblLogo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdoComum)
                     .addComponent(rdoAdmin))
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSenha)
                     .addComponent(btnSalvar)
-                    .addComponent(btnSenha1))
+                    .addComponent(btnExclui))
                 .addContainerGap())
         );
 
@@ -287,21 +329,11 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
-        
+
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 
-        String tipo;
-        if(usuario.isAdmin()){
-            tipo = "administrador";
-        } else{
-            tipo = "comum";
-        }
-        
-        lblSauda.setText("Usuário do tipo " + tipo + ".");
-        txtNome.setText(usuario.getNome());
-        txtNickname.setText(usuario.getNick());
-        txtCpf.setText(VerificaCpf.imprimeCpf(usuario.getCpf()));
+        preencheCampos();
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void lblEditarNickMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarNickMouseClicked
@@ -316,53 +348,51 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         //variáveis que indicam se os updates estão em ordem, começam verdadeiras
         boolean bnome = true;
         boolean bnick = true;
-        
-        if(txtNome.isEnabled()){
+
+        if (txtNome.isEnabled()) {
             //Se o usuário decidir fazer o update, o processo começa deixando em falso
             bnome = false;
-            
+
             try {
                 String nome = txtNome.getText();
-                
+
                 JDBCUpdate.usuarioNome(nome, usuario.getId());
-                
-                JDBCAuditoria.modificaNomeUsuario(usuario, nome);
+
                 usuario.setNome(nome);
-                
+
                 //Se o processo for concluído com sucesso, volta para true
                 bnome = true;
-                
+
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                
+
                 //Se houver erro no processo, fica false de novo
                 bnome = false;
             }
         }
-        
-        if(txtNickname.isEnabled()){
+
+        if (txtNickname.isEnabled()) {
             //Se o usuário decidir fazer o update, o processo começa deixando em falso
             bnick = false;
-            
+
             try {
                 String nick = txtNickname.getText();
-                
+
                 JDBCUpdate.usuarioNick(nick, usuario.getId());
-                
-                JDBCAuditoria.modificaNomeUsuario(usuario, nick);
+
                 usuario.setNome(nick);
-                
+
                 //Se o processo for concluído com sucesso, volta para true
                 bnick = true;
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                
+
                 //Se houver erro no processo, fica false de novo
                 bnick = false;
             }
         }
-        
-        if(rdoAdmin.isSelected()){
+
+        if (rdoAdmin.isSelected()) {
             usuario.setAdmin(true);
             try {
                 JDBCUpdate.usuarioAdmin(true, usuario.getId());
@@ -371,8 +401,8 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
                 Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        if(rdoComum.isSelected()){
+
+        if (rdoComum.isSelected()) {
             usuario.setAdmin(false);
             try {
                 JDBCUpdate.usuarioAdmin(false, usuario.getId());
@@ -381,11 +411,18 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
                 Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        if(bnome && bnick){
+
+        if (bnome && bnick) {
             JOptionPane.showMessageDialog(null, "Modificações atualizadas com sucesso.");
         } else {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro durante a atualização de suas modificações. Por favor tente novamente mais tarde.");
+        }
+        
+        try {
+            usuario = JDBCConsulta.usuarioId(usuario.getId());
+            preencheCampos();
+        } catch (SQLException ex) {
+            Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -397,22 +434,29 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         FrmPrincipal.addFrame(new IfrmResetSenha(usuario));
     }//GEN-LAST:event_btnSenhaActionPerformed
 
-    private void btnSenha1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSenha1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSenha1ActionPerformed
+    private void btnExcluiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluiActionPerformed
+        try {
+            JDBCUpdate.usuarioAtivo(!usuario.isAtivo(), usuario.getId());
+            preencheCampos();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao mudar o status do usuário.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnExcluiActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgpTipo;
+    private javax.swing.JButton btnExclui;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnSenha;
-    private javax.swing.JButton btnSenha1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel lblAtivo;
     private javax.swing.JLabel lblEditarNick;
     private javax.swing.JLabel lblEditarNome;
     private javax.swing.JLabel lblLogo;

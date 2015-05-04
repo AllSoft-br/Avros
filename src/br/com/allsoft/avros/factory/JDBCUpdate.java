@@ -16,13 +16,18 @@
  */
 package br.com.allsoft.avros.factory;
 
+import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.ClsBD;
+import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.interfaces.FrmLogin;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -44,6 +49,8 @@ public class JDBCUpdate {
      */
     public static void usuarioSenha(char[] senha, int id) throws SQLException {
         nomeTabela = ClsBD.getTblLogin();
+        
+        UsuarioDAO usuario = JDBCConsulta.usuarioId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -54,18 +61,60 @@ public class JDBCUpdate {
         // preenche os valores
         stmt.setString(1, String.valueOf(senha));
         stmt.setInt(2, id);
+        
+        sql = stmt.toString();
 
         stmt.execute();
         stmt.close();
         con.close();
 
-        //salva modificações na tabela auditoria
-        JDBCAuditoria.modificaSenha(FrmLogin.usuario, senha);
+        try {
+            //salva modificações na tabela auditoria
+            JDBCAuditoria.modificaSenha(FrmLogin.usuario, usuario, senha, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         FrmLogin.usuario.setSenha(senha);
 
-        JOptionPane.showMessageDialog(null, "Senha atualizada com sucesso.");
+    }
+    
+    /**
+     * Modifica o status do usuario
+     * 
+     * @param ativo se esta ativo ou nao 
+     * @param login do usuario
+     * @throws SQLException 
+     * @throws br.com.allsoft.avros.exceptions.AuditoriaException 
+     */
+    public static void usuarioAtivo(boolean ativo, String login) throws SQLException {
+        nomeTabela = ClsBD.getTblLogin();
 
+        UsuarioDAO usuario = JDBCConsulta.usuarioNick(login);
+        
+        con = ConexaoMySQL.getConexaoMySQL();
+        String sql = "UPDATE " + nomeTabela
+                + " set " + ClsBD.getUsuarioAtivo() + "= ? "
+                + "where " + ClsBD.getUsuarioId() + " = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        // preenche os valores
+        stmt.setBoolean(1, ativo);
+        stmt.setInt(2, usuario.getId());
+        
+        sql = stmt.toString();
+
+        stmt.execute();
+        stmt.close();
+        con.close();
+
+        try {
+            JDBCAuditoria.modificaUsuarioAtivo(FrmLogin.usuario, usuario, ativo, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -77,10 +126,12 @@ public class JDBCUpdate {
      */
     public static void usuarioAtivo(boolean ativo, int id) throws SQLException {
         nomeTabela = ClsBD.getTblLogin();
+        
+        UsuarioDAO usuario = JDBCConsulta.usuarioId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
-                + " set " + ClsBD.getUsuarioAtivo() + "= ? "
+                + " set " + ClsBD.getUsuarioAtivo() + " = ? "
                 + "where " + ClsBD.getUsuarioId() + " = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
 
@@ -88,10 +139,18 @@ public class JDBCUpdate {
         stmt.setBoolean(1, ativo);
         stmt.setInt(2, id);
 
+        sql = stmt.toString();
+        
         stmt.execute();
         stmt.close();
         con.close();
 
+        try {
+            JDBCAuditoria.modificaUsuarioAtivo(FrmLogin.usuario, usuario, ativo, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -103,7 +162,9 @@ public class JDBCUpdate {
      */
     public static void usuarioNome(String nome, int id) throws SQLException {
         nomeTabela = ClsBD.getTblLogin();
-
+        
+        UsuarioDAO usuario = JDBCConsulta.usuarioId(id);
+        
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
                 + " set " + ClsBD.getUsuarionome() + " = ? "
@@ -113,11 +174,19 @@ public class JDBCUpdate {
         // preenche os valores
         stmt.setString(1, nome);
         stmt.setInt(2, id);
+        
+        sql = stmt.toString();
 
         stmt.execute();
         stmt.close();
         con.close();
-
+        
+        try {
+            JDBCAuditoria.modificaNomeUsuario(FrmLogin.usuario, usuario, nome, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -129,7 +198,9 @@ public class JDBCUpdate {
      */
     public static void usuarioNick(String nick, int id) throws SQLException {
         nomeTabela = ClsBD.getTblLogin();
-
+        
+        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
                 + " set " + ClsBD.getUsuarionick() + " = ? "
@@ -139,11 +210,19 @@ public class JDBCUpdate {
         // preenche os valores
         stmt.setString(1, nick);
         stmt.setInt(2, id);
+        
+        sql = stmt.toString();
 
         stmt.execute();
         stmt.close();
         con.close();
 
+        try {
+            JDBCAuditoria.modificaNick(FrmLogin.usuario, usuario, nick, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -155,6 +234,8 @@ public class JDBCUpdate {
      */
     public static void usuarioAdmin(boolean admin, int id) throws SQLException {
         nomeTabela = ClsBD.getTblLogin();
+        
+        UsuarioDAO usuario = JDBCConsulta.usuarioId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -165,11 +246,20 @@ public class JDBCUpdate {
         // preenche os valores
         stmt.setBoolean(1, admin);
         stmt.setInt(2, id);
-
+        
+        sql = stmt.toString();
+        
         stmt.execute();
         stmt.close();
         con.close();
 
+        
+        try {
+            JDBCAuditoria.modificaUsuarioAdmin(FrmLogin.usuario, usuario, admin, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -181,6 +271,8 @@ public class JDBCUpdate {
      */
     public static void clienteNome(String nome, int id) throws SQLException {
         nomeTabela = ClsBD.getTblCliente();
+        
+        ClienteDAO cliente = JDBCConsulta.clienteId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -191,10 +283,19 @@ public class JDBCUpdate {
         // preenche os valores
         stmt.setString(1, nome);
         stmt.setInt(2, id);
+        
+        sql = stmt.toString();
 
         stmt.execute();
         stmt.close();
         con.close();
+        
+        try {
+            JDBCAuditoria.modificaNomeCliente(FrmLogin.usuario, cliente, nome, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -207,6 +308,8 @@ public class JDBCUpdate {
      */
     public static void clienteSexo(Boolean feminino, int id) throws SQLException {
         nomeTabela = ClsBD.getTblCliente();
+        
+        ClienteDAO cliente = JDBCConsulta.clienteId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -217,10 +320,19 @@ public class JDBCUpdate {
         // preenche os valores
         stmt.setBoolean(1, feminino);
         stmt.setInt(2, id);
+        
+        sql = stmt.toString();
 
         stmt.execute();
         stmt.close();
         con.close();
+        
+        try {
+            JDBCAuditoria.modificaClienteSexo(FrmLogin.usuario, cliente, feminino, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -243,6 +355,8 @@ public class JDBCUpdate {
         // preenche os valores
         stmt.setDate(1, data);
         stmt.setInt(2, id);
+        
+        sql = stmt.toString();
 
         stmt.execute();
         stmt.close();
@@ -559,22 +673,23 @@ public class JDBCUpdate {
     /**
      * Muda o status de uma sessao
      * 
-     * @param id da sessao
+     * @param idSes da sessao
      * @param status true = paga, false = não pagou
      * @throws SQLException 
      */
-    public static void sessaoConcluida(int id, boolean status) throws SQLException{
+    public static void sessaoConcluida(int idSes, boolean status, int idOrc) throws SQLException{
         nomeTabela = ClsBD.getTblSessao();
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
                 + " set " + ClsBD.getSesConcluida() + "= ? "
-                + "where " + ClsBD.getSesId() + " = ?";
+                + "where " + ClsBD.getSesId() + " = ?; "
+                + "CALL orcamento_concluido(" + idOrc + ");";
         PreparedStatement stmt = con.prepareStatement(sql);
 
         // preenche os valores
         stmt.setBoolean(1, status);
-        stmt.setInt(2, id);
+        stmt.setInt(2, idSes);
 
         stmt.execute();
         stmt.close();

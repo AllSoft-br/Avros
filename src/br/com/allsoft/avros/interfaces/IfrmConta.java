@@ -264,7 +264,6 @@ public class IfrmConta extends javax.swing.JInternalFrame {
                 
                 JDBCUpdate.usuarioNome(nome, FrmLogin.usuario.getId());
                 
-                JDBCAuditoria.modificaNomeUsuario(FrmLogin.usuario, nome);
                 FrmLogin.usuario.setNome(nome);
                 
                 //Se o processo for concluído com sucesso, volta para true
@@ -287,7 +286,6 @@ public class IfrmConta extends javax.swing.JInternalFrame {
                 
                 JDBCUpdate.usuarioNick(nick, FrmLogin.usuario.getId());
                 
-                JDBCAuditoria.modificaNomeUsuario(FrmLogin.usuario, nick);
                 FrmLogin.usuario.setNome(nick);
                 
                 //Se o processo for concluído com sucesso, volta para true
