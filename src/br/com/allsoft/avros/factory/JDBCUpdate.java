@@ -638,7 +638,7 @@ public class JDBCUpdate {
     public static void orcamentoValor(int id, double valor) throws SQLException{
         nomeTabela = ClsBD.getTblOrcamento();
         
-        
+        OrcamentoDAO orcamento = JDBCConsulta.orcamento(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -649,10 +649,18 @@ public class JDBCUpdate {
         // preenche os valores
         stmt.setDouble(1, valor);
         stmt.setInt(2, id);
+        
+        sql = stmt.toString();
 
         stmt.execute();
         stmt.close();
         con.close();
+        
+        try {
+            AuditoriaUpdate.orcamentoValor(FrmLogin.usuario, orcamento, valor, sql);
+        } catch (AuditoriaException ex) {
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -664,6 +672,8 @@ public class JDBCUpdate {
      */
     public static void orcamentoSessoes(int id, int sessoes) throws SQLException{
         nomeTabela = ClsBD.getTblOrcamento();
+        
+        OrcamentoDAO orcamento = JDBCConsulta.orcamento(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -674,10 +684,18 @@ public class JDBCUpdate {
         // preenche os valores
         stmt.setInt(1, sessoes);
         stmt.setInt(2, id);
+        
+        sql = stmt.toString();
 
         stmt.execute();
         stmt.close();
         con.close();
+        
+        try  {
+            AuditoriaUpdate.orcamentoSessoes(FrmLogin.usuario, orcamento, sessoes, sql);
+        } catch (AuditoriaException ex) {
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     
@@ -690,6 +708,8 @@ public class JDBCUpdate {
      */
     public static void sessaoData(int id, Date data) throws SQLException{
         nomeTabela = ClsBD.getTblSessao();
+        
+        SessaoDAO sessao = JDBCConsulta.sessaoId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -700,10 +720,18 @@ public class JDBCUpdate {
         // preenche os valores
         stmt.setDate(1, data);
         stmt.setInt(2, id);
+        
+        sql = stmt.toString();
 
         stmt.execute();
         stmt.close();
         con.close();
+        
+        try {
+            AuditoriaUpdate.sessaoData(FrmLogin.usuario, sessao, data, sql);
+        } catch (AuditoriaException ex) {
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -715,6 +743,8 @@ public class JDBCUpdate {
      */
     public static void sessaoHora(int id, Time hora) throws SQLException{
         nomeTabela = ClsBD.getTblSessao();
+        
+        SessaoDAO sessao = JDBCConsulta.sessaoId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -725,10 +755,18 @@ public class JDBCUpdate {
         // preenche os valores
         stmt.setTime(1, hora);
         stmt.setInt(2, id);
+        
+        sql = stmt.toString();
 
         stmt.execute();
         stmt.close();
         con.close();
+        
+        try {
+            AuditoriaUpdate.sessaoHora(FrmLogin.usuario, sessao, hora, sql);
+        } catch (AuditoriaException ex) {
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -740,20 +778,30 @@ public class JDBCUpdate {
      */
     public static void sessaoDesconto(int id, double desconto) throws SQLException{
         nomeTabela = ClsBD.getTblSessao();
+        
+        SessaoDAO sessao = JDBCConsulta.sessaoId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
-                + " set " + ClsBD.getSesDesconto() + "= ? "
+                + " set " + ClsBD.getSesDesconto() + " = ? "
                 + "where " + ClsBD.getSesId() + " = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
 
         // preenche os valores
         stmt.setDouble(1, desconto);
         stmt.setInt(2, id);
+        
+        sql = stmt.toString();
 
         stmt.execute();
         stmt.close();
         con.close();
+        
+        try {
+            AuditoriaUpdate.sessaoDesconto(FrmLogin.usuario, sessao, desconto, sql);
+        } catch (AuditoriaException ex) {
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -765,6 +813,8 @@ public class JDBCUpdate {
      */
     public static void sessaoConcluida(int idSes, boolean status, int idOrc) throws SQLException{
         nomeTabela = ClsBD.getTblSessao();
+        
+        SessaoDAO sessao = JDBCConsulta.sessaoId(idSes);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -776,27 +826,18 @@ public class JDBCUpdate {
         // preenche os valores
         stmt.setBoolean(1, status);
         stmt.setInt(2, idSes);
+        
+        sql = stmt.toString();
 
         stmt.execute();
         stmt.close();
         con.close();
+        
+        try {
+            AuditoriaUpdate.sessaoConcluida(FrmLogin.usuario, sessao, status, sql);
+        } catch (AuditoriaException ex) {
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public static void removeRel(int idRepresentante, int idCliente) throws SQLException{
-        nomeTabela = ClsBD.getTblRel();
-
-        con = ConexaoMySQL.getConexaoMySQL();
-        String sql = "DELETE from " + nomeTabela
-                + "where " + ClsBD.getRelRepresentanteId() + " = ?"
-                + " and " + ClsBD.getRelClienteId() + " = ?";
-        PreparedStatement stmt = con.prepareStatement(sql);
-
-        // preenche os valores
-        stmt.setInt(1, idRepresentante);
-        stmt.setInt(2, idCliente);
-
-        stmt.execute();
-        stmt.close();
-        con.close();
-    }
 }

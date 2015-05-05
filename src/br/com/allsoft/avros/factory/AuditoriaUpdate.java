@@ -721,7 +721,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
         try {
             tabela = ClsBD.getTblOrcamento();
             acao = "update";
-            descricao = resp.getNick() + " modificou a o valor do orçamento de código " + String.valueOf(orcamento.getId()) + " de " + Moeda.padraoBr(orcamento.getValor()) + " para " + Moeda.padraoBr(valor);
+            descricao = resp.getNick() + " modificou o valor do orçamento de código " + String.valueOf(orcamento.getId()) + " de " + Moeda.padraoBr(orcamento.getValor()) + " para " + Moeda.padraoBr(valor);
             sql = codSql;
             codDado = orcamento.getId();
             idLogin = resp.getId();
@@ -729,6 +729,217 @@ public class AuditoriaUpdate extends JDBCAuditoria{
             antes = String.valueOf(orcamento.getValor());
             depois = String.valueOf(valor);
             campo = ClsBD.getOrcValor();
+            String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, tabela);
+            stmt.setInt(2, codDado);
+            stmt.setString(3, acao);
+            stmt.setString(4, descricao);
+            stmt.setInt(5, idLogin);
+            stmt.setString(6, sql);
+            stmt.setString(7, antes);
+            stmt.setString(8, depois);
+            stmt.setString(9, campo);
+            stmt.execute();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
+            throw new AuditoriaException(ex);
+        }
+    }
+    
+    /**
+     * Grava modificações do valor de desconto de uma sessao na auditoria
+     *
+     * @param resp usuário responsável pela modificação
+     * @param sessao modificada, antes do update
+     * @param valor novo valor
+     * @param codSql código sql utilizado
+     * @throws AuditoriaException
+     */
+    public static void sessaoDesconto(UsuarioDAO resp, SessaoDAO sessao, double valor, String codSql) throws AuditoriaException {
+        try {
+            tabela = ClsBD.getTblSessao();
+            acao = "update";
+            descricao = resp.getNick() + " modificou o valor de desconto da sessão de código " + String.valueOf(sessao.getId()) + " de " + Moeda.padraoBr(sessao.getDesconto()) + " para " + Moeda.padraoBr(valor);
+            sql = codSql;
+            codDado = sessao.getId();
+            idLogin = resp.getId();
+            con = ConexaoMySQL.getConexaoMySQL();
+            antes = String.valueOf(sessao.getDesconto());
+            depois = String.valueOf(valor);
+            campo = ClsBD.getSesDesconto();
+            String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, tabela);
+            stmt.setInt(2, codDado);
+            stmt.setString(3, acao);
+            stmt.setString(4, descricao);
+            stmt.setInt(5, idLogin);
+            stmt.setString(6, sql);
+            stmt.setString(7, antes);
+            stmt.setString(8, depois);
+            stmt.setString(9, campo);
+            stmt.execute();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
+            throw new AuditoriaException(ex);
+        }
+    }
+    
+    /**
+     * Grava modificações quantidade de sessoes do orcamento na auditoria
+     *
+     * @param resp usuário responsável pela modificação
+     * @param orcamento modificada, antes do update
+     * @param sessoes nova quantidade
+     * @param codSql código sql utilizado
+     * @throws AuditoriaException
+     */
+    public static void orcamentoSessoes(UsuarioDAO resp, OrcamentoDAO orcamento, int sessoes, String codSql) throws AuditoriaException {
+        try {
+            tabela = ClsBD.getTblOrcamento();
+            acao = "update";
+            descricao = resp.getNick() + " modificou a quantidade de sessões do orçamento de código " + String.valueOf(orcamento.getId()) + " de " + String.valueOf(orcamento.getSessoes()) + " para " + String.valueOf(sessoes);
+            sql = codSql;
+            codDado = orcamento.getId();
+            idLogin = resp.getId();
+            con = ConexaoMySQL.getConexaoMySQL();
+            antes = String.valueOf(orcamento.getSessoes());
+            depois = String.valueOf(sessoes);
+            campo = ClsBD.getOrcNSessoes();
+            String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, tabela);
+            stmt.setInt(2, codDado);
+            stmt.setString(3, acao);
+            stmt.setString(4, descricao);
+            stmt.setInt(5, idLogin);
+            stmt.setString(6, sql);
+            stmt.setString(7, antes);
+            stmt.setString(8, depois);
+            stmt.setString(9, campo);
+            stmt.execute();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
+            throw new AuditoriaException(ex);
+        }
+    }
+    
+    /**
+     * Grava modificações de data de uma sessao na auditoria
+     *
+     * @param resp usuário responsável pela modificação
+     * @param sessao modificada, antes do update
+     * @param data nova data
+     * @param codSql código sql utilizado
+     * @throws AuditoriaException
+     */
+    public static void sessaoData(UsuarioDAO resp, SessaoDAO sessao, java.sql.Date data, String codSql) throws AuditoriaException {
+        try {
+            tabela = ClsBD.getTblSessao();
+            acao = "update";
+            descricao = resp.getNick() + " modificou a data da sessão de código " + String.valueOf(sessao.getId()) + " de " + Datas.sqlparaString(sessao.getData()) + " para " + Datas.sqlparaString(data);
+            sql = codSql;
+            codDado = sessao.getId();
+            idLogin = resp.getId();
+            con = ConexaoMySQL.getConexaoMySQL();
+            antes = String.valueOf(sessao.getData());
+            depois = String.valueOf(data);
+            campo = ClsBD.getSesData();
+            String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, tabela);
+            stmt.setInt(2, codDado);
+            stmt.setString(3, acao);
+            stmt.setString(4, descricao);
+            stmt.setInt(5, idLogin);
+            stmt.setString(6, sql);
+            stmt.setString(7, antes);
+            stmt.setString(8, depois);
+            stmt.setString(9, campo);
+            stmt.execute();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
+            throw new AuditoriaException(ex);
+        }
+    }
+    
+    /**
+     * Grava modificações de horário de uma sessao na auditoria
+     *
+     * @param resp usuário responsável pela modificação
+     * @param sessao modificada, antes do update
+     * @param hora novo horario
+     * @param codSql código sql utilizado
+     * @throws AuditoriaException
+     */
+    public static void sessaoHora(UsuarioDAO resp, SessaoDAO sessao, java.sql.Time hora, String codSql) throws AuditoriaException {
+        try {
+            tabela = ClsBD.getTblSessao();
+            acao = "update";
+            descricao = resp.getNick() + " modificou o horário da sessão de código " + String.valueOf(sessao.getId()) + " de " + Datas.timeParaString(sessao.getHora()) + " para " + Datas.timeParaString(hora);
+            sql = codSql;
+            codDado = sessao.getId();
+            idLogin = resp.getId();
+            con = ConexaoMySQL.getConexaoMySQL();
+            antes = String.valueOf(sessao.getHora());
+            depois = String.valueOf(hora);
+            campo = ClsBD.getSesHora();
+            String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, tabela);
+            stmt.setInt(2, codDado);
+            stmt.setString(3, acao);
+            stmt.setString(4, descricao);
+            stmt.setInt(5, idLogin);
+            stmt.setString(6, sql);
+            stmt.setString(7, antes);
+            stmt.setString(8, depois);
+            stmt.setString(9, campo);
+            stmt.execute();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
+            throw new AuditoriaException(ex);
+        }
+    }
+    
+    /**
+     * Grava as modificações de sexo do cliente na auditoria
+     *
+     * @param resp usuário responsável pelo update
+     * @param sessao que foi modificada, antes do update
+     * @param concluida se a sessao será atualizada para concluida ou não
+     * @param codSql código sql utilizado
+     * @throws AuditoriaException
+     */
+    public static void sessaoConcluida(UsuarioDAO resp, SessaoDAO sessao, boolean concluida, String codSql) throws AuditoriaException {
+        try {
+            String oq, oq1;
+            if (sessao.isConcluida()) {
+                oq1 = "concluída";
+            } else {
+                oq1 = "pendente";
+            }
+            if (concluida) {
+                oq = "concluída";
+            } else {
+                oq = "pendente";
+            }
+            tabela = ClsBD.getTblSessao();
+            acao = "update";
+            descricao = resp.getNick() + " modificou o status da sessão de código " + String.valueOf(sessao.getId()) + " de " + oq1 + " para " + oq;
+            sql = codSql;
+            codDado = sessao.getId();
+            idLogin = resp.getId();
+            con = ConexaoMySQL.getConexaoMySQL();
+            antes = String.valueOf(sessao.isConcluida());
+            depois = String.valueOf(concluida);
+            campo = ClsBD.getRepSexo();
             String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setString(1, tabela);
