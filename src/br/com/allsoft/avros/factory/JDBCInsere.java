@@ -85,7 +85,7 @@ public class JDBCInsere {
 
         try {
             //salva modificações na tabela auditoria
-            JDBCAuditoria.inserirCliente(FrmLogin.usuario, cliente, sql);
+            AuditoriaInsere.inserirCliente(FrmLogin.usuario, cliente, sql);
         } catch (AuditoriaException ex) {
             JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
@@ -133,7 +133,7 @@ public class JDBCInsere {
         con.close();
 
         try {
-            JDBCAuditoria.inserirRespresentante(FrmLogin.usuario, representante, sql);
+            AuditoriaInsere.inserirRespresentante(FrmLogin.usuario, representante, sql);
         } catch (AuditoriaException ex) {
             JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
@@ -231,9 +231,9 @@ public class JDBCInsere {
         RepresentanteDAO parentesco = JDBCConsulta.parentesco(menor);
 
         try {
-            JDBCAuditoria.inserirCliente(FrmLogin.usuario, menor, sqlM);
-            JDBCAuditoria.inserirRespresentante(FrmLogin.usuario, responsavel, sqlR);
-            JDBCAuditoria.inserirRel(FrmLogin.usuario, menor, responsavel, parentesco.getGrau(), sql);
+            AuditoriaInsere.inserirCliente(FrmLogin.usuario, menor, sqlM);
+            AuditoriaInsere.inserirRespresentante(FrmLogin.usuario, responsavel, sqlR);
+            AuditoriaInsere.inserirRel(FrmLogin.usuario, menor, responsavel, parentesco.getGrau(), sql);
         } catch (AuditoriaException ex) {
             JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
@@ -275,7 +275,7 @@ public class JDBCInsere {
         String parentesco = JDBCConsulta.parentesco(cliente).getGrau();
 
         try {
-            JDBCAuditoria.inserirRel(FrmLogin.usuario, cliente, representante, parentesco, sql);
+            AuditoriaInsere.inserirRel(FrmLogin.usuario, cliente, representante, parentesco, sql);
         } catch (AuditoriaException ex) {
             JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
@@ -322,7 +322,7 @@ public class JDBCInsere {
             con.close();
 
             try {
-                JDBCAuditoria.inserirUsuario(FrmLogin.usuario, usuario, sql);
+                AuditoriaInsere.inserirUsuario(FrmLogin.usuario, usuario, sql);
             } catch (AuditoriaException ex) {
                 JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
@@ -372,7 +372,7 @@ public class JDBCInsere {
         con.close();
 
         try {
-            JDBCAuditoria.inserirParentesco(FrmLogin.usuario, parentesco, retorno, sql);
+            AuditoriaInsere.inserirParentesco(FrmLogin.usuario, parentesco, retorno, sql);
         } catch (AuditoriaException ex) {
             JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
@@ -414,7 +414,7 @@ public class JDBCInsere {
 
         orcamento.setId(cod);
         try {
-            JDBCAuditoria.inserirOrcamento(FrmLogin.usuario, orcamento, sql);
+            AuditoriaInsere.inserirOrcamento(FrmLogin.usuario, orcamento, sql);
         } catch (AuditoriaException ex) {
             JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
@@ -467,7 +467,7 @@ public class JDBCInsere {
         sessao.setId(retorno);
 
         try {
-            JDBCAuditoria.inserirSessao(FrmLogin.usuario, sessao, sql);
+            AuditoriaInsere.inserirSessao(FrmLogin.usuario, sessao, sql);
         } catch (AuditoriaException ex) {
             JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);

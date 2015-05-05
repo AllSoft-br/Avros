@@ -17,6 +17,7 @@
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.exceptions.AuditoriaException;
+import br.com.allsoft.avros.factory.AuditoriaLogin;
 import br.com.allsoft.avros.factory.JDBCAuditoria;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -469,7 +470,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
-            JDBCAuditoria.logout(FrmLogin.usuario);
+            AuditoriaLogin.logout(FrmLogin.usuario);
         } catch (AuditoriaException ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }

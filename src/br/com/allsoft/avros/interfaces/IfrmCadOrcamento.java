@@ -350,6 +350,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
                 lblAviso.setText("O cliente não está cadastrado.");
                 lblAviso.setForeground(Color.RED);
                 lblAviso.setVisible(true);
+                btnSalvar.setEnabled(false);
             } else {
                 lblAviso.setText("Cliente encontrado!");
                 lblAviso.setForeground(Color.GREEN);
