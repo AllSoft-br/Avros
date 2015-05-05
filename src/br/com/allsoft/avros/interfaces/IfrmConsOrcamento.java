@@ -21,7 +21,7 @@ import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.formulas.Moeda;
-import br.com.allsoft.avros.formulas.VerificaCpf;
+import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.Date;
@@ -288,7 +288,7 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
         if (rdoCpf.isSelected()) {
             String cpf = txtCpf.getText();
 
-            if (VerificaCpf.isCpf(cpf)) {
+            if (Cpf.isCpf(cpf)) {
                 cliente.setCpf(cpf);
                 try {
                     cliente = JDBCConsulta.clienteCpf(cpf);

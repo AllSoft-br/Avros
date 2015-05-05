@@ -19,7 +19,7 @@ package br.com.allsoft.avros.interfaces;
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.formulas.Datas;
-import br.com.allsoft.avros.formulas.VerificaCpf;
+import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -352,7 +352,7 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
         if (!txtCpf.getText().isEmpty()) {
             String cpf = txtCpf.getText();
 
-            if (VerificaCpf.isCpf(cpf)) {
+            if (Cpf.isCpf(cpf)) {
                 ClienteDAO cliente = new ClienteDAO();
                 try {
                     cliente = JDBCConsulta.clienteCpf(cpf);

@@ -19,7 +19,7 @@ package br.com.allsoft.avros.interfaces;
 import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.factory.JDBCInsere;
-import br.com.allsoft.avros.formulas.VerificaCpf;
+import br.com.allsoft.avros.formulas.Cpf;
 import br.com.allsoft.avros.naoUsar.GeraCPF;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -269,7 +269,7 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
             String nick = txtNick.getText();
             String cpf = txtCpf.getText();
 
-            if (VerificaCpf.isCpf(cpf)) {
+            if (Cpf.isCpf(cpf)) {
                 lblAviso.setVisible(false);
                 UsuarioDAO usuario = new UsuarioDAO();
                 usuario.setNick(nick);

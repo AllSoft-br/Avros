@@ -19,7 +19,7 @@ package br.com.allsoft.avros.interfaces;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.formulas.VerificaCpf;
+import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -61,7 +61,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         lblSauda.setText("Usuário do tipo " + tipo + ".");
         txtNome.setText(usuario.getNome());
         txtNickname.setText(usuario.getNick());
-        txtCpf.setText(VerificaCpf.imprimeCpf(usuario.getCpf()));
+        txtCpf.setText(Cpf.imprimeCpf(usuario.getCpf()));
     }
 
     /**

@@ -19,7 +19,7 @@ package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.factory.JDBCAuditoria;
 import br.com.allsoft.avros.factory.JDBCUpdate;
-import br.com.allsoft.avros.formulas.VerificaCpf;
+import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -239,7 +239,7 @@ public class IfrmConta extends javax.swing.JInternalFrame {
         lblSauda.setText("Olá, " + FrmLogin.usuario.getNome() + "!");
         txtNome.setText(FrmLogin.usuario.getNome());
         txtNickname.setText(FrmLogin.usuario.getNick());
-        txtCpf.setText(VerificaCpf.imprimeCpf(FrmLogin.usuario.getCpf()));
+        txtCpf.setText(Cpf.imprimeCpf(FrmLogin.usuario.getCpf()));
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void lblEditarNickMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarNickMouseClicked

@@ -23,7 +23,7 @@ import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.formulas.Moeda;
-import br.com.allsoft.avros.formulas.VerificaCpf;
+import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -385,7 +385,7 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 
-        lblCpf.setText(VerificaCpf.imprimeCpf(cliente.getCpf()));
+        lblCpf.setText(Cpf.imprimeCpf(cliente.getCpf()));
         lblNome.setText(cliente.getNome());
         ftxtValor.setText(Moeda.padraoVirgula(orcamento.getValor()));
         spnSessoes.setValue(orcamento.getSessoes());

@@ -16,10 +16,8 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.factory.JDBCAuditoria;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.dao.UsuarioDAO;
-import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import java.awt.Container;
 import java.sql.SQLException;

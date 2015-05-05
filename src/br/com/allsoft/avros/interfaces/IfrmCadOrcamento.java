@@ -23,7 +23,7 @@ import br.com.allsoft.avros.factory.JDBCInsere;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.formulas.Moeda;
-import br.com.allsoft.avros.formulas.VerificaCpf;
+import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -338,7 +338,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
     private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
         String cpf = txtCpf.getText();
 
-        if (VerificaCpf.isCpf(cpf)) {
+        if (Cpf.isCpf(cpf)) {
             try {
                 cliente = JDBCConsulta.clienteCpf(cpf);
             } catch (SQLException ex) {

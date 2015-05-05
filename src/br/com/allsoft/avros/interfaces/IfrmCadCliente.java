@@ -20,7 +20,7 @@ import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.factory.JDBCInsere;
 import br.com.allsoft.avros.naoUsar.GeraCPF;
-import br.com.allsoft.avros.formulas.VerificaCpf;
+import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -287,7 +287,7 @@ public class IfrmCadCliente extends javax.swing.JInternalFrame {
 
         //Se os campos do formulário não estiverem em branco, insere o cliente
         if (!("".equals(nome)) && !("".equals(cpf)) && !("".equals(nascimento)) && !("".equals(tel))) {
-            if (VerificaCpf.isCpf(cpf)) {
+            if (Cpf.isCpf(cpf)) {
                 try {
                     idade = cliente.idade();
                 } catch (SQLException ex) {

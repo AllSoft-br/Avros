@@ -154,7 +154,7 @@ public class JDBCConsulta {
         try {
             AuditoriaLogin.login(usuario, sql);
         } catch (AuditoriaException ex) {
-            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex);
             Logger.getLogger(JDBCConsulta.class.getName()).log(Level.SEVERE, null, ex);
         }
 

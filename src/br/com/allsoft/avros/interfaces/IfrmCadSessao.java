@@ -23,7 +23,7 @@ import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Moeda;
-import br.com.allsoft.avros.formulas.VerificaCpf;
+import br.com.allsoft.avros.formulas.Cpf;
 import br.com.allsoft.avros.relatorios.Relatorio;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -427,7 +427,7 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
 
         lblOrcCod.setText(String.valueOf(orcamento.getId()));
         lblNome.setText(cliente.getNome());
-        lblCpf.setText(VerificaCpf.imprimeCpf(cliente.getCpf()));
+        lblCpf.setText(Cpf.imprimeCpf(cliente.getCpf()));
 
         if ("Cartão".equalsIgnoreCase(orcamento.getTipoPagamento())) {
             rdoCartao.setSelected(true);

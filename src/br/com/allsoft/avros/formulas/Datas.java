@@ -36,6 +36,14 @@ public class Datas {
 
         return formatada;
     }
+    
+    public static String timeParaString(Time hora) {
+        Time horaSql = hora;
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        String formatada = format.format(horaSql);
+
+        return formatada;
+    }
 
     public static Time dateParaTime(java.util.Date data) throws ParseException {
         java.util.Date horaUtil;

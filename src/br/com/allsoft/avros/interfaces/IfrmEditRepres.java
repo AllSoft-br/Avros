@@ -19,9 +19,10 @@ package br.com.allsoft.avros.interfaces;
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
+import br.com.allsoft.avros.factory.JDBCDelete;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.formulas.Datas;
-import br.com.allsoft.avros.formulas.VerificaCpf;
+import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -78,7 +79,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         lblAddDep.setVisible(false);
         lblSauda.setText(representante.getNome() + " tem " + qtde + " dependente(s).");
         txtNome.setText(representante.getNome());
-        txtCpf.setText(VerificaCpf.imprimeCpf(representante.getCpf()));
+        txtCpf.setText(Cpf.imprimeCpf(representante.getCpf()));
         ftxtNasc.setText(Datas.sqlparaString(representante.getNascimento()));
         txtTel.setText(representante.getTel());
 
@@ -722,7 +723,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         int j = JOptionPane.showConfirmDialog(this, "Você realmente deseja remover este dependente? Ao fazer isso o dependente ficará sem responvável.");
         if (j == JOptionPane.YES_OPTION) {
             try {
-                JDBCUpdate.removeRel(representante.getId(), cliente.getId());
+                JDBCDelete.removeRel(representante.getId(), cliente.getId());
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Não foi possível remover o dependente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);

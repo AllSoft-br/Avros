@@ -21,7 +21,7 @@ import br.com.allsoft.avros.factory.JDBCInsere;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.naoUsar.GeraCPF;
-import br.com.allsoft.avros.formulas.VerificaCpf;
+import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -311,7 +311,7 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
             }
 
             if (parentescoId > 0) {
-                if (VerificaCpf.isCpf(cpf)) {
+                if (Cpf.isCpf(cpf)) {
                     RepresentanteDAO responsavel = new RepresentanteDAO();
                     responsavel.setNome(nome);
                     responsavel.setCpf(cpf);

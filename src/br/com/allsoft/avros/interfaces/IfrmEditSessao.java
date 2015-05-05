@@ -22,7 +22,7 @@ import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.formulas.Moeda;
-import br.com.allsoft.avros.formulas.VerificaCpf;
+import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -99,7 +99,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
         lblOrcCod.setText(String.valueOf(orcamento.getId()));
         lblCodSes.setText(String.valueOf(sessao.getId()));
         lblNome.setText(cliente.getNome());
-        lblCpf.setText(VerificaCpf.imprimeCpf(cliente.getCpf()));
+        lblCpf.setText(Cpf.imprimeCpf(cliente.getCpf()));
         dateData.setDate(sessao.getData());
         spnHorario.setValue(data);
         ftxtDesconto.setText(Moeda.padraoVirgula(sessao.getDesconto()));

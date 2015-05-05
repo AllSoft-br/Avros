@@ -21,7 +21,7 @@ import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.formulas.Datas;
-import br.com.allsoft.avros.formulas.VerificaCpf;
+import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -59,7 +59,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
 
         lblSauda.setText(cliente.getNome() + " é " + tipo + ".");
         txtNome.setText(cliente.getNome());
-        txtCpf.setText(VerificaCpf.imprimeCpf(cliente.getCpf()));
+        txtCpf.setText(Cpf.imprimeCpf(cliente.getCpf()));
         txtUsuario.setEditable(false);
         ftxtNasc.setText(Datas.sqlparaString(cliente.getNascimento()));
         txtTel.setText(cliente.getTel());
