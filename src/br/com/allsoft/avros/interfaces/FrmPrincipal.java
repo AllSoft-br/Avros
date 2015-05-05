@@ -94,7 +94,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mniVerUsuario = new javax.swing.JMenuItem();
         mniVerRepresentantes = new javax.swing.JMenuItem();
         mnuAvancado = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        mniHistorico = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(601, 500));
@@ -310,11 +310,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuAvancado.setText("Avançado");
         mnuAvancado.setFont(ClsEstilo.labelMenuFonte);
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setFont(ClsEstilo.labelMenuFonte);
-        jMenuItem1.setForeground(ClsEstilo.labelCor);
-        jMenuItem1.setText("Histórico");
-        mnuAvancado.add(jMenuItem1);
+        mniHistorico.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
+        mniHistorico.setFont(ClsEstilo.labelMenuFonte);
+        mniHistorico.setForeground(ClsEstilo.labelCor);
+        mniHistorico.setText("Histórico");
+        mniHistorico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniHistoricoActionPerformed(evt);
+            }
+        });
+        mnuAvancado.add(mniHistorico);
 
         if(FrmLogin.usuario.isAdmin()){
 
@@ -424,6 +429,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniPagarActionPerformed
 
     private void mniSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSairActionPerformed
+        try {
+            AuditoriaLogin.logout(FrmLogin.usuario);
+        } catch (AuditoriaException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         new FrmLogin().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_mniSairActionPerformed
@@ -476,6 +487,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void mniHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniHistoricoActionPerformed
+        IfrmHistorico obj = new IfrmHistorico();
+        deskPrincipal.add(obj);
+        obj.setVisible(true);
+    }//GEN-LAST:event_mniHistoricoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -513,11 +530,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected static javax.swing.JDesktopPane deskPrincipal;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mniAgendar;
     private javax.swing.JMenuItem mniCliente;
     private javax.swing.JMenuItem mniConta;
+    private javax.swing.JMenuItem mniHistorico;
     private javax.swing.JMenuItem mniNovo;
     private javax.swing.JMenuItem mniPagar;
     private javax.swing.JMenuItem mniPesquisar;

@@ -89,16 +89,16 @@ public class JDBCConsulta {
         while (rs.next()) {
             retorno = rs.getInt("quantos");
         }
-        
+
         return retorno;
     }
-    
+
     /**
      * Consulta os dependentes de um representante
-     * 
+     *
      * @param id do representante
      * @return list de dependentes
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static List<ClienteDAO> dependentes(int id) throws SQLException {
         List<ClienteDAO> dependentes = new ArrayList<>();
@@ -115,7 +115,6 @@ public class JDBCConsulta {
             ClienteDAO menor = clienteId(idCli);
             dependentes.add(menor);
         }
-        
 
         return dependentes;
     }
@@ -128,15 +127,15 @@ public class JDBCConsulta {
      * @return objeto UsuarioDAO com todas as informações do usuário que logou
      * no sistema
      */
-    public static UsuarioDAO login(String login, char[] senha) throws SQLException{
+    public static UsuarioDAO login(String login, char[] senha) throws SQLException {
         UsuarioDAO usuario = new UsuarioDAO();
 
         con = ConexaoMySQL.getConexaoMySQL();
         nomeTabela = ClsBD.getTblLogin();
 
         String sql = "select * from " + nomeTabela
-                + " where " + ClsBD.getUsuarionick() + " = '" + login 
-                + "' and " + ClsBD.getUsuarioSenha() + " = '" + String.valueOf(senha) 
+                + " where " + ClsBD.getUsuarionick() + " = '" + login
+                + "' and " + ClsBD.getUsuarioSenha() + " = '" + String.valueOf(senha)
                 + "' and ativo = true";
         PreparedStatement stmt = con.prepareStatement(sql);
 
@@ -149,13 +148,13 @@ public class JDBCConsulta {
             usuario.setId(rs.getInt(ClsBD.getUsuarioId()));
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
             usuario.setAtivo(true);
-        }
-        
-        try {
-            AuditoriaLogin.login(usuario, sql);
-        } catch (AuditoriaException ex) {
-            System.out.println(ex);
-            Logger.getLogger(JDBCConsulta.class.getName()).log(Level.SEVERE, null, ex);
+
+            try {
+                AuditoriaLogin.login(usuario, sql);
+            } catch (AuditoriaException ex) {
+                System.out.println(ex);
+                Logger.getLogger(JDBCConsulta.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         return usuario;
@@ -298,14 +297,19 @@ public class JDBCConsulta {
     public static UsuarioDAO usuarioNick(String nick) throws SQLException {
         UsuarioDAO usuario = new UsuarioDAO();
 
+        nick = nick.trim();
         con = ConexaoMySQL.getConexaoMySQL();
         nomeTabela = ClsBD.getTblLogin();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
-                + " where " + ClsBD.getUsuarionick() + " = '" + nick + "'");
+                + " where " + ClsBD.getUsuarionick() + " = ?");
 
+        stmt.setString(1, nick);
+        
         ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
+        
+        int q = 0;
+        while (rs.next()) {
             usuario.setNome(rs.getString(ClsBD.getUsuarionome()));
             usuario.setNick(rs.getString(ClsBD.getUsuarionick()));
             usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAdmin()));
@@ -314,9 +318,7 @@ public class JDBCConsulta {
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
             usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAtivo()));
             usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
-
         }
-
         return usuario;
     }
 
@@ -707,13 +709,13 @@ public class JDBCConsulta {
 
         return sessoes;
     }
-    
+
     /**
      * Pesquisa uma sessão pelo ID
-     * 
+     *
      * @param id da sessao
      * @return sessao
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static SessaoDAO sessaoId(int id) throws SQLException {
         SessaoDAO sessao = new SessaoDAO();
@@ -739,7 +741,5 @@ public class JDBCConsulta {
 
         return sessao;
     }
-    
-    
-    
+
 }

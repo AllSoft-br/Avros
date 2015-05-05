@@ -44,8 +44,10 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         String ativo = "";
         if (usuario.isAdmin()) {
             tipo = "administrador";
+            rdoAdmin.setSelected(true);
         } else {
             tipo = "comum";
+            rdoComum.setSelected(true);
         }
         if (usuario.isAtivo()) {
             ativo = "Ativo";
@@ -62,6 +64,28 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         txtNome.setText(usuario.getNome());
         txtNickname.setText(usuario.getNick());
         txtCpf.setText(Cpf.imprimeCpf(usuario.getCpf()));
+    }
+    
+    private void editTipo(){
+        if (rdoAdmin.isSelected()) {
+            usuario.setAdmin(true);
+            try {
+                JDBCUpdate.usuarioAdmin(true, usuario.getId());
+                lblSauda.setText("Usuário do tipo administrador.");
+            } catch (SQLException ex) {
+                Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (rdoComum.isSelected()) {
+            usuario.setAdmin(false);
+            try {
+                JDBCUpdate.usuarioAdmin(false, usuario.getId());
+                lblSauda.setText("Usuário do tipo comum.");
+            } catch (SQLException ex) {
+                Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
@@ -103,6 +127,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         btnExclui = new javax.swing.JButton();
         lblAtivo = new javax.swing.JLabel();
+        lblEditarTipo = new javax.swing.JLabel();
 
         jLabel8.setText("jLabel8");
 
@@ -209,11 +234,13 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         rdoComum.setFont(ClsEstilo.labelFonte);
         rdoComum.setForeground(ClsEstilo.labelCor);
         rdoComum.setText("Comum");
+        rdoComum.setEnabled(false);
 
         bgpTipo.add(rdoAdmin);
         rdoAdmin.setFont(ClsEstilo.labelFonte);
         rdoAdmin.setForeground(ClsEstilo.labelCor);
         rdoAdmin.setText("Administrador");
+        rdoAdmin.setEnabled(false);
 
         jLabel5.setFont(ClsEstilo.labelFonte);
         jLabel5.setForeground(ClsEstilo.labelCor);
@@ -229,6 +256,18 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         lblAtivo.setFont(ClsEstilo.labelFonte);
         lblAtivo.setForeground(ClsEstilo.labelCor);
         lblAtivo.setText("Ativo");
+
+        lblEditarTipo.setBackground(ClsEstilo.formbg);
+        lblEditarTipo.setFont(ClsEstilo.linkFonte);
+        lblEditarTipo.setForeground(ClsEstilo.linkCor);
+        lblEditarTipo.setText("Editar");
+        lblEditarTipo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lblEditarTipo.setOpaque(true);
+        lblEditarTipo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblEditarTipoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -275,7 +314,10 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
                                                 .addComponent(rdoComum)
                                                 .addGap(42, 42, 42)
                                                 .addComponent(rdoAdmin))
-                                            .addComponent(jLabel5))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel5)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(lblEditarTipo)))
                                         .addGap(0, 0, Short.MAX_VALUE)))))))
                 .addGap(18, 18, 18))
         );
@@ -310,12 +352,14 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
                             .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lblLogo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lblEditarTipo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdoComum)
                     .addComponent(rdoAdmin))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSenha)
                     .addComponent(btnSalvar)
@@ -392,24 +436,8 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
             }
         }
 
-        if (rdoAdmin.isSelected()) {
-            usuario.setAdmin(true);
-            try {
-                JDBCUpdate.usuarioAdmin(true, usuario.getId());
-                lblSauda.setText("Usuário do tipo administrador.");
-            } catch (SQLException ex) {
-                Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        if (rdoComum.isSelected()) {
-            usuario.setAdmin(false);
-            try {
-                JDBCUpdate.usuarioAdmin(false, usuario.getId());
-                lblSauda.setText("Usuário do tipo comum.");
-            } catch (SQLException ex) {
-                Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if(rdoComum.isEnabled()){
+            editTipo();
         }
 
         if (bnome && bnick) {
@@ -444,6 +472,11 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnExcluiActionPerformed
 
+    private void lblEditarTipoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarTipoMouseClicked
+        rdoComum.setEnabled(true);
+        rdoAdmin.setEnabled(true);
+    }//GEN-LAST:event_lblEditarTipoMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgpTipo;
@@ -459,6 +492,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblAtivo;
     private javax.swing.JLabel lblEditarNick;
     private javax.swing.JLabel lblEditarNome;
+    private javax.swing.JLabel lblEditarTipo;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblSauda;
     private javax.swing.JRadioButton rdoAdmin;

@@ -404,7 +404,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
             if (!(user.getCpf() == null)) {
                 int q = usuarios.size();
                 int h = user.getId();
-                boolean pode = false;
+                boolean pode = true;
 
                 for (int i = 0; i < q; i++) {
                     if (usuarios.get(i).getId() == h) {

@@ -29,6 +29,7 @@ import java.awt.Font;
 public class ClsEstilo {
     //Cores
     public static Color formbg = new Color(255,255,255);
+    public static Color formSombra = new Color(228,234,234);
     
     static Color labelCor = new Color(0,102,204);
     static Color linkCor = new Color(0,102,102);

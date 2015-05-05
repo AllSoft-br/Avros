@@ -39,7 +39,6 @@ public class AuditoriaDelete extends JDBCAuditoria{
      * @param resp usuário responsável pelo update
      * @param representante
      * @param menor
-     * @param relId id da relacao
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
