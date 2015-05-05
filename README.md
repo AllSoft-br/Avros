@@ -2,7 +2,7 @@
 <i>Sistema de gerenciamento de estúdios de tatuagem </i>
 
 <h2>Informações técnicas</h2>
-Este programa está sendo desenvolvido na linguagem Java, IDE Netbeans e com  o BD MySQL.
+Este programa está sendo desenvolvido na linguagem Java, IDE Netbeans e com  o BD MySQL. Você pode ver os scripts do banco de dados clicando <a href="https://github.com/AllSoft-br/BD_Avros">aqui</a>.
 <br>Licença: GPL-3.
 <br>Aceitamos contribuições, dicas e comentários :)
 
