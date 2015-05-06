@@ -70,7 +70,7 @@ public class JDBCInsere {
         stmt.setString(4, cliente.getTel());
         stmt.setBoolean(5, cliente.isFeminino());
         stmt.setInt(6, usuarioId);
-        
+
         sql = stmt.toString();
 
         stmt.execute();
@@ -118,7 +118,7 @@ public class JDBCInsere {
         stmt.setDate(3, representante.getNascimento());
         stmt.setString(4, representante.getTel());
         stmt.setBoolean(5, representante.isFeminino());
-        
+
         sql = stmt.toString();
 
         stmt.execute();
@@ -172,7 +172,7 @@ public class JDBCInsere {
         stmtR.setDate(3, responsavel.getNascimento());
         stmtR.setString(4, responsavel.getTel());
         stmtR.setBoolean(5, responsavel.isFeminino());
-        
+
         sqlR = stmtR.toString();
 
         stmtR.execute();
@@ -190,7 +190,7 @@ public class JDBCInsere {
         stmtM.setString(4, menor.getTel());
         stmtM.setBoolean(5, menor.isFeminino());
         stmtM.setInt(6, usuarioId);
-        
+
         sqlM = stmtM.toString();
 
         stmtM.execute();
@@ -217,7 +217,7 @@ public class JDBCInsere {
         stmt.setInt(1, menor.getId());
         stmt.setInt(2, parentescoId);
         stmt.setInt(3, responsavel.getId());
-        
+
         sql = stmt.toString();
 
         stmt.execute();
@@ -228,7 +228,7 @@ public class JDBCInsere {
         con.commit();
         con.close();
 
-        RepresentanteDAO parentesco = JDBCConsulta.parentesco(menor);
+        RepresentanteDAO parentesco = JDBCViews.parentesco(menor);
 
         try {
             AuditoriaInsere.inserirCliente(FrmLogin.usuario, menor, sqlM);
@@ -263,7 +263,7 @@ public class JDBCInsere {
         stmt.setInt(1, cliId);
         stmt.setInt(2, parentescoId);
         stmt.setInt(3, repId);
-        
+
         sql = stmt.toString();
 
         stmt.execute();
@@ -272,7 +272,7 @@ public class JDBCInsere {
 
         ClienteDAO cliente = JDBCConsulta.clienteId(cliId);
         RepresentanteDAO representante = JDBCConsulta.representanteId(repId);
-        String parentesco = JDBCConsulta.parentesco(cliente).getGrau();
+        String parentesco = JDBCViews.parentesco(cliente).getGrau();
 
         try {
             AuditoriaInsere.inserirRel(FrmLogin.usuario, cliente, representante, parentesco, sql);
@@ -288,48 +288,44 @@ public class JDBCInsere {
      * @param usuario objeto do tipo UsuarioDAO com as informações a serem
      * adicionadas
      * @throws java.io.IOException
+     * @throws java.sql.SQLException
      */
-    public static void inserirUsuario(UsuarioDAO usuario) throws ConstraintViolationException, IOException {
+    public static void inserirUsuario(UsuarioDAO usuario) throws IOException, SQLException {
         nomeTabela = ClsBD.getTblLogin();
+        con = ConexaoMySQL.getConexaoMySQL();
+        con.setAutoCommit(false);
+
+        String sql = "insert into " + nomeTabela
+                + "(" + ClsBD.getUsuarionome() + ", " + ClsBD.getUsuarionick() + ", " + ClsBD.getUsuarioSenha()
+                + ", " + ClsBD.getUsuarioAdmin() + ", " + ClsBD.getUsuarioCpf() + ") "
+                + "values (?,?,?,?,?)";
+
+        PreparedStatement stmt = con.prepareStatement(sql);
+        // preenche os valores
+        stmt.setString(1, usuario.getNome());
+        stmt.setString(2, usuario.getNick());
+        stmt.setString(3, String.valueOf(usuario.getSenha()));
+        stmt.setBoolean(4, usuario.isAdmin());
+        stmt.setString(5, usuario.getCpf());
+
+        sql = stmt.toString();
+
+        stmt.execute();
+
+        ResultSet rs = stmt.getGeneratedKeys();
+        if (rs != null && rs.next()) {
+            usuario.setId(rs.getInt(1));
+        }
+
+        stmt.close();
+        con.commit();
+        con.close();
+
         try {
-            con = ConexaoMySQL.getConexaoMySQL();
-            con.setAutoCommit(false);
-
-            String sql = "insert into " + nomeTabela
-                    + "(" + ClsBD.getUsuarionome() + ", " + ClsBD.getUsuarionick() + ", " + ClsBD.getUsuarioSenha()
-                    + ", " + ClsBD.getUsuarioAdmin() + ", " + ClsBD.getUsuarioCpf() + ") "
-                    + "values (?,?,?,?,?)";
-
-            PreparedStatement stmt = con.prepareStatement(sql);
-            // preenche os valores
-            stmt.setString(1, usuario.getNome());
-            stmt.setString(2, usuario.getNick());
-            stmt.setString(3, String.valueOf(usuario.getSenha()));
-            stmt.setBoolean(4, usuario.isAdmin());
-            stmt.setString(5, usuario.getCpf());
-            
-            sql = stmt.toString();
-
-            stmt.execute();
-
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs != null && rs.next()) {
-                usuario.setId(rs.getInt(1));
-            }
-
-            stmt.close();
-            con.commit();
-            con.close();
-
-            try {
-                AuditoriaInsere.inserirUsuario(FrmLogin.usuario, usuario, sql);
-            } catch (AuditoriaException ex) {
-                JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
-                Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } catch (SQLException ex) {
-            throw new ConstraintViolationException("O nickname/CPF já existe.", ex, "login");
+            AuditoriaInsere.inserirUsuario(FrmLogin.usuario, usuario, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCInsere.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -357,7 +353,7 @@ public class JDBCInsere {
         PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         // preenche os valores
         stmt.setString(1, parentesco);
-        
+
         sql = stmt.toString();
 
         stmt.execute();
@@ -398,7 +394,7 @@ public class JDBCInsere {
         stmt.setString(2, orcamento.getTipoPagamento());
         stmt.setDouble(3, orcamento.getValor());
         stmt.setDouble(4, orcamento.getSessoes());
-        
+
         sql = stmt.toString();
 
         stmt.execute();
@@ -450,7 +446,7 @@ public class JDBCInsere {
         stmt.setInt(4, sessao.getIdOrcamento());
         stmt.setString(5, sessao.getPagamento());
         stmt.setDouble(6, sessao.getValor());
-        
+
         sql = stmt.toString();
 
         stmt.execute();

@@ -45,32 +45,6 @@ public class JDBCConsulta {
     static String nomeTabela;
 
     /**
-     * Retorna o ID do representante e o grau de parentesco num objeto
-     * RepresentanteDAO
-     *
-     * @param menor ClienteDAO com o menor
-     * @return RepresentanteDAO com apenas o ID e o grau setados
-     */
-    public static RepresentanteDAO parentesco(ClienteDAO menor) throws SQLException {
-        RepresentanteDAO representante = new RepresentanteDAO();
-
-        con = ConexaoMySQL.getConexaoMySQL();
-        nomeTabela = ClsBD.getViewParente();
-        int idCli = menor.getId();
-
-        PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
-                + " where " + ClsBD.getCliId() + " = " + idCli);
-
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            representante.setId(rs.getInt(ClsBD.getRepId()));
-            representante.setGrau(ClsBD.getParTipo());
-        }
-
-        return representante;
-    }
-
-    /**
      * Conta quantos dependentes um representante tem.
      *
      * @param id
@@ -140,7 +114,7 @@ public class JDBCConsulta {
         PreparedStatement stmt = con.prepareStatement(sql);
 
         ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
+        while (rs.next()) {
             usuario.setNome(rs.getString(ClsBD.getUsuarionome()));
             usuario.setNick(rs.getString(ClsBD.getUsuarionick()));
             usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAdmin()));
@@ -152,11 +126,9 @@ public class JDBCConsulta {
             try {
                 AuditoriaLogin.login(usuario, sql);
             } catch (AuditoriaException ex) {
-                System.out.println(ex);
                 Logger.getLogger(JDBCConsulta.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
         return usuario;
     }
 
@@ -206,7 +178,7 @@ public class JDBCConsulta {
         con = ConexaoMySQL.getConexaoMySQL();
         nomeTabela = ClsBD.getTblLogin();
 
-        PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela);
+        PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela + " order by " + ClsBD.getUsuarionome());
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
