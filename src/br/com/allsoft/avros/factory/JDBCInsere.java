@@ -55,7 +55,10 @@ public class JDBCInsere {
      */
     public static void inserirCliente(ClienteDAO cliente, int usuarioId) throws SQLException {
         nomeTabela = ClsBD.getTblCliente();
-
+        cliente.setNome(cliente.getNome().trim());
+        cliente.setCpf(cliente.getCpf().trim());
+        cliente.setTel(cliente.getTel().trim());
+        
         con = ConexaoMySQL.getConexaoMySQL();
         con.setAutoCommit(false);
         String sql = "insert into " + nomeTabela + "(" + ClsBD.getCliNome() + ", " + ClsBD.getCliCpf() + ", "
@@ -103,6 +106,9 @@ public class JDBCInsere {
      */
     public static int inserirRepresentante(RepresentanteDAO representante) throws SQLException {
         nomeTabela = ClsBD.getTblRepresentante();
+        representante.setNome(representante.getNome().trim());
+        representante.setCpf(representante.getCpf().trim());
+        representante.setTel(representante.getTel().trim());
 
         con = ConexaoMySQL.getConexaoMySQL();
         con.setAutoCommit(false);
@@ -157,6 +163,13 @@ public class JDBCInsere {
 
         con = ConexaoMySQL.getConexaoMySQL();
         con.setAutoCommit(false);
+        responsavel.setNome(responsavel.getNome().trim());
+        responsavel.setCpf(responsavel.getCpf().trim());
+        responsavel.setTel(responsavel.getTel().trim());
+        
+        menor.setNome(menor.getNome().trim());
+        menor.setCpf(menor.getCpf().trim());
+        menor.setTel(menor.getTel().trim());
 
         //Insere o responsável primeiro (R)
         String sqlR = "insert into " + ClsBD.getTblRepresentante() + " (" + ClsBD.getRepnome() + ", " + ClsBD.getRepCpf()
@@ -294,6 +307,10 @@ public class JDBCInsere {
         nomeTabela = ClsBD.getTblLogin();
         con = ConexaoMySQL.getConexaoMySQL();
         con.setAutoCommit(false);
+        
+        usuario.setNome(usuario.getNome().trim());
+        usuario.setCpf(usuario.getCpf().trim());
+        usuario.setNick(usuario.getNick().trim());
 
         String sql = "insert into " + nomeTabela
                 + "(" + ClsBD.getUsuarionome() + ", " + ClsBD.getUsuarionick() + ", " + ClsBD.getUsuarioSenha()
@@ -340,7 +357,7 @@ public class JDBCInsere {
      */
     public static int inserirParentesco(String parentesco) throws SQLException, IOException {
         nomeTabela = ClsBD.getTblParentesco();
-        parentesco = parentesco.toUpperCase();
+        parentesco = parentesco.toUpperCase().trim();
         int retorno = 0;
 
         con = ConexaoMySQL.getConexaoMySQL();

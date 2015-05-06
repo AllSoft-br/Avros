@@ -313,7 +313,8 @@ stmt.close();
      */
     public static ClienteDAO clienteCpf(String cpf) throws SQLException {
         ClienteDAO cliente = new ClienteDAO();
-
+        cpf = cpf.trim();
+        
         con = ConexaoMySQL.getConexaoMySQL();
         nomeTabela = ClsBD.getTblCliente();
 
@@ -406,6 +407,7 @@ stmt.close();
      */
     public static List<ClienteDAO> clienteNome(String nome) throws SQLException {
         List<ClienteDAO> clientes = new ArrayList<>();
+        nome = nome.trim();
 
         con = ConexaoMySQL.getConexaoMySQL();
         nomeTabela = ClsBD.getTblCliente();
@@ -471,6 +473,7 @@ stmt.close();
      */
     public static RepresentanteDAO representanteCpf(String cpf) throws SQLException {
         RepresentanteDAO representante = new RepresentanteDAO();
+        cpf = cpf.trim();
 
         con = ConexaoMySQL.getConexaoMySQL();
         nomeTabela = ClsBD.getTblRepresentante();
@@ -502,6 +505,7 @@ stmt.close();
      */
     public static List<RepresentanteDAO> representanteNome(String nome) throws SQLException {
         List<RepresentanteDAO> representantes = new ArrayList<>();
+        nome = nome.trim();
 
         con = ConexaoMySQL.getConexaoMySQL();
         nomeTabela = ClsBD.getTblRepresentante();
