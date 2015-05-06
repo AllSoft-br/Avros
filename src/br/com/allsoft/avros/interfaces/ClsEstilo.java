@@ -34,7 +34,7 @@ public class ClsEstilo {
     static Color labelCor = new Color(0,102,204);
     static Color linkCor = new Color(0,102,102);
     static Color textoCor = new Color(0,0,0);
-    static Color textoInputCor = new Color(102,102,102);
+    static Color textoInputCor = new Color(100,100,100);
     static Color tituloCor = new Color(0,195,217);
     static Color botaoCor = new Color(0,0,0);
     static Color labelDestaqueCor = new Color(0, 102, 102);
@@ -57,4 +57,5 @@ public class ClsEstilo {
     //Strings - caminhos
     static String imgDesk = "/br/com/allsoft/avros/img/logo.png";
     
+    public static int duplicateKeyError = 1062;
 }

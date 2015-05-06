@@ -39,7 +39,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
 
     //Métodos
     private void preencheCampos() {
-        
+
         String tipo;
         String ativo = "";
         if (usuario.isAdmin()) {
@@ -65,8 +65,8 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         txtNickname.setText(usuario.getNick());
         txtCpf.setText(Cpf.imprimeCpf(usuario.getCpf()));
     }
-    
-    private void editTipo(){
+
+    private void editTipo() {
         if (rdoAdmin.isSelected()) {
             usuario.setAdmin(true);
             try {
@@ -90,6 +90,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form ifrmConta
+     *
      * @param usuario
      */
     public IfrmEditUsuario(UsuarioDAO usuario) {
@@ -337,15 +338,13 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel4)
-                                    .addComponent(txtNickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtNickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblEditarNick))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel3)
                                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblEditarNick)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblEditarNome)))
+                            .addComponent(lblEditarNome))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -359,7 +358,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdoComum)
                     .addComponent(rdoAdmin))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSenha)
                     .addComponent(btnSalvar)
@@ -429,6 +428,12 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
                 //Se o processo for concluído com sucesso, volta para true
                 bnick = true;
             } catch (SQLException ex) {
+                if (ex.getErrorCode() == ClsEstilo.duplicateKeyError) {
+                    JOptionPane.showMessageDialog(this, "Este nickname já existe.", "Erro", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao cadastrar.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                System.out.println("Error code: " + ex.getErrorCode());
                 Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
 
                 //Se houver erro no processo, fica false de novo
@@ -436,7 +441,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
             }
         }
 
-        if(rdoComum.isEnabled()){
+        if (rdoComum.isEnabled()) {
             editTipo();
         }
 
@@ -445,7 +450,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro durante a atualização de suas modificações. Por favor tente novamente mais tarde.");
         }
-        
+
         try {
             usuario = JDBCConsulta.usuarioId(usuario.getId());
             preencheCampos();

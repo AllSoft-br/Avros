@@ -20,6 +20,7 @@ import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
+import br.com.allsoft.avros.factory.JDBCViews;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
@@ -514,7 +515,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
             RepresentanteDAO representante = new RepresentanteDAO();
 
             //Busca o grau de parentesco e ID do representante
-            representante = JDBCConsulta.parentesco(cliente);
+            representante = JDBCViews.parentesco(cliente);
             representante = JDBCConsulta.representanteId(representante.getId());
 
             if(representante.getCpf() == null){

@@ -187,9 +187,10 @@ public class FrmLogin extends javax.swing.JFrame {
             if (erros > 2) {
                 try {
                     JDBCUpdate.usuarioAtivo(false, login);
-                    JOptionPane.showMessageDialog(this, "O usuário " + login + " será bloqueado por conta do excesso de erros. Contate um administrador do sistema para desbloquear.", "Usuário bloqueado", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "O usuário " + login + " foi bloqueado por conta do excesso de erros. Contate um administrador do sistema para desbloquear.", "Usuário bloqueado", JOptionPane.ERROR_MESSAGE);
                 } catch (SQLException ex) {
                     Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    return;
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Nome de usuário ou senha inválidos.", "Tente outra vez", JOptionPane.ERROR_MESSAGE);

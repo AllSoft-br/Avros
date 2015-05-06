@@ -302,8 +302,14 @@ public class IfrmCadCliente extends javax.swing.JInternalFrame {
                         JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso.");
                         limpaCampos();
                     } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(this, "Erro ao cadastrar o cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        if (ex.getErrorCode() == ClsEstilo.duplicateKeyError) {
+                            JOptionPane.showMessageDialog(this, "CPF já cadastrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Erro ao cadastrar o cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        }
+                        System.out.println("Error code: " + ex.getErrorCode());
                         Logger.getLogger(IfrmCadCliente.class.getName()).log(Level.SEVERE, null, ex);
+                       
                     }
                 }
             } else {

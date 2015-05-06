@@ -274,6 +274,12 @@ public class IfrmCadResp1 extends javax.swing.JInternalFrame {
                 }
                 limpaCampos();
             } catch (SQLException ex) {
+                if (ex.getErrorCode() == ClsEstilo.duplicateKeyError) {
+                    JOptionPane.showMessageDialog(this, "CPF já cadastrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao cadastrar.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                System.out.println("Error code: " + ex.getErrorCode());
                 Logger.getLogger(IfrmCadResp1.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {

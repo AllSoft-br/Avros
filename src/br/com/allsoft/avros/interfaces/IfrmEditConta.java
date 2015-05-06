@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.factory.JDBCAuditoria;
@@ -231,11 +230,10 @@ public class IfrmEditConta extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
-        
+
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 
-        
         lblSauda.setText("Olá, " + FrmLogin.usuario.getNome() + "!");
         txtNome.setText(FrmLogin.usuario.getNome());
         txtNickname.setText(FrmLogin.usuario.getNick());
@@ -254,51 +252,57 @@ public class IfrmEditConta extends javax.swing.JInternalFrame {
         //variáveis que indicam se os updates estão em ordem, começam verdadeiras
         boolean bnome = true;
         boolean bnick = true;
-        
-        if(txtNome.isEnabled()){
+
+        if (txtNome.isEnabled()) {
             //Se o usuário decidir fazer o update, o processo começa deixando em falso
             bnome = false;
-            
+
             try {
                 String nome = txtNome.getText();
-                
+
                 JDBCUpdate.usuarioNome(nome, FrmLogin.usuario.getId());
-                
+
                 FrmLogin.usuario.setNome(nome);
-                
+
                 //Se o processo for concluído com sucesso, volta para true
                 bnome = true;
-                
+
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditConta.class.getName()).log(Level.SEVERE, null, ex);
-                
+
                 //Se houver erro no processo, fica false de novo
                 bnome = false;
             }
         }
-        
-        if(txtNickname.isEnabled()){
+
+        if (txtNickname.isEnabled()) {
             //Se o usuário decidir fazer o update, o processo começa deixando em falso
             bnick = false;
-            
+
             try {
                 String nick = txtNickname.getText();
-                
+
                 JDBCUpdate.usuarioNick(nick, FrmLogin.usuario.getId());
-                
+
                 FrmLogin.usuario.setNome(nick);
-                
+
                 //Se o processo for concluído com sucesso, volta para true
                 bnick = true;
             } catch (SQLException ex) {
+                if (ex.getErrorCode() == ClsEstilo.duplicateKeyError) {
+                    JOptionPane.showMessageDialog(this, "Este nickname já existe.", "Erro", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao cadastrar.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                System.out.println("Error code: " + ex.getErrorCode());
                 Logger.getLogger(IfrmEditConta.class.getName()).log(Level.SEVERE, null, ex);
-                
+
                 //Se houver erro no processo, fica false de novo
                 bnick = false;
             }
         }
-        
-        if(bnome && bnick){
+
+        if (bnome && bnick) {
             JOptionPane.showMessageDialog(null, "Modificações atualizadas com sucesso.");
         } else {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro durante a atualização de suas modificações. Por favor tente novamente mais tarde.");

@@ -330,9 +330,15 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
                         try {
                             responsavel.setId(JDBCInsere.inserirRepresentante(responsavel));
                             JDBCInsere.inserirRelCliRep(responsavel.getId(), menor.getId(), parentescoId);
-                            
+
                             JOptionPane.showMessageDialog(this, "O representante de " + menor.getNome() + " foi cadastrado com sucesso.");
                         } catch (SQLException ex) {
+                            if (ex.getErrorCode() == ClsEstilo.duplicateKeyError) {
+                                JOptionPane.showMessageDialog(this, "CPF já cadastrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Erro ao cadastrar.", "Erro", JOptionPane.ERROR_MESSAGE);
+                            }
+                            System.out.println("Error code: " + ex.getErrorCode());
                             Logger.getLogger(IfrmCadResp.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }

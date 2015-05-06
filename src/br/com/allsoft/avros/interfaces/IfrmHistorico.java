@@ -39,10 +39,14 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "cardLogin");
         
+        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        
         try {
             List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
             int s = usuarios.size();
-            cbxLoginLog.addItem("Todos");
             
             for(int i = 0; i < s; i++){
                 cbxLoginLog.addItem(usuarios.get(i).getNick());
@@ -67,10 +71,14 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "cardCad");
         
+        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        
         try {
             List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
             int s = usuarios.size();
-            cbxLoginCad.addItem("Todos");
             
             for(int i = 0; i < s; i++){
                 cbxLoginCad.addItem(usuarios.get(i).getNick());
@@ -95,10 +103,14 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "cardEdit");
         
+        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        
         try {
             List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
             int s = usuarios.size();
-            cbxLoginEdit.addItem("Todos");
             
             for(int i = 0; i < s; i++){
                 cbxLoginEdit.addItem(usuarios.get(i).getNick());
@@ -123,10 +135,14 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "cardDelete");
         
+        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        
         try {
             List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
             int s = usuarios.size();
-            cbxLoginDelete.addItem("Todos");
             
             for(int i = 0; i < s; i++){
                 cbxLoginDelete.addItem(usuarios.get(i).getNick());
@@ -171,13 +187,13 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         cardLogin = new javax.swing.JPanel();
-        cbxLoginLog = new javax.swing.JComboBox();
         lblUsuario = new javax.swing.JLabel();
         lblDesconto = new javax.swing.JLabel();
         cbxPeriodo = new javax.swing.JComboBox();
         lblPeriodo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblLogins = new javax.swing.JTable();
+        cbxLoginLog = new javax.swing.JComboBox();
         cardCad = new javax.swing.JPanel();
         cbxLoginCad = new javax.swing.JComboBox();
         lblUsuario1 = new javax.swing.JLabel();
@@ -300,11 +316,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
 
         cardLogin.setBackground(ClsEstilo.formbg);
 
-        cbxLoginLog.setEditable(true);
-        cbxLoginLog.setFont(ClsEstilo.textoInputFonte);
-        cbxLoginLog.setForeground(ClsEstilo.textoInputCor);
-        cbxLoginLog.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "todos", "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         lblUsuario.setFont(ClsEstilo.labelFonte);
         lblUsuario.setForeground(ClsEstilo.labelCor);
         lblUsuario.setText("Usuário");
@@ -342,6 +353,11 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jtblLogins);
 
+        cbxLoginLog.setEditable(true);
+        cbxLoginLog.setFont(ClsEstilo.textoInputFonte);
+        cbxLoginLog.setForeground(ClsEstilo.textoInputCor);
+        cbxLoginLog.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos" }));
+
         javax.swing.GroupLayout cardLoginLayout = new javax.swing.GroupLayout(cardLogin);
         cardLogin.setLayout(cardLoginLayout);
         cardLoginLayout.setHorizontalGroup(
@@ -371,16 +387,15 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 .addComponent(lblDesconto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(cardLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbxLoginLog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUsuario)
                     .addComponent(cbxPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPeriodo))
+                    .addComponent(lblPeriodo)
+                    .addComponent(cbxLoginLog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        AutoCompleteDecorator.decorate(cbxLoginLog);
         AutoCompleteDecorator.decorate(cbxLoginLog);
 
         mainPanel.add(cardLogin, "cardLogin");
@@ -390,7 +405,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         cbxLoginCad.setEditable(true);
         cbxLoginCad.setFont(ClsEstilo.textoInputFonte);
         cbxLoginCad.setForeground(ClsEstilo.textoInputCor);
-        cbxLoginCad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxLoginCad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos" }));
 
         lblUsuario1.setFont(ClsEstilo.labelFonte);
         lblUsuario1.setForeground(ClsEstilo.labelCor);
@@ -471,23 +486,22 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 .addGap(7, 7, 7)
                 .addComponent(lblDesconto1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(cardCadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbxLoginCad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUsuario1)
+                .addGroup(cardCadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(cardCadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cbxPeriodo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblPeriodo1))
                     .addGroup(cardCadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblPeriodo2)
-                        .addGroup(cardCadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbxPeriodo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPeriodo1))))
+                        .addComponent(lblPeriodo2))
+                    .addGroup(cardCadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cbxLoginCad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblUsuario1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        AutoCompleteDecorator.decorate(cbxLoginLog);
-        AutoCompleteDecorator.decorate(cbxLoginLog);
-        AutoCompleteDecorator.decorate(cbxLoginLog);
+        AutoCompleteDecorator.decorate(cbxLoginCad);
 
         mainPanel.add(cardCad, "cardCad");
 
@@ -496,7 +510,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         cbxLoginEdit.setEditable(true);
         cbxLoginEdit.setFont(ClsEstilo.textoInputFonte);
         cbxLoginEdit.setForeground(ClsEstilo.textoInputCor);
-        cbxLoginEdit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxLoginEdit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos" }));
 
         lblUsuario2.setFont(ClsEstilo.labelFonte);
         lblUsuario2.setForeground(ClsEstilo.labelCor);
@@ -589,9 +603,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        AutoCompleteDecorator.decorate(cbxLoginLog);
-        AutoCompleteDecorator.decorate(cbxLoginLog);
-        AutoCompleteDecorator.decorate(cbxLoginLog);
+        AutoCompleteDecorator.decorate(cbxLoginEdit);
 
         mainPanel.add(cardEdit, "cardEdit");
 
@@ -600,7 +612,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         cbxLoginDelete.setEditable(true);
         cbxLoginDelete.setFont(ClsEstilo.textoInputFonte);
         cbxLoginDelete.setForeground(ClsEstilo.textoInputCor);
-        cbxLoginDelete.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "todos", "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxLoginDelete.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos" }));
 
         lblUsuario3.setFont(ClsEstilo.labelFonte);
         lblUsuario3.setForeground(ClsEstilo.labelCor);
@@ -677,16 +689,15 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        AutoCompleteDecorator.decorate(cbxLoginLog);
-        AutoCompleteDecorator.decorate(cbxLoginLog);
+        AutoCompleteDecorator.decorate(cbxLoginDelete);
 
         mainPanel.add(cardDelete, "cardDelete");
 
         pnlMenu.setBackground(ClsEstilo.formSombra);
-        pnlMenu.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        pnlMenu.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
 
         pnlLogin.setBackground(new java.awt.Color(255, 255, 255));
-        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -734,7 +745,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         );
 
         pnlCadastro.setBackground(new java.awt.Color(255, 255, 255));
-        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlCadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlCadastro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -781,7 +792,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         );
 
         pnlEdicoes.setBackground(new java.awt.Color(255, 255, 255));
-        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlEdicoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlEdicoes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -825,7 +836,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         );
 
         pnlExclusoes.setBackground(new java.awt.Color(255, 255, 255));
-        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlExclusoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlExclusoes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

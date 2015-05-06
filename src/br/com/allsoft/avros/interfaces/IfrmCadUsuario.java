@@ -25,6 +25,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -251,10 +252,9 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
-        
+
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
-
 
         lblAviso.setVisible(false);
     }//GEN-LAST:event_formInternalFrameOpened
@@ -285,15 +285,20 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
                     txtNome.setText("");
                     txtCpf.setText("");
                     txtNick.setText("");
-                    
+
                     JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso.");
                 } catch (IOException ex) {
                     Logger.getLogger(IfrmCadUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                } catch(ConstraintViolationException ex){
-                    
-                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                    txtNick.selectAll();
+                } catch (SQLException ex) {
+                    if (ex.getErrorCode() == ClsEstilo.duplicateKeyError) {
+                        JOptionPane.showMessageDialog(this, "Nick/CPF já cadastrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Erro ao cadastrar.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                    System.out.println("Error code: " + ex.getErrorCode());
+                    Logger.getLogger(IfrmCadUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
             } else {
                 lblAviso.setText("CPF inválido.");
                 lblAviso.setVisible(true);
