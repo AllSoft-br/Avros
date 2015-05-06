@@ -423,7 +423,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
         try {
             tabela = ClsBD.getTblCliente();
             acao = "update";
-            descricao = resp.getNick() + " modificou a o telefone do cliente " + cliente.getNome() + " de " + cliente.getTel() + " para " + telefone;
+            descricao = resp.getNick() + " modificou o telefone do cliente " + cliente.getNome() + " de " + cliente.getTel() + " para " + telefone;
             sql = codSql;
             codDado = cliente.getId();
             idLogin = resp.getId();

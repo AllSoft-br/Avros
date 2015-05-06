@@ -32,6 +32,14 @@ public class ClsBD {
     private static final String tblParentesco = "tbl_parentesco";
     private static final String tblOrcamento = "tbl_orcamento";
     private static final String tblSessao = "tbl_sessao";
+    private static final String tblAuditoria = "tbl_registro";
+    
+    //Views
+    private static final String viewParente = "cliente_menor";
+    private static final String viewAudit24h = "auditoria_24h";
+    private static final String viewAudit3d = "auditoria_3d";
+    private static final String viewAudit7d = "auditoria_7d";
+    private static final String viewAudit1m = "auditoria_1m";
     
     //Campos das tabelas
     
@@ -89,12 +97,66 @@ public class ClsBD {
     private static final String sesDesconto = "desconto";
     private static final String sesIdOrc = "fk_cod_orc";
 
-    //Views
-    private static final String viewParente = "cliente_menor";
-    private static final String viewAudit24h = "auditoria24h";
-    private static final String viewAudit3d = "auditoria3d";
-    private static final String viewAudit7d = "auditoria7d";
-    private static final String viewAudit1m = "auditoria1m";
+    //Views da auditoria
+    private static final String audId = "id_reg";
+    private static final String audTabela = "tabela_alt";
+    private static final String audRef = "cod_ref";
+    private static final String audAcao = "acao";
+    private static final String audDesc = "desc_acao";
+    private static final String audSql = "cod_sql";
+    private static final String audAntes = "dado_ant";
+    private static final String audDepois = "dado_novo";
+    private static final String audCampo = "campo";
+    private static final String audData = "data_alt";
+    private static final String audIdLogin = "fk_id_login";
+
+    public static String getTblAuditoria() {
+        return tblAuditoria;
+    }
+
+    public static String getAudId() {
+        return audId;
+    }
+
+    public static String getAudTabela() {
+        return audTabela;
+    }
+
+    public static String getAudRef() {
+        return audRef;
+    }
+
+    public static String getAudAcao() {
+        return audAcao;
+    }
+
+    public static String getAudDesc() {
+        return audDesc;
+    }
+
+    public static String getAudSql() {
+        return audSql;
+    }
+
+    public static String getAudAntes() {
+        return audAntes;
+    }
+
+    public static String getAudDepois() {
+        return audDepois;
+    }
+
+    public static String getAudCampo() {
+        return audCampo;
+    }
+
+    public static String getAudData() {
+        return audData;
+    }
+
+    public static String getAudIdLogin() {
+        return audIdLogin;
+    }
 
     public static String getViewAudit24h() {
         return viewAudit24h;

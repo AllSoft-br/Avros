@@ -18,6 +18,7 @@ package br.com.allsoft.avros.formulas;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -33,6 +34,13 @@ public class Datas {
         Date dataSql = data;
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String formatada = format.format(dataSql);
+
+        return formatada;
+    }
+    
+    public static String timestrampParaString(Timestamp data) {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+        String formatada = format.format(data);
 
         return formatada;
     }
@@ -55,6 +63,8 @@ public class Datas {
         
         return horaSql;
     }
+    
+    
     
     /**
      * Pega uma data de um Date, e o horario de um Time e os unifica

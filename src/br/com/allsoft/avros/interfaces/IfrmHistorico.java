@@ -16,8 +16,11 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.RegistroDAO;
 import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
+import br.com.allsoft.avros.factory.JDBCViews;
+import br.com.allsoft.avros.formulas.Datas;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -25,7 +28,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
@@ -34,30 +39,58 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  */
 public class IfrmHistorico extends javax.swing.JInternalFrame {
 
+    //Variáveis
+    DefaultTableModel tblLogin = new DefaultTableModel();
+    DefaultTableModel tblCad = new DefaultTableModel();
+    DefaultTableModel tblEdit = new DefaultTableModel();
+    DefaultTableModel tblDel = new DefaultTableModel();
+
+    String[] cabLog = {"Cód.", "Usuário", "Descrição", "Horário"};
+    String[] cabCad = {"Cód.", "Item", "Usuário", "Descrição", "ID do item"};
+    String[] cabDel = {"Cód.", "Item", "Usuário", "Descrição", "ID do item"};
+    String[] cabEdit = {"Cód.", "Item", "Usuário", "Descrição", "ID do item", "Antes", "Depois"};
+
     //métodos
-    private void loginClick(){
+    private void preencheTabelaLog(List<RegistroDAO> registros) throws SQLException {
+        tblLogin.setColumnIdentifiers(cabLog);
+        jtblLogins.setModel(tblLogin);
+        tblLogin.setRowCount(0);
+        int q = registros.size();
+
+        for (int i = 0; i < q; i++) {
+            tblLogin.addRow(new String[1]);
+
+            UsuarioDAO usuario = JDBCConsulta.usuarioId(registros.get(i).getIdLogin());
+            String horario = Datas.timestrampParaString(registros.get(i).getData());
+
+            tblLogin.setValueAt(registros.get(i).getId(), i, 0);
+            tblLogin.setValueAt(usuario.getNome(), i, 1);
+            tblLogin.setValueAt(registros.get(i).getDescricao(), i, 2);
+            tblLogin.setValueAt(horario, i, 3);
+        }
+    }
+
+    private void loginClick() {
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "cardLogin");
-        
+
         pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
         pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-        
+
         try {
             List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
             int s = usuarios.size();
-            
-            for(int i = 0; i < s; i++){
+
+            for (int i = 0; i < s; i++) {
                 cbxLoginLog.addItem(usuarios.get(i).getNick());
             }
-           
+
         } catch (SQLException ex) {
             Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        jtblLogins.setVisible(false);
-        jScrollPane1.setVisible(false);
+
         jtblLogins.setGridColor(ClsEstilo.tabelaGrid);
         jtblLogins.setBackground(ClsEstilo.tabelaBg);
         jScrollPane1.getViewport().setBackground(ClsEstilo.tabelaBg);
@@ -65,29 +98,36 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         jtblLogins.setSelectionBackground(ClsEstilo.tabelaSelec);
         jtblLogins.setSelectionForeground(ClsEstilo.tabelaTextoSelec);
         jtblLogins.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        try {
+            login24h();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    private void cadClick(){
+
+    private void cadClick() {
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "cardCad");
-        
+
         pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
         pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-        
+
         try {
             List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
             int s = usuarios.size();
-            
-            for(int i = 0; i < s; i++){
+
+            for (int i = 0; i < s; i++) {
                 cbxLoginCad.addItem(usuarios.get(i).getNick());
             }
-           
+
         } catch (SQLException ex) {
             Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         jtblCad.setVisible(false);
         jScrollPane2.setVisible(false);
         jtblCad.setGridColor(ClsEstilo.tabelaGrid);
@@ -98,28 +138,28 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         jtblCad.setSelectionForeground(ClsEstilo.tabelaTextoSelec);
         jtblCad.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
-    
-    private void editClick(){
+
+    private void editClick() {
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "cardEdit");
-        
+
         pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
         pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-        
+
         try {
             List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
             int s = usuarios.size();
-            
-            for(int i = 0; i < s; i++){
+
+            for (int i = 0; i < s; i++) {
                 cbxLoginEdit.addItem(usuarios.get(i).getNick());
             }
-           
+
         } catch (SQLException ex) {
             Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         jtblEdit.setVisible(false);
         jScrollPane3.setVisible(false);
         jtblEdit.setGridColor(ClsEstilo.tabelaGrid);
@@ -130,28 +170,28 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         jtblEdit.setSelectionForeground(ClsEstilo.tabelaTextoSelec);
         jtblEdit.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
-    
-    private void deleteClick(){
+
+    private void deleteClick() {
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "cardDelete");
-        
+
         pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
-        
+
         try {
             List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
             int s = usuarios.size();
-            
-            for(int i = 0; i < s; i++){
+
+            for (int i = 0; i < s; i++) {
                 cbxLoginDelete.addItem(usuarios.get(i).getNick());
             }
-           
+
         } catch (SQLException ex) {
             Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         jtblDelete.setVisible(false);
         jScrollPane4.setVisible(false);
         jtblDelete.setGridColor(ClsEstilo.tabelaGrid);
@@ -162,7 +202,32 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         jtblDelete.setSelectionForeground(ClsEstilo.tabelaTextoSelec);
         jtblDelete.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
+
+    private void login24h() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditLogin24h();
+        preencheTabelaLog(registros);
+    }
     
+    private void login3d() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditLogin3d();
+        preencheTabelaLog(registros);
+    }
+    
+    private void login7d() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditLogin7d();
+        preencheTabelaLog(registros);
+    }
+    
+    private void login1m() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditLogin1m();
+        preencheTabelaLog(registros);
+    }
+    
+    private void loginTodos() throws SQLException {
+        List<RegistroDAO> registros = JDBCConsulta.auditLogin();
+        preencheTabelaLog(registros);
+    }
+
     /**
      * Creates new form IfrmHistorico
      */
@@ -335,6 +400,16 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         cbxPeriodo.setFont(ClsEstilo.textoInputFonte);
         cbxPeriodo.setForeground(ClsEstilo.textoInputCor);
         cbxPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24 horas", "3 dias", "1 semana", "1 mês", "todos" }));
+        cbxPeriodo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxPeriodoItemStateChanged(evt);
+            }
+        });
+        cbxPeriodo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                cbxPeriodoPropertyChange(evt);
+            }
+        });
 
         lblPeriodo.setFont(ClsEstilo.labelFonte);
         lblPeriodo.setForeground(ClsEstilo.labelCor);
@@ -694,10 +769,10 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         mainPanel.add(cardDelete, "cardDelete");
 
         pnlMenu.setBackground(ClsEstilo.formSombra);
-        pnlMenu.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        pnlMenu.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         pnlLogin.setBackground(new java.awt.Color(255, 255, 255));
-        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         pnlLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -745,7 +820,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         );
 
         pnlCadastro.setBackground(new java.awt.Color(255, 255, 255));
-        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         pnlCadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlCadastro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -792,7 +867,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         );
 
         pnlEdicoes.setBackground(new java.awt.Color(255, 255, 255));
-        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         pnlEdicoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlEdicoes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -836,7 +911,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         );
 
         pnlExclusoes.setBackground(new java.awt.Color(255, 255, 255));
-        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         pnlExclusoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlExclusoes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1052,6 +1127,50 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
         deleteClick();
     }//GEN-LAST:event_jLabel10MouseClicked
+
+    private void cbxPeriodoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbxPeriodoPropertyChange
+        
+    }//GEN-LAST:event_cbxPeriodoPropertyChange
+
+    private void cbxPeriodoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxPeriodoItemStateChanged
+        if (cbxPeriodo.getSelectedIndex() == 0){
+            try {
+                login24h();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (cbxPeriodo.getSelectedIndex() == 1){
+            try {
+                login3d();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (cbxPeriodo.getSelectedIndex() == 2){
+            try {
+                login7d();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (cbxPeriodo.getSelectedIndex() == 3){
+            try {
+                login1m();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (cbxPeriodo.getSelectedIndex() == 4){
+            try {
+                loginTodos();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }//GEN-LAST:event_cbxPeriodoItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

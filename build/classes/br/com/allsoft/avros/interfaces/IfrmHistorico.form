@@ -283,6 +283,10 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbxPeriodoItemStateChanged"/>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="cbxPeriodoPropertyChange"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblPeriodo">
               <Properties>

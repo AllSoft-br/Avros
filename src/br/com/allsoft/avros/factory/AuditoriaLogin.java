@@ -75,7 +75,7 @@ public class AuditoriaLogin extends JDBCAuditoria{
      */
     public static void logout(UsuarioDAO usuario) throws AuditoriaException {
         try {
-            tabela = ClsBD.getTblCliente();
+            tabela = ClsBD.getTblLogin();
             acao = "login";
             descricao = usuario.getNick() + " saiu do sistema";
             codDado = usuario.getId();

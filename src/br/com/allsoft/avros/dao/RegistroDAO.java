@@ -17,6 +17,8 @@
 
 package br.com.allsoft.avros.dao;
 
+import java.sql.Timestamp;
+
 /**
  * Classe dao para os registros da Auditoria
  * 
@@ -33,6 +35,15 @@ public class RegistroDAO {
     private String antes = "-"; //No caso de updates, como o campo era antes
     private String depois = "-"; //No caso de updates, como o campo ficou no fim
     private String campo = "-";
+    private Timestamp data;
+
+    public Timestamp getData() {
+        return data;
+    }
+
+    public void setData(Timestamp data) {
+        this.data = data;
+    }
 
     public int getId() {
         return id;

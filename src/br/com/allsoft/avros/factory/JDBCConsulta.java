@@ -19,6 +19,7 @@ package br.com.allsoft.avros.factory;
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.ClsBD;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
+import br.com.allsoft.avros.dao.RegistroDAO;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.dao.UsuarioDAO;
@@ -63,7 +64,8 @@ public class JDBCConsulta {
         while (rs.next()) {
             retorno = rs.getInt("quantos");
         }
-
+stmt.close();
+        con.close();
         return retorno;
     }
 
@@ -89,7 +91,8 @@ public class JDBCConsulta {
             ClienteDAO menor = clienteId(idCli);
             dependentes.add(menor);
         }
-
+stmt.close();
+        con.close();
         return dependentes;
     }
 
@@ -129,6 +132,8 @@ public class JDBCConsulta {
                 Logger.getLogger(JDBCConsulta.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        stmt.close();
+        con.close();
         return usuario;
     }
 
@@ -158,12 +163,13 @@ public class JDBCConsulta {
             usuario.setSenha(rs.getString(ClsBD.getUsuarioSenha()).toCharArray());
             usuario.setId(rs.getInt(ClsBD.getUsuarioId()));
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
-            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAtivo()));
+            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAdmin()));
             usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
 
             usuarios.add(usuario);
         }
-
+stmt.close();
+        con.close();
         return usuarios;
     }
 
@@ -189,12 +195,13 @@ public class JDBCConsulta {
             usuario.setSenha(rs.getString(ClsBD.getUsuarioSenha()).toCharArray());
             usuario.setId(rs.getInt(ClsBD.getUsuarioId()));
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
-            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAtivo()));
+            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAdmin()));
             usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
 
             usuarios.add(usuario);
         }
-
+stmt.close();
+        con.close();
         return usuarios;
     }
 
@@ -221,11 +228,12 @@ public class JDBCConsulta {
             usuario.setSenha(rs.getString(ClsBD.getUsuarioSenha()).toCharArray());
             usuario.setId(rs.getInt(ClsBD.getUsuarioId()));
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
-            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAtivo()));
+            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAdmin()));
             usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
 
         }
-
+stmt.close();
+        con.close();
         return usuario;
     }
 
@@ -252,11 +260,12 @@ public class JDBCConsulta {
             usuario.setSenha(rs.getString(ClsBD.getUsuarioSenha()).toCharArray());
             usuario.setId(rs.getInt(ClsBD.getUsuarioId()));
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
-            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAtivo()));
+            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAdmin()));
             usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
 
         }
-
+stmt.close();
+        con.close();
         return usuario;
     }
 
@@ -288,9 +297,11 @@ public class JDBCConsulta {
             usuario.setSenha(rs.getString(ClsBD.getUsuarioSenha()).toCharArray());
             usuario.setId(rs.getInt(ClsBD.getUsuarioId()));
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
-            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAtivo()));
+            usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAdmin()));
             usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
         }
+        stmt.close();
+        con.close();
         return usuario;
     }
 
@@ -320,7 +331,8 @@ public class JDBCConsulta {
             cliente.setTel(rs.getString(ClsBD.getCliTel()));
 
         }
-
+stmt.close();
+        con.close();
         return cliente;
     }
 
@@ -350,7 +362,8 @@ public class JDBCConsulta {
 
             clientes.add(cliente);
         }
-
+stmt.close();
+        con.close();
         return clientes;
     }
 
@@ -380,7 +393,8 @@ public class JDBCConsulta {
             cliente.setTel(rs.getString(ClsBD.getCliTel()));
 
         }
-
+stmt.close();
+        con.close();
         return cliente;
     }
 
@@ -414,7 +428,8 @@ public class JDBCConsulta {
 
             clientes.add(cliente);
         }
-
+stmt.close();
+        con.close();
         return clientes;
     }
 
@@ -443,7 +458,8 @@ public class JDBCConsulta {
             representante.setTel(rs.getString(ClsBD.getRepTel()));
 
         }
-
+stmt.close();
+        con.close();
         return representante;
     }
 
@@ -472,7 +488,8 @@ public class JDBCConsulta {
             representante.setTel(rs.getString(ClsBD.getRepTel()));
 
         }
-
+stmt.close();
+        con.close();
         return representante;
     }
 
@@ -506,7 +523,8 @@ public class JDBCConsulta {
 
             representantes.add(representante);
         }
-
+stmt.close();
+        con.close();
         return representantes;
     }
 
@@ -535,7 +553,8 @@ public class JDBCConsulta {
 
             representantes.add(representante);
         }
-
+stmt.close();
+        con.close();
         return representantes;
     }
 
@@ -569,7 +588,8 @@ public class JDBCConsulta {
 
             orcamentos.add(orcamento);
         }
-
+stmt.close();
+        con.close();
         return orcamentos;
     }
 
@@ -598,7 +618,8 @@ public class JDBCConsulta {
             orcamento.setTipoPagamento(rs.getString(ClsBD.getOrcTipoPag()));
             orcamento.setValor(rs.getDouble(ClsBD.getOrcValor()));
         }
-
+stmt.close();
+        con.close();
         return orcamento;
     }
 
@@ -640,8 +661,9 @@ public class JDBCConsulta {
 
                 sessoes.add(sessao);
             }
+            stmt.close();
+        con.close();
         }
-
         return sessoes;
     }
 
@@ -678,7 +700,8 @@ public class JDBCConsulta {
 
             sessoes.add(sessao);
         }
-
+stmt.close();
+        con.close();
         return sessoes;
     }
 
@@ -710,8 +733,43 @@ public class JDBCConsulta {
             sessao.setPagamento(rs.getString(ClsBD.getSesTipoPagamento()));
             sessao.setValor(rs.getInt(ClsBD.getSesValor()));
         }
-
+stmt.close();
+        con.close();
         return sessao;
+    }
+    
+    /**
+     * Retorna todos os registros de login da auditoria
+     * 
+     * @return
+     * @throws SQLException 
+     */
+    public static List<RegistroDAO> auditLogin() throws SQLException {
+        
+        List<RegistroDAO> registros = new ArrayList<>();
+        
+        con = ConexaoMySQL.getConexaoMySQL();
+        nomeTabela = ClsBD.getTblAuditoria();
+        String campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() + ", " + ClsBD.getAudDesc() + ", " + ClsBD.getAudData();
+        
+        PreparedStatement stmt = JDBCConsulta.con.prepareStatement("select " + campos + " from " + nomeTabela + " where " + ClsBD.getAudAcao() + " = 'login'");
+        
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            RegistroDAO registro = new RegistroDAO();
+            
+            registro.setId(rs.getInt(ClsBD.getAudId()));
+            registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
+            registro.setAcao(rs.getString(ClsBD.getAudAcao()));
+            registro.setDescricao(rs.getString(ClsBD.getAudDesc()));
+            registro.setData(rs.getTimestamp(ClsBD.getAudData()));
+            
+            registros.add(registro);
+        }
+        stmt.close();
+        con.close();
+        return registros;
     }
 
 }
