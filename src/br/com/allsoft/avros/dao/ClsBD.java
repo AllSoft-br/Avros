@@ -91,6 +91,26 @@ public class ClsBD {
 
     //Views
     private static final String viewParente = "cliente_menor";
+    private static final String viewAudit24h = "auditoria24h";
+    private static final String viewAudit3d = "auditoria3d";
+    private static final String viewAudit7d = "auditoria7d";
+    private static final String viewAudit1m = "auditoria1m";
+
+    public static String getViewAudit24h() {
+        return viewAudit24h;
+    }
+
+    public static String getViewAudit3d() {
+        return viewAudit3d;
+    }
+
+    public static String getViewAudit7d() {
+        return viewAudit7d;
+    }
+
+    public static String getViewAudit1m() {
+        return viewAudit1m;
+    }
 
     public static String getUsuarioAtivo() {
         return usuarioAtivo;
