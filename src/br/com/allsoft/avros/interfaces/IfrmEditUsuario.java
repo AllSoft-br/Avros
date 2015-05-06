@@ -49,6 +49,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
             tipo = "comum";
             rdoComum.setSelected(true);
         }
+        
         if (usuario.isAtivo()) {
             ativo = "Ativo";
             lblAtivo.setForeground(Color.green);
