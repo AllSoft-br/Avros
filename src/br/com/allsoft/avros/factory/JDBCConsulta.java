@@ -42,8 +42,21 @@ import javax.swing.JOptionPane;
 public class JDBCConsulta {
 
     //Variáveis
-    static Connection con = null;
+    public static Connection con = null;
     static String nomeTabela;
+
+    private static void fechaCon() throws SQLException {
+        if (!(con == null)) {
+            con.close();
+            con = null;
+        }
+    }
+    
+    private static void abreCon() throws SQLException {
+        if ((con == null) || (con.isClosed())) {
+             con = ConexaoMySQL.getConexaoMySQL();
+        }
+    }
 
     /**
      * Conta quantos dependentes um representante tem.
@@ -53,8 +66,9 @@ public class JDBCConsulta {
      */
     public static int qtdeDependentes(int id) throws SQLException {
         int retorno = -1;
-
-        con = ConexaoMySQL.getConexaoMySQL();
+        
+         abreCon();
+        
         nomeTabela = ClsBD.getViewParente();
         String sql = "select count(id_cli) as 'quantos' from " + nomeTabela
                 + " where id_rep = " + id;
@@ -64,8 +78,7 @@ public class JDBCConsulta {
         while (rs.next()) {
             retorno = rs.getInt("quantos");
         }
-stmt.close();
-        con.close();
+         
         return retorno;
     }
 
@@ -79,7 +92,7 @@ stmt.close();
     public static List<ClienteDAO> dependentes(int id) throws SQLException {
         List<ClienteDAO> dependentes = new ArrayList<>();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getViewParente();
 
         PreparedStatement stmt = con.prepareStatement("select id_cli as 'ids' from " + nomeTabela
@@ -91,8 +104,7 @@ stmt.close();
             ClienteDAO menor = clienteId(idCli);
             dependentes.add(menor);
         }
-stmt.close();
-        con.close();
+         
         return dependentes;
     }
 
@@ -107,7 +119,7 @@ stmt.close();
     public static UsuarioDAO login(String login, char[] senha) throws SQLException {
         UsuarioDAO usuario = new UsuarioDAO();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblLogin();
 
         String sql = "select * from " + nomeTabela
@@ -132,8 +144,8 @@ stmt.close();
                 Logger.getLogger(JDBCConsulta.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        stmt.close();
-        con.close();
+
+         
         return usuario;
     }
 
@@ -146,7 +158,7 @@ stmt.close();
     public static List<UsuarioDAO> usuarioNome(String nome) throws SQLException {
         List<UsuarioDAO> usuarios = new ArrayList<>();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblLogin();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -168,8 +180,8 @@ stmt.close();
 
             usuarios.add(usuario);
         }
-stmt.close();
-        con.close();
+         
+
         return usuarios;
     }
 
@@ -181,7 +193,7 @@ stmt.close();
     public static List<UsuarioDAO> usuarioTodos() throws SQLException {
         List<UsuarioDAO> usuarios = new ArrayList<>();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblLogin();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela + " order by " + ClsBD.getUsuarionome());
@@ -200,8 +212,8 @@ stmt.close();
 
             usuarios.add(usuario);
         }
-stmt.close();
-        con.close();
+
+         
         return usuarios;
     }
 
@@ -214,7 +226,7 @@ stmt.close();
     public static UsuarioDAO usuarioCpf(String cpf) throws SQLException {
         UsuarioDAO usuario = new UsuarioDAO();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblLogin();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -232,8 +244,8 @@ stmt.close();
             usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
 
         }
-stmt.close();
-        con.close();
+
+         
         return usuario;
     }
 
@@ -246,7 +258,7 @@ stmt.close();
     public static UsuarioDAO usuarioId(int id) throws SQLException {
         UsuarioDAO usuario = new UsuarioDAO();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblLogin();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -262,10 +274,8 @@ stmt.close();
             usuario.setCpf(rs.getString(ClsBD.getUsuarioCpf()));
             usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAdmin()));
             usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
-
         }
-stmt.close();
-        con.close();
+         
         return usuario;
     }
 
@@ -279,16 +289,16 @@ stmt.close();
         UsuarioDAO usuario = new UsuarioDAO();
 
         nick = nick.trim();
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblLogin();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
                 + " where " + ClsBD.getUsuarionick() + " = ?");
 
         stmt.setString(1, nick);
-        
+
         ResultSet rs = stmt.executeQuery();
-        
+
         int q = 0;
         while (rs.next()) {
             usuario.setNome(rs.getString(ClsBD.getUsuarionome()));
@@ -300,8 +310,8 @@ stmt.close();
             usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAdmin()));
             usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
         }
-        stmt.close();
-        con.close();
+
+         
         return usuario;
     }
 
@@ -314,8 +324,8 @@ stmt.close();
     public static ClienteDAO clienteCpf(String cpf) throws SQLException {
         ClienteDAO cliente = new ClienteDAO();
         cpf = cpf.trim();
-        
-        con = ConexaoMySQL.getConexaoMySQL();
+
+         abreCon();
         nomeTabela = ClsBD.getTblCliente();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -332,8 +342,8 @@ stmt.close();
             cliente.setTel(rs.getString(ClsBD.getCliTel()));
 
         }
-stmt.close();
-        con.close();
+
+         
         return cliente;
     }
 
@@ -345,7 +355,7 @@ stmt.close();
     public static List<ClienteDAO> clienteTodos() throws SQLException {
         List<ClienteDAO> clientes = new ArrayList<>();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblCliente();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela);
@@ -363,8 +373,8 @@ stmt.close();
 
             clientes.add(cliente);
         }
-stmt.close();
-        con.close();
+
+         
         return clientes;
     }
 
@@ -377,7 +387,7 @@ stmt.close();
     public static ClienteDAO clienteId(int id) throws SQLException {
         ClienteDAO cliente = new ClienteDAO();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblCliente();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -394,8 +404,8 @@ stmt.close();
             cliente.setTel(rs.getString(ClsBD.getCliTel()));
 
         }
-stmt.close();
-        con.close();
+
+         
         return cliente;
     }
 
@@ -409,7 +419,7 @@ stmt.close();
         List<ClienteDAO> clientes = new ArrayList<>();
         nome = nome.trim();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblCliente();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -430,8 +440,8 @@ stmt.close();
 
             clientes.add(cliente);
         }
-stmt.close();
-        con.close();
+
+         
         return clientes;
     }
 
@@ -444,7 +454,7 @@ stmt.close();
     public static RepresentanteDAO representanteId(int id) throws SQLException {
         RepresentanteDAO representante = new RepresentanteDAO();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblRepresentante();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -460,8 +470,8 @@ stmt.close();
             representante.setTel(rs.getString(ClsBD.getRepTel()));
 
         }
-stmt.close();
-        con.close();
+
+         
         return representante;
     }
 
@@ -475,7 +485,7 @@ stmt.close();
         RepresentanteDAO representante = new RepresentanteDAO();
         cpf = cpf.trim();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblRepresentante();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -491,8 +501,8 @@ stmt.close();
             representante.setTel(rs.getString(ClsBD.getRepTel()));
 
         }
-stmt.close();
-        con.close();
+
+         
         return representante;
     }
 
@@ -507,7 +517,7 @@ stmt.close();
         List<RepresentanteDAO> representantes = new ArrayList<>();
         nome = nome.trim();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblRepresentante();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -527,8 +537,8 @@ stmt.close();
 
             representantes.add(representante);
         }
-stmt.close();
-        con.close();
+
+         
         return representantes;
     }
 
@@ -540,7 +550,7 @@ stmt.close();
     public static List<RepresentanteDAO> representanteTodos() throws SQLException {
         List<RepresentanteDAO> representantes = new ArrayList<>();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblRepresentante();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela);
@@ -557,8 +567,8 @@ stmt.close();
 
             representantes.add(representante);
         }
-stmt.close();
-        con.close();
+
+         
         return representantes;
     }
 
@@ -572,7 +582,7 @@ stmt.close();
     public static List<OrcamentoDAO> orcamentoIdCli(int id) throws SQLException {
         List<OrcamentoDAO> orcamentos = new ArrayList<>();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblOrcamento();
         String cpfCli = ClsBD.getOrcClienteId();
 
@@ -592,8 +602,8 @@ stmt.close();
 
             orcamentos.add(orcamento);
         }
-stmt.close();
-        con.close();
+
+         
         return orcamentos;
     }
 
@@ -606,7 +616,7 @@ stmt.close();
     public static OrcamentoDAO orcamento(int id) throws SQLException {
         OrcamentoDAO orcamento = new OrcamentoDAO();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblOrcamento();
         String bdid = ClsBD.getOrcId();
 
@@ -622,8 +632,8 @@ stmt.close();
             orcamento.setTipoPagamento(rs.getString(ClsBD.getOrcTipoPag()));
             orcamento.setValor(rs.getDouble(ClsBD.getOrcValor()));
         }
-stmt.close();
-        con.close();
+
+         
         return orcamento;
     }
 
@@ -639,7 +649,7 @@ stmt.close();
         List<SessaoDAO> sessoes = new ArrayList<>();
         List<OrcamentoDAO> orcamentos = new ArrayList<>();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         orcamentos = orcamentoIdCli(id);
 
         int qtde = orcamentos.size();
@@ -665,9 +675,9 @@ stmt.close();
 
                 sessoes.add(sessao);
             }
-            stmt.close();
-        con.close();
+
         }
+         
         return sessoes;
     }
 
@@ -682,7 +692,7 @@ stmt.close();
     public static List<SessaoDAO> sessaoIdOrc(int id) throws SQLException {
         List<SessaoDAO> sessoes = new ArrayList<>();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblSessao();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -704,8 +714,8 @@ stmt.close();
 
             sessoes.add(sessao);
         }
-stmt.close();
-        con.close();
+
+         
         return sessoes;
     }
 
@@ -719,7 +729,7 @@ stmt.close();
     public static SessaoDAO sessaoId(int id) throws SQLException {
         SessaoDAO sessao = new SessaoDAO();
 
-        con = ConexaoMySQL.getConexaoMySQL();
+         abreCon();
         nomeTabela = ClsBD.getTblSessao();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -737,42 +747,42 @@ stmt.close();
             sessao.setPagamento(rs.getString(ClsBD.getSesTipoPagamento()));
             sessao.setValor(rs.getInt(ClsBD.getSesValor()));
         }
-stmt.close();
-        con.close();
+
+         
         return sessao;
     }
-    
+
     /**
      * Retorna todos os registros de login da auditoria
-     * 
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static List<RegistroDAO> auditLogin() throws SQLException {
-        
+
         List<RegistroDAO> registros = new ArrayList<>();
-        
-        con = ConexaoMySQL.getConexaoMySQL();
+
+         abreCon();
         nomeTabela = ClsBD.getTblAuditoria();
         String campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() + ", " + ClsBD.getAudDesc() + ", " + ClsBD.getAudData();
-        
+
         PreparedStatement stmt = JDBCConsulta.con.prepareStatement("select " + campos + " from " + nomeTabela + " where " + ClsBD.getAudAcao() + " = 'login'");
-        
+
         ResultSet rs = stmt.executeQuery();
-        
+
         while (rs.next()) {
             RegistroDAO registro = new RegistroDAO();
-            
+
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
             registro.setAcao(rs.getString(ClsBD.getAudAcao()));
             registro.setDescricao(rs.getString(ClsBD.getAudDesc()));
             registro.setData(rs.getTimestamp(ClsBD.getAudData()));
-            
+
             registros.add(registro);
         }
-        stmt.close();
-        con.close();
+
+         
         return registros;
     }
 
