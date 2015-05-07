@@ -18,12 +18,15 @@ package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.RegistroDAO;
 import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.event.ComboBoxItemListener;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.factory.JDBCViews;
 import br.com.allsoft.avros.formulas.Datas;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -49,6 +52,9 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
     String[] cabCad = {"Cód.", "Item", "Usuário", "Descrição", "ID do item"};
     String[] cabDel = {"Cód.", "Item", "Usuário", "Descrição", "ID do item"};
     String[] cabEdit = {"Cód.", "Item", "Usuário", "Descrição", "ID do item", "Antes", "Depois"};
+
+    String nick = "todos";
+    String periodo = "24 horas";
 
     //métodos
     private void preencheTabelaLog(List<RegistroDAO> registros) throws SQLException {
@@ -203,28 +209,108 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         jtblDelete.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
+    private void addEvents() {
+        cbxPeriodo.addItemListener(new ComboBoxItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    periodo = e.getItem().toString();
+                    atualizaTabelaLog();
+                }
+            }
+        });
+
+        cbxLoginLog.addItemListener(new ComboBoxItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    nick = e.getItem().toString();
+                    atualizaTabelaLog();
+                }
+            }
+        });
+    }
+
+    private void atualizaTabelaLog() {
+        try {
+            if (periodo.equalsIgnoreCase("24 horas")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    login24h();
+                } else {
+                    login24h(nick);
+                }
+            } else if (periodo.equalsIgnoreCase("3 dias")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    login3d();
+                } else {
+                    login3d(nick);
+                }
+            } else if (periodo.equalsIgnoreCase("1 mês")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    login1m();
+                } else {
+                    login1m(nick);
+                }
+            } else if (periodo.equalsIgnoreCase("todos")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    loginTodos();
+                } else {
+                    loginTodos(nick);
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void login24h() throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditLogin24h();
         preencheTabelaLog(registros);
     }
-    
+
     private void login3d() throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditLogin3d();
         preencheTabelaLog(registros);
     }
-    
+
     private void login7d() throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditLogin7d();
         preencheTabelaLog(registros);
     }
-    
+
     private void login1m() throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditLogin1m();
         preencheTabelaLog(registros);
     }
-    
+
     private void loginTodos() throws SQLException {
         List<RegistroDAO> registros = JDBCConsulta.auditLogin();
+        preencheTabelaLog(registros);
+    }
+
+    private void login24h(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditLogin24h(nick);
+        preencheTabelaLog(registros);
+    }
+
+    private void login3d(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditLogin3d(nick);
+        preencheTabelaLog(registros);
+    }
+
+    private void login7d(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditLogin7d(nick);
+        preencheTabelaLog(registros);
+    }
+
+    private void login1m(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditLogin1m(nick);
+        preencheTabelaLog(registros);
+    }
+
+    private void loginTodos(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCConsulta.auditLogin(nick);
         preencheTabelaLog(registros);
     }
 
@@ -432,6 +518,11 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         cbxLoginLog.setFont(ClsEstilo.textoInputFonte);
         cbxLoginLog.setForeground(ClsEstilo.textoInputCor);
         cbxLoginLog.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos" }));
+        cbxLoginLog.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxLoginLogItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout cardLoginLayout = new javax.swing.GroupLayout(cardLogin);
         cardLogin.setLayout(cardLoginLayout);
@@ -1018,6 +1109,8 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
 
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "card1");
+
+        addEvents();
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
@@ -1129,48 +1222,16 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jLabel10MouseClicked
 
     private void cbxPeriodoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbxPeriodoPropertyChange
-        
+
     }//GEN-LAST:event_cbxPeriodoPropertyChange
 
     private void cbxPeriodoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxPeriodoItemStateChanged
-        if (cbxPeriodo.getSelectedIndex() == 0){
-            try {
-                login24h();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
-                Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (cbxPeriodo.getSelectedIndex() == 1){
-            try {
-                login3d();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
-                Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (cbxPeriodo.getSelectedIndex() == 2){
-            try {
-                login7d();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
-                Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (cbxPeriodo.getSelectedIndex() == 3){
-            try {
-                login1m();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
-                Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (cbxPeriodo.getSelectedIndex() == 4){
-            try {
-                loginTodos();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
-                Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
+
     }//GEN-LAST:event_cbxPeriodoItemStateChanged
+
+    private void cbxLoginLogItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxLoginLogItemStateChanged
+        System.out.println(cbxLoginLog.getSelectedItem());
+    }//GEN-LAST:event_cbxLoginLogItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

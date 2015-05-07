@@ -45,16 +45,9 @@ public class JDBCConsulta {
     public static Connection con = null;
     static String nomeTabela;
 
-    private static void fechaCon() throws SQLException {
-        if (!(con == null)) {
-            con.close();
-            con = null;
-        }
-    }
-    
     private static void abreCon() throws SQLException {
         if ((con == null) || (con.isClosed())) {
-             con = ConexaoMySQL.getConexaoMySQL();
+            con = ConexaoMySQL.getConexaoMySQL();
         }
     }
 
@@ -66,9 +59,9 @@ public class JDBCConsulta {
      */
     public static int qtdeDependentes(int id) throws SQLException {
         int retorno = -1;
-        
-         abreCon();
-        
+
+        abreCon();
+
         nomeTabela = ClsBD.getViewParente();
         String sql = "select count(id_cli) as 'quantos' from " + nomeTabela
                 + " where id_rep = " + id;
@@ -78,7 +71,7 @@ public class JDBCConsulta {
         while (rs.next()) {
             retorno = rs.getInt("quantos");
         }
-         
+
         return retorno;
     }
 
@@ -92,7 +85,7 @@ public class JDBCConsulta {
     public static List<ClienteDAO> dependentes(int id) throws SQLException {
         List<ClienteDAO> dependentes = new ArrayList<>();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getViewParente();
 
         PreparedStatement stmt = con.prepareStatement("select id_cli as 'ids' from " + nomeTabela
@@ -104,7 +97,7 @@ public class JDBCConsulta {
             ClienteDAO menor = clienteId(idCli);
             dependentes.add(menor);
         }
-         
+
         return dependentes;
     }
 
@@ -119,7 +112,7 @@ public class JDBCConsulta {
     public static UsuarioDAO login(String login, char[] senha) throws SQLException {
         UsuarioDAO usuario = new UsuarioDAO();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblLogin();
 
         String sql = "select * from " + nomeTabela
@@ -145,7 +138,6 @@ public class JDBCConsulta {
             }
         }
 
-         
         return usuario;
     }
 
@@ -158,7 +150,7 @@ public class JDBCConsulta {
     public static List<UsuarioDAO> usuarioNome(String nome) throws SQLException {
         List<UsuarioDAO> usuarios = new ArrayList<>();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblLogin();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -180,7 +172,6 @@ public class JDBCConsulta {
 
             usuarios.add(usuario);
         }
-         
 
         return usuarios;
     }
@@ -193,7 +184,7 @@ public class JDBCConsulta {
     public static List<UsuarioDAO> usuarioTodos() throws SQLException {
         List<UsuarioDAO> usuarios = new ArrayList<>();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblLogin();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela + " order by " + ClsBD.getUsuarionome());
@@ -213,7 +204,6 @@ public class JDBCConsulta {
             usuarios.add(usuario);
         }
 
-         
         return usuarios;
     }
 
@@ -226,7 +216,7 @@ public class JDBCConsulta {
     public static UsuarioDAO usuarioCpf(String cpf) throws SQLException {
         UsuarioDAO usuario = new UsuarioDAO();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblLogin();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -245,7 +235,6 @@ public class JDBCConsulta {
 
         }
 
-         
         return usuario;
     }
 
@@ -258,7 +247,7 @@ public class JDBCConsulta {
     public static UsuarioDAO usuarioId(int id) throws SQLException {
         UsuarioDAO usuario = new UsuarioDAO();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblLogin();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -275,7 +264,7 @@ public class JDBCConsulta {
             usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAdmin()));
             usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
         }
-         
+
         return usuario;
     }
 
@@ -289,7 +278,7 @@ public class JDBCConsulta {
         UsuarioDAO usuario = new UsuarioDAO();
 
         nick = nick.trim();
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblLogin();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -311,7 +300,6 @@ public class JDBCConsulta {
             usuario.setAtivo(rs.getBoolean(ClsBD.getUsuarioAtivo()));
         }
 
-         
         return usuario;
     }
 
@@ -325,7 +313,7 @@ public class JDBCConsulta {
         ClienteDAO cliente = new ClienteDAO();
         cpf = cpf.trim();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblCliente();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -343,7 +331,6 @@ public class JDBCConsulta {
 
         }
 
-         
         return cliente;
     }
 
@@ -355,7 +342,7 @@ public class JDBCConsulta {
     public static List<ClienteDAO> clienteTodos() throws SQLException {
         List<ClienteDAO> clientes = new ArrayList<>();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblCliente();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela);
@@ -374,7 +361,6 @@ public class JDBCConsulta {
             clientes.add(cliente);
         }
 
-         
         return clientes;
     }
 
@@ -387,7 +373,7 @@ public class JDBCConsulta {
     public static ClienteDAO clienteId(int id) throws SQLException {
         ClienteDAO cliente = new ClienteDAO();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblCliente();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -405,7 +391,6 @@ public class JDBCConsulta {
 
         }
 
-         
         return cliente;
     }
 
@@ -419,7 +404,7 @@ public class JDBCConsulta {
         List<ClienteDAO> clientes = new ArrayList<>();
         nome = nome.trim();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblCliente();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -441,7 +426,6 @@ public class JDBCConsulta {
             clientes.add(cliente);
         }
 
-         
         return clientes;
     }
 
@@ -454,7 +438,7 @@ public class JDBCConsulta {
     public static RepresentanteDAO representanteId(int id) throws SQLException {
         RepresentanteDAO representante = new RepresentanteDAO();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblRepresentante();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -471,7 +455,6 @@ public class JDBCConsulta {
 
         }
 
-         
         return representante;
     }
 
@@ -485,7 +468,7 @@ public class JDBCConsulta {
         RepresentanteDAO representante = new RepresentanteDAO();
         cpf = cpf.trim();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblRepresentante();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -502,7 +485,6 @@ public class JDBCConsulta {
 
         }
 
-         
         return representante;
     }
 
@@ -517,7 +499,7 @@ public class JDBCConsulta {
         List<RepresentanteDAO> representantes = new ArrayList<>();
         nome = nome.trim();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblRepresentante();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -538,7 +520,6 @@ public class JDBCConsulta {
             representantes.add(representante);
         }
 
-         
         return representantes;
     }
 
@@ -550,7 +531,7 @@ public class JDBCConsulta {
     public static List<RepresentanteDAO> representanteTodos() throws SQLException {
         List<RepresentanteDAO> representantes = new ArrayList<>();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblRepresentante();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela);
@@ -568,7 +549,6 @@ public class JDBCConsulta {
             representantes.add(representante);
         }
 
-         
         return representantes;
     }
 
@@ -582,7 +562,7 @@ public class JDBCConsulta {
     public static List<OrcamentoDAO> orcamentoIdCli(int id) throws SQLException {
         List<OrcamentoDAO> orcamentos = new ArrayList<>();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblOrcamento();
         String cpfCli = ClsBD.getOrcClienteId();
 
@@ -603,7 +583,6 @@ public class JDBCConsulta {
             orcamentos.add(orcamento);
         }
 
-         
         return orcamentos;
     }
 
@@ -616,7 +595,7 @@ public class JDBCConsulta {
     public static OrcamentoDAO orcamento(int id) throws SQLException {
         OrcamentoDAO orcamento = new OrcamentoDAO();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblOrcamento();
         String bdid = ClsBD.getOrcId();
 
@@ -633,7 +612,6 @@ public class JDBCConsulta {
             orcamento.setValor(rs.getDouble(ClsBD.getOrcValor()));
         }
 
-         
         return orcamento;
     }
 
@@ -649,7 +627,7 @@ public class JDBCConsulta {
         List<SessaoDAO> sessoes = new ArrayList<>();
         List<OrcamentoDAO> orcamentos = new ArrayList<>();
 
-         abreCon();
+        abreCon();
         orcamentos = orcamentoIdCli(id);
 
         int qtde = orcamentos.size();
@@ -677,7 +655,7 @@ public class JDBCConsulta {
             }
 
         }
-         
+
         return sessoes;
     }
 
@@ -692,7 +670,7 @@ public class JDBCConsulta {
     public static List<SessaoDAO> sessaoIdOrc(int id) throws SQLException {
         List<SessaoDAO> sessoes = new ArrayList<>();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblSessao();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -715,7 +693,6 @@ public class JDBCConsulta {
             sessoes.add(sessao);
         }
 
-         
         return sessoes;
     }
 
@@ -729,7 +706,7 @@ public class JDBCConsulta {
     public static SessaoDAO sessaoId(int id) throws SQLException {
         SessaoDAO sessao = new SessaoDAO();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblSessao();
 
         PreparedStatement stmt = con.prepareStatement("select * from " + nomeTabela
@@ -748,7 +725,6 @@ public class JDBCConsulta {
             sessao.setValor(rs.getInt(ClsBD.getSesValor()));
         }
 
-         
         return sessao;
     }
 
@@ -762,7 +738,7 @@ public class JDBCConsulta {
 
         List<RegistroDAO> registros = new ArrayList<>();
 
-         abreCon();
+        abreCon();
         nomeTabela = ClsBD.getTblAuditoria();
         String campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() + ", " + ClsBD.getAudDesc() + ", " + ClsBD.getAudData();
 
@@ -782,7 +758,41 @@ public class JDBCConsulta {
             registros.add(registro);
         }
 
-         
+        return registros;
+    }
+
+    /**
+     * Retorna todos os registros de login da auditoria
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static List<RegistroDAO> auditLogin(String nick) throws SQLException {
+
+        List<RegistroDAO> registros = new ArrayList<>();
+        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+
+        abreCon();
+        nomeTabela = ClsBD.getTblAuditoria();
+        String campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() + ", " + ClsBD.getAudDesc() + ", " + ClsBD.getAudData();
+
+        PreparedStatement stmt = JDBCConsulta.con.prepareStatement("select " + campos + " from " + nomeTabela + " where " + ClsBD.getAudAcao() + " = 'login'"
+                + "and " + ClsBD.getAudIdLogin() + " = " + usuario.getId());
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            RegistroDAO registro = new RegistroDAO();
+
+            registro.setId(rs.getInt(ClsBD.getAudId()));
+            registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
+            registro.setAcao(rs.getString(ClsBD.getAudAcao()));
+            registro.setDescricao(rs.getString(ClsBD.getAudDesc()));
+            registro.setData(rs.getTimestamp(ClsBD.getAudData()));
+
+            registros.add(registro);
+        }
+
         return registros;
     }
 

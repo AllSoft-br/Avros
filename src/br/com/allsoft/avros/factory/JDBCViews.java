@@ -21,6 +21,7 @@ import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.ClsBD;
 import br.com.allsoft.avros.dao.RegistroDAO;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
+import br.com.allsoft.avros.dao.UsuarioDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -196,6 +197,167 @@ public class JDBCViews {
         campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() + ", " + ClsBD.getAudDesc() + ", " + ClsBD.getAudData();
         
         PreparedStatement stmt = JDBCConsulta.con.prepareStatement("select " + campos + " from " + view + " where " + ClsBD.getAudAcao() + " = 'login'");
+        
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            RegistroDAO registro = new RegistroDAO();
+            
+            registro.setId(rs.getInt(ClsBD.getAudId()));
+            registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
+            registro.setAcao(rs.getString(ClsBD.getAudAcao()));
+            registro.setDescricao(rs.getString(ClsBD.getAudDesc()));
+            registro.setData(rs.getTimestamp(ClsBD.getAudData()));
+            
+            registros.add(registro);
+        }
+        
+        stmt.close();
+        con.close();
+        
+        return registros;
+    }
+    
+    /**
+     * Consulta registros de logins feitos no sistema nas últimas 24h
+     * 
+     * @param nick do usuário a ser visualizado
+     * @return List com os registros encontrados
+     * @throws SQLException 
+     */
+    public static List<RegistroDAO> auditLogin24h(String nick) throws SQLException {
+        
+        List<RegistroDAO> registros = new ArrayList<>();
+        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        
+        con = ConexaoMySQL.getConexaoMySQL();
+        view = ClsBD.getViewAudit24h();
+        campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() + ", " + ClsBD.getAudDesc() + ", " + ClsBD.getAudData();
+        
+        String sql = "select " + campos + " from " + view + " where " + ClsBD.getAudAcao() + " = 'login' "
+                + "and " + ClsBD.getAudIdLogin() + " = " + usuario.getId();
+        PreparedStatement stmt = JDBCConsulta.con.prepareStatement(sql);
+        
+        ResultSet rs = stmt.executeQuery();
+       
+        
+        while (rs.next()) {
+            RegistroDAO registro = new RegistroDAO();
+            
+            registro.setId(rs.getInt(ClsBD.getAudId()));
+            registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
+            registro.setAcao(rs.getString(ClsBD.getAudAcao()));
+            registro.setDescricao(rs.getString(ClsBD.getAudDesc()));
+            registro.setData(rs.getTimestamp(ClsBD.getAudData()));
+            
+            registros.add(registro);
+        }
+        
+        stmt.close();
+        con.close();
+        
+        return registros;
+    }
+    
+    
+    /**
+     * Consulta registros de logins feitos nos últimos 3 dias
+     * 
+     * @param nick do usuário a ser visualizado
+     * @return List com os registros encontrados
+     * @throws SQLException 
+     */
+    public static List<RegistroDAO> auditLogin3d(String nick) throws SQLException {
+        
+        List<RegistroDAO> registros = new ArrayList<>();
+        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        
+        con = ConexaoMySQL.getConexaoMySQL();
+        view = ClsBD.getViewAudit3d();
+        campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() + ", " + ClsBD.getAudDesc() + ", " + ClsBD.getAudData();
+        
+        PreparedStatement stmt = JDBCConsulta.con.prepareStatement("select " + campos + " from " + view + " where " + ClsBD.getAudAcao() + " = 'login'"
+                + "and " + ClsBD.getAudIdLogin() + " = " + usuario.getId());
+        
+        ResultSet rs = stmt.executeQuery();
+       
+        
+        while (rs.next()) {
+            RegistroDAO registro = new RegistroDAO();
+            
+            registro.setId(rs.getInt(ClsBD.getAudId()));
+            registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
+            registro.setAcao(rs.getString(ClsBD.getAudAcao()));
+            registro.setDescricao(rs.getString(ClsBD.getAudDesc()));
+            registro.setData(rs.getTimestamp(ClsBD.getAudData()));
+            
+            registros.add(registro);
+        }
+        
+        stmt.close();
+        con.close();
+        
+        return registros;
+    }
+    
+    /**
+     * Consulta registros de logins feitos nos últimos 7 dias
+     * 
+     * @param nick do usuário a ser visualizado
+     * @return List com os registros encontrados
+     * @throws SQLException 
+     */
+    public static List<RegistroDAO> auditLogin7d(String nick) throws SQLException {
+        
+        List<RegistroDAO> registros = new ArrayList<>();
+        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        
+        con = ConexaoMySQL.getConexaoMySQL();
+        view = ClsBD.getViewAudit7d();
+        campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() + ", " + ClsBD.getAudDesc() + ", " + ClsBD.getAudData();
+        
+        PreparedStatement stmt = JDBCConsulta.con.prepareStatement("select " + campos + " from " + view + " where " + ClsBD.getAudAcao() + " = 'login'"
+                + "and " + ClsBD.getAudIdLogin() + " = " + usuario.getId());
+        
+        ResultSet rs = stmt.executeQuery();
+       
+        
+        while (rs.next()) {
+            RegistroDAO registro = new RegistroDAO();
+            
+            registro.setId(rs.getInt(ClsBD.getAudId()));
+            registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
+            registro.setAcao(rs.getString(ClsBD.getAudAcao()));
+            registro.setDescricao(rs.getString(ClsBD.getAudDesc()));
+            registro.setData(rs.getTimestamp(ClsBD.getAudData()));
+            
+            registros.add(registro);
+        }
+        
+        stmt.close();
+        con.close();
+        
+        return registros;
+    }
+    
+    /**
+     * Consulta registros de logins feitos nos último mês
+     * 
+     * @param nick do usuário a ser visualizado
+     * @return List com os registros encontrados
+     * @throws SQLException 
+     */
+    public static List<RegistroDAO> auditLogin1m(String nick) throws SQLException {
+        
+        List<RegistroDAO> registros = new ArrayList<>();
+        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        
+        con = ConexaoMySQL.getConexaoMySQL();
+        view = ClsBD.getViewAudit1m();
+        campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() + ", " + ClsBD.getAudDesc() + ", " + ClsBD.getAudData();
+        
+        PreparedStatement stmt = JDBCConsulta.con.prepareStatement("select " + campos + " from " + view + " where " + ClsBD.getAudAcao() + " = 'login'"
+                + "and " + ClsBD.getAudIdLogin() + " = " + usuario.getId());
         
         ResultSet rs = stmt.executeQuery();
         
