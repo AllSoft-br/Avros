@@ -51,8 +51,15 @@ public class AuditoriaDelete extends JDBCAuditoria{
             codDado = menor.getId();
             idLogin = resp.getId();
             con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
+            
             String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
             PreparedStatement stmt = con.prepareStatement(query);
+            
             stmt.setString(1, tabela);
             stmt.setInt(2, codDado);
             stmt.setString(3, acao);
@@ -62,9 +69,11 @@ public class AuditoriaDelete extends JDBCAuditoria{
             stmt.setString(7, antes);
             stmt.setString(8, depois);
             stmt.setString(9, campo);
+            
             stmt.execute();
             stmt.close();
             con.close();
+            
         } catch (SQLException ex) {
             throw new AuditoriaException(ex);
         }

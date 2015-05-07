@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package br.com.allsoft.avros.factory;
 
 import br.com.allsoft.avros.dao.ClsBD;
@@ -28,7 +27,8 @@ import java.sql.SQLException;
  *
  * @author Luana Nascimento
  */
-public class AuditoriaLogin extends JDBCAuditoria{
+public class AuditoriaLogin extends JDBCAuditoria {
+
     /**
      * Método que armazena o horário que o usuário fez login
      *
@@ -37,6 +37,7 @@ public class AuditoriaLogin extends JDBCAuditoria{
      */
     public static void login(UsuarioDAO usuario, String codSql) throws AuditoriaException {
         try {
+
             tabela = ClsBD.getTblLogin();
             acao = "login";
             descricao = usuario.getNick() + " logou no sistema";
@@ -44,6 +45,10 @@ public class AuditoriaLogin extends JDBCAuditoria{
             codDado = usuario.getId();
             idLogin = usuario.getId();
             con = ConexaoMySQL.getConexaoMySQL();
+
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
 
             String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -81,6 +86,10 @@ public class AuditoriaLogin extends JDBCAuditoria{
             codDado = usuario.getId();
             idLogin = usuario.getId();
             con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
 
             String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 

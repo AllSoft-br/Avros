@@ -32,7 +32,7 @@ public class JDBCAuditoria {
     protected static String sql = "-"; //Código sql utilizado
     protected static String antes = "-"; //No caso de updates, como o campo era antes
     protected static String depois = "-"; //No caso de updates, como o campo ficou no fim
-    protected static String campo = "-";
+    protected static String campo = "-"; //Campo alterado
     protected static int codDado; //ID do dado alterado
     protected static int idLogin; //ID do login que fez a alteração
 

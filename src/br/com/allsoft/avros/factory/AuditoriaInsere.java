@@ -53,6 +53,10 @@ public class AuditoriaInsere extends JDBCAuditoria{
             codDado = cliente.getId();
             idLogin = usuario.getId();
             con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
 
             String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -96,6 +100,10 @@ public class AuditoriaInsere extends JDBCAuditoria{
             codDado = cliente.getId();
             idLogin = usuario.getId();
             con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
 
             String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -138,6 +146,10 @@ public class AuditoriaInsere extends JDBCAuditoria{
             codDado = id;
             idLogin = usuario.getId();
             con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
 
             String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -179,6 +191,10 @@ public class AuditoriaInsere extends JDBCAuditoria{
             codDado = sessao.getId();
             idLogin = usuario.getId();
             con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
 
             String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -220,6 +236,10 @@ public class AuditoriaInsere extends JDBCAuditoria{
             codDado = responsavel.getId();
             idLogin = usuario.getId();
             con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
 
             String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -259,6 +279,10 @@ public class AuditoriaInsere extends JDBCAuditoria{
             codDado = usuario.getId();
             idLogin = usuario.getId();
             con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
 
             String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -298,6 +322,10 @@ public class AuditoriaInsere extends JDBCAuditoria{
             codDado = orcamento.getId();
             idLogin = usuario.getId();
             con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
 
             String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
