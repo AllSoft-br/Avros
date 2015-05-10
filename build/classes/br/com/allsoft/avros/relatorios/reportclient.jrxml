@@ -148,14 +148,14 @@ FROM
 			<frame>
 				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="1143eca5-efd6-4ce3-9594-def949297aea"/>
 				<staticText>
-					<reportElement x="20" y="20" width="266" height="43" forecolor="#FFFFFF" uuid="ac580c69-097e-4d30-b46e-2920c9c2b472"/>
+					<reportElement x="20" y="0" width="266" height="43" forecolor="#FFFFFF" uuid="ac580c69-097e-4d30-b46e-2920c9c2b472"/>
 					<textElement>
-						<font size="34" isBold="true"/>
+						<font size="14" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Clientes Novos]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="ba4848b8-e5a7-435d-a80a-7c58c2da3f71"/>
+					<reportElement x="375" y="62" width="200" height="30" forecolor="#FFFFFF" uuid="ba4848b8-e5a7-435d-a80a-7c58c2da3f71"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
@@ -173,7 +173,7 @@ FROM
 				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="25714262-0ed2-465b-83b2-f1a04f26edce"/>
 			</line>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="b07f7b36-6c79-4dff-9070-5e52e3f96c2e"/>
+				<reportElement mode="Opaque" x="-68" y="149" width="555" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="b07f7b36-6c79-4dff-9070-5e52e3f96c2e"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
