@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d06a5593-5ee7-4979-aab7-b92dc5b69778">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     tbl_cliente.`id_cli` AS tbl_cliente_id_cli,
+     tbl_cliente.`nome` AS tbl_cliente_nome,
+     tbl_cliente.`CPF` AS tbl_cliente_CPF,
+     tbl_cliente.`sexo` AS tbl_cliente_sexo,
+     tbl_cliente.`data_nasc` AS tbl_cliente_data_nasc,
+     tbl_cliente.`tel` AS tbl_cliente_tel,
+     tbl_cliente.`estado` AS tbl_cliente_estado,
+     tbl_cliente.`cidade` AS tbl_cliente_cidade,
+     tbl_cliente.`bairro` AS tbl_cliente_bairro,
+     tbl_cliente.`fk_id_login` AS tbl_cliente_fk_id_login,
+     tbl_representante.`id_representante` AS tbl_representante_id_representante,
+     tbl_representante.`nome` AS tbl_representante_nome,
+     tbl_representante.`CPF` AS tbl_representante_CPF,
+     tbl_representante.`sexo` AS tbl_representante_sexo,
+     tbl_representante.`data_nasc` AS tbl_representante_data_nasc,
+     tbl_representante.`tel` AS tbl_representante_tel,
+     tbl_registro.`id_reg` AS tbl_registro_id_reg,
+     tbl_registro.`tabela_alt` AS tbl_registro_tabela_alt,
+     tbl_registro.`cod_ref` AS tbl_registro_cod_ref,
+     tbl_registro.`acao` AS tbl_registro_acao,
+     tbl_registro.`desc_acao` AS tbl_registro_desc_acao,
+     tbl_registro.`cod_sql` AS tbl_registro_cod_sql,
+     tbl_registro.`dado_ant` AS tbl_registro_dado_ant,
+     tbl_registro.`dado_novo` AS tbl_registro_dado_novo,
+     tbl_registro.`data_alt` AS tbl_registro_data_alt,
+     tbl_registro.`fk_id_login` AS tbl_registro_fk_id_login
+FROM
+     `tbl_cliente` tbl_cliente,
+     `tbl_representante` tbl_representante,
+     `tbl_registro` tbl_registro]]>
+	</queryString>
+	<field name="tbl_cliente_nome" class="java.lang.String"/>
+	<field name="tbl_cliente_cidade" class="java.lang.String"/>
+	<field name="tbl_cliente_estado" class="java.lang.String"/>
+	<field name="tbl_representante_id_representante" class="java.lang.Long"/>
+	<field name="tbl_registro_data_alt" class="java.sql.Timestamp"/>
+	<group name="tbl_cliente_nome">
+		<groupExpression><![CDATA[$F{tbl_cliente_nome}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#666666" backcolor="#E6E6E6" uuid="b3c2d87e-ca42-43cf-bd24-b4026290f3bf"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[tbl_cliente_nome]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="100" y="0" width="455" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="b1158d29-3d2c-449b-8a6d-d287b3a9e149"/>
+					<textElement>
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbl_cliente_nome}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="-20" y="32" width="595" height="1" forecolor="#666666" uuid="e2433810-8458-4026-9b81-14f20eaf9ef4"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="tbl_registro_data_alt">
+		<groupExpression><![CDATA[$F{tbl_registro_data_alt}]]></groupExpression>
+		<groupHeader>
+			<band height="32">
+				<textField>
+					<reportElement x="100" y="0" width="455" height="32" forecolor="#006699" uuid="33671c7c-51cc-42c1-8c3c-27672e2d1448"/>
+					<textElement>
+						<font size="22" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbl_registro_data_alt}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" forecolor="#666666" uuid="23e14bf0-ba06-4d55-a4ff-86ae89de951a"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[tbl_registro_data_alt]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="tbl_representante_id_representante">
+		<groupExpression><![CDATA[$F{tbl_representante_id_representante}]]></groupExpression>
+		<groupHeader>
+			<band height="32">
+				<textField>
+					<reportElement x="100" y="0" width="455" height="32" forecolor="#006699" uuid="61c8e114-023a-4943-b670-f3a2c17b830b"/>
+					<textElement>
+						<font size="20" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbl_representante_id_representante}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" forecolor="#666666" uuid="ab50dee0-14a2-4d67-9b4e-b6ac36f8a4af"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[tbl_representante_id_representante]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="tbl_cliente_cidade">
+		<groupExpression><![CDATA[$F{tbl_cliente_cidade}]]></groupExpression>
+		<groupHeader>
+			<band height="32">
+				<textField>
+					<reportElement x="100" y="0" width="455" height="32" forecolor="#006699" uuid="82543b3b-66da-4918-adf2-691ecd9a8760"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbl_cliente_cidade}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" forecolor="#666666" uuid="0e4ea715-e678-43ed-b777-d61b81a3e883"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[tbl_cliente_cidade]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="1143eca5-efd6-4ce3-9594-def949297aea"/>
+				<staticText>
+					<reportElement x="20" y="20" width="266" height="43" forecolor="#FFFFFF" uuid="ac580c69-097e-4d30-b46e-2920c9c2b472"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Clientes Novos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="ba4848b8-e5a7-435d-a80a-7c58c2da3f71"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Clientes cadastrados por dia]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="25714262-0ed2-465b-83b2-f1a04f26edce"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="b07f7b36-6c79-4dff-9070-5e52e3f96c2e"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[tbl_cliente_estado]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="86f5f44c-b63d-4b65-ae39-937704c4301b"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="555" height="20" uuid="d040f9b5-d4f6-4734-9d75-34719557dc6d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_cliente_estado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="d4b5f342-f10a-4628-8016-9ba247366fa7"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="887711d1-07ad-4387-beac-93c36539db12"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="bd597207-f05e-49ab-aded-f3878a0f34cb"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
