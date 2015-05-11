@@ -33,7 +33,6 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.hibernate.exception.ConstraintViolationException;
 
 /**
  * Classe que insere valores no banco de dados.
