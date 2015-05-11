@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9ef08fad-18f8-4bec-b1ac-733182c72715">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     tbl_orcamento.`cod_orc` AS tbl_orcamento_cod_orc,
+     tbl_orcamento.`criado_em` AS tbl_orcamento_criado_em,
+     tbl_orcamento.`tipo_pagamento` AS tbl_orcamento_tipo_pagamento,
+     tbl_orcamento.`valor_total` AS tbl_orcamento_valor_total,
+     tbl_orcamento.`qntd_sessao` AS tbl_orcamento_qntd_sessao,
+     tbl_orcamento.`fk_id_cli_orc` AS tbl_orcamento_fk_id_cli_orc,
+     tbl_login.`id_login` AS tbl_login_id_login,
+     tbl_login.`nome` AS tbl_login_nome,
+     tbl_login.`CPF` AS tbl_login_CPF,
+     tbl_login.`login` AS tbl_login_login,
+     tbl_login.`senha` AS tbl_login_senha,
+     tbl_login.`admin` AS tbl_login_admin,
+     tbl_login.`ativo` AS tbl_login_ativo,
+     tbl_registro.`id_reg` AS tbl_registro_id_reg,
+     tbl_registro.`tabela_alt` AS tbl_registro_tabela_alt,
+     tbl_registro.`cod_ref` AS tbl_registro_cod_ref,
+     tbl_registro.`acao` AS tbl_registro_acao,
+     tbl_registro.`desc_acao` AS tbl_registro_desc_acao,
+     tbl_registro.`cod_sql` AS tbl_registro_cod_sql,
+     tbl_registro.`dado_ant` AS tbl_registro_dado_ant,
+     tbl_registro.`dado_novo` AS tbl_registro_dado_novo,
+     tbl_registro.`data_alt` AS tbl_registro_data_alt,
+     tbl_registro.`fk_id_login` AS tbl_registro_fk_id_login
+FROM
+     `tbl_login` tbl_login INNER JOIN `tbl_registro` tbl_registro ON tbl_login.`id_login` = tbl_registro.`fk_id_login`,
+     `tbl_orcamento` tbl_orcamento]]>
+	</queryString>
+	<field name="tbl_orcamento_cod_orc" class="java.lang.Long"/>
+	<field name="tbl_orcamento_criado_em" class="java.sql.Timestamp"/>
+	<field name="tbl_orcamento_tipo_pagamento" class="java.lang.String"/>
+	<field name="tbl_orcamento_valor_total" class="java.math.BigDecimal"/>
+	<field name="tbl_orcamento_qntd_sessao" class="java.lang.Integer"/>
+	<field name="tbl_orcamento_fk_id_cli_orc" class="java.lang.Long"/>
+	<field name="tbl_login_nome" class="java.lang.String"/>
+	<field name="tbl_registro_fk_id_login" class="java.lang.Long"/>
+	<group name="tbl_orcamento_cod_orc">
+		<groupExpression><![CDATA[$F{tbl_orcamento_cod_orc}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#666666" backcolor="#E6E6E6" uuid="cea338bf-d535-4f4b-a3e9-7e6cec99026d"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[tbl_orcamento_cod_orc]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="100" y="0" width="455" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="13441ade-ce91-4ace-b160-2fe7d3e51490"/>
+					<textElement>
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbl_orcamento_cod_orc}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="-20" y="32" width="595" height="1" forecolor="#666666" uuid="4a8e605e-97a5-4cd2-9ff9-935b9b762628"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="tbl_orcamento_criado_em">
+		<groupExpression><![CDATA[$F{tbl_orcamento_criado_em}]]></groupExpression>
+		<groupHeader>
+			<band height="32">
+				<textField>
+					<reportElement x="100" y="0" width="455" height="32" forecolor="#006699" uuid="960e654b-661b-4519-a213-c86929db9807"/>
+					<textElement>
+						<font size="22" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbl_orcamento_criado_em}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" forecolor="#666666" uuid="9542a6b1-5c6b-4c34-8d41-c6e4836fb3f1"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[tbl_orcamento_criado_em]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="tbl_orcamento_tipo_pagamento">
+		<groupExpression><![CDATA[$F{tbl_orcamento_tipo_pagamento}]]></groupExpression>
+		<groupHeader>
+			<band height="32">
+				<textField>
+					<reportElement x="100" y="0" width="455" height="32" forecolor="#006699" uuid="d7660cc8-671f-4725-bb2f-782cd4a7bc24"/>
+					<textElement>
+						<font size="20" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbl_orcamento_tipo_pagamento}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" forecolor="#666666" uuid="c166bcf2-e046-48db-b084-3edb940abfee"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[tbl_orcamento_tipo_pagamento]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="tbl_orcamento_valor_total">
+		<groupExpression><![CDATA[$F{tbl_orcamento_valor_total}]]></groupExpression>
+		<groupHeader>
+			<band height="32">
+				<textField>
+					<reportElement x="100" y="0" width="455" height="32" forecolor="#006699" uuid="5bd0773e-e7de-4c4b-a3f1-bcda689f067a"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbl_orcamento_valor_total}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" forecolor="#666666" uuid="4405dc95-5dd7-464e-92fa-521e6c366eef"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[tbl_orcamento_valor_total]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="caa6778a-ad47-4f68-9d41-5d81cacab288"/>
+				<staticText>
+					<reportElement x="20" y="0" width="234" height="43" forecolor="#FFFFFF" uuid="445b02ae-fe29-4c7e-8924-9f9d1fbe9ddc"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Orçamento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="eeeceab1-63de-4de4-95d2-ed41726e5fc8"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Cliente não cadastrado]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="bfa1be8d-d2b9-4f93-9f58-481eb7fe38cc"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="e6a42bdc-7bb8-449b-b09b-b042eac1df29"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[tbl_orcamento_qntd_sessao]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="138" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="eda4281e-2b72-4e42-a5bb-e7d775cb5068"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[tbl_orcamento_fk_id_cli_orc]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="276" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="938d0765-1ea3-4a74-8978-4f39bd12157c"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[tbl_login_nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="414" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="fc0d764c-41f7-4a9f-bb05-6124d62d4b62"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[tbl_registro_fk_id_login]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="e143d071-f432-4dde-8f24-4bb4cffa7bb0"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="138" height="20" uuid="13879cee-3e61-4da4-a91c-b278fa2aca78"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_orcamento_qntd_sessao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="138" y="0" width="138" height="20" uuid="627a73b7-9265-467e-b9a7-774d4dc84f96"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_orcamento_fk_id_cli_orc}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="276" y="0" width="138" height="20" uuid="0070e878-1f1d-4918-ab8c-d7767330c3aa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_login_nome}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="414" y="0" width="138" height="20" uuid="6672d5d6-8e42-421b-b8d5-e4ac88a4a9d3"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_registro_fk_id_login}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="611b9da2-aafe-48e2-a308-89fb61da7c69"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="63599210-01d6-4a34-b9a1-1be3ab6059e7"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="8e75adea-65c9-48af-9cfd-4a59a7f8a2b5"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
