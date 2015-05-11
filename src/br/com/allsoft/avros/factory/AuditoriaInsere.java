@@ -26,6 +26,7 @@ import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import static br.com.allsoft.avros.factory.JDBCAuditoria.acao;
 import static br.com.allsoft.avros.factory.JDBCAuditoria.con;
+import static br.com.allsoft.avros.factory.JDBCAuditoria.tabela;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 

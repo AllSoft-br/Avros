@@ -52,6 +52,9 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         txtCpf.setText("");
         txtNome.setText("");
         txtTel.setText("");
+        
+        txtQual.setVisible(false);
+        lblQual.setVisible(false);
     }
 
     /**
@@ -330,6 +333,8 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 
+        txtQual.setVisible(false);
+        lblQual.setVisible(false);
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
@@ -364,25 +369,20 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
                 } catch (SQLException ex) {
                     System.out.println(ex);
                 }
-                if (idade < 18) {
-                    FrmPrincipal.addFrame(new IfrmCadResp(cliente));
-                    limpaCampos();
-                } else {
-                    try {
-                        JDBCInsere.inserirCliente(cliente, FrmLogin.usuario.getId());
-                        JDBCInsere.inserirRelCliRep(representante.getId(), cliente.getId(), parentescoId);
+                try {
+                    JDBCInsere.inserirCliente(cliente, FrmLogin.usuario.getId());
+                    JDBCInsere.inserirRelCliRep(representante.getId(), cliente.getId(), parentescoId);
 
-                        JOptionPane.showMessageDialog(this, "Cliente menor de idade cadastrado com sucesso.");
-                        limpaCampos();
-                    } catch (SQLException ex) {
-                        if (ex.getErrorCode() == ClsEstilo.duplicateKeyError) {
-                            JOptionPane.showMessageDialog(this, "CPF já cadastrado.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Erro ao cadastrar o cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        }
-                        System.out.println("Error code: " + ex.getErrorCode());
-                        Logger.getLogger(IfrmCadClienteMenor.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "Cliente menor de idade cadastrado com sucesso.");
+                    limpaCampos();
+                } catch (SQLException ex) {
+                    if (ex.getErrorCode() == ClsEstilo.duplicateKeyError) {
+                        JOptionPane.showMessageDialog(this, "CPF já cadastrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Erro ao cadastrar o cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
                     }
+                    System.out.println("Error code: " + ex.getErrorCode());
+                    Logger.getLogger(IfrmCadClienteMenor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "CPF inválido.");
