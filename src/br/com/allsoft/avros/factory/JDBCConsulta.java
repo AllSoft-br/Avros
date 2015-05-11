@@ -64,7 +64,7 @@ public class JDBCConsulta {
 
         nomeTabela = ClsBD.getViewParente();
         String sql = "select count(id_cli) as 'quantos' from " + nomeTabela
-                + " where id_rep = " + id;
+                + " where id_representante = " + id;
         PreparedStatement stmt = con.prepareStatement(sql);
 
         ResultSet rs = stmt.executeQuery();
@@ -89,7 +89,7 @@ public class JDBCConsulta {
         nomeTabela = ClsBD.getViewParente();
 
         PreparedStatement stmt = con.prepareStatement("select id_cli as 'ids' from " + nomeTabela
-                + " where id_rep = " + id);
+                + " where id_representante = " + id);
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
@@ -795,5 +795,237 @@ public class JDBCConsulta {
 
         return registros;
     }
+    
+    /**
+     * Retorna todos os registros de insert da auditoria
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static List<RegistroDAO> auditCad(String nick) throws SQLException {
 
+        List<RegistroDAO> registros = new ArrayList<>();
+        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+
+        abreCon();
+        nomeTabela = ClsBD.getTblAuditoria();
+        String campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() + ", " 
+                + ClsBD.getAudDesc() + ", " + ClsBD.getAudData() + ", " + ClsBD.getAudTabela() + ", " + ClsBD.getAudRef();
+
+        PreparedStatement stmt = JDBCConsulta.con.prepareStatement("select " + campos + " from " + nomeTabela + " where " + ClsBD.getAudAcao() + " = 'insert'"
+                + "and " + ClsBD.getAudIdLogin() + " = " + usuario.getId());
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            RegistroDAO registro = new RegistroDAO();
+
+            registro.setId(rs.getInt(ClsBD.getAudId()));
+            registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
+            registro.setAcao(rs.getString(ClsBD.getAudAcao()));
+            registro.setDescricao(rs.getString(ClsBD.getAudDesc()));
+            registro.setData(rs.getTimestamp(ClsBD.getAudData()));
+            registro.setTabela(rs.getString(ClsBD.getAudTabela()));
+            registro.setIdDado(rs.getInt(ClsBD.getAudRef()));
+
+            registros.add(registro);
+        }
+
+        return registros;
+    }
+    
+    /**
+     * Retorna todos os registros de update da auditoria
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static List<RegistroDAO> auditEdit(String nick) throws SQLException {
+
+        List<RegistroDAO> registros = new ArrayList<>();
+        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+
+        abreCon();
+        nomeTabela = ClsBD.getTblAuditoria();
+        String campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() + ", "
+                + ClsBD.getAudDesc() + ", " + ClsBD.getAudData() + ", " +  ClsBD.getAudDesc() + ", " + ClsBD.getAudData()
+                + ", " + ClsBD.getAudTabela() + ", " + ClsBD.getAudRef() + ", " + ClsBD.getAudAntes() + ", " + ClsBD.getAudDepois();
+
+        PreparedStatement stmt = JDBCConsulta.con.prepareStatement("select " + campos + " from " + nomeTabela + " where " + ClsBD.getAudAcao() + " = 'update'"
+                + "and " + ClsBD.getAudIdLogin() + " = " + usuario.getId());
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            RegistroDAO registro = new RegistroDAO();
+
+            registro.setId(rs.getInt(ClsBD.getAudId()));
+            registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
+            registro.setAcao(rs.getString(ClsBD.getAudAcao()));
+            registro.setDescricao(rs.getString(ClsBD.getAudDesc()));
+            registro.setData(rs.getTimestamp(ClsBD.getAudData()));
+            registro.setTabela(rs.getString(ClsBD.getAudTabela()));
+            registro.setIdDado(rs.getInt(ClsBD.getAudRef()));
+            registro.setAntes(rs.getString(ClsBD.getAudAntes()));
+            registro.setDepois(rs.getString(ClsBD.getAudDepois()));
+
+            registros.add(registro);
+        }
+
+        return registros;
+    }
+    
+    /**
+     * Retorna todos os registros de delete da auditoria
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static List<RegistroDAO> auditDel(String nick) throws SQLException {
+
+        List<RegistroDAO> registros = new ArrayList<>();
+        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+
+        abreCon();
+        nomeTabela = ClsBD.getTblAuditoria();
+        String campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() 
+                + ", " + ClsBD.getAudDesc() + ", " + ClsBD.getAudData() + ", " + ClsBD.getAudDesc() 
+                + ", " + ClsBD.getAudData() + ", " + ClsBD.getAudTabela() + ", " + ClsBD.getAudRef();
+
+        PreparedStatement stmt = JDBCConsulta.con.prepareStatement("select " + campos + " from " + nomeTabela + " where " + ClsBD.getAudAcao() + " = 'delete'"
+                + "and " + ClsBD.getAudIdLogin() + " = " + usuario.getId());
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            RegistroDAO registro = new RegistroDAO();
+
+            registro.setId(rs.getInt(ClsBD.getAudId()));
+            registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
+            registro.setAcao(rs.getString(ClsBD.getAudAcao()));
+            registro.setDescricao(rs.getString(ClsBD.getAudDesc()));
+            registro.setData(rs.getTimestamp(ClsBD.getAudData()));
+            registro.setTabela(rs.getString(ClsBD.getAudTabela()));
+            registro.setIdDado(rs.getInt(ClsBD.getAudRef()));
+
+            registros.add(registro);
+        }
+
+        return registros;
+    }
+
+    
+    /**
+     * Retorna todos os registros de insert da auditoria
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static List<RegistroDAO> auditCad() throws SQLException {
+
+        List<RegistroDAO> registros = new ArrayList<>();
+
+        abreCon();
+        nomeTabela = ClsBD.getTblAuditoria();
+        String campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() 
+                + ", " + ClsBD.getAudDesc() + ", " + ClsBD.getAudData() + ", " + ClsBD.getAudDesc() 
+                + ", " + ClsBD.getAudData() + ", " + ClsBD.getAudTabela() + ", " + ClsBD.getAudRef();
+
+        PreparedStatement stmt = JDBCConsulta.con.prepareStatement("select " + campos + " from " + nomeTabela + " where " + ClsBD.getAudAcao() + " = 'insert'");
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            RegistroDAO registro = new RegistroDAO();
+
+            registro.setId(rs.getInt(ClsBD.getAudId()));
+            registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
+            registro.setAcao(rs.getString(ClsBD.getAudAcao()));
+            registro.setDescricao(rs.getString(ClsBD.getAudDesc()));
+            registro.setData(rs.getTimestamp(ClsBD.getAudData()));
+            registro.setTabela(rs.getString(ClsBD.getAudTabela()));
+            registro.setIdDado(rs.getInt(ClsBD.getAudRef()));
+
+            registros.add(registro);
+        }
+
+        return registros;
+    }
+    
+    /**
+     * Retorna todos os registros de update da auditoria
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static List<RegistroDAO> auditEdit() throws SQLException {
+
+        List<RegistroDAO> registros = new ArrayList<>();
+
+        abreCon();
+        nomeTabela = ClsBD.getTblAuditoria();
+        String campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() 
+                + ", " + ClsBD.getAudDesc() + ", " + ClsBD.getAudData() + ", " + ClsBD.getAudDesc() 
+                + ", " + ClsBD.getAudData() + ", " + ClsBD.getAudTabela() + ", " + ClsBD.getAudRef() 
+                + ", " + ClsBD.getAudAntes() + ", " + ClsBD.getAudDepois();
+
+        PreparedStatement stmt = JDBCConsulta.con.prepareStatement("select " + campos + " from " + nomeTabela + " where " + ClsBD.getAudAcao() + " = 'update'");
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            RegistroDAO registro = new RegistroDAO();
+
+            registro.setId(rs.getInt(ClsBD.getAudId()));
+            registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
+            registro.setAcao(rs.getString(ClsBD.getAudAcao()));
+            registro.setDescricao(rs.getString(ClsBD.getAudDesc()));
+            registro.setData(rs.getTimestamp(ClsBD.getAudData()));
+            registro.setTabela(rs.getString(ClsBD.getAudTabela()));
+            registro.setIdDado(rs.getInt(ClsBD.getAudRef()));
+            registro.setAntes(rs.getString(ClsBD.getAudAntes()));
+            registro.setDepois(rs.getString(ClsBD.getAudDepois()));
+
+            registros.add(registro);
+        }
+
+        return registros;
+    }
+    
+    /**
+     * Retorna todos os registros de delete da auditoria
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static List<RegistroDAO> auditDel() throws SQLException {
+
+        List<RegistroDAO> registros = new ArrayList<>();
+
+        abreCon();
+        nomeTabela = ClsBD.getTblAuditoria();
+        String campos = ClsBD.getAudId() + ", " + ClsBD.getAudIdLogin() + ", " + ClsBD.getAudAcao() 
+                + ", " + ClsBD.getAudDesc() + ", " + ClsBD.getAudData() + ", " + ClsBD.getAudDesc() 
+                + ", " + ClsBD.getAudData() + ", " + ClsBD.getAudTabela() + ", " + ClsBD.getAudRef();
+
+        PreparedStatement stmt = JDBCConsulta.con.prepareStatement("select " + campos + " from " + nomeTabela + " where " + ClsBD.getAudAcao() + " = 'delete'");
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            RegistroDAO registro = new RegistroDAO();
+
+            registro.setId(rs.getInt(ClsBD.getAudId()));
+            registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
+            registro.setAcao(rs.getString(ClsBD.getAudAcao()));
+            registro.setDescricao(rs.getString(ClsBD.getAudDesc()));
+            registro.setData(rs.getTimestamp(ClsBD.getAudData()));
+            registro.setTabela(rs.getString(ClsBD.getAudTabela()));
+            registro.setIdDado(rs.getInt(ClsBD.getAudRef()));
+
+            registros.add(registro);
+        }
+
+        return registros;
+    }
 }

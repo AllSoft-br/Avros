@@ -26,7 +26,7 @@ import java.sql.Timestamp;
  */
 public class RegistroDAO {
     private int id;
-    private int codDado; //ID do dado alterado
+    private int idDado; //ID do dado alterado
     private int idLogin; //ID do login que fez a alteração
     private String tabela; //Nome da tabela alterada
     private String acao; //Update, insert, login ou delete
@@ -53,12 +53,12 @@ public class RegistroDAO {
         this.id = id;
     }
 
-    public int getCodDado() {
-        return codDado;
+    public int getIdDado() {
+        return idDado;
     }
 
-    public void setCodDado(int codDado) {
-        this.codDado = codDado;
+    public void setIdDado(int idDado) {
+        this.idDado = idDado;
     }
 
     public int getIdLogin() {

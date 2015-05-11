@@ -70,7 +70,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
             stmt.setString(7, antes);
             stmt.setString(8, depois);
             stmt.setString(9, campo);
-
+            
             stmt.execute();
             stmt.close();
             con.close();

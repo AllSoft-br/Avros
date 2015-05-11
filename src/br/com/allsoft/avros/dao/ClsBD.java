@@ -18,13 +18,13 @@ package br.com.allsoft.avros.dao;
 
 /**
  * Classe para guardar os nomes das tabelas do banco de dados
- * 
+ *
  * @author Luana Nascimento
- */ 
- 
-
+ */
 public class ClsBD {
+
     //Tabelas
+
     private static final String tblRepresentante = "tbl_representante";
     private static final String tblRel = "tbl_rel";
     private static final String tblCliente = "tbl_cliente";
@@ -33,30 +33,29 @@ public class ClsBD {
     private static final String tblOrcamento = "tbl_orcamento";
     private static final String tblSessao = "tbl_sessao";
     private static final String tblAuditoria = "tbl_registro";
-    
+
     //Views
     private static final String viewParente = "cliente_menor";
     private static final String viewAudit24h = "auditoria_24h";
     private static final String viewAudit3d = "auditoria_3d";
     private static final String viewAudit7d = "auditoria_7d";
     private static final String viewAudit1m = "auditoria_1m";
-    
+
     //Campos das tabelas
-    
     //Tabela relacionadora
     private static final String relClienteId = "fk_id_cli";
     private static final String relParentescoId = "fk_id_parentesco";
     private static final String relRepresentanteId = "fk_id_representante";
     private static final String relId = "id_rel";
-    
+
     //Tabela Representante
     private static final String repCpf = "CPF";
-    private static final String repSexo = "sexo"; 
+    private static final String repSexo = "sexo";
     private static final String repId = "id_representante";
     private static final String repnome = "nome";
     private static final String repNasc = "data_nasc";
     private static final String repTel = "tel";
-    
+
     //Tabela Cliente
     private static final String cliSexo = "sexo";
     private static final String cliId = "id_cli";
@@ -65,7 +64,7 @@ public class ClsBD {
     private static final String cliNasc = "data_nasc";
     private static final String cliTel = "tel";
     private static final String cliCpf = "CPF";
-    
+
     //Tabela usuario
     private static final String usuarioId = "id_login";
     private static final String usuarioAtivo = "ativo";
@@ -74,11 +73,11 @@ public class ClsBD {
     private static final String usuarioCpf = "CPF";
     private static final String usuarionick = "login";
     private static final String usuarioSenha = "senha";
-    
+
     //Tabela parentesco
     private static final String parId = "id_parentesco";
     private static final String parTipo = "tipo_parentesco";
-    
+
     //Tabela Orçamento
     private static final String orcId = "cod_orc";
     private static final String orcCriacao = "criado_em";
@@ -86,7 +85,7 @@ public class ClsBD {
     private static final String orcValor = "valor_total";
     private static final String orcClienteId = "fk_id_cli_orc";
     private static final String orcNSessoes = "qntd_sessao";
-    
+
     //Tabela Sessão
     private static final String sesId = "id_sessao";
     private static final String sesConcluida = "concluida";
@@ -109,6 +108,44 @@ public class ClsBD {
     private static final String audCampo = "campo";
     private static final String audData = "data_alt";
     private static final String audIdLogin = "fk_id_login";
+
+    /**
+     * Retorna o tipo de item que é armazenado em determinada tabela
+     *
+     * @param tabela a ser examinada
+     * @return tipo de item
+     */
+    public static String tipoItem(String tabela) {
+        String retorno = "desconhecido";
+        
+        if (!(tabela == null)) {
+            if (tabela.equalsIgnoreCase(tblLogin)) {
+                retorno = "usuário";
+            }
+            if (tabela.equalsIgnoreCase(tblAuditoria)) {
+                retorno = "registro";
+            }
+            if (tabela.equalsIgnoreCase(tblCliente)) {
+                retorno = "cliente";
+            }
+            if (tabela.equalsIgnoreCase(tblOrcamento)) {
+                retorno = "orçamento";
+            }
+            if (tabela.equalsIgnoreCase(tblParentesco)) {
+                retorno = "grau de parentesco";
+            }
+            if (tabela.equalsIgnoreCase(tblRel)) {
+                retorno = "relação maior/dependente";
+            }
+            if (tabela.equalsIgnoreCase(tblRepresentante)) {
+                retorno = "representante";
+            }
+            if (tabela.equalsIgnoreCase(tblSessao)) {
+                retorno = "sessão";
+            }
+        }
+        return retorno;
+    }
 
     public static String getTblAuditoria() {
         return tblAuditoria;
@@ -181,11 +218,11 @@ public class ClsBD {
     public static String getViewParente() {
         return viewParente;
     }
-    
+
     public static String getSesId() {
         return sesId;
     }
-    
+
     public static String getTblSessao() {
         return tblSessao;
     }
@@ -269,11 +306,11 @@ public class ClsBD {
     public static String getTblRepresentante() {
         return tblRepresentante;
     }
-    
+
     public static String getRelParentescoId() {
         return relParentescoId;
     }
-    
+
     public static String getTblRel() {
         return tblRel;
     }
@@ -281,7 +318,7 @@ public class ClsBD {
     public static String getTblCliente() {
         return tblCliente;
     }
-    
+
     public static String getRelRepresentanteId() {
         return relRepresentanteId;
     }

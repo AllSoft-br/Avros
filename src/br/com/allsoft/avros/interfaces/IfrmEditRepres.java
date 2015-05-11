@@ -692,7 +692,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_verMouseClicked
 
     private void lblAddDepMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddDepMouseClicked
-        // TODO add your handling code here:
+        FrmPrincipal.addFrame(new IfrmCadClienteMenor(representante));
     }//GEN-LAST:event_lblAddDepMouseClicked
 
     private void cadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadMouseClicked
@@ -724,6 +724,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         if (j == JOptionPane.YES_OPTION) {
             try {
                 JDBCDelete.removeRel(representante.getId(), cliente.getId());
+                tblDependentes.removeRow(jtblDependentes.getSelectedRow());
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Não foi possível remover o dependente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);
