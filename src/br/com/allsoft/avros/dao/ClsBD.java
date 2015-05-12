@@ -110,6 +110,47 @@ public class ClsBD {
     private static final String audIdLogin = "fk_id_login";
 
     /**
+<<<<<<< HEAD
+=======
+     * Retorna a item do item que é armazenado em determinada item
+     *
+     * @param item a ser examinado
+     * @return tipo de item
+     */
+    public static String itemTipo(String item) {
+        String retorno = "desconhecido";
+        
+        if (!(item == null)) {
+            if (item.equalsIgnoreCase("login")) {
+                retorno = tblLogin;
+            }
+            if (item.equalsIgnoreCase("auditoria")) {
+                retorno = tblAuditoria;
+            }
+            if (item.equalsIgnoreCase("cliente")) {
+                retorno = tblCliente;
+            }
+            if (item.equalsIgnoreCase("orçamento")) {
+                retorno = tblOrcamento;
+            }
+            if (item.equalsIgnoreCase("parentesco")) {
+                retorno = tblParentesco;
+            }
+            if (item.equalsIgnoreCase("relação")) {
+                retorno = tblRel;
+            }
+            if (item.equalsIgnoreCase("representante")) {
+                retorno = tblRepresentante;
+            }
+            if (item.equalsIgnoreCase("sessão")) {
+                retorno = tblSessao;
+            }
+        }
+        return retorno;
+    }
+    
+    /**
+>>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
      * Retorna o tipo de item que é armazenado em determinada tabela
      *
      * @param tabela a ser examinada

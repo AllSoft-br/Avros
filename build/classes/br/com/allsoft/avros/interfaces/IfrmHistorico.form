@@ -375,7 +375,7 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblPeriodo2" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cbxTipo" min="-2" pref="111" max="-2" attributes="0"/>
+                                      <Component id="cbxTipoCad" min="-2" pref="111" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblPeriodo1" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -402,7 +402,7 @@
                               <Component id="lblPeriodo1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="cbxTipo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbxTipoCad" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblPeriodo2" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -531,7 +531,7 @@
                 <Property name="text" type="java.lang.String" value="Tipo"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbxTipo">
+            <Component class="javax.swing.JComboBox" name="cbxTipoCad">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="ClsEstilo.textoInputFonte" type="code"/>
@@ -584,7 +584,7 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblPeriodo4" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cbxTipo1" min="-2" pref="111" max="-2" attributes="0"/>
+                                      <Component id="cbxTipoEdit" min="-2" pref="111" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblPeriodo3" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -610,7 +610,7 @@
                           <Component id="lblUsuario2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cbxPeriodoEdit" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblPeriodo3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbxTipo1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbxTipoEdit" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblPeriodo4" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -734,7 +734,7 @@
                 <Property name="text" type="java.lang.String" value="Tipo"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbxTipo1">
+            <Component class="javax.swing.JComboBox" name="cbxTipoEdit">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="ClsEstilo.textoInputFonte" type="code"/>

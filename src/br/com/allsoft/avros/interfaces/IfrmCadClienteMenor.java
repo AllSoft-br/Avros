@@ -52,7 +52,11 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         txtCpf.setText("");
         txtNome.setText("");
         txtTel.setText("");
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         txtQual.setVisible(false);
         lblQual.setVisible(false);
     }
