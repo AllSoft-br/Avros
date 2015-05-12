@@ -400,7 +400,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
         }
 
         if (!txtNick.getText().isEmpty()) {
-            String nick = txtNick.getText();
+            nick = txtNick.getText();
             UsuarioDAO user = new UsuarioDAO();
             try {
                 user = JDBCConsulta.usuarioNick(nick);

@@ -494,7 +494,6 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
         try {
             int id = (JDBCInsere.inserirSessao(sessao));
             sessao.setId(id);
-            System.out.println(id);
             
             int j = JOptionPane.showConfirmDialog(this, "Sessão cadastrada com sucesso! Deseja imprimir o comprovante?");
             if (j == JOptionPane.YES_OPTION) {

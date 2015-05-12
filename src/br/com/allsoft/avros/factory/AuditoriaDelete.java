@@ -20,6 +20,7 @@ package br.com.allsoft.avros.factory;
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.ClsBD;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
+import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import static br.com.allsoft.avros.factory.JDBCAuditoria.tabela;
@@ -49,6 +50,51 @@ public class AuditoriaDelete extends JDBCAuditoria{
             descricao = resp.getNick() + " deletou a relação entre o representante " + representante.getNome() + ", CPF " + Cpf.imprimeCpf(representante.getCpf()) + " e o cliente " + menor.getNome() + ", CPF " + Cpf.imprimeCpf(menor.getCpf()) + ", de " + String.valueOf(menor.idade()) + " anos.";
             sql = codSql;
             codDado = menor.getId();
+            idLogin = resp.getId();
+            con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
+            
+            String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            PreparedStatement stmt = con.prepareStatement(query);
+            
+            stmt.setString(1, tabela);
+            stmt.setInt(2, codDado);
+            stmt.setString(3, acao);
+            stmt.setString(4, descricao);
+            stmt.setInt(5, idLogin);
+            stmt.setString(6, sql);
+            stmt.setString(7, antes);
+            stmt.setString(8, depois);
+            stmt.setString(9, campo);
+            
+            stmt.execute();
+            stmt.close();
+            con.close();
+            
+        } catch (SQLException ex) {
+            throw new AuditoriaException(ex);
+        }
+    }
+    
+    /**
+     * Grava delete de uma sessão na auditoria
+     * @param resp usuário responsável
+     * @param sessao sessão deletada, com nome do cliente e id 
+     * de orçamento setados
+     * @param codSql SQL utilizado
+     * @throws AuditoriaException 
+     */
+    public static void sessao(UsuarioDAO resp, SessaoDAO sessao, String codSql) throws AuditoriaException {
+        try {
+            tabela = ClsBD.getTblSessao();
+            acao = "delete";
+            descricao = resp.getNick() + " deletou a sessão de ID " + sessao.getId() + " do cliente " + sessao.getCliente() + ", orçamento " + sessao.getIdOrcamento();
+            sql = codSql;
+            codDado = sessao.getId();
             idLogin = resp.getId();
             con = ConexaoMySQL.getConexaoMySQL();
             
