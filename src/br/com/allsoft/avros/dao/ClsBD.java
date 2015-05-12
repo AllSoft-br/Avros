@@ -110,8 +110,6 @@ public class ClsBD {
     private static final String audIdLogin = "fk_id_login";
 
     /**
-<<<<<<< HEAD
-=======
      * Retorna a item do item que é armazenado em determinada item
      *
      * @param item a ser examinado
@@ -150,7 +148,6 @@ public class ClsBD {
     }
     
     /**
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
      * Retorna o tipo de item que é armazenado em determinada tabela
      *
      * @param tabela a ser examinada

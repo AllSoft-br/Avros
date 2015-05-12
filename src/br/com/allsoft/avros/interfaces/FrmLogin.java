@@ -20,6 +20,9 @@ import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import java.awt.Container;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,6 +67,7 @@ public class FrmLogin extends javax.swing.JFrame {
         setTitle("Avros - Login");
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setIconImage(getIconImage());
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -201,6 +205,11 @@ public class FrmLogin extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
+
+        URL url = this.getClass().getResource("/br/com/allsoft/avros/img/logo.png");
+        Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
+        
+        this.setIconImage(imagemTitulo);
     }//GEN-LAST:event_formWindowOpened
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked

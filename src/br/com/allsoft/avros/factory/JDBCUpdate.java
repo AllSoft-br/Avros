@@ -819,8 +819,7 @@ public class JDBCUpdate {
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
                 + " set " + ClsBD.getSesConcluida() + "= ? "
-                + "where " + ClsBD.getSesId() + " = ?; "
-                + "CALL orcamento_concluido(" + idOrc + ");";
+                + "where " + ClsBD.getSesId() + " = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
 
         // preenche os valores

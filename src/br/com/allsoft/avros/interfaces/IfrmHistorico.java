@@ -69,6 +69,12 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         tblCad.setColumnIdentifiers(cabCad);
         jtblCad.setModel(tblCad);
         tblCad.setRowCount(0);
+        
+        tipo = cbxTipoCad.getSelectedItem().toString();
+        if (!(tipo.equalsIgnoreCase("todos"))){
+            registros = filtraRegistros(registros, tipo); 
+        }
+        
         int q = registros.size();
 
         for (int i = 0; i < q; i++) {
@@ -97,6 +103,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         tblDel.setColumnIdentifiers(cabDel);
         jtblDelete.setModel(tblDel);
         tblDel.setRowCount(0);
+        
         int q = registros.size();
 
         for (int i = 0; i < q; i++) {
@@ -125,6 +132,12 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         tblEdit.setColumnIdentifiers(cabEdit);
         jtblEdit.setModel(tblEdit);
         tblEdit.setRowCount(0);
+        
+        tipo = cbxTipoEdit.getSelectedItem().toString();
+        if (!(tipo.equalsIgnoreCase("todos"))){
+            registros = filtraRegistros(registros, tipo); 
+        }
+        
         int q = registros.size();
 
         for (int i = 0; i < q; i++) {
@@ -166,6 +179,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         tblLogin.setColumnIdentifiers(cabLog);
         jtblLogins.setModel(tblLogin);
         tblLogin.setRowCount(0);
+        
         int q = registros.size();
 
         for (int i = 0; i < q; i++) {
@@ -181,22 +195,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         }
     }
 
-<<<<<<< HEAD
-    /**
-     * Mostra o panel, constrói seus itens e formata a tabela chama o método de
-     * mostrar registros de todos os usuários, das últimas 24 horas.
-     */
-    private void loginClick() {
-        CardLayout card = (CardLayout) mainPanel.getLayout();
-        card.show(mainPanel, "cardLogin");
-
-        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
-        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-=======
     private void criaComponentes() {
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
 
         try {
             List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
@@ -295,24 +294,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
         }
-<<<<<<< HEAD
-
-        jtblCad.setGridColor(ClsEstilo.tabelaGrid);
-        jtblCad.setBackground(ClsEstilo.tabelaBg);
-        jScrollPane2.getViewport().setBackground(ClsEstilo.tabelaBg);
-        jScrollPane2.setBorder(null);
-        jtblCad.setSelectionBackground(ClsEstilo.tabelaSelec);
-        jtblCad.setSelectionForeground(ClsEstilo.tabelaTextoSelec);
-        jtblCad.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        try {
-            cad24h();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-        }
-=======
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
     }
 
     /**
@@ -339,24 +320,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
         }
-<<<<<<< HEAD
-
-        jtblEdit.setGridColor(ClsEstilo.tabelaGrid);
-        jtblEdit.setBackground(ClsEstilo.tabelaBg);
-        jScrollPane3.getViewport().setBackground(ClsEstilo.tabelaBg);
-        jScrollPane3.setBorder(null);
-        jtblEdit.setSelectionBackground(ClsEstilo.tabelaSelec);
-        jtblEdit.setSelectionForeground(ClsEstilo.tabelaTextoSelec);
-        jtblEdit.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        try {
-            edit24h();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-        }
-=======
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
     }
 
     /**
@@ -383,22 +346,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
         }
-<<<<<<< HEAD
-
-        jScrollPane4.getViewport().setBackground(ClsEstilo.tabelaBg);
-        jScrollPane4.setBorder(null);
-        jtblDelete.setSelectionBackground(ClsEstilo.tabelaSelec);
-        jtblDelete.setSelectionForeground(ClsEstilo.tabelaTextoSelec);
-        jtblDelete.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        try {
-            del24h();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-        }
-=======
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
     }
 
     private void addEvents() {
@@ -421,9 +368,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 }
             }
         });
-<<<<<<< HEAD
-        
-=======
 
         cbxTipoCad.addItemListener(new ComboBoxItemListener() {
             @Override
@@ -435,7 +379,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             }
         });
 
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         cbxPeriodoCad.addItemListener(new ComboBoxItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -455,9 +398,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 }
             }
         });
-<<<<<<< HEAD
-        
-=======
 
         cbxTipoEdit.addItemListener(new ComboBoxItemListener() {
             @Override
@@ -469,7 +409,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             }
         });
 
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         cbxPeriodoEdit.addItemListener(new ComboBoxItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -489,11 +428,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 }
             }
         });
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         cbxPeriodoDel.addItemListener(new ComboBoxItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -541,7 +476,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 } else {
                     login1m(nick);
                 }
-            } else if (periodo.equalsIgnoreCase("todos")) {
+            } else {
                 if (nick.equalsIgnoreCase("todos")) {
                     loginTodos();
                 } else {
@@ -553,108 +488,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void atualizaTabelaCad() {
-        try {
-            if (periodo.equalsIgnoreCase("24 horas")) {
-                if (nick.equalsIgnoreCase("todos")) {
-                    cad24h();
-                } else {
-                    cad24h(nick);
-                }
-            } else if (periodo.equalsIgnoreCase("3 dias")) {
-                if (nick.equalsIgnoreCase("todos")) {
-                    cad3d();
-                } else {
-                    cad3d(nick);
-                }
-            } else if (periodo.equalsIgnoreCase("1 mês")) {
-                if (nick.equalsIgnoreCase("todos")) {
-                    cad1m();
-                } else {
-                    cad1m(nick);
-                }
-            } else if (periodo.equalsIgnoreCase("todos")) {
-                if (nick.equalsIgnoreCase("todos")) {
-                    cadTodos();
-                } else {
-                    cadTodos(nick);
-                }
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void atualizaTabelaEdit() {
-        try {
-            if (periodo.equalsIgnoreCase("24 horas")) {
-                if (nick.equalsIgnoreCase("todos")) {
-                    edit24h();
-                } else {
-                    edit24h(nick);
-                }
-            } else if (periodo.equalsIgnoreCase("3 dias")) {
-                if (nick.equalsIgnoreCase("todos")) {
-                    edit3d();
-                } else {
-                    edit3d(nick);
-                }
-            } else if (periodo.equalsIgnoreCase("1 mês")) {
-                if (nick.equalsIgnoreCase("todos")) {
-                    edit1m();
-                } else {
-                    edit1m(nick);
-                }
-            } else if (periodo.equalsIgnoreCase("todos")) {
-                if (nick.equalsIgnoreCase("todos")) {
-                    editTodos();
-                } else {
-                    editTodos(nick);
-                }
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void atualizaTabelaDel() {
-        try {
-            if (periodo.equalsIgnoreCase("24 horas")) {
-                if (nick.equalsIgnoreCase("todos")) {
-                    del24h();
-                } else {
-                    del24h(nick);
-                }
-            } else if (periodo.equalsIgnoreCase("3 dias")) {
-                if (nick.equalsIgnoreCase("todos")) {
-                    del3d();
-                } else {
-                    del3d(nick);
-                }
-            } else if (periodo.equalsIgnoreCase("1 mês")) {
-                if (nick.equalsIgnoreCase("todos")) {
-                    del1m();
-                } else {
-                    del1m(nick);
-                }
-            } else if (periodo.equalsIgnoreCase("todos")) {
-                if (nick.equalsIgnoreCase("todos")) {
-                    delTodos();
-                } else {
-                    delTodos(nick);
-                }
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
-<<<<<<< HEAD
-=======
     private void atualizaTabelaCad() {
         try {
             if (periodo.equalsIgnoreCase("24 horas")) {
@@ -681,7 +515,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 } else {
                     cad1m(nick);
                 }
-            } else if (periodo.equalsIgnoreCase("todos")) {
+            } else {
                 if (nick.equalsIgnoreCase("todos")) {
                     cadTodos();
                 } else {
@@ -720,7 +554,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 } else {
                     edit1m(nick);
                 }
-            } else if (periodo.equalsIgnoreCase("todos")) {
+            } else {
                 if (nick.equalsIgnoreCase("todos")) {
                     editTodos();
                 } else {
@@ -759,7 +593,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 } else {
                     del1m(nick);
                 }
-            } else if (periodo.equalsIgnoreCase("todos")) {
+            } else {
                 if (nick.equalsIgnoreCase("todos")) {
                     delTodos();
                 } else {
@@ -772,7 +606,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         }
     }
 
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
     /**
      * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
      * e manda para o método de preencher a tabela
@@ -901,19 +734,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cad24h() throws SQLException {
-<<<<<<< HEAD
         List<RegistroDAO> registros = JDBCViews.auditCad24h();
-=======
-        List<RegistroDAO> registros = new ArrayList<>();
-        
-        if (tipo.equalsIgnoreCase("todos")) {
-            registros = JDBCViews.auditCad24h();
-        } else {
-            registros = JDBCViews.auditCad24h();
-            registros = filtraRegistros(registros, tipo); 
-        }
-        
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaCad(registros);
     }
 
@@ -925,19 +746,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cad3d() throws SQLException {
-<<<<<<< HEAD
         List<RegistroDAO> registros = JDBCViews.auditCad3d();
-=======
-        List<RegistroDAO> registros = new ArrayList<>();
-        
-        if (tipo.equalsIgnoreCase("todos")) {
-            registros = JDBCViews.auditCad3d();
-        } else {
-            registros = JDBCViews.auditCad3d();
-            registros = filtraRegistros(registros, tipo); 
-        }
-        
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaCad(registros);
     }
 
@@ -949,19 +758,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cad7d() throws SQLException {
-<<<<<<< HEAD
         List<RegistroDAO> registros = JDBCViews.auditCad7d();
-=======
-        List<RegistroDAO> registros = new ArrayList<>();
-        
-        if (tipo.equalsIgnoreCase("todos")) {
-            registros = JDBCViews.auditCad7d();
-        } else {
-            registros = JDBCViews.auditCad7d();
-            registros = filtraRegistros(registros, tipo); 
-        }
-        
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaCad(registros);
     }
 
@@ -973,19 +770,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cad1m() throws SQLException {
-<<<<<<< HEAD
         List<RegistroDAO> registros = JDBCViews.auditCad1m();
-=======
-        List<RegistroDAO> registros = new ArrayList<>();
-        
-        if (tipo.equalsIgnoreCase("todos")) {
-            registros = JDBCViews.auditCad1m();
-        } else {
-            registros = JDBCViews.auditCad1m();
-            registros = filtraRegistros(registros, tipo); 
-        }
-        
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaCad(registros);
     }
 
@@ -998,14 +783,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void cadTodos() throws SQLException {
         List<RegistroDAO> registros = JDBCConsulta.auditCad();
-<<<<<<< HEAD
-=======
-        
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
-        
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaCad(registros);
     }
 
@@ -1018,14 +795,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void cad24h(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditCad24h(nick);
-<<<<<<< HEAD
-=======
-        
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
-        
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaCad(registros);
     }
 
@@ -1038,12 +807,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void cad3d(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditCad3d(nick);
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaCad(registros);
     }
 
@@ -1056,12 +819,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void cad7d(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditCad7d(nick);
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaCad(registros);
     }
 
@@ -1074,12 +831,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void cad1m(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditCad1m(nick);
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaCad(registros);
     }
 
@@ -1092,12 +843,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void cadTodos(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCConsulta.auditCad(nick);
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaCad(registros);
     }
 
@@ -1110,12 +855,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void del24h() throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditDel24h();
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaDel(registros);
     }
 
@@ -1236,12 +975,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void edit24h() throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditEdit24h();
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaEdit(registros);
     }
 
@@ -1254,12 +987,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void edit3d() throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditEdit3d();
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaEdit(registros);
     }
 
@@ -1272,12 +999,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void edit7d() throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditEdit7d();
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaEdit(registros);
     }
 
@@ -1290,12 +1011,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void edit1m() throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditEdit1m();
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaEdit(registros);
     }
 
@@ -1308,12 +1023,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void editTodos() throws SQLException {
         List<RegistroDAO> registros = JDBCConsulta.auditEdit();
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaEdit(registros);
     }
 
@@ -1326,12 +1035,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void edit24h(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditEdit24h(nick);
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaEdit(registros);
     }
 
@@ -1344,12 +1047,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void edit3d(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditEdit3d(nick);
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaEdit(registros);
     }
 
@@ -1362,12 +1059,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void edit7d(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditEdit7d(nick);
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaEdit(registros);
     }
 
@@ -1380,12 +1071,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void edit1m(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditEdit1m(nick);
-<<<<<<< HEAD
-=======
-        if (!(tipo.equalsIgnoreCase("todos"))){
-            registros = filtraRegistros(registros, tipo); 
-        }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
         preencheTabelaEdit(registros);
     }
 
@@ -1398,10 +1083,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private void editTodos(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCConsulta.auditEdit(nick);
-<<<<<<< HEAD
-        preencheTabelaEdit(registros);
-    }
-=======
         
         preencheTabelaEdit(registros);
     }
@@ -1415,21 +1096,18 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private List<RegistroDAO> filtraRegistros(List<RegistroDAO> registros, String filtro){
         int q = registros.size();
+        String tabela = ClsBD.itemTipo(filtro);
+        
+        List<RegistroDAO> filtrados = new ArrayList<>();
         
         for(int i = 0; i < q; i++){
-            List<RegistroDAO> filtrados = registros;
-            
-            String tabela = ClsBD.itemTipo(filtro);
-            if(!(registros.get(i).getCampo().equalsIgnoreCase(tabela))){
-                filtrados.remove(i);
-                //q -= 1;
+            if(registros.get(i).getTabela().equalsIgnoreCase(tabela)){
+                filtrados.add(registros.get(i));
             }
-            registros = filtrados;
         }
-        
-        return registros;
+        System.out.println("Registros da " + tabela + ": " + filtrados.size());
+        return filtrados;
     }
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
 
     /**
      * Creates new form IfrmHistorico
@@ -1505,6 +1183,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/Customize.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -2348,7 +2027,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbxPeriodoLogItemStateChanged
 
     private void cbxLoginLogItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxLoginLogItemStateChanged
-        System.out.println(cbxLoginLog.getSelectedItem());
+        
     }//GEN-LAST:event_cbxLoginLogItemStateChanged
 
 
@@ -2366,13 +2045,8 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cbxPeriodoDel;
     private javax.swing.JComboBox cbxPeriodoEdit;
     private javax.swing.JComboBox cbxPeriodoLog;
-<<<<<<< HEAD
-    private javax.swing.JComboBox cbxTipo;
-    private javax.swing.JComboBox cbxTipo1;
-=======
     private javax.swing.JComboBox cbxTipoCad;
     private javax.swing.JComboBox cbxTipoEdit;
->>>>>>> bca1def1e4cec0f63b7fed0a8481259dbebf44f9
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

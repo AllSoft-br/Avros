@@ -129,6 +129,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/Users 2.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -287,7 +288,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        ftxtNasc.setBorder(new javax.swing.border.SoftBevelBorder(1));
+        ftxtNasc.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         ftxtNasc.setForeground(ClsEstilo.textoInputCor);
         ftxtNasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         ftxtNasc.setEnabled(false);

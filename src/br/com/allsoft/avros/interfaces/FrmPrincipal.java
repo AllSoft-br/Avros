@@ -18,10 +18,10 @@ package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.factory.AuditoriaLogin;
-import br.com.allsoft.avros.factory.JDBCAuditoria;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
-import java.sql.SQLException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
@@ -416,6 +416,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
+        URL url = this.getClass().getResource("/br/com/allsoft/avros/img/logo.png");
+        Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
+        
+        this.setIconImage(imagemTitulo);
     }//GEN-LAST:event_formWindowOpened
 
     private void mniPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniPagarActionPerformed
