@@ -70,8 +70,9 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
                         JOptionPane.showMessageDialog(null, "O cliente não pôde ser carregado.", "Erro", JOptionPane.ERROR_MESSAGE);
                         Logger.getLogger(IfrmConsCliente1.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
-                    btnAbrir.setEnabled(true);
+                    if (cboParentesco.getSelectedIndex() > 0) {
+                        btnAbrir.setEnabled(true);
+                    }
                 }
             }
         });
@@ -498,6 +499,12 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
         } else {
             lblQual.setVisible(false);
             txtQual.setVisible(false);
+        }
+        
+        if(cboParentesco.getSelectedIndex() > 0){
+            if (jtblCliente.getSelectedRow() > -1) {
+                btnAbrir.setEnabled(true);
+            }
         }
     }//GEN-LAST:event_cboParentescoItemStateChanged
 
