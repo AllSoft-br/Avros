@@ -18,8 +18,9 @@ package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.formulas.Datas;
+import br.com.allsoft.avros.formulas.Consulta;
 import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.formulas.Datas;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -43,6 +44,8 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
     DefaultTableModel tblCliente = new DefaultTableModel();
     ClienteDAO cliente = new ClienteDAO();
     Dimension tabela, scroll, form;
+    String cpf = "";
+    String nome = "";
 
     //Métodos
     /**
@@ -70,29 +73,30 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
             }
         });
     }
-    
+
     /**
      * Exclui dados repetidos da lista
-     * 
+     *
      * @param lista lista a verificar
      * @return lista sem dados repetidos
      */
-    private List<ClienteDAO> excluiRepetidos(List<ClienteDAO> lista){
+    private List<ClienteDAO> excluiRepetidos(List<ClienteDAO> lista) {
         int qtos = lista.size();
-        
-        for(int i = 0; i < qtos; i++){
+
+        for (int i = 0; i < qtos; i++) {
             ClienteDAO ref = lista.get(i);
-            
-            for(int j = i + 1; j < qtos; j++){
-                if(ref.getId() == lista.get(j).getId()){
+
+            for (int j = i + 1; j < qtos; j++) {
+                if (ref.getId() == lista.get(j).getId()) {
                     lista.remove(j);
                     qtos = lista.size();
                 }
             }
         }
-        
+
         return lista;
     }
+
 
     /**
      * Da corpo a tabela e a cria com os usuários listados
@@ -102,9 +106,9 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
      */
     private void preencheTabela(List<ClienteDAO> clientes) throws SQLException {
         clientes = excluiRepetidos(clientes);
-        
+
         int qtde = clientes.size();
-        
+
         this.setSize(form);
         jScrollPane1.setSize(scroll);
         jtblCliente.setSize(tabela);
@@ -116,6 +120,8 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
         for (int i = 0; i < qtde; i++) {
             tblCliente.addRow(new String[1]);
             String data = Datas.sqlparaString(clientes.get(i).getNascimento());
+            String cliCpf = Consulta.grifar(cpf, clientes.get(i).getCpf());
+            String cliNome = Consulta.grifar(nome, clientes.get(i).getNome());
 
             String tipo = "-";
             if (clientes.get(i).idade() < 18) {
@@ -123,8 +129,8 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
             }
 
             tblCliente.setValueAt(clientes.get(i).getId(), i, 0);
-            tblCliente.setValueAt(clientes.get(i).getNome(), i, 1);
-            tblCliente.setValueAt(clientes.get(i).getCpf(), i, 2);
+            tblCliente.setValueAt(cliNome, i, 1);
+            tblCliente.setValueAt(cliCpf, i, 2);
             tblCliente.setValueAt(data, i, 3);
             tblCliente.setValueAt(clientes.get(i).getTel(), i, 4);
             tblCliente.setValueAt(tipo, i, 5);
@@ -341,7 +347,7 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
         List<ClienteDAO> clientes = new ArrayList<>();
 
         if (!txtNome.getText().isEmpty()) {
-            String nome = txtNome.getText();
+            nome = txtNome.getText();
             try {
                 clientes = JDBCConsulta.clienteNome(nome);
             } catch (SQLException ex) {
@@ -351,7 +357,7 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
         }
 
         if (!txtCpf.getText().isEmpty()) {
-            String cpf = txtCpf.getText();
+            cpf = txtCpf.getText();
 
             if (Cpf.isCpf(cpf)) {
                 ClienteDAO cliente = new ClienteDAO();

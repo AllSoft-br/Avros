@@ -18,9 +18,9 @@ package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
-import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.factory.JDBCInsere;
+import br.com.allsoft.avros.formulas.Consulta;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
@@ -48,6 +48,8 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
     ClienteDAO cliente = new ClienteDAO();
     RepresentanteDAO representante;
     Dimension tabela, scroll, form;
+    String cpf = "";
+    String nome = "";
     int parentesco;
 
     //Métodos
@@ -123,6 +125,8 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
         for (int i = 0; i < qtde; i++) {
             tblCliente.addRow(new String[1]);
             String data = Datas.sqlparaString(clientes.get(i).getNascimento());
+            String cliCpf = Consulta.grifar(cpf, clientes.get(i).getCpf());
+            String cliNome = Consulta.grifar(nome, clientes.get(i).getNome());
 
             String tipo = "-";
             if (clientes.get(i).idade() < 18) {
@@ -130,8 +134,8 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
             }
 
             tblCliente.setValueAt(clientes.get(i).getId(), i, 0);
-            tblCliente.setValueAt(clientes.get(i).getNome(), i, 1);
-            tblCliente.setValueAt(clientes.get(i).getCpf(), i, 2);
+            tblCliente.setValueAt(cliNome, i, 1);
+            tblCliente.setValueAt(cliCpf, i, 2);
             tblCliente.setValueAt(data, i, 3);
             tblCliente.setValueAt(clientes.get(i).getTel(), i, 4);
             tblCliente.setValueAt(tipo, i, 5);
@@ -407,7 +411,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
         List<ClienteDAO> clientes = new ArrayList<>();
 
         if (!txtNome.getText().isEmpty()) {
-            String nome = txtNome.getText();
+            nome = txtNome.getText();
             try {
                 clientes = JDBCConsulta.clienteNome(nome);
             } catch (SQLException ex) {
@@ -417,7 +421,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
         }
 
         if (!txtCpf.getText().isEmpty()) {
-            String cpf = txtCpf.getText();
+            cpf = txtCpf.getText();
 
             if (Cpf.isCpf(cpf)) {
                 ClienteDAO cliente = new ClienteDAO();
