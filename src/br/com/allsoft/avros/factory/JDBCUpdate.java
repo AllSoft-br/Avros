@@ -830,6 +830,14 @@ public class JDBCUpdate {
 
         stmt.execute();
         stmt.close();
+        
+        String sql2 = "call orcamento_concluido(?)";
+        PreparedStatement stmt2 = con.prepareStatement(sql2);
+        
+        stmt2.setInt(1, idOrc);
+        
+        stmt2.execute();
+        stmt2.close();
         con.close();
         
         try {
