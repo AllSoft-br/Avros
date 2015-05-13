@@ -500,6 +500,8 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
                 Relatorio relatorio = new Relatorio();
                 relatorio.criaRelatorio(cliente.getCpf(), sessao.getId(), "sessaoAgend");
             }
+            
+            this.dispose();
         } catch (SQLException | IOException | JRException ex) {
             Logger.getLogger(IfrmCadSessao.class.getName()).log(Level.SEVERE, null, ex);
         }

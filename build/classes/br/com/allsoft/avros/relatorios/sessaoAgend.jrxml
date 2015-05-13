@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SessaoAgend" language="groovy" printOrder="Horizontal" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4b24d087-e5b9-404b-8af0-0c35f260ead5">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="64"/>
 	<parameter name="cpf_cliente" class="java.lang.String"/>
 	<parameter name="id_sessao" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
@@ -24,10 +24,21 @@
      tbl_orcamento.`valor_total` AS 'Valor total',
      tbl_orcamento.`qntd_sessao` AS 'Qtde. Sessões',
      tbl_orcamento.`cod_orc` AS 'Cod. Orçamento',
-     tbl_sessao.`concluida` AS 'Status da sessão'
+     tbl_sessao.`concluida` AS 'Status da sessão',
+     empresa_dados.cnpj as 'CNPJ',
+     empresa_dados.razao_social as 'Razão social',
+     empresa_dados.tel as 'Tel',
+     empresa_dados.uf as 'UF',
+     empresa_dados.cidade as 'Cidade',
+     empresa_dados.bairro as 'Bairro',
+     empresa_dados.logradouro as 'Logradouro',
+     empresa_dados.cep as 'CEP',
+     empresa_dados.nro as 'Número',
+     empresa_dados.complemento as 'Complemento'
 FROM
      `tbl_cliente` tbl_cliente INNER JOIN `tbl_orcamento` tbl_orcamento ON tbl_cliente.`id_cli` = tbl_orcamento.`fk_id_cli_orc`
      INNER JOIN `tbl_sessao` tbl_sessao ON tbl_orcamento.`cod_orc` = tbl_sessao.`fk_cod_orc`
+    INNER JOIN empresa_dados
 WHERE
     tbl_cliente.`CPF` = $P!{cpf_cliente}
 AND
@@ -57,6 +68,16 @@ AND
 	<field name="Qtde. Sessões" class="java.lang.Integer"/>
 	<field name="Cod. Orçamento" class="java.lang.Long"/>
 	<field name="Status da sessão" class="java.lang.Boolean"/>
+	<field name="CNPJ" class="java.lang.String"/>
+	<field name="Razão social" class="java.lang.String"/>
+	<field name="Tel" class="java.lang.String"/>
+	<field name="UF" class="java.lang.String"/>
+	<field name="Cidade" class="java.lang.String"/>
+	<field name="Bairro" class="java.lang.String"/>
+	<field name="Logradouro" class="java.lang.String"/>
+	<field name="CEP" class="java.lang.String"/>
+	<field name="Número" class="java.lang.String"/>
+	<field name="Complemento" class="java.lang.String"/>
 	<group name="Cod. Orçamento">
 		<groupExpression><![CDATA[$F{Cod. Orçamento}]]></groupExpression>
 		<groupHeader>
@@ -372,18 +393,18 @@ AND
 		<band/>
 	</columnFooter>
 	<pageFooter>
-		<band height="17">
+		<band height="16">
 			<textField>
-				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="b705bd5f-706e-45a6-b619-dd828e389302"/>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="13" backcolor="#E6E6E6" uuid="b705bd5f-706e-45a6-b619-dd828e389302"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="f91228ad-3397-4f99-b3b0-01103889182a"/>
+				<reportElement mode="Opaque" x="515" y="0" width="40" height="13" backcolor="#E6E6E6" uuid="f91228ad-3397-4f99-b3b0-01103889182a"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="0" y="4" width="100" height="13" uuid="3802b5d0-41a5-4d8c-8fe1-3f079b2ca34d"/>
+				<reportElement x="0" y="0" width="100" height="13" uuid="3802b5d0-41a5-4d8c-8fe1-3f079b2ca34d"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>

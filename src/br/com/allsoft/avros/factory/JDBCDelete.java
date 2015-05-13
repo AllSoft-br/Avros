@@ -77,6 +77,12 @@ public class JDBCDelete {
         }
     }
 
+    /**
+     * Deleta uma sessao 
+     * 
+     * @param sessao com nome do cliente e id do orçamento setados
+     * @throws SQLException 
+     */
     public static void sessao(SessaoDAO sessao) throws SQLException {
         nomeTabela = ClsBD.getTblSessao();
         
