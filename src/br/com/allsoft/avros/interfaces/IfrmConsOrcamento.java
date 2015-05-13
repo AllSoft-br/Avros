@@ -44,7 +44,7 @@ import javax.swing.table.DefaultTableModel;
 public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblOrc = new DefaultTableModel();
+    DefaultTableModel tblOrc = new ClsTableModel();
     private OrcamentoDAO orcamento = new OrcamentoDAO();
     private ClienteDAO cliente = new ClienteDAO();
 

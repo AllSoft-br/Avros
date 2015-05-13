@@ -41,7 +41,7 @@ import javax.swing.table.DefaultTableModel;
 public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblRepresentante = new DefaultTableModel();
+    DefaultTableModel tblRepresentante = new ClsTableModel();
     RepresentanteDAO representante;
     Dimension tabela, scroll, form;
     String cpf = "";

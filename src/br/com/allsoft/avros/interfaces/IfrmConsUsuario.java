@@ -40,7 +40,7 @@ import javax.swing.table.DefaultTableModel;
 public class IfrmConsUsuario extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblUsuario = new DefaultTableModel();
+    DefaultTableModel tblUsuario = new ClsTableModel();
     UsuarioDAO usuario = new UsuarioDAO();
     Dimension tabela, scroll, form;
     String nome = "";

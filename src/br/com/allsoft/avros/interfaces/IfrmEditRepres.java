@@ -48,7 +48,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
     //Variáveis
     RepresentanteDAO representante = new RepresentanteDAO();
     ClienteDAO cliente = new ClienteDAO();
-    DefaultTableModel tblDependentes = new DefaultTableModel();
+    DefaultTableModel tblDependentes = new ClsTableModel();
 
     Dimension frame;
     Dimension tabela;

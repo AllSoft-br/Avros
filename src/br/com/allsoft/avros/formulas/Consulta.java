@@ -57,7 +57,6 @@ public class Consulta {
             String maiuscula = base.toUpperCase();
             boolean contem = maiuscula.contains(chave.toUpperCase());
             if (contem) {
-                System.out.println("loop " + chave);
                 int start = maiuscula.indexOf(chave.toUpperCase());
                 int end = start + chave.length();
                 grifado = "<html>" + base.substring(0, start) + "<span style='background-color: #ffff00'>" + base.substring(start, end) + "</span>" + base.substring(end, base.length()) + "</html>";

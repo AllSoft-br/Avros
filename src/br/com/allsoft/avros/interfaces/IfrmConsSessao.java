@@ -43,7 +43,7 @@ import javax.swing.table.DefaultTableModel;
 public class IfrmConsSessao extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblSes = new DefaultTableModel();
+    DefaultTableModel tblSes = new ClsTableModel();
     private OrcamentoDAO orcamento = new OrcamentoDAO();
     private ClienteDAO cliente = new ClienteDAO();
     private SessaoDAO sessao = new SessaoDAO();

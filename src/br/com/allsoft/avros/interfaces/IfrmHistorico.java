@@ -44,10 +44,10 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 public class IfrmHistorico extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblLogin = new DefaultTableModel();
-    DefaultTableModel tblCad = new DefaultTableModel();
-    DefaultTableModel tblEdit = new DefaultTableModel();
-    DefaultTableModel tblDel = new DefaultTableModel();
+    DefaultTableModel tblLogin = new ClsTableModel();
+    DefaultTableModel tblCad = new ClsTableModel();
+    DefaultTableModel tblEdit = new ClsTableModel();
+    DefaultTableModel tblDel = new ClsTableModel();
 
     String[] cabLog = {"Cód.", "Usuário", "Descrição", "Horário"};
     String[] cabCad = {"Cód.", "Item", "Usuário", "Descrição", "Horário", "ID do item"};

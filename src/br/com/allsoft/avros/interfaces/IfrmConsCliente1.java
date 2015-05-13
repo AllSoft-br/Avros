@@ -44,7 +44,7 @@ import javax.swing.table.DefaultTableModel;
 public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblCliente = new DefaultTableModel();
+    DefaultTableModel tblCliente = new ClsTableModel();
     ClienteDAO cliente = new ClienteDAO();
     RepresentanteDAO representante;
     Dimension tabela, scroll, form;
