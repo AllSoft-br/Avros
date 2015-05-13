@@ -95,6 +95,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mniVerRepresentantes = new javax.swing.JMenuItem();
         mnuAvancado = new javax.swing.JMenu();
         mniHistorico = new javax.swing.JMenuItem();
+        mniBackup = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(601, 500));
@@ -321,6 +322,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuAvancado.add(mniHistorico);
 
+        mniBackup.setFont(ClsEstilo.labelMenuFonte);
+        mniBackup.setForeground(ClsEstilo.labelCor);
+        mniBackup.setText("Backup");
+        mniBackup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniBackupActionPerformed(evt);
+            }
+        });
+        mnuAvancado.add(mniBackup);
+
         if(FrmLogin.usuario.isAdmin()){
 
             menuBar.add(mnuAvancado);
@@ -497,6 +508,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         obj.setVisible(true);
     }//GEN-LAST:event_mniHistoricoActionPerformed
 
+    private void mniBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBackupActionPerformed
+        IfrmBackup obj = new IfrmBackup();
+        deskPrincipal.add(obj);
+        obj.setVisible(true);
+    }//GEN-LAST:event_mniBackupActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -536,6 +553,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     protected static javax.swing.JDesktopPane deskPrincipal;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mniAgendar;
+    private javax.swing.JMenuItem mniBackup;
     private javax.swing.JMenuItem mniCliente;
     private javax.swing.JMenuItem mniConta;
     private javax.swing.JMenuItem mniHistorico;
