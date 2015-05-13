@@ -21,6 +21,7 @@ import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
 import br.com.allsoft.avros.factory.JDBCConsulta;
+import br.com.allsoft.avros.factory.JDBCDelete;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.Cpf;
@@ -117,6 +118,7 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
         lblEditarPag = new javax.swing.JLabel();
         lblEditarValor = new javax.swing.JLabel();
         lblEditarSessoes = new javax.swing.JLabel();
+        btnExcluir = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -224,10 +226,10 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
             }
         });
         spnSessoes.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 spnSessoesCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 
@@ -272,6 +274,15 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
         lblEditarSessoes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblEditarSessoesMouseClicked(evt);
+            }
+        });
+
+        btnExcluir.setFont(ClsEstilo.botaoFonte);
+        btnExcluir.setForeground(ClsEstilo.botaoCor);
+        btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
             }
         });
 
@@ -326,6 +337,8 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnExcluir)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -372,8 +385,9 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSalvar)
-                            .addComponent(btnImprimir))))
-                .addContainerGap(34, Short.MAX_VALUE))
+                            .addComponent(btnImprimir)
+                            .addComponent(btnExcluir))))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
@@ -468,8 +482,24 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnImprimirActionPerformed
 
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int j = JOptionPane.showConfirmDialog(this, "Ao excluir um orçamento, todas as suas sessões cadastradas também serão excluidas. Você realmente deseja excluir este orçamento?", "Excluir", JOptionPane.YES_NO_OPTION);
+        if (j == JOptionPane.YES_OPTION) {
+            try {
+                JDBCDelete.orcamento(orcamento);
+                JOptionPane.showMessageDialog(this, "O orçamento foi excluído com sucesso.");
+                this.dispose();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Não foi possível excluir este orçamento.", "Erro", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+                return;
+            }
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JFormattedTextField ftxtValor;

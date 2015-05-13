@@ -19,6 +19,7 @@ package br.com.allsoft.avros.factory;
 
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.ClsBD;
+import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.dao.UsuarioDAO;
@@ -95,6 +96,52 @@ public class AuditoriaDelete extends JDBCAuditoria{
             descricao = resp.getNick() + " deletou a sessão de ID " + sessao.getId() + " do cliente " + sessao.getCliente() + ", orçamento " + sessao.getIdOrcamento();
             sql = codSql;
             codDado = sessao.getId();
+            idLogin = resp.getId();
+            con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
+            
+            String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            PreparedStatement stmt = con.prepareStatement(query);
+            
+            stmt.setString(1, tabela);
+            stmt.setInt(2, codDado);
+            stmt.setString(3, acao);
+            stmt.setString(4, descricao);
+            stmt.setInt(5, idLogin);
+            stmt.setString(6, sql);
+            stmt.setString(7, antes);
+            stmt.setString(8, depois);
+            stmt.setString(9, campo);
+            
+            stmt.execute();
+            stmt.close();
+            con.close();
+            
+        } catch (SQLException ex) {
+            throw new AuditoriaException(ex);
+        }
+    }
+    
+    /**
+     * Grava delete de um orçamento na auditoria
+     * @param resp usuário responsável
+     * @param orcamento orçamento deletado, com nome do cliente setado 
+     * @param codSql SQL utilizado
+     * @throws AuditoriaException 
+     */
+    public static void orcamento(UsuarioDAO resp, OrcamentoDAO orcamento, String codSql) throws AuditoriaException {
+        try {
+            ClienteDAO cliente = JDBCConsulta.clienteId(orcamento.getIdCliente());
+            
+            tabela = ClsBD.getTblOrcamento();
+            acao = "delete";
+            descricao = resp.getNick() + " deletou o orçamento de ID " + orcamento.getId() + " e suas sessões, do cliente " + cliente.getNome();
+            sql = codSql;
+            codDado = orcamento.getId();
             idLogin = resp.getId();
             con = ConexaoMySQL.getConexaoMySQL();
             

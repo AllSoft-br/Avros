@@ -19,6 +19,7 @@ package br.com.allsoft.avros.factory;
 
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.ClsBD;
+import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
@@ -104,6 +105,38 @@ public class JDBCDelete {
         
         try {
             AuditoriaDelete.sessao(FrmLogin.usuario, sessao, sql);
+        } catch (AuditoriaException ex) {
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Deleta uma sessao 
+     * 
+     * @param orcamento com nome do cliente setado
+     * @throws SQLException 
+     */
+    public static void orcamento(OrcamentoDAO orcamento) throws SQLException {
+        nomeTabela = ClsBD.getTblSessao();
+        
+        int id = orcamento.getId();
+        
+        con = ConexaoMySQL.getConexaoMySQL();
+        
+        String sql = "call del_orcamento(?)";
+        
+        PreparedStatement stmt = con.prepareStatement(sql);
+        
+        stmt.setInt(1, id);
+        
+        sql = stmt.toString();
+        
+        stmt.execute();
+        stmt.close();
+        con.close();
+        
+        try {
+            AuditoriaDelete.orcamento(FrmLogin.usuario, orcamento, sql);
         } catch (AuditoriaException ex) {
             Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
         }
