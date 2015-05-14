@@ -147,10 +147,10 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
             }
         });
         spnSessoes.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 spnSessoesCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 
@@ -191,6 +191,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         btnImprimir.setFont(ClsEstilo.botaoFonte);
         btnImprimir.setForeground(ClsEstilo.botaoCor);
         btnImprimir.setText("Imprimir");
+        btnImprimir.setEnabled(false);
 
         MaskFormatter dateMask = new MaskFormatter();
         dateMask.setPlaceholderCharacter('0') ;
@@ -200,6 +201,11 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         ftxtValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         ftxtValor.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         ftxtValor.setFont(ClsEstilo.textoInputFonte);
+        ftxtValor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ftxtValorKeyTyped(evt);
+            }
+        });
 
         jLabel8.setFont(ClsEstilo.textoInputFonte);
         jLabel8.setForeground(ClsEstilo.textoInputCor);
@@ -330,6 +336,8 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         } catch (ValorInvalidoMoedaException ex) {
             Logger.getLogger(IfrmCadOrcamento.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
     }//GEN-LAST:event_spnSessoesStateChanged
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
@@ -420,6 +428,12 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void ftxtValorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftxtValorKeyTyped
+        if(!(txtNome.getText().isEmpty()) && !(txtCpf.getText().isEmpty())){
+            btnImprimir.setEnabled(true);
+        }
+    }//GEN-LAST:event_ftxtValorKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

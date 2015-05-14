@@ -346,6 +346,7 @@
           <Connection code="ClsEstilo.botaoCor" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Imprimir"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="ftxtValor">
@@ -366,6 +367,9 @@
           <Connection code="ClsEstilo.textoInputFonte" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ftxtValorKeyTyped"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="MaskFormatter dateMask = new MaskFormatter();&#xa;dateMask.setPlaceholderCharacter(&apos;0&apos;) ; &#xa;dateMask.install(ftxtValor);"/>
       </AuxValues>
