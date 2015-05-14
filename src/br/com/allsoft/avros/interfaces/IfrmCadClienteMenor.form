@@ -9,6 +9,11 @@
     </Component>
     <Component class="javax.swing.ButtonGroup" name="bgpSexo">
     </Component>
+    <Component class="javax.swing.JToggleButton" name="jToggleButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jToggleButton1"/>
+      </Properties>
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -46,11 +51,6 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="btnCadastrar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="209" max="-2" attributes="0"/>
-          </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel6" max="32767" attributes="0"/>
@@ -104,10 +104,15 @@
                       <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="cboParentesco" min="-2" pref="138" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                              <Component id="lblQual" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="btnCadastrar2" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="cboParentesco" min="-2" pref="138" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
+                                      <Component id="lblQual" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtQual" min="-2" pref="129" max="-2" attributes="0"/>
                           </Group>
@@ -162,9 +167,9 @@
                   <Component id="txtQual" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblQual" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="17" max="32767" attributes="0"/>
-              <Component id="btnCadastrar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnCadastrar2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="37" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -190,7 +195,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="java.awt.Button" name="btnCadastrar">
+    <Component class="java.awt.Button" name="btnCadastrar2">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="ClsEstilo.botaoFonte" type="code"/>
@@ -201,8 +206,8 @@
         <Property name="label" type="java.lang.String" value="Cadastrar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCadastrarActionPerformed"/>
-        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="btnCadastrarKeyPressed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCadastrar2ActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="btnCadastrar2KeyPressed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblLogo">
@@ -273,6 +278,9 @@
           <ComponentRef name="bgpSexo"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Feminino"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="rdoMasculino"/>
+        </Property>
         <Property name="opaque" type="boolean" value="false"/>
       </Properties>
     </Component>
@@ -313,6 +321,9 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="ClsEstilo.textoInputFonte" type="code"/>
         </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="rdoFeminino"/>
+        </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="try {&#xa;        MaskFormatter dateMask = new MaskFormatter(&quot;##/##/####&quot;);&#xa;        dateMask.setPlaceholderCharacter(&apos;0&apos;) ; &#xa;        dateMask.install(ftxtNascimento);&#xa;    } catch (ParseException ex) {&#xa;        System.out.println(ex);&#xa;    }"/>
@@ -333,6 +344,9 @@
         </Property>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="ClsEstilo.textoInputFonte" type="code"/>
+        </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="ftxtNascimento"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -370,10 +384,12 @@
             <StringItem index="7" value="Outro"/>
           </StringArray>
         </Property>
+        <Property name="lightWeightPopupEnabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cboParentescoItemStateChanged"/>
         <EventHandler event="caretPositionChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="cboParentescoCaretPositionChanged"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cboParentescoKeyPressed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtQual">

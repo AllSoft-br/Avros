@@ -23,6 +23,7 @@ import br.com.allsoft.avros.formulas.Cpf;
 import br.com.allsoft.avros.formulas.Datas;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -214,18 +215,27 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
 
         txtCpf.setFont(ClsEstilo.textoInputFonte);
         txtCpf.setForeground(ClsEstilo.textoInputCor);
+        txtCpf.setFocusCycleRoot(true);
+        txtCpf.setNextFocusableComponent(txtNome);
 
         btnPesquisar.setFont(ClsEstilo.botaoFonte);
         btnPesquisar.setForeground(ClsEstilo.botaoCor);
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.setNextFocusableComponent(jtblCliente);
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
             }
         });
+        btnPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnPesquisarKeyPressed(evt);
+            }
+        });
 
         txtNome.setFont(ClsEstilo.textoInputFonte);
         txtNome.setForeground(ClsEstilo.textoInputCor);
+        txtNome.setNextFocusableComponent(btnPesquisar);
 
         jLabel2.setText("Por CPF");
 
@@ -233,6 +243,8 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
 
         jtblCliente.setFont(ClsEstilo.labelFonte);
         jtblCliente.setModel(tblCliente);
+        jtblCliente.setName(""); // NOI18N
+        jtblCliente.setNextFocusableComponent(lblVerTodos);
         jScrollPane1.setViewportView(jtblCliente);
 
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -245,6 +257,11 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
         btnAbrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAbrirActionPerformed(evt);
+            }
+        });
+        btnAbrir.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnAbrirKeyPressed(evt);
             }
         });
 
@@ -404,6 +421,18 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
             Logger.getLogger(IfrmConsCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_lblVerTodosMouseClicked
+
+    private void btnPesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPesquisarKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnPesquisar.doClick();
+        }
+    }//GEN-LAST:event_btnPesquisarKeyPressed
+
+    private void btnAbrirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAbrirKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnAbrir.doClick();
+        }
+    }//GEN-LAST:event_btnAbrirKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

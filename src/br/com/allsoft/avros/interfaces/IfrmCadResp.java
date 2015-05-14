@@ -67,11 +67,7 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         rdoMasculino = new javax.swing.JRadioButton();
-        txtNome = new java.awt.TextField();
-        txtCpf = new java.awt.TextField();
         lblLogo = new javax.swing.JLabel();
-        txtTel = new java.awt.TextField();
-        btnCadastrar = new java.awt.Button();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -80,6 +76,10 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         txtQual = new javax.swing.JTextField();
         lblQual = new javax.swing.JLabel();
+        txtNome = new javax.swing.JTextField();
+        txtCpf = new javax.swing.JTextField();
+        txtTel = new javax.swing.JTextField();
+        btnCadastrar = new javax.swing.JButton();
 
         setBackground(ClsEstilo.formbg);
         setClosable(true);
@@ -104,10 +104,11 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
             }
         });
 
-        ftxtNascimento.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        ftxtNascimento.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         ftxtNascimento.setForeground(ClsEstilo.textoInputCor);
         ftxtNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         ftxtNascimento.setFont(ClsEstilo.textoInputFonte);
+        ftxtNascimento.setNextFocusableComponent(rdoFeminino);
         try {
             MaskFormatter dateMask = new MaskFormatter("##/##/####");
             dateMask.install(ftxtNascimento);
@@ -117,6 +118,7 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
 
         bgpSexo.add(rdoFeminino);
         rdoFeminino.setText("Feminino");
+        rdoFeminino.setNextFocusableComponent(rdoMasculino);
         rdoFeminino.setOpaque(false);
 
         jLabel5.setFont(ClsEstilo.labelFonte);
@@ -132,31 +134,8 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
         rdoMasculino.setText("Masculino");
         rdoMasculino.setOpaque(false);
 
-        txtNome.setFont(ClsEstilo.textoInputFonte);
-        txtNome.setForeground(ClsEstilo.textoInputCor);
-
-        txtCpf.setFont(ClsEstilo.textoInputFonte);
-        txtCpf.setForeground(ClsEstilo.textoInputCor);
-
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/logopequeno.png"))); // NOI18N
-
-        txtTel.setFont(ClsEstilo.textoInputFonte);
-        txtTel.setForeground(ClsEstilo.textoInputCor);
-
-        btnCadastrar.setFont(ClsEstilo.botaoFonte);
-        btnCadastrar.setForeground(ClsEstilo.botaoCor);
-        btnCadastrar.setLabel("Cadastrar");
-        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCadastrarActionPerformed(evt);
-            }
-        });
-        btnCadastrar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnCadastrarKeyPressed(evt);
-            }
-        });
 
         jLabel4.setFont(ClsEstilo.labelFonte);
         jLabel4.setForeground(ClsEstilo.labelCor);
@@ -177,16 +156,17 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
         cboParentesco.setFont(ClsEstilo.labelFonte);
         cboParentesco.setForeground(ClsEstilo.labelCor);
         cboParentesco.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecionar", "Avô", "Avó", "Madrasta", "Mãe", "Padrasto", "Pai", "Outro" }));
+        cboParentesco.setNextFocusableComponent(btnCadastrar);
         cboParentesco.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cboParentescoItemStateChanged(evt);
             }
         });
         cboParentesco.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 cboParentescoCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 
@@ -196,10 +176,47 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
 
         txtQual.setFont(ClsEstilo.textoInputFonte);
         txtQual.setForeground(ClsEstilo.textoInputCor);
+        txtQual.setNextFocusableComponent(btnCadastrar);
+        txtQual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtQualActionPerformed(evt);
+            }
+        });
 
         lblQual.setFont(ClsEstilo.labelFonte);
         lblQual.setForeground(ClsEstilo.labelCor);
         lblQual.setText("Qual?");
+
+        txtNome.setFont(ClsEstilo.textoInputFonte);
+        txtNome.setForeground(ClsEstilo.textoInputCor);
+        txtNome.setEnabled(false);
+        txtNome.setFocusCycleRoot(true);
+        txtNome.setNextFocusableComponent(txtCpf);
+
+        txtCpf.setFont(ClsEstilo.textoInputFonte);
+        txtCpf.setForeground(ClsEstilo.textoInputCor);
+        txtCpf.setEnabled(false);
+        txtCpf.setNextFocusableComponent(ftxtNascimento);
+
+        txtTel.setFont(ClsEstilo.textoInputFonte);
+        txtTel.setForeground(ClsEstilo.textoInputCor);
+        txtTel.setEnabled(false);
+        txtTel.setNextFocusableComponent(cboParentesco);
+
+        btnCadastrar.setFont(ClsEstilo.botaoFonte);
+        btnCadastrar.setForeground(ClsEstilo.botaoCor);
+        btnCadastrar.setText("Cadastrar");
+        btnCadastrar.setFocusCycleRoot(true);
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarActionPerformed(evt);
+            }
+        });
+        btnCadastrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnCadastrarKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -207,48 +224,46 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCpf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCadastrar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel7))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ftxtNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(rdoFeminino)
                                         .addGap(18, 18, 18)
                                         .addComponent(rdoMasculino))
-                                    .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtCpf, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(ftxtNascimento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addComponent(cboParentesco, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(txtTel)
+                                            .addComponent(cboParentesco, 0, 123, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lblQual)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                        .addComponent(lblQual)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtQual, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(181, 181, 181)
-                .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,14 +273,15 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(3, 3, 3)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(19, 19, 19)
+                        .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(ftxtNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -275,26 +291,57 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
                             .addComponent(rdoFeminino)
                             .addComponent(rdoMasculino))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(cboParentesco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtQual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblQual)))
                     .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnCadastrar)
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        lblQual.setVisible(false);
+        txtQual.setVisible(false);
+
+        Container a = this.getContentPane();
+        a.setBackground(ClsEstilo.formbg);
+
+        Dimension dim = this.getParent().getSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
+
+    }//GEN-LAST:event_formInternalFrameOpened
+
+    private void cboParentescoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboParentescoItemStateChanged
+        //se o ultimo item (Outro) estiver selecionado, os campos Qual aparecem
+        if (cboParentesco.getSelectedIndex() == (cboParentesco.getItemCount() - 1)) {
+            lblQual.setVisible(true);
+            txtQual.setVisible(true);
+        } else {
+            lblQual.setVisible(false);
+            txtQual.setVisible(false);
+        }
+    }//GEN-LAST:event_cboParentescoItemStateChanged
+
+    private void cboParentescoCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_cboParentescoCaretPositionChanged
+
+    }//GEN-LAST:event_cboParentescoCaretPositionChanged
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        FrmPrincipal.bResp = false;
+    }//GEN-LAST:event_formInternalFrameClosed
+
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        if (cboParentesco.getSelectedIndex() > 0) {
+       if (cboParentesco.getSelectedIndex() > 0) {
             String nome = txtNome.getText();
             String cpf = txtCpf.getText();
             String nascimento = ftxtNascimento.getText();
@@ -352,58 +399,34 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Escolha o grau de parentesco.");
         }
-
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnCadastrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnCadastrarKeyPressed
-        if (evt.isAltDown() && evt.getKeyCode() == KeyEvent.VK_A) {
+       if (evt.isAltDown() && evt.getKeyCode() == KeyEvent.VK_A) {
 
             txtNome.setText("Marcos da Silva");
             //txtCpf.setText("18692409103");
             txtCpf.setText(new GeraCPF().geraCPFFinal());
-            ftxtNascimento.setText("14/07/1997");
+            ftxtNascimento.setText("14/07/1980");
             rdoMasculino.setSelected(true);
             txtTel.setText("8475-8475");
 
             System.out.println("Atalho ativado");
         }
+       
+       if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+           btnCadastrar.doClick();
+       }
     }//GEN-LAST:event_btnCadastrarKeyPressed
 
-    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        lblQual.setVisible(false);
-        txtQual.setVisible(false);
-
-        Container a = this.getContentPane();
-        a.setBackground(ClsEstilo.formbg);
-
-        Dimension dim = this.getParent().getSize();
-        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
-
-    }//GEN-LAST:event_formInternalFrameOpened
-
-    private void cboParentescoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboParentescoItemStateChanged
-        //se o ultimo item (Outro) estiver selecionado, os campos Qual aparecem
-        if (cboParentesco.getSelectedIndex() == (cboParentesco.getItemCount() - 1)) {
-            lblQual.setVisible(true);
-            txtQual.setVisible(true);
-        } else {
-            lblQual.setVisible(false);
-            txtQual.setVisible(false);
-        }
-    }//GEN-LAST:event_cboParentescoItemStateChanged
-
-    private void cboParentescoCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_cboParentescoCaretPositionChanged
-
-    }//GEN-LAST:event_cboParentescoCaretPositionChanged
-
-    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-        FrmPrincipal.bResp = false;
-    }//GEN-LAST:event_formInternalFrameClosed
+    private void txtQualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQualActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtQualActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgpSexo;
-    private java.awt.Button btnCadastrar;
+    private javax.swing.JButton btnCadastrar;
     private javax.swing.JComboBox cboParentesco;
     private javax.swing.JFormattedTextField ftxtNascimento;
     private javax.swing.JLabel jLabel1;
@@ -417,9 +440,9 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblQual;
     private javax.swing.JRadioButton rdoFeminino;
     private javax.swing.JRadioButton rdoMasculino;
-    private java.awt.TextField txtCpf;
-    private java.awt.TextField txtNome;
+    private javax.swing.JTextField txtCpf;
+    private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtQual;
-    private java.awt.TextField txtTel;
+    private javax.swing.JTextField txtTel;
     // End of variables declaration//GEN-END:variables
 }

@@ -52,7 +52,7 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         txtCpf.setText("");
         txtNome.setText("");
         txtTel.setText("");
-        
+
         txtQual.setVisible(false);
         lblQual.setVisible(false);
     }
@@ -78,9 +78,10 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
 
         label5 = new java.awt.Label();
         bgpSexo = new javax.swing.ButtonGroup();
+        jToggleButton1 = new javax.swing.JToggleButton();
         txtNome = new java.awt.TextField();
         txtTel = new java.awt.TextField();
-        btnCadastrar = new java.awt.Button();
+        btnCadastrar2 = new java.awt.Button();
         lblLogo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -98,6 +99,8 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
 
         label5.setText("label5");
+
+        jToggleButton1.setText("jToggleButton1");
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
@@ -128,17 +131,17 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         txtTel.setFont(ClsEstilo.textoInputFonte);
         txtTel.setForeground(ClsEstilo.textoInputCor);
 
-        btnCadastrar.setFont(ClsEstilo.botaoFonte);
-        btnCadastrar.setForeground(ClsEstilo.botaoCor);
-        btnCadastrar.setLabel("Cadastrar");
-        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+        btnCadastrar2.setFont(ClsEstilo.botaoFonte);
+        btnCadastrar2.setForeground(ClsEstilo.botaoCor);
+        btnCadastrar2.setLabel("Cadastrar");
+        btnCadastrar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCadastrarActionPerformed(evt);
+                btnCadastrar2ActionPerformed(evt);
             }
         });
-        btnCadastrar.addKeyListener(new java.awt.event.KeyAdapter() {
+        btnCadastrar2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnCadastrarKeyPressed(evt);
+                btnCadastrar2KeyPressed(evt);
             }
         });
 
@@ -166,6 +169,7 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
 
         bgpSexo.add(rdoFeminino);
         rdoFeminino.setText("Feminino");
+        rdoFeminino.setNextFocusableComponent(rdoMasculino);
         rdoFeminino.setOpaque(false);
 
         bgpSexo.add(rdoMasculino);
@@ -181,6 +185,7 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         ftxtNascimento.setForeground(ClsEstilo.textoInputCor);
         ftxtNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         ftxtNascimento.setFont(ClsEstilo.textoInputFonte);
+        ftxtNascimento.setNextFocusableComponent(rdoFeminino);
         try {
             MaskFormatter dateMask = new MaskFormatter("##/##/####");
             dateMask.setPlaceholderCharacter('0') ;
@@ -197,6 +202,7 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
         txtCpf.setFont(ClsEstilo.textoInputFonte);
+        txtCpf.setNextFocusableComponent(ftxtNascimento);
 
         lblQual.setFont(ClsEstilo.labelFonte);
         lblQual.setForeground(ClsEstilo.labelCor);
@@ -205,16 +211,22 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         cboParentesco.setFont(ClsEstilo.labelFonte);
         cboParentesco.setForeground(ClsEstilo.labelCor);
         cboParentesco.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecionar", "Avô", "Avó", "Madrasta", "Mãe", "Padrasto", "Pai", "Outro" }));
+        cboParentesco.setLightWeightPopupEnabled(false);
         cboParentesco.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cboParentescoItemStateChanged(evt);
             }
         });
         cboParentesco.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 cboParentescoCaretPositionChanged(evt);
             }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+        });
+        cboParentesco.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cboParentescoKeyPressed(evt);
             }
         });
 
@@ -229,10 +241,6 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(209, 209, 209))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -275,9 +283,12 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(cboParentesco, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(66, 66, 66)
-                                .addComponent(lblQual)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnCadastrar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(cboParentesco, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(66, 66, 66)
+                                        .addComponent(lblQual)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtQual, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -318,9 +329,9 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
                     .addComponent(cboParentesco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtQual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblQual))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCadastrar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         setBounds(0, 0, 515, 401);
@@ -337,7 +348,48 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         lblQual.setVisible(false);
     }//GEN-LAST:event_formInternalFrameOpened
 
-    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        FrmPrincipal.bCliente = false;
+    }//GEN-LAST:event_formInternalFrameClosed
+
+    private void cboParentescoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboParentescoItemStateChanged
+        //se o ultimo item (Outro) estiver selecionado, os campos Qual aparecem
+        if (cboParentesco.getSelectedIndex() == (cboParentesco.getItemCount() - 1)) {
+            lblQual.setVisible(true);
+            txtQual.setVisible(true);
+        } else {
+            lblQual.setVisible(false);
+            txtQual.setVisible(false);
+        }
+    }//GEN-LAST:event_cboParentescoItemStateChanged
+
+    private void cboParentescoCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_cboParentescoCaretPositionChanged
+
+    }//GEN-LAST:event_cboParentescoCaretPositionChanged
+
+    private void cboParentescoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cboParentescoKeyPressed
+
+    }//GEN-LAST:event_cboParentescoKeyPressed
+
+    private void btnCadastrar2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnCadastrar2KeyPressed
+        if (evt.isAltDown() && evt.getKeyCode() == KeyEvent.VK_A) {
+
+            txtNome.setText("Maria da Silva");
+            //txtCpf.setText("18692409103");
+            txtCpf.setText(new GeraCPF().geraCPFFinal());
+            ftxtNascimento.setText("14/07/1997");
+            rdoFeminino.setSelected(true);
+            txtTel.setText("8475-8475");
+
+            System.out.println("Atalho ativado");
+        } else {
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                ;
+            }
+        }
+    }//GEN-LAST:event_btnCadastrar2KeyPressed
+
+    private void btnCadastrar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrar2ActionPerformed
         int idade = 0;
         String nome = txtNome.getText();
         String cpf = txtCpf.getText();
@@ -390,45 +442,12 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(rootPane, "Por favor, preencha todos os campos.");
         }
-    }//GEN-LAST:event_btnCadastrarActionPerformed
-
-    private void btnCadastrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnCadastrarKeyPressed
-        if (evt.isAltDown() && evt.getKeyCode() == KeyEvent.VK_A) {
-
-            txtNome.setText("Maria da Silva");
-            //txtCpf.setText("18692409103");
-            txtCpf.setText(new GeraCPF().geraCPFFinal());
-            ftxtNascimento.setText("14/07/1997");
-            rdoFeminino.setSelected(true);
-            txtTel.setText("8475-8475");
-
-            System.out.println("Atalho ativado");
-        }
-    }//GEN-LAST:event_btnCadastrarKeyPressed
-
-    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-        FrmPrincipal.bCliente = false;
-    }//GEN-LAST:event_formInternalFrameClosed
-
-    private void cboParentescoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboParentescoItemStateChanged
-        //se o ultimo item (Outro) estiver selecionado, os campos Qual aparecem
-        if (cboParentesco.getSelectedIndex() == (cboParentesco.getItemCount() - 1)) {
-            lblQual.setVisible(true);
-            txtQual.setVisible(true);
-        } else {
-            lblQual.setVisible(false);
-            txtQual.setVisible(false);
-        }
-    }//GEN-LAST:event_cboParentescoItemStateChanged
-
-    private void cboParentescoCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_cboParentescoCaretPositionChanged
-
-    }//GEN-LAST:event_cboParentescoCaretPositionChanged
+    }//GEN-LAST:event_btnCadastrar2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgpSexo;
-    private java.awt.Button btnCadastrar;
+    private java.awt.Button btnCadastrar2;
     private javax.swing.JComboBox cboParentesco;
     private javax.swing.JFormattedTextField ftxtNascimento;
     private javax.swing.JLabel jLabel1;
@@ -438,6 +457,7 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JToggleButton jToggleButton1;
     private java.awt.Label label5;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblQual;

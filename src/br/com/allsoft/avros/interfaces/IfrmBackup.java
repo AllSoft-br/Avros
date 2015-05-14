@@ -20,6 +20,7 @@ import br.com.allsoft.avros.backup.MySQLBackup;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -85,25 +86,40 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
         jLabel2.setForeground(ClsEstilo.tituloCor);
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Backup");
+        jLabel2.setFocusable(false);
 
         btnBackup.setFont(ClsEstilo.botaoFonte);
         btnBackup.setForeground(ClsEstilo.botaoCor);
         btnBackup.setText("Fazer backup");
+        btnBackup.setFocusCycleRoot(true);
+        btnBackup.setNextFocusableComponent(btnRecuperar);
         btnBackup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackupActionPerformed(evt);
             }
         });
+        btnBackup.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnBackupKeyPressed(evt);
+            }
+        });
 
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/logopequeno.png"))); // NOI18N
+        lblLogo.setFocusable(false);
 
         btnRecuperar.setFont(ClsEstilo.botaoFonte);
         btnRecuperar.setForeground(ClsEstilo.botaoCor);
         btnRecuperar.setText("Recuperar dados do backup");
+        btnRecuperar.setNextFocusableComponent(btnBackup);
         btnRecuperar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRecuperarActionPerformed(evt);
+            }
+        });
+        btnRecuperar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnRecuperarKeyPressed(evt);
             }
         });
 
@@ -111,11 +127,13 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
         jLabel3.setForeground(new java.awt.Color(0, 51, 51));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("pretende fazer?");
+        jLabel3.setFocusable(false);
 
         jLabel6.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 51, 51));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("O que você");
+        jLabel6.setFocusable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -201,10 +219,23 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
             } catch (IOException | SQLException ex) {
                 Logger.getLogger(IfrmBackup.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(this, "ERRO: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
+            } catch (Exception ex) {
+                Logger.getLogger(IfrmBackup.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnRecuperarActionPerformed
+
+    private void btnBackupKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBackupKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnBackup.doClick();
+        }
+    }//GEN-LAST:event_btnBackupKeyPressed
+
+    private void btnRecuperarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnRecuperarKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnRecuperar.doClick();
+        }
+    }//GEN-LAST:event_btnRecuperarKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

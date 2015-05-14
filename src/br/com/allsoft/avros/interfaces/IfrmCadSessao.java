@@ -236,10 +236,13 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
         rdoCartao.setFont(ClsEstilo.labelFonte);
         rdoCartao.setForeground(ClsEstilo.labelCor);
         rdoCartao.setText("Cartão");
+        rdoCartao.setFocusCycleRoot(true);
+        rdoCartao.setNextFocusableComponent(rdoDinheiro);
 
         rdoDinheiro.setFont(ClsEstilo.labelFonte);
         rdoDinheiro.setForeground(ClsEstilo.labelCor);
         rdoDinheiro.setText("Dinheiro");
+        rdoDinheiro.setNextFocusableComponent(dateData);
 
         lblDesconto.setBackground(ClsEstilo.formbg);
         lblDesconto.setFont(ClsEstilo.linkFonte);
@@ -283,6 +286,7 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
         ftxtDesconto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         ftxtDesconto.setText("0,00");
         ftxtDesconto.setFont(ClsEstilo.textoInputFonte);
+        ftxtDesconto.setNextFocusableComponent(btnAgendar);
         ftxtDesconto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 ftxtDescontoKeyPressed(evt);
@@ -295,14 +299,22 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
                 btnAgendarActionPerformed(evt);
             }
         });
+        btnAgendar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnAgendarKeyPressed(evt);
+            }
+        });
 
         jLabel8.setText("Data");
+
+        dateData.setNextFocusableComponent(spnHorario);
 
         jLabel9.setText("Horário");
 
         JSpinner.DateEditor de = new JSpinner.DateEditor(spnHorario, "HH:mm");
         de.getTextField().setEditable( false );
         spnHorario.setEditor(de);
+        spnHorario.setNextFocusableComponent(btnAgendar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -507,6 +519,12 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_btnAgendarActionPerformed
+
+    private void btnAgendarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAgendarKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnAgendar.doClick();
+        }
+    }//GEN-LAST:event_btnAgendarKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

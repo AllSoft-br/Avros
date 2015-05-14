@@ -57,7 +57,6 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
         btgAdmin = new javax.swing.ButtonGroup();
         rdoAdmin = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
-        txtNick = new java.awt.TextField();
         jLabel3 = new javax.swing.JLabel();
         pswConf = new javax.swing.JPasswordField();
         btnCadastra = new javax.swing.JButton();
@@ -67,10 +66,11 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         lblAviso = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtNome = new java.awt.TextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtCpf = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
+        txtNick = new javax.swing.JTextField();
 
         jLabel1.setText("jLabel1");
 
@@ -98,19 +98,23 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
 
         btgAdmin.add(rdoAdmin);
         rdoAdmin.setText("Administrador");
+        rdoAdmin.setNextFocusableComponent(btnCadastra);
+        rdoAdmin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                rdoAdminKeyPressed(evt);
+            }
+        });
 
         jLabel4.setFont(ClsEstilo.labelFonte);
         jLabel4.setForeground(ClsEstilo.labelCor);
         jLabel4.setText("Confirma senha");
-
-        txtNick.setFont(ClsEstilo.textoInputFonte);
-        txtNick.setForeground(ClsEstilo.textoInputCor);
 
         jLabel3.setFont(ClsEstilo.labelFonte);
         jLabel3.setForeground(ClsEstilo.labelCor);
         jLabel3.setText("Senha");
 
         pswConf.setForeground(ClsEstilo.textoInputCor);
+        pswConf.setNextFocusableComponent(rdoComum);
 
         btnCadastra.setFont(ClsEstilo.botaoFonte);
         btnCadastra.setForeground(ClsEstilo.botaoCor);
@@ -130,10 +134,17 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/logopequeno.png"))); // NOI18N
 
         pswSenha.setForeground(ClsEstilo.textoInputCor);
+        pswSenha.setNextFocusableComponent(pswConf);
 
         btgAdmin.add(rdoComum);
         rdoComum.setSelected(true);
         rdoComum.setText("Usuário comum");
+        rdoComum.setNextFocusableComponent(rdoAdmin);
+        rdoComum.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                rdoComumKeyPressed(evt);
+            }
+        });
 
         jLabel5.setFont(ClsEstilo.tituloFonte);
         jLabel5.setForeground(ClsEstilo.tituloCor);
@@ -149,9 +160,6 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
         jLabel6.setForeground(ClsEstilo.labelCor);
         jLabel6.setText("Nome");
 
-        txtNome.setFont(ClsEstilo.textoInputFonte);
-        txtNome.setForeground(ClsEstilo.textoInputCor);
-
         jLabel2.setFont(ClsEstilo.labelFonte);
         jLabel2.setForeground(ClsEstilo.labelCor);
         jLabel2.setText("Nickname");
@@ -163,67 +171,93 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
         txtCpf.setColumns(11);
         txtCpf.setFont(ClsEstilo.textoInputFonte);
         txtCpf.setForeground(ClsEstilo.textoInputCor);
+        txtCpf.setNextFocusableComponent(pswSenha);
+
+        txtNome.setFont(ClsEstilo.textoInputFonte);
+        txtNome.setForeground(ClsEstilo.textoInputCor);
+        txtNome.setEnabled(false);
+        txtNome.setFocusCycleRoot(true);
+        txtNome.setNextFocusableComponent(txtNick);
+        txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNomeKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNomeKeyTyped(evt);
+            }
+        });
+
+        txtNick.setFont(ClsEstilo.textoInputFonte);
+        txtNick.setForeground(ClsEstilo.textoInputCor);
+        txtNick.setEnabled(false);
+        txtNick.setFocusCycleRoot(true);
+        txtNick.setNextFocusableComponent(txtCpf);
+        txtNick.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNickKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNickKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(18, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtNick, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(pswSenha)
-                                    .addComponent(pswConf)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(rdoComum)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(rdoAdmin))
-                                    .addComponent(txtCpf)))
+                                .addComponent(rdoComum)
+                                .addGap(18, 18, 18)
+                                .addComponent(rdoAdmin))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(134, 134, 134)
-                                .addComponent(btnCadastra)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(pswConf, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                                    .addComponent(pswSenha, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCpf, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNick, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(34, 34, 34)
+                                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(134, 134, 134)
+                        .addComponent(btnCadastra)))
+                .addGap(46, 46, 46))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtNick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel5)
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(13, 13, 13)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtNick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -234,12 +268,15 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(pswConf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(7, 7, 7)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rdoComum)
-                            .addComponent(rdoAdmin))
-                        .addGap(24, 24, 24)))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rdoComum)
+                    .addComponent(rdoAdmin))
+                .addGap(24, 24, 24)
                 .addComponent(lblAviso)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCadastra)
@@ -320,11 +357,43 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
 
             System.out.println("Atalho ativado");
         }
+        
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnCadastra.doClick();
+        }
     }//GEN-LAST:event_btnCadastraKeyPressed
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
         FrmPrincipal.bUsuario = false;
     }//GEN-LAST:event_formInternalFrameClosed
+
+    private void txtNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyPressed
+
+    }//GEN-LAST:event_txtNomeKeyPressed
+
+    private void txtNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyTyped
+
+    }//GEN-LAST:event_txtNomeKeyTyped
+
+    private void txtNickKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNickKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNickKeyPressed
+
+    private void txtNickKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNickKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNickKeyTyped
+
+    private void rdoComumKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rdoComumKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            rdoComum.setSelected(rdoComum.isSelected());
+        }
+    }//GEN-LAST:event_rdoComumKeyPressed
+
+    private void rdoAdminKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rdoAdminKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            rdoAdmin.setSelected(rdoAdmin.isSelected());
+        }
+    }//GEN-LAST:event_rdoAdminKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -344,7 +413,7 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rdoAdmin;
     private javax.swing.JRadioButton rdoComum;
     private javax.swing.JTextField txtCpf;
-    private java.awt.TextField txtNick;
-    private java.awt.TextField txtNome;
+    private javax.swing.JTextField txtNick;
+    private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 }

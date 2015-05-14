@@ -126,11 +126,13 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         rbtnCartao.setFont(ClsEstilo.labelFonte);
         rbtnCartao.setForeground(ClsEstilo.labelCor);
         rbtnCartao.setText("Cartão");
+        rbtnCartao.setNextFocusableComponent(rbtnDinheiro);
 
         bgpPagamento.add(rbtnDinheiro);
         rbtnDinheiro.setFont(ClsEstilo.labelFonte);
         rbtnDinheiro.setForeground(ClsEstilo.labelCor);
         rbtnDinheiro.setText("Dinheiro");
+        rbtnDinheiro.setNextFocusableComponent(ftxtValor);
 
         jLabel5.setFont(ClsEstilo.labelFonte);
         jLabel5.setForeground(ClsEstilo.labelCor);
@@ -141,6 +143,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         jLabel6.setText("Sessões");
 
         spnSessoes.setModel(new javax.swing.SpinnerNumberModel(1, 1, 20, 1));
+        spnSessoes.setNextFocusableComponent(btnImprimir);
         spnSessoes.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 spnSessoesStateChanged(evt);
@@ -156,10 +159,11 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
 
         txtNome.setFont(ClsEstilo.textoInputFonte);
         txtNome.setForeground(ClsEstilo.textoInputCor);
-        txtNome.setNextFocusableComponent(ftxtValor);
+        txtNome.setNextFocusableComponent(rbtnCartao);
 
         txtCpf.setFont(ClsEstilo.textoInputFonte);
         txtCpf.setForeground(ClsEstilo.textoInputCor);
+        txtCpf.setFocusCycleRoot(true);
         txtCpf.setNextFocusableComponent(txtNome);
         txtCpf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -192,6 +196,8 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         btnImprimir.setForeground(ClsEstilo.botaoCor);
         btnImprimir.setText("Imprimir");
         btnImprimir.setEnabled(false);
+        btnImprimir.setName(""); // NOI18N
+        btnImprimir.setNextFocusableComponent(btnSalvar);
 
         MaskFormatter dateMask = new MaskFormatter();
         dateMask.setPlaceholderCharacter('0') ;
@@ -201,6 +207,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         ftxtValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         ftxtValor.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         ftxtValor.setFont(ClsEstilo.textoInputFonte);
+        ftxtValor.setNextFocusableComponent(spnSessoes);
         ftxtValor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 ftxtValorKeyTyped(evt);
