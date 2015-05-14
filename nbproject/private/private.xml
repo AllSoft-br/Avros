@@ -19,14 +19,6 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmEditSessao.java</file>
-            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmConsRepresentante.java</file>
-            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmConsCliente1.java</file>
-            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/factory/JDBCDelete.java</file>
-            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmConsUsuario.java</file>
-            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmCadSessao.java</file>
-            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/factory/AuditoriaDelete.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

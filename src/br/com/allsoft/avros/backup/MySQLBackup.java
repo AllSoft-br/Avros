@@ -23,7 +23,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -78,7 +81,7 @@ public class MySQLBackup {
                     "--password=" + password,
                     dbName,
                     "--result-file=" + "." + SEPARATOR + "Backup" + SEPARATOR + dbName + ".sql");
-            
+
             try {
                 System.out.println("Backup do banco de dados (" + i + "): " + dbName + " ...");
                 pb.start();
@@ -89,13 +92,13 @@ public class MySQLBackup {
             i++;
         }
 
-    // Fim
+        // Fim
         time2 = System.currentTimeMillis();
 
-    // Tempo total da operação
+        // Tempo total da operação
         time = time2 - time1;
 
-    // Avisa do sucesso
+        // Avisa do sucesso
         System.out.println("\nBackups realizados com sucesso.\n\n");
 
         System.out.println("Tempo total de processamento: " + time + " ms\n");
@@ -104,7 +107,7 @@ public class MySQLBackup {
 
         try {
 
-      // Paralisa por 2 segundos
+            // Paralisa por 2 segundos
             Thread.sleep(2000);
 
         } catch (Exception e) {
@@ -112,22 +115,38 @@ public class MySQLBackup {
             throw new Exception(e);
         }
     }
-    
-    public static void recuperaBackup() throws IOException, SQLException{
-        Connection con = ConexaoMySQL.getConexaoMySQL();
-        con.setAutoCommit(false);
-        
-        File arq = new File("backup", "bd_estudio.sql");
-        
-        ScriptRunner runner = new ScriptRunner(con, false, true);
-        runner.runScript(new BufferedReader(new FileReader("backup/bd_estudio.sql")));
-        con.commit();
-        con.close();
+
+    public static void recuperaBackup() throws IOException, Exception {
+        try {
+            Connection con = ConexaoMySQL.getConexaoMySQL();
+            con.setAutoCommit(false);
+
+            ScriptRunner runner = new ScriptRunner(con, false, true);
+            runner.runScript(new BufferedReader(new FileReader("backup/bd_estudio.sql")));
+
+            con.commit();
+            con.close();
+        } catch (Exception ex) {
+            String serverName = "localhost:3306"; //caminho do servidor do BD, ip da máquina do servido
+            String url = "jdbc:mysql://" + serverName;
+            String username = "root"; //nome de uduário de ser BD
+            String password = ""; //sua senha de acesso
+
+            Logger.getLogger(MySQLBackup.class.getName()).log(Level.SEVERE, null, ex);
+            Connection con = DriverManager.getConnection(url, username, password);
+
+            Statement s = con.createStatement();
+            int result = s.executeUpdate("create database bd_estudio");
+            
+            con.close();
+            
+            throw new Exception("O sistema tentou recriar o banco de dados. Tente recuperar o backup novamente");
+        }
     }
 
     public static void main(String[] args) {
         try {
-            salvaBackup();
+            recuperaBackup();
         } catch (Exception ex) {
             Logger.getLogger(MySQLBackup.class.getName()).log(Level.SEVERE, null, ex);
         }
