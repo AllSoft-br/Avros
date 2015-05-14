@@ -112,4 +112,86 @@ public class AuditoriaLogin extends JDBCAuditoria {
             throw new AuditoriaException(ex);
         }
     }
+    
+    /**
+     * Grava o armazenamento de backup na auditoria
+     * 
+     * @param usuario que armazenou
+     * @throws AuditoriaException 
+     */
+    public static void salvaBackup(UsuarioDAO usuario) throws AuditoriaException {
+        try {
+            tabela = ClsBD.getTblLogin();
+            acao = "login";
+            descricao = usuario.getNick() + " atualiou o arquivo de backup";
+            codDado = usuario.getId();
+            idLogin = usuario.getId();
+            con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
+
+            String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement stmt = con.prepareStatement(query);
+
+            stmt.setString(1, tabela);
+            stmt.setInt(2, codDado);
+            stmt.setString(3, acao);
+            stmt.setString(4, descricao);
+            stmt.setInt(5, idLogin);
+            stmt.setString(6, sql);
+            stmt.setString(7, antes);
+            stmt.setString(8, depois);
+            stmt.setString(9, campo);
+
+            stmt.execute();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
+            throw new AuditoriaException(ex);
+        }
+    }
+    
+    /**
+     * Grava o armazenamento de backup na auditoria
+     * 
+     * @param usuario que armazenou
+     * @throws AuditoriaException 
+     */
+    public static void recuperaBackup(UsuarioDAO usuario) throws AuditoriaException {
+        try {
+            tabela = ClsBD.getTblLogin();
+            acao = "login";
+            descricao = usuario.getNick() + " recuperou as informações a partir do backup";
+            codDado = usuario.getId();
+            idLogin = usuario.getId();
+            con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
+
+            String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement stmt = con.prepareStatement(query);
+
+            stmt.setString(1, tabela);
+            stmt.setInt(2, codDado);
+            stmt.setString(3, acao);
+            stmt.setString(4, descricao);
+            stmt.setInt(5, idLogin);
+            stmt.setString(6, sql);
+            stmt.setString(7, antes);
+            stmt.setString(8, depois);
+            stmt.setString(9, campo);
+
+            stmt.execute();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
+            throw new AuditoriaException(ex);
+        }
+    }
 }

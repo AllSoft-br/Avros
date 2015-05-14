@@ -13,12 +13,57 @@
             <url>src/br/com/allsoft/avros/interfaces/FrmLogin.java</url>
             <bookmark id="1">
                 <name/>
+<<<<<<< HEAD
+                <line>187</line>
+=======
                 <line>175</line>
+>>>>>>> origin/master
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+<<<<<<< HEAD
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmHistorico.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmEditOrcamento.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmEditSenha.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/FrmLogin.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmEditConta.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmEditRepres.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmPreSessao.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmCadResp.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmSenha.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmCadResp1.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmEditSessao.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmConsOrcamento.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmConsCliente1.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmConsUsuario.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmCadCliente.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmConsCliente.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmConsRepresentante.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmConta.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmResetSenha.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmCadClienteMenor.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmCadUsuario.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmEditCliente.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmCadOrcamento.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmEditUsuario.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmConsSessao.java</file>
+            <file>file:/C:/Users/Douglas/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmCadSessao.java</file>
+=======
+            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmEditSessao.java</file>
+            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmConsRepresentante.java</file>
+            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmConsCliente1.java</file>
+            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/factory/JDBCDelete.java</file>
+            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmConsUsuario.java</file>
+            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/interfaces/IfrmCadSessao.java</file>
+            <file>file:/C:/Users/Luana/Documents/GitHub/Avros/src/br/com/allsoft/avros/factory/AuditoriaDelete.java</file>
+>>>>>>> origin/master
+        </group>
+>>>>>>> 4e9031eb2a4a974efcfaee975f60fa8733db5f43
     </open-files>
 </project-private>

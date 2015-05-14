@@ -75,9 +75,9 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             registros = filtraRegistros(registros, tipo); 
         }
         
-        int q = registros.size();
+        int q = registros.size() - 1;
 
-        for (int i = 0; i < q; i++) {
+        for (int i = q; i >= 0; i--) {
             tblCad.addRow(new String[1]);
 
             UsuarioDAO usuario = JDBCConsulta.usuarioId(registros.get(i).getIdLogin());

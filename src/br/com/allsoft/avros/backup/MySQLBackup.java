@@ -16,16 +16,16 @@
  */
 package br.com.allsoft.avros.backup;
 
+import br.com.allsoft.avros.factory.AuditoriaLogin;
 import br.com.allsoft.avros.factory.ConexaoMySQL;
 import br.com.allsoft.avros.factory.conexao.ScriptRunner;
+import br.com.allsoft.avros.interfaces.FrmLogin;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 import java.util.logging.Level;
@@ -104,6 +104,8 @@ public class MySQLBackup {
         System.out.println("Tempo total de processamento: " + time + " ms\n");
 
         System.out.println("Finalizando...");
+        
+        AuditoriaLogin.salvaBackup(FrmLogin.usuario);
 
         try {
 
@@ -126,6 +128,9 @@ public class MySQLBackup {
 
             con.commit();
             con.close();
+            
+            AuditoriaLogin.recuperaBackup(FrmLogin.usuario);
+            
         } catch (Exception ex) {
             String serverName = "localhost:3306"; //caminho do servidor do BD, ip da máquina do servido
             String url = "jdbc:mysql://" + serverName;
@@ -140,7 +145,9 @@ public class MySQLBackup {
             
             con.close();
             
-            throw new Exception("O sistema tentou recriar o banco de dados. Tente recuperar o backup novamente");
+            throw new Exception("O sistema tentou recriar o banco de dados. Tente recuperar o backup novamente e contate"
+                    + " os desenvolvedores do sistema o mais rápido possível.");
+            
         }
     }
 
