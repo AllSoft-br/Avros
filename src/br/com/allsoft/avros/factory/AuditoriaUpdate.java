@@ -25,6 +25,7 @@ import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import static br.com.allsoft.avros.factory.JDBCAuditoria.con;
+import static br.com.allsoft.avros.factory.JDBCAuditoria.tabela;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Moeda;
 import java.sql.PreparedStatement;
@@ -70,7 +71,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
             stmt.setString(7, antes);
             stmt.setString(8, depois);
             stmt.setString(9, campo);
-
+            
             stmt.execute();
             stmt.close();
             con.close();

@@ -31,12 +31,8 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author Luana
- */ //imagem para substituir o logo do java
+ */
 public class FrmLogin extends javax.swing.JFrame {
-URL url = this.getClass().getResource("/br.com.allsoft.avros.img/logopequeno.png");  
-Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
-
-
 
     //Variáveis
     public static UsuarioDAO usuario = new UsuarioDAO();
@@ -209,6 +205,11 @@ Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
+
+        URL url = this.getClass().getResource("/br/com/allsoft/avros/img/logo.png");
+        Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
+        
+        this.setIconImage(imagemTitulo);
     }//GEN-LAST:event_formWindowOpened
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked

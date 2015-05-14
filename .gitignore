@@ -1,2 +1,4 @@
 /dist/
 /Banco/cep_mysql.sql
+backup/
+!/src/br/com/allsoft/avros/backup/

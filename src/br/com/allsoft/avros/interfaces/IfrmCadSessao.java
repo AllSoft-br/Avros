@@ -494,13 +494,14 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
         try {
             int id = (JDBCInsere.inserirSessao(sessao));
             sessao.setId(id);
-            System.out.println(id);
             
             int j = JOptionPane.showConfirmDialog(this, "Sessão cadastrada com sucesso! Deseja imprimir o comprovante?");
             if (j == JOptionPane.YES_OPTION) {
                 Relatorio relatorio = new Relatorio();
                 relatorio.criaRelatorio(cliente.getCpf(), sessao.getId(), "sessaoAgend");
             }
+            
+            this.dispose();
         } catch (SQLException | IOException | JRException ex) {
             Logger.getLogger(IfrmCadSessao.class.getName()).log(Level.SEVERE, null, ex);
         }

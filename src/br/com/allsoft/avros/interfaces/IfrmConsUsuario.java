@@ -18,6 +18,7 @@ package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.formulas.Consulta;
 import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -39,9 +40,12 @@ import javax.swing.table.DefaultTableModel;
 public class IfrmConsUsuario extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblUsuario = new DefaultTableModel();
+    DefaultTableModel tblUsuario = new ClsTableModel();
     UsuarioDAO usuario = new UsuarioDAO();
     Dimension tabela, scroll, form;
+    String nome = "";
+    String nick = "";
+    String cpf = "";
 
     //Métodos
     /**
@@ -115,6 +119,9 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
         //Preenche ela
         for (int i = 0; i < qtde; i++) {
             tblUsuario.addRow(new String[1]);
+            String cliCpf = Consulta.grifar(cpf, usuarios.get(i).getCpf());
+            String cliNome = Consulta.grifar(nome, usuarios.get(i).getNome());
+            String cliNick = Consulta.grifar(nick, usuarios.get(i).getNick());
 
             String tipo = "Comum";
             if (usuarios.get(i).isAdmin()) {
@@ -122,9 +129,9 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
             }
 
             tblUsuario.setValueAt(usuarios.get(i).getId(), i, 0);
-            tblUsuario.setValueAt(usuarios.get(i).getNome(), i, 1);
-            tblUsuario.setValueAt(usuarios.get(i).getNick(), i, 2);
-            tblUsuario.setValueAt(usuarios.get(i).getCpf(), i, 3);
+            tblUsuario.setValueAt(cliNome, i, 1);
+            tblUsuario.setValueAt(cliNick, i, 2);
+            tblUsuario.setValueAt(cliCpf, i, 3);
             tblUsuario.setValueAt(tipo, i, 4);
         }
     }
@@ -351,7 +358,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
         List<UsuarioDAO> usuarios = new ArrayList<>();
 
         if (!txtNome.getText().isEmpty()) {
-            String nome = txtNome.getText();
+            nome = txtNome.getText();
             try {
                 usuarios = JDBCConsulta.usuarioNome(nome);
             } catch (SQLException ex) {
@@ -361,7 +368,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
         }
 
         if (!txtCpf.getText().isEmpty()) {
-            String cpf = txtCpf.getText();
+            cpf = txtCpf.getText();
 
             if (Cpf.isCpf(cpf)) {
                 UsuarioDAO user = new UsuarioDAO();
@@ -393,7 +400,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
         }
 
         if (!txtNick.getText().isEmpty()) {
-            String nick = txtNick.getText();
+            nick = txtNick.getText();
             UsuarioDAO user = new UsuarioDAO();
             try {
                 user = JDBCConsulta.usuarioNick(nick);

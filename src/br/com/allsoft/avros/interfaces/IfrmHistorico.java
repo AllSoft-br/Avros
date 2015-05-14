@@ -16,6 +16,7 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.ClsBD;
 import br.com.allsoft.avros.dao.RegistroDAO;
 import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.event.ComboBoxItemListener;
@@ -26,8 +27,8 @@ import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,24 +44,142 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 public class IfrmHistorico extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblLogin = new DefaultTableModel();
-    DefaultTableModel tblCad = new DefaultTableModel();
-    DefaultTableModel tblEdit = new DefaultTableModel();
-    DefaultTableModel tblDel = new DefaultTableModel();
+    DefaultTableModel tblLogin = new ClsTableModel();
+    DefaultTableModel tblCad = new ClsTableModel();
+    DefaultTableModel tblEdit = new ClsTableModel();
+    DefaultTableModel tblDel = new ClsTableModel();
 
     String[] cabLog = {"Cód.", "Usuário", "Descrição", "Horário"};
-    String[] cabCad = {"Cód.", "Item", "Usuário", "Descrição", "ID do item"};
-    String[] cabDel = {"Cód.", "Item", "Usuário", "Descrição", "ID do item"};
-    String[] cabEdit = {"Cód.", "Item", "Usuário", "Descrição", "ID do item", "Antes", "Depois"};
+    String[] cabCad = {"Cód.", "Item", "Usuário", "Descrição", "Horário", "ID do item"};
+    String[] cabDel = {"Cód.", "Item", "Usuário", "Descrição", "Horário", "ID do item"};
+    String[] cabEdit = {"Cód.", "Item", "Usuário", "Descrição", "Horário", "ID do item", "Antes", "Depois"};
 
     String nick = "todos";
     String periodo = "24 horas";
+    String tipo = "todos";
 
     //métodos
+    /**
+     * Preenche a tabela indicada a partir de uma lista de registros
+     *
+     * @param registros
+     * @throws SQLException
+     */
+    private void preencheTabelaCad(List<RegistroDAO> registros) throws SQLException {
+        tblCad.setColumnIdentifiers(cabCad);
+        jtblCad.setModel(tblCad);
+        tblCad.setRowCount(0);
+        
+        tipo = cbxTipoCad.getSelectedItem().toString();
+        if (!(tipo.equalsIgnoreCase("todos"))){
+            registros = filtraRegistros(registros, tipo); 
+        }
+        
+        int q = registros.size();
+
+        for (int i = 0; i < q; i++) {
+            tblCad.addRow(new String[1]);
+
+            UsuarioDAO usuario = JDBCConsulta.usuarioId(registros.get(i).getIdLogin());
+            String horario = Datas.timestrampParaString(registros.get(i).getData());
+            String tipo = ClsBD.tipoItem(registros.get(i).getTabela());
+
+            tblCad.setValueAt(registros.get(i).getId(), i, 0);
+            tblCad.setValueAt(tipo, i, 1);
+            tblCad.setValueAt(usuario.getNome(), i, 2);
+            tblCad.setValueAt(registros.get(i).getDescricao(), i, 3);
+            tblCad.setValueAt(horario, i, 4);
+            tblCad.setValueAt(registros.get(i).getIdDado(), i, 5);
+        }
+    }
+
+    /**
+     * Preenche a tabela indicada a partir de uma lista de registros
+     *
+     * @param registros
+     * @throws SQLException
+     */
+    private void preencheTabelaDel(List<RegistroDAO> registros) throws SQLException {
+        tblDel.setColumnIdentifiers(cabDel);
+        jtblDelete.setModel(tblDel);
+        tblDel.setRowCount(0);
+        
+        int q = registros.size();
+
+        for (int i = 0; i < q; i++) {
+            tblDel.addRow(new String[1]);
+
+            UsuarioDAO usuario = JDBCConsulta.usuarioId(registros.get(i).getIdLogin());
+            String horario = Datas.timestrampParaString(registros.get(i).getData());
+            String tipo = ClsBD.tipoItem(registros.get(i).getTabela());
+
+            tblDel.setValueAt(registros.get(i).getId(), i, 0);
+            tblDel.setValueAt(tipo, i, 1);
+            tblDel.setValueAt(usuario.getNome(), i, 2);
+            tblDel.setValueAt(registros.get(i).getDescricao(), i, 3);
+            tblDel.setValueAt(horario, i, 4);
+            tblDel.setValueAt(registros.get(i).getIdDado(), i, 5);
+        }
+    }
+
+    /**
+     * Preenche a tabela indicada a partir de uma lista de registros
+     *
+     * @param registros
+     * @throws SQLException
+     */
+    private void preencheTabelaEdit(List<RegistroDAO> registros) throws SQLException {
+        tblEdit.setColumnIdentifiers(cabEdit);
+        jtblEdit.setModel(tblEdit);
+        tblEdit.setRowCount(0);
+        
+        tipo = cbxTipoEdit.getSelectedItem().toString();
+        if (!(tipo.equalsIgnoreCase("todos"))){
+            registros = filtraRegistros(registros, tipo); 
+        }
+        
+        int q = registros.size();
+
+        for (int i = 0; i < q; i++) {
+            tblEdit.addRow(new String[1]);
+
+            UsuarioDAO usuario = JDBCConsulta.usuarioId(registros.get(i).getIdLogin());
+            String horario = Datas.timestrampParaString(registros.get(i).getData());
+            String tipo = ClsBD.tipoItem(registros.get(i).getTabela());
+
+            tblEdit.setValueAt(registros.get(i).getId(), i, 0);
+            tblEdit.setValueAt(tipo, i, 1);
+            tblEdit.setValueAt(usuario.getNome(), i, 2);
+            tblEdit.setValueAt(registros.get(i).getDescricao(), i, 3);
+            tblEdit.setValueAt(horario, i, 4);
+            tblEdit.setValueAt(registros.get(i).getIdDado(), i, 5);
+
+            if (tipo.equalsIgnoreCase("usuário")) {
+                if ((registros.get(i).getCampo().equalsIgnoreCase(ClsBD.getUsuarionome())) || (registros.get(i).getCampo().equalsIgnoreCase(ClsBD.getUsuarionick()))) {
+                    tblEdit.setValueAt(registros.get(i).getAntes(), i, 6);
+                    tblEdit.setValueAt(registros.get(i).getDepois(), i, 7);
+                } else {
+                    tblEdit.setValueAt("informação pessoal", i, 6);
+                    tblEdit.setValueAt("informação pessoal", i, 7);
+                }
+            } else {
+                tblEdit.setValueAt(registros.get(i).getAntes(), i, 6);
+                tblEdit.setValueAt(registros.get(i).getDepois(), i, 7);
+            }
+        }
+    }
+
+    /**
+     * Preenche a tabela indicada a partir de uma lista de registros
+     *
+     * @param registros
+     * @throws SQLException
+     */
     private void preencheTabelaLog(List<RegistroDAO> registros) throws SQLException {
         tblLogin.setColumnIdentifiers(cabLog);
         jtblLogins.setModel(tblLogin);
         tblLogin.setRowCount(0);
+        
         int q = registros.size();
 
         for (int i = 0; i < q; i++) {
@@ -76,14 +195,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         }
     }
 
-    private void loginClick() {
-        CardLayout card = (CardLayout) mainPanel.getLayout();
-        card.show(mainPanel, "cardLogin");
-
-        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
-        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+    private void criaComponentes() {
 
         try {
             List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
@@ -91,6 +203,9 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
 
             for (int i = 0; i < s; i++) {
                 cbxLoginLog.addItem(usuarios.get(i).getNick());
+                cbxLoginCad.addItem(usuarios.get(i).getNick());
+                cbxLoginEdit.addItem(usuarios.get(i).getNick());
+                cbxLoginDelete.addItem(usuarios.get(i).getNick());
             }
 
         } catch (SQLException ex) {
@@ -105,37 +220,6 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         jtblLogins.setSelectionForeground(ClsEstilo.tabelaTextoSelec);
         jtblLogins.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        try {
-            login24h();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void cadClick() {
-        CardLayout card = (CardLayout) mainPanel.getLayout();
-        card.show(mainPanel, "cardCad");
-
-        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
-        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-
-        try {
-            List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
-            int s = usuarios.size();
-
-            for (int i = 0; i < s; i++) {
-                cbxLoginCad.addItem(usuarios.get(i).getNick());
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        jtblCad.setVisible(false);
-        jScrollPane2.setVisible(false);
         jtblCad.setGridColor(ClsEstilo.tabelaGrid);
         jtblCad.setBackground(ClsEstilo.tabelaBg);
         jScrollPane2.getViewport().setBackground(ClsEstilo.tabelaBg);
@@ -143,31 +227,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         jtblCad.setSelectionBackground(ClsEstilo.tabelaSelec);
         jtblCad.setSelectionForeground(ClsEstilo.tabelaTextoSelec);
         jtblCad.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    }
 
-    private void editClick() {
-        CardLayout card = (CardLayout) mainPanel.getLayout();
-        card.show(mainPanel, "cardEdit");
-
-        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
-        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-
-        try {
-            List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
-            int s = usuarios.size();
-
-            for (int i = 0; i < s; i++) {
-                cbxLoginEdit.addItem(usuarios.get(i).getNick());
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        jtblEdit.setVisible(false);
-        jScrollPane3.setVisible(false);
         jtblEdit.setGridColor(ClsEstilo.tabelaGrid);
         jtblEdit.setBackground(ClsEstilo.tabelaBg);
         jScrollPane3.getViewport().setBackground(ClsEstilo.tabelaBg);
@@ -175,11 +235,103 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         jtblEdit.setSelectionBackground(ClsEstilo.tabelaSelec);
         jtblEdit.setSelectionForeground(ClsEstilo.tabelaTextoSelec);
         jtblEdit.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        jScrollPane4.getViewport().setBackground(ClsEstilo.tabelaBg);
+        jScrollPane4.setBorder(null);
+        jtblDelete.setSelectionBackground(ClsEstilo.tabelaSelec);
+        jtblDelete.setSelectionForeground(ClsEstilo.tabelaTextoSelec);
+        jtblDelete.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
     }
 
+    /**
+     * Mostra o panel, constrói seus itens e formata a tabela chama o método de
+     * mostrar registros de todos os usuários, das últimas 24 horas.
+     */
+    private void loginClick() {
+        CardLayout card = (CardLayout) mainPanel.getLayout();
+        card.show(mainPanel, "cardLogin");
+
+        cbxLoginLog.setSelectedIndex(0);
+        cbxPeriodoLog.setSelectedIndex(0);
+
+        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+
+        try {
+            nick = "todos";
+            periodo = "24h";
+            login24h();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Mostra o panel, constrói seus itens e formata a tabela chama o método de
+     * mostrar registros de todos os usuários, das últimas 24 horas.
+     */
+    private void cadClick() {
+        CardLayout card = (CardLayout) mainPanel.getLayout();
+        card.show(mainPanel, "cardCad");
+
+        cbxLoginCad.setSelectedIndex(0);
+        cbxPeriodoCad.setSelectedIndex(0);
+
+        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+
+        try {
+            nick = "todos";
+            periodo = "24h";
+            cad24h();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Mostra o panel, constrói seus itens e formata a tabela chama o método de
+     * mostrar registros de todos os usuários, das últimas 24 horas.
+     */
+    private void editClick() {
+        CardLayout card = (CardLayout) mainPanel.getLayout();
+        card.show(mainPanel, "cardEdit");
+
+        cbxLoginEdit.setSelectedIndex(0);
+        cbxPeriodoEdit.setSelectedIndex(0);
+
+        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+
+        try {
+            nick = "todos";
+            periodo = "24h";
+            edit24h();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Mostra o panel, constrói seus itens e formata a tabela chama o método de
+     * mostrar registros de todos os usuários, das últimas 24 horas.
+     */
     private void deleteClick() {
         CardLayout card = (CardLayout) mainPanel.getLayout();
         card.show(mainPanel, "cardDelete");
+
+        cbxLoginDelete.setSelectedIndex(0);
+        cbxPeriodoDel.setSelectedIndex(0);
 
         pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
@@ -187,30 +339,17 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
 
         try {
-            List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
-            int s = usuarios.size();
-
-            for (int i = 0; i < s; i++) {
-                cbxLoginDelete.addItem(usuarios.get(i).getNick());
-            }
-
+            nick = "todos";
+            periodo = "24h";
+            del24h();
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        jtblDelete.setVisible(false);
-        jScrollPane4.setVisible(false);
-        jtblDelete.setGridColor(ClsEstilo.tabelaGrid);
-        jtblDelete.setBackground(ClsEstilo.tabelaBg);
-        jScrollPane4.getViewport().setBackground(ClsEstilo.tabelaBg);
-        jScrollPane4.setBorder(null);
-        jtblDelete.setSelectionBackground(ClsEstilo.tabelaSelec);
-        jtblDelete.setSelectionForeground(ClsEstilo.tabelaTextoSelec);
-        jtblDelete.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     private void addEvents() {
-        cbxPeriodo.addItemListener(new ComboBoxItemListener() {
+        cbxPeriodoLog.addItemListener(new ComboBoxItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -226,6 +365,86 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     nick = e.getItem().toString();
                     atualizaTabelaLog();
+                }
+            }
+        });
+
+        cbxTipoCad.addItemListener(new ComboBoxItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    tipo = e.getItem().toString();
+                    atualizaTabelaCad();
+                }
+            }
+        });
+
+        cbxPeriodoCad.addItemListener(new ComboBoxItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    periodo = e.getItem().toString();
+                    atualizaTabelaCad();
+                }
+            }
+        });
+
+        cbxLoginCad.addItemListener(new ComboBoxItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    nick = e.getItem().toString();
+                    atualizaTabelaCad();
+                }
+            }
+        });
+
+        cbxTipoEdit.addItemListener(new ComboBoxItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    tipo = e.getItem().toString();
+                    atualizaTabelaEdit();
+                }
+            }
+        });
+
+        cbxPeriodoEdit.addItemListener(new ComboBoxItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    periodo = e.getItem().toString();
+                    atualizaTabelaEdit();
+                }
+            }
+        });
+
+        cbxLoginEdit.addItemListener(new ComboBoxItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    nick = e.getItem().toString();
+                    atualizaTabelaEdit();
+                }
+            }
+        });
+
+        cbxPeriodoDel.addItemListener(new ComboBoxItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    periodo = e.getItem().toString();
+                    atualizaTabelaDel();
+                }
+            }
+        });
+
+        cbxLoginDelete.addItemListener(new ComboBoxItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    nick = e.getItem().toString();
+                    atualizaTabelaDel();
                 }
             }
         });
@@ -245,13 +464,19 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 } else {
                     login3d(nick);
                 }
+            }else if (periodo.equalsIgnoreCase("7 dias")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    login7d();
+                } else {
+                    login7d(nick);
+                }
             } else if (periodo.equalsIgnoreCase("1 mês")) {
                 if (nick.equalsIgnoreCase("todos")) {
                     login1m();
                 } else {
                     login1m(nick);
                 }
-            } else if (periodo.equalsIgnoreCase("todos")) {
+            } else {
                 if (nick.equalsIgnoreCase("todos")) {
                     loginTodos();
                 } else {
@@ -264,54 +489,624 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         }
     }
 
+    private void atualizaTabelaCad() {
+        try {
+            if (periodo.equalsIgnoreCase("24 horas")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    cad24h();
+                } else {
+                    cad24h(nick);
+                }
+            } else if (periodo.equalsIgnoreCase("3 dias")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    cad3d();
+                } else {
+                    cad3d(nick);
+                }
+            } else if (periodo.equalsIgnoreCase("7 dias")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    cad7d();
+                } else {
+                    cad7d(nick);
+                }
+            } else if (periodo.equalsIgnoreCase("1 mês")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    cad1m();
+                } else {
+                    cad1m(nick);
+                }
+            } else {
+                if (nick.equalsIgnoreCase("todos")) {
+                    cadTodos();
+                } else {
+                    cadTodos(nick);
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void atualizaTabelaEdit() {
+        try {
+            if (periodo.equalsIgnoreCase("24 horas")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    edit24h();
+                } else {
+                    edit24h(nick);
+                }
+            } else if (periodo.equalsIgnoreCase("3 dias")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    edit3d();
+                } else {
+                    edit3d(nick);
+                }
+            }else if (periodo.equalsIgnoreCase("7 dias")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    edit7d();
+                } else {
+                    edit7d(nick);
+                }
+            } else if (periodo.equalsIgnoreCase("1 mês")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    edit1m();
+                } else {
+                    edit1m(nick);
+                }
+            } else {
+                if (nick.equalsIgnoreCase("todos")) {
+                    editTodos();
+                } else {
+                    editTodos(nick);
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void atualizaTabelaDel() {
+        try {
+            if (periodo.equalsIgnoreCase("24 horas")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    del24h();
+                } else {
+                    del24h(nick);
+                }
+            } else if (periodo.equalsIgnoreCase("3 dias")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    del3d();
+                } else {
+                    del3d(nick);
+                }
+            }else if (periodo.equalsIgnoreCase("7 dias")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    del7d();
+                } else {
+                    del7d(nick);
+                }
+            } else if (periodo.equalsIgnoreCase("1 mês")) {
+                if (nick.equalsIgnoreCase("todos")) {
+                    del1m();
+                } else {
+                    del1m(nick);
+                }
+            } else {
+                if (nick.equalsIgnoreCase("todos")) {
+                    delTodos();
+                } else {
+                    delTodos(nick);
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os registros.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(IfrmHistorico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
     private void login24h() throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditLogin24h();
         preencheTabelaLog(registros);
     }
 
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
     private void login3d() throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditLogin3d();
         preencheTabelaLog(registros);
     }
 
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
     private void login7d() throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditLogin7d();
         preencheTabelaLog(registros);
     }
 
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
     private void login1m() throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditLogin1m();
         preencheTabelaLog(registros);
     }
 
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
     private void loginTodos() throws SQLException {
         List<RegistroDAO> registros = JDBCConsulta.auditLogin();
         preencheTabelaLog(registros);
     }
 
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
     private void login24h(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditLogin24h(nick);
         preencheTabelaLog(registros);
     }
 
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
     private void login3d(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditLogin3d(nick);
         preencheTabelaLog(registros);
     }
 
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
     private void login7d(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditLogin7d(nick);
         preencheTabelaLog(registros);
     }
 
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
     private void login1m(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCViews.auditLogin1m(nick);
         preencheTabelaLog(registros);
     }
 
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
     private void loginTodos(String nick) throws SQLException {
         List<RegistroDAO> registros = JDBCConsulta.auditLogin(nick);
         preencheTabelaLog(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void cad24h() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditCad24h();
+        preencheTabelaCad(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void cad3d() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditCad3d();
+        preencheTabelaCad(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void cad7d() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditCad7d();
+        preencheTabelaCad(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void cad1m() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditCad1m();
+        preencheTabelaCad(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void cadTodos() throws SQLException {
+        List<RegistroDAO> registros = JDBCConsulta.auditCad();
+        preencheTabelaCad(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void cad24h(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditCad24h(nick);
+        preencheTabelaCad(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void cad3d(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditCad3d(nick);
+        preencheTabelaCad(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void cad7d(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditCad7d(nick);
+        preencheTabelaCad(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void cad1m(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditCad1m(nick);
+        preencheTabelaCad(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void cadTodos(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCConsulta.auditCad(nick);
+        preencheTabelaCad(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void del24h() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditDel24h();
+        preencheTabelaDel(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void del3d() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditDel3d();
+        preencheTabelaDel(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void del7d() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditDel7d();
+        preencheTabelaDel(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void del1m() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditDel1m();
+        preencheTabelaDel(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void delTodos() throws SQLException {
+        List<RegistroDAO> registros = JDBCConsulta.auditDel();
+        preencheTabelaDel(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void del24h(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditDel24h(nick);
+        preencheTabelaDel(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void del3d(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditDel3d(nick);
+        preencheTabelaDel(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void del7d(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditDel7d(nick);
+        preencheTabelaDel(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void del1m(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditDel1m(nick);
+        preencheTabelaDel(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void delTodos(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCConsulta.auditDel(nick);
+        preencheTabelaDel(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void edit24h() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditEdit24h();
+        preencheTabelaEdit(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void edit3d() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditEdit3d();
+        preencheTabelaEdit(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void edit7d() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditEdit7d();
+        preencheTabelaEdit(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void edit1m() throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditEdit1m();
+        preencheTabelaEdit(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void editTodos() throws SQLException {
+        List<RegistroDAO> registros = JDBCConsulta.auditEdit();
+        preencheTabelaEdit(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void edit24h(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditEdit24h(nick);
+        preencheTabelaEdit(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void edit3d(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditEdit3d(nick);
+        preencheTabelaEdit(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void edit7d(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditEdit7d(nick);
+        preencheTabelaEdit(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void edit1m(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCViews.auditEdit1m(nick);
+        preencheTabelaEdit(registros);
+    }
+
+    /**
+     * Mostra os registros das últimas 24 horas. Carrega uma lista de registros
+     * e manda para o método de preencher a tabela
+     *
+     * @param nick pode ou não ter o parâmetro de nickname do usuário (filtro)
+     * @throws SQLException
+     */
+    private void editTodos(String nick) throws SQLException {
+        List<RegistroDAO> registros = JDBCConsulta.auditEdit(nick);
+        
+        preencheTabelaEdit(registros);
+    }
+    
+    /**
+     * Filtra os registros pelo tipo de objeto
+     * 
+     * @param registros
+     * @param filtro
+     * @return lista de registros filtrada
+     */
+    private List<RegistroDAO> filtraRegistros(List<RegistroDAO> registros, String filtro){
+        int q = registros.size();
+        String tabela = ClsBD.itemTipo(filtro);
+        
+        List<RegistroDAO> filtrados = new ArrayList<>();
+        
+        for(int i = 0; i < q; i++){
+            if(registros.get(i).getTabela().equalsIgnoreCase(tabela)){
+                filtrados.add(registros.get(i));
+            }
+        }
+        System.out.println("Registros da " + tabela + ": " + filtrados.size());
+        return filtrados;
     }
 
     /**
@@ -340,7 +1135,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         cardLogin = new javax.swing.JPanel();
         lblUsuario = new javax.swing.JLabel();
         lblDesconto = new javax.swing.JLabel();
-        cbxPeriodo = new javax.swing.JComboBox();
+        cbxPeriodoLog = new javax.swing.JComboBox();
         lblPeriodo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblLogins = new javax.swing.JTable();
@@ -349,27 +1144,27 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         cbxLoginCad = new javax.swing.JComboBox();
         lblUsuario1 = new javax.swing.JLabel();
         lblDesconto1 = new javax.swing.JLabel();
-        cbxPeriodo1 = new javax.swing.JComboBox();
+        cbxPeriodoCad = new javax.swing.JComboBox();
         lblPeriodo1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtblCad = new javax.swing.JTable();
         lblPeriodo2 = new javax.swing.JLabel();
-        cbxTipo = new javax.swing.JComboBox();
+        cbxTipoCad = new javax.swing.JComboBox();
         cardEdit = new javax.swing.JPanel();
         cbxLoginEdit = new javax.swing.JComboBox();
         lblUsuario2 = new javax.swing.JLabel();
         lblDesconto2 = new javax.swing.JLabel();
-        cbxPeriodo2 = new javax.swing.JComboBox();
+        cbxPeriodoEdit = new javax.swing.JComboBox();
         lblPeriodo3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jtblEdit = new javax.swing.JTable();
         lblPeriodo4 = new javax.swing.JLabel();
-        cbxTipo1 = new javax.swing.JComboBox();
+        cbxTipoEdit = new javax.swing.JComboBox();
         cardDelete = new javax.swing.JPanel();
         cbxLoginDelete = new javax.swing.JComboBox();
         lblUsuario3 = new javax.swing.JLabel();
         lblDesconto3 = new javax.swing.JLabel();
-        cbxPeriodo3 = new javax.swing.JComboBox();
+        cbxPeriodoDel = new javax.swing.JComboBox();
         lblPeriodo5 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jtblDelete = new javax.swing.JTable();
@@ -484,17 +1279,17 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             }
         });
 
-        cbxPeriodo.setFont(ClsEstilo.textoInputFonte);
-        cbxPeriodo.setForeground(ClsEstilo.textoInputCor);
-        cbxPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24 horas", "3 dias", "1 semana", "1 mês", "todos" }));
-        cbxPeriodo.addItemListener(new java.awt.event.ItemListener() {
+        cbxPeriodoLog.setFont(ClsEstilo.textoInputFonte);
+        cbxPeriodoLog.setForeground(ClsEstilo.textoInputCor);
+        cbxPeriodoLog.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24 horas", "3 dias", "1 semana", "1 mês", "todos" }));
+        cbxPeriodoLog.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbxPeriodoItemStateChanged(evt);
+                cbxPeriodoLogItemStateChanged(evt);
             }
         });
-        cbxPeriodo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        cbxPeriodoLog.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                cbxPeriodoPropertyChange(evt);
+                cbxPeriodoLogPropertyChange(evt);
             }
         });
 
@@ -542,7 +1337,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(lblPeriodo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cbxPeriodoLog, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lblDesconto))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -555,7 +1350,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(cardLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUsuario)
-                    .addComponent(cbxPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxPeriodoLog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPeriodo)
                     .addComponent(cbxLoginLog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -590,9 +1385,9 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             }
         });
 
-        cbxPeriodo1.setFont(ClsEstilo.textoInputFonte);
-        cbxPeriodo1.setForeground(ClsEstilo.textoInputCor);
-        cbxPeriodo1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24 horas", "3 dias", "1 semana", "1 mês", "todos" }));
+        cbxPeriodoCad.setFont(ClsEstilo.textoInputFonte);
+        cbxPeriodoCad.setForeground(ClsEstilo.textoInputCor);
+        cbxPeriodoCad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24 horas", "3 dias", "1 semana", "1 mês", "todos" }));
 
         lblPeriodo1.setFont(ClsEstilo.labelFonte);
         lblPeriodo1.setForeground(ClsEstilo.labelCor);
@@ -615,9 +1410,9 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         lblPeriodo2.setForeground(ClsEstilo.labelCor);
         lblPeriodo2.setText("Tipo");
 
-        cbxTipo.setFont(ClsEstilo.textoInputFonte);
-        cbxTipo.setForeground(ClsEstilo.textoInputCor);
-        cbxTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Cliente", "Orçamento", "Responsável", "Sessão", "Usuário" }));
+        cbxTipoCad.setFont(ClsEstilo.textoInputFonte);
+        cbxTipoCad.setForeground(ClsEstilo.textoInputCor);
+        cbxTipoCad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Cliente", "Orçamento", "Responsável", "Sessão", "Usuário" }));
 
         javax.swing.GroupLayout cardCadLayout = new javax.swing.GroupLayout(cardCad);
         cardCad.setLayout(cardCadLayout);
@@ -638,11 +1433,11 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(lblPeriodo2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbxTipoCad, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(lblPeriodo1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxPeriodo1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbxPeriodoCad, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 38, Short.MAX_VALUE))
                             .addComponent(jScrollPane2))
                         .addContainerGap())))
@@ -655,10 +1450,10 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(cardCadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(cardCadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cbxPeriodo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxPeriodoCad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblPeriodo1))
                     .addGroup(cardCadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxTipoCad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblPeriodo2))
                     .addGroup(cardCadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbxLoginCad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -695,9 +1490,9 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             }
         });
 
-        cbxPeriodo2.setFont(ClsEstilo.textoInputFonte);
-        cbxPeriodo2.setForeground(ClsEstilo.textoInputCor);
-        cbxPeriodo2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24 horas", "3 dias", "1 semana", "1 mês", "todos" }));
+        cbxPeriodoEdit.setFont(ClsEstilo.textoInputFonte);
+        cbxPeriodoEdit.setForeground(ClsEstilo.textoInputCor);
+        cbxPeriodoEdit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24 horas", "3 dias", "1 semana", "1 mês", "todos" }));
 
         lblPeriodo3.setFont(ClsEstilo.labelFonte);
         lblPeriodo3.setForeground(ClsEstilo.labelCor);
@@ -720,9 +1515,9 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         lblPeriodo4.setForeground(ClsEstilo.labelCor);
         lblPeriodo4.setText("Tipo");
 
-        cbxTipo1.setFont(ClsEstilo.textoInputFonte);
-        cbxTipo1.setForeground(ClsEstilo.textoInputCor);
-        cbxTipo1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Cliente", "Orçamento", "Responsável", "Sessão", "Usuário" }));
+        cbxTipoEdit.setFont(ClsEstilo.textoInputFonte);
+        cbxTipoEdit.setForeground(ClsEstilo.textoInputCor);
+        cbxTipoEdit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Cliente", "Orçamento", "Responsável", "Sessão", "Usuário" }));
 
         javax.swing.GroupLayout cardEditLayout = new javax.swing.GroupLayout(cardEdit);
         cardEdit.setLayout(cardEditLayout);
@@ -743,11 +1538,11 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(lblPeriodo4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxTipo1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbxTipoEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(lblPeriodo3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxPeriodo2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbxPeriodoEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE))
                         .addContainerGap())))
@@ -761,9 +1556,9 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 .addGroup(cardEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxLoginEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUsuario2)
-                    .addComponent(cbxPeriodo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxPeriodoEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPeriodo3)
-                    .addComponent(cbxTipo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxTipoEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPeriodo4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -797,9 +1592,9 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             }
         });
 
-        cbxPeriodo3.setFont(ClsEstilo.textoInputFonte);
-        cbxPeriodo3.setForeground(ClsEstilo.textoInputCor);
-        cbxPeriodo3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24 horas", "3 dias", "1 semana", "1 mês", "todos" }));
+        cbxPeriodoDel.setFont(ClsEstilo.textoInputFonte);
+        cbxPeriodoDel.setForeground(ClsEstilo.textoInputCor);
+        cbxPeriodoDel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24 horas", "3 dias", "1 semana", "1 mês", "todos" }));
 
         lblPeriodo5.setFont(ClsEstilo.labelFonte);
         lblPeriodo5.setForeground(ClsEstilo.labelCor);
@@ -835,7 +1630,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(lblPeriodo5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxPeriodo3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cbxPeriodoDel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lblDesconto3))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -849,7 +1644,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
                 .addGroup(cardDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxLoginDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUsuario3)
-                    .addComponent(cbxPeriodo3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxPeriodoDel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPeriodo5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1112,6 +1907,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         card.show(mainPanel, "card1");
 
         addEvents();
+        criaComponentes();
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
@@ -1222,16 +2018,16 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         deleteClick();
     }//GEN-LAST:event_jLabel10MouseClicked
 
-    private void cbxPeriodoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbxPeriodoPropertyChange
+    private void cbxPeriodoLogPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbxPeriodoLogPropertyChange
 
-    }//GEN-LAST:event_cbxPeriodoPropertyChange
+    }//GEN-LAST:event_cbxPeriodoLogPropertyChange
 
-    private void cbxPeriodoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxPeriodoItemStateChanged
+    private void cbxPeriodoLogItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxPeriodoLogItemStateChanged
 
-    }//GEN-LAST:event_cbxPeriodoItemStateChanged
+    }//GEN-LAST:event_cbxPeriodoLogItemStateChanged
 
     private void cbxLoginLogItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxLoginLogItemStateChanged
-        System.out.println(cbxLoginLog.getSelectedItem());
+        
     }//GEN-LAST:event_cbxLoginLogItemStateChanged
 
 
@@ -1245,12 +2041,12 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cbxLoginDelete;
     private javax.swing.JComboBox cbxLoginEdit;
     private javax.swing.JComboBox cbxLoginLog;
-    private javax.swing.JComboBox cbxPeriodo;
-    private javax.swing.JComboBox cbxPeriodo1;
-    private javax.swing.JComboBox cbxPeriodo2;
-    private javax.swing.JComboBox cbxPeriodo3;
-    private javax.swing.JComboBox cbxTipo;
-    private javax.swing.JComboBox cbxTipo1;
+    private javax.swing.JComboBox cbxPeriodoCad;
+    private javax.swing.JComboBox cbxPeriodoDel;
+    private javax.swing.JComboBox cbxPeriodoEdit;
+    private javax.swing.JComboBox cbxPeriodoLog;
+    private javax.swing.JComboBox cbxTipoCad;
+    private javax.swing.JComboBox cbxTipoEdit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

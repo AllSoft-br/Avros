@@ -43,7 +43,7 @@ import javax.swing.table.DefaultTableModel;
 public class IfrmConsSessao extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblSes = new DefaultTableModel();
+    DefaultTableModel tblSes = new ClsTableModel();
     private OrcamentoDAO orcamento = new OrcamentoDAO();
     private ClienteDAO cliente = new ClienteDAO();
     private SessaoDAO sessao = new SessaoDAO();
@@ -478,6 +478,7 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         FrmPrincipal.bPreAgendarSessao = false;
+        FrmPrincipal.bPagarSessao = false;
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void rdoSessaoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rdoSessaoStateChanged

@@ -43,4 +43,25 @@ public class Consulta {
         
         return lista;
     }
+
+    /**
+     * Grifa uma palavra chave dentro de uma String
+     *
+     * @param chave palavra a ser procurada
+     * @param base String onde a palavra será procurada
+     * @return String grifada
+     */
+    public static String grifar(String chave, String base) {
+        String grifado = base;
+        if (chave.length() > 0) {
+            String maiuscula = base.toUpperCase();
+            boolean contem = maiuscula.contains(chave.toUpperCase());
+            if (contem) {
+                int start = maiuscula.indexOf(chave.toUpperCase());
+                int end = start + chave.length();
+                grifado = "<html>" + base.substring(0, start) + "<span style='background-color: #ffff00'>" + base.substring(start, end) + "</span>" + base.substring(end, base.length()) + "</html>";
+            }
+        }
+        return grifado;
+    }
 }

@@ -19,7 +19,9 @@ package br.com.allsoft.avros.factory;
 
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.ClsBD;
+import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
+import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.interfaces.FrmLogin;
 import java.sql.Connection;
@@ -39,6 +41,13 @@ public class JDBCDelete {
     static String nomeTabela;
     
     //Métodos
+    
+    /**
+     * Remove uma relação entre menor de idade e representante
+     * @param idRepresentante
+     * @param idCliente
+     * @throws SQLException 
+     */
     public static void removeRel(int idRepresentante, int idCliente) throws SQLException {
         nomeTabela = ClsBD.getTblRel();
         
@@ -47,8 +56,11 @@ public class JDBCDelete {
         
         con = ConexaoMySQL.getConexaoMySQL();
         
-        String sql = "DELETE from " + nomeTabela + "where " + ClsBD.getRelRepresentanteId() + " = ?" + " and " + ClsBD.getRelClienteId() + " = ?";
-        PreparedStatement stmt = JDBCUpdate.con.prepareStatement(sql);
+        String sql = "DELETE from " + nomeTabela + " where " + ClsBD.getRelRepresentanteId() + " = ?" + " and " + ClsBD.getRelClienteId() + " = ?";
+        System.out.println(idRepresentante);
+        System.out.println(idCliente);
+        
+        PreparedStatement stmt = con.prepareStatement(sql);
         
         stmt.setInt(1, idRepresentante);
         stmt.setInt(2, idCliente);
@@ -66,4 +78,67 @@ public class JDBCDelete {
         }
     }
 
+    /**
+     * Deleta uma sessao 
+     * 
+     * @param sessao com nome do cliente e id do orçamento setados
+     * @throws SQLException 
+     */
+    public static void sessao(SessaoDAO sessao) throws SQLException {
+        nomeTabela = ClsBD.getTblSessao();
+        
+        int id = sessao.getId();
+        
+        con = ConexaoMySQL.getConexaoMySQL();
+        
+        String sql = "DELETE from " + nomeTabela + " where " + ClsBD.getSesId()+ " = ?";
+        
+        PreparedStatement stmt = con.prepareStatement(sql);
+        
+        stmt.setInt(1, id);
+        
+        sql = stmt.toString();
+        
+        stmt.execute();
+        stmt.close();
+        con.close();
+        
+        try {
+            AuditoriaDelete.sessao(FrmLogin.usuario, sessao, sql);
+        } catch (AuditoriaException ex) {
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Deleta uma sessao 
+     * 
+     * @param orcamento com nome do cliente setado
+     * @throws SQLException 
+     */
+    public static void orcamento(OrcamentoDAO orcamento) throws SQLException {
+        nomeTabela = ClsBD.getTblSessao();
+        
+        int id = orcamento.getId();
+        
+        con = ConexaoMySQL.getConexaoMySQL();
+        
+        String sql = "call del_orcamento(?)";
+        
+        PreparedStatement stmt = con.prepareStatement(sql);
+        
+        stmt.setInt(1, id);
+        
+        sql = stmt.toString();
+        
+        stmt.execute();
+        stmt.close();
+        con.close();
+        
+        try {
+            AuditoriaDelete.orcamento(FrmLogin.usuario, orcamento, sql);
+        } catch (AuditoriaException ex) {
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

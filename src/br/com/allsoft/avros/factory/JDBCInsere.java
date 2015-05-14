@@ -33,7 +33,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.hibernate.exception.ConstraintViolationException;
+
 
 /**
  * Classe que insere valores no banco de dados.
@@ -65,7 +65,7 @@ public class JDBCInsere {
                 + ClsBD.getCliNasc() + ", " + ClsBD.getCliTel() + ", " + ClsBD.getCliSexo() + ", " + ClsBD.getCliIdUsuario()
                 + ") values (?,?,?,?,?, ?)";
 
-        PreparedStatement stmt = con.prepareStatement(sql);
+        PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         // preenche os valores
         stmt.setString(1, cliente.getNome());
         stmt.setString(2, cliente.getCpf());
@@ -317,7 +317,7 @@ public class JDBCInsere {
                 + ", " + ClsBD.getUsuarioAdmin() + ", " + ClsBD.getUsuarioCpf() + ") "
                 + "values (?,?,?,?,?)";
 
-        PreparedStatement stmt = con.prepareStatement(sql);
+        PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         // preenche os valores
         stmt.setString(1, usuario.getNome());
         stmt.setString(2, usuario.getNick());

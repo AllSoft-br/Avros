@@ -18,6 +18,7 @@ package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
+import br.com.allsoft.avros.formulas.Consulta;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
@@ -40,9 +41,11 @@ import javax.swing.table.DefaultTableModel;
 public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblRepresentante = new DefaultTableModel();
+    DefaultTableModel tblRepresentante = new ClsTableModel();
     RepresentanteDAO representante;
     Dimension tabela, scroll, form;
+    String cpf = "";
+    String nome = "";
 
     //Métodos
     /**
@@ -116,10 +119,12 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
         for (int i = 0; i < qtde; i++) {
             tblRepresentante.addRow(new String[1]);
             String data = Datas.sqlparaString(representantes.get(i).getNascimento());
+            String cliCpf = Consulta.grifar(cpf, representantes.get(i).getCpf());
+            String cliNome = Consulta.grifar(nome, representantes.get(i).getNome());
 
             tblRepresentante.setValueAt(representantes.get(i).getId(), i, 0);
-            tblRepresentante.setValueAt(representantes.get(i).getNome(), i, 1);
-            tblRepresentante.setValueAt(representantes.get(i).getCpf(), i, 2);
+            tblRepresentante.setValueAt(cliNome, i, 1);
+            tblRepresentante.setValueAt(cliCpf, i, 2);
             tblRepresentante.setValueAt(data, i, 3);
             tblRepresentante.setValueAt(representantes.get(i).getTel(), i, 4);
         }
@@ -335,7 +340,7 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
         List<RepresentanteDAO> representantes = new ArrayList<>();
 
         if (!txtNome.getText().isEmpty()) {
-            String nome = txtNome.getText();
+            nome = txtNome.getText();
             try {
                 representantes = JDBCConsulta.representanteNome(nome);
             } catch (SQLException ex) {
@@ -345,7 +350,7 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
         }
 
         if (!txtCpf.getText().isEmpty()) {
-            String cpf = txtCpf.getText();
+            cpf = txtCpf.getText();
 
             if (Cpf.isCpf(cpf)) {
                 RepresentanteDAO representante = new RepresentanteDAO();

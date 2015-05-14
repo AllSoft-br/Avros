@@ -20,9 +20,11 @@ import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
+import br.com.allsoft.avros.factory.JDBCDelete;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.relatorios.Relatorio;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -40,6 +42,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.text.MaskFormatter;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -121,6 +124,10 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
         }
 
         atualizaValor();
+
+        sessao.setCliente(cliente.getNome());
+        sessao.setIdOrcamento(orcamento.getId());
+        sessao.setCpf(cliente.getCpf());
     }
 
     private void editCartao() throws SQLException {
@@ -240,6 +247,8 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
         lblEditarStatus = new javax.swing.JLabel();
+        btnImprimir = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
 
         jLabel6.setText("jLabel6");
 
@@ -454,6 +463,24 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
             }
         });
 
+        btnImprimir.setFont(ClsEstilo.botaoFonte);
+        btnImprimir.setForeground(ClsEstilo.botaoCor);
+        btnImprimir.setText("Imprimir");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
+
+        btnExcluir.setFont(ClsEstilo.botaoFonte);
+        btnExcluir.setForeground(ClsEstilo.botaoCor);
+        btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -496,12 +523,16 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
                                 .addComponent(lblEditarData)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnSalvar)
-                                .addGap(35, 35, 35))
-                            .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(btnSalvar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnImprimir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -514,10 +545,6 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lblEditarHora))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblValorDesconto)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ftxtDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblCodSes))
@@ -526,7 +553,11 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblStatus)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblEditarStatus)))
+                                .addComponent(lblEditarStatus))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblValorDesconto)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ftxtDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -571,7 +602,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
                     .addComponent(jLabel9)
                     .addComponent(spnHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblEditarHora))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDesconto)
@@ -583,7 +614,9 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(lblValor)
-                    .addComponent(btnSalvar))
+                    .addComponent(btnSalvar)
+                    .addComponent(btnImprimir)
+                    .addComponent(btnExcluir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -673,7 +706,17 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
             }
 
             if (funcionou) {
-                JOptionPane.showMessageDialog(this, "As modificações foram salvas com sucesso!");
+                try {
+                    int j = JOptionPane.showConfirmDialog(this, "Informações salvas com sucesso! Deseja imprimir o comprovante?");
+                    if (j == JOptionPane.YES_OPTION) {
+                        Relatorio relatorio = new Relatorio();
+                        relatorio.criaRelatorio(cliente.getCpf(), sessao.getId(), "sessaoAgend");
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (JRException ex) {
+                    Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
@@ -711,8 +754,35 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_lblEditarStatusMouseClicked
 
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        try {
+            Relatorio relatorio = new Relatorio();
+            relatorio.criaRelatorio(cliente.getCpf(), sessao.getId(), "sessaoAgend");
+        } catch (SQLException | JRException ex) {
+            JOptionPane.showMessageDialog(this, "Não foi possível gerar o relatório.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnImprimirActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int j = JOptionPane.showConfirmDialog(this, "Você realmente deseja excluir esta sessão?", "Excluir", JOptionPane.YES_NO_OPTION);
+        if (j == JOptionPane.YES_OPTION) {
+            try {
+                JDBCDelete.sessao(sessao);
+                JOptionPane.showMessageDialog(this, "A sessão foi excluída com sucesso.");
+                this.dispose();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Não foi possível excluir esta sessão.", "Erro", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+                return;
+            }
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExcluir;
+    private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnSalvar;
     private org.jdesktop.swingx.painter.CheckerboardPainter checkerboardPainter1;
     private org.jdesktop.swingx.painter.CompoundPainter compoundPainter1;
