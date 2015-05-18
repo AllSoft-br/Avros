@@ -222,9 +222,9 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         jLabel2.setForeground(ClsEstilo.labelCor);
         jLabel2.setText("CPF");
 
+        txtCpf.setEditable(false);
         txtCpf.setFont(ClsEstilo.textoInputFonte);
         txtCpf.setForeground(ClsEstilo.textoInputCor);
-        txtCpf.setEnabled(false);
 
         btnSenha.setText("Resetar senha");
         btnSenha.addActionListener(new java.awt.event.ActionListener() {

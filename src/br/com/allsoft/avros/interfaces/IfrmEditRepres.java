@@ -339,9 +339,9 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         jLabel2.setForeground(ClsEstilo.labelCor);
         jLabel2.setText("CPF");
 
+        txtCpf.setEditable(false);
         txtCpf.setFont(ClsEstilo.textoInputFonte);
         txtCpf.setForeground(ClsEstilo.textoInputCor);
-        txtCpf.setEnabled(false);
 
         bgpTipo.add(rdoF);
         rdoF.setFont(ClsEstilo.labelFonte);

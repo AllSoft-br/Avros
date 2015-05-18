@@ -32,9 +32,17 @@ public class OrcamentoDAO {
     private int sessoes;
     private double valor;
     private String tipoPagamento;
+    private String descricao;
     private Date criacao;
 
-    //Getters e Setters
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     public int getSessoes() {
         return sessoes;
     }

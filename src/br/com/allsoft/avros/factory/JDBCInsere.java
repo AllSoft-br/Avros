@@ -403,7 +403,8 @@ public class JDBCInsere {
         String sql = "insert into " + nomeTabela
                 + "(" + ClsBD.getOrcClienteId() + ", "
                 + ClsBD.getOrcTipoPag() + ", " + ClsBD.getOrcValor() + ", " + ClsBD.getOrcNSessoes()
-                + ") values (?,?,?,?)";
+                + ", " + ClsBD.getOrcDesc()
+                + ") values (?,?,?,?,?)";
 
         PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         // preenche os valores
@@ -411,6 +412,7 @@ public class JDBCInsere {
         stmt.setString(2, orcamento.getTipoPagamento());
         stmt.setDouble(3, orcamento.getValor());
         stmt.setDouble(4, orcamento.getSessoes());
+        stmt.setString(5, orcamento.getDescricao());
 
         sql = stmt.toString();
 

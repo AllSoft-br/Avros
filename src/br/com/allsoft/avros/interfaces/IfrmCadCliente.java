@@ -180,7 +180,6 @@ public class IfrmCadCliente extends javax.swing.JInternalFrame {
 
         txtNome.setFont(ClsEstilo.textoInputFonte);
         txtNome.setForeground(ClsEstilo.textoInputCor);
-        txtNome.setEnabled(false);
         txtNome.setFocusCycleRoot(true);
         txtNome.setNextFocusableComponent(txtCpf);
         txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -194,7 +193,6 @@ public class IfrmCadCliente extends javax.swing.JInternalFrame {
 
         txtTel.setFont(ClsEstilo.textoInputFonte);
         txtTel.setForeground(ClsEstilo.textoInputCor);
-        txtTel.setEnabled(false);
         txtTel.setFocusCycleRoot(true);
         txtTel.setNextFocusableComponent(btnCadastrar);
         txtTel.addKeyListener(new java.awt.event.KeyAdapter() {

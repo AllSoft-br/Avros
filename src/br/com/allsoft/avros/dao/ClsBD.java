@@ -85,6 +85,7 @@ public class ClsBD {
     private static final String orcValor = "valor_total";
     private static final String orcClienteId = "fk_id_cli_orc";
     private static final String orcNSessoes = "qntd_sessao";
+    private static final String orcDesc = "desc_tatto";
 
     //Tabela Sessão
     private static final String sesId = "id_sessao";
@@ -183,6 +184,10 @@ public class ClsBD {
             }
         }
         return retorno;
+    }
+
+    public static String getOrcDesc() {
+        return orcDesc;
     }
 
     public static String getTblAuditoria() {
