@@ -155,7 +155,7 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
 
         cboParentesco.setFont(ClsEstilo.labelFonte);
         cboParentesco.setForeground(ClsEstilo.labelCor);
-        cboParentesco.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecionar", "Avô", "Avó", "Madrasta", "Mãe", "Padrasto", "Pai", "Outro" }));
+        cboParentesco.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecionar", "Avô", "Avó", "Tia", "Tio", "Mãe", "Pai", "Madrasta", "Padrasto", "Outro" }));
         cboParentesco.setNextFocusableComponent(btnCadastrar);
         cboParentesco.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -163,10 +163,10 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
             }
         });
         cboParentesco.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 cboParentescoCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 

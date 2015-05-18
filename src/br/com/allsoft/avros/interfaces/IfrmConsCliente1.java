@@ -286,7 +286,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
 
         cboParentesco.setFont(ClsEstilo.labelFonte);
         cboParentesco.setForeground(ClsEstilo.labelCor);
-        cboParentesco.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecionar", "Avô", "Avó", "Madrasta", "Mãe", "Padrasto", "Pai", "Outro" }));
+        cboParentesco.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecionar", "Avô", "Avó", "Tia", "Tio", "Mãe", "Pai", "Madrasta", "Padrasto", "Outro" }));
         cboParentesco.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cboParentescoItemStateChanged(evt);
