@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  * Classe para consultas gerais no BD.
@@ -365,7 +364,7 @@ public class JDBCConsulta {
     }
 
     /**
-     * Método que pesquisa um orcamento no banco de dados pelo ID
+     * Método que pesquisa um cliente no banco de dados pelo ID
      *
      * @param id ID do representante a ser pesquisado
      * @return objeto ClienteDAO
@@ -553,7 +552,7 @@ public class JDBCConsulta {
     }
 
     /**
-     * Método que pesquisa orçamento pelo CPF do representante, e retorna uma
+     * Método que pesquisa orçamento pelo ID do representante, e retorna uma
      * lista com todos os orçamentos que ele possui.
      *
      * @param id ID do cliente
@@ -579,6 +578,7 @@ public class JDBCConsulta {
             orcamento.setSessoes(rs.getInt(ClsBD.getOrcNSessoes()));
             orcamento.setTipoPagamento(rs.getString(ClsBD.getOrcTipoPag()));
             orcamento.setValor(rs.getDouble(ClsBD.getOrcValor()));
+            orcamento.setDescricao(rs.getString(ClsBD.getOrcDesc()));
 
             orcamentos.add(orcamento);
         }
@@ -610,6 +610,7 @@ public class JDBCConsulta {
             orcamento.setSessoes(rs.getInt(ClsBD.getOrcNSessoes()));
             orcamento.setTipoPagamento(rs.getString(ClsBD.getOrcTipoPag()));
             orcamento.setValor(rs.getDouble(ClsBD.getOrcValor()));
+            orcamento.setDescricao(rs.getString(ClsBD.getOrcDesc()));
         }
 
         return orcamento;

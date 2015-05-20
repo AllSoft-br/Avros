@@ -38,6 +38,15 @@ public class SessaoDAO {
     private String pagamento;
     private String cliente;
     private String cpf;
+    private String descricao;
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
     public String getCliente() {
         return cliente;
