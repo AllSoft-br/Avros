@@ -80,9 +80,10 @@ public class IfrmCadResp1 extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
-        txtCpf = new javax.swing.JTextField();
         txtTel = new javax.swing.JTextField();
         btnCadastrar = new javax.swing.JButton();
+        lblAviso = new javax.swing.JLabel();
+        txtCpf = new javax.swing.JFormattedTextField();
 
         setBackground(ClsEstilo.formbg);
         setClosable(true);
@@ -159,18 +160,11 @@ public class IfrmCadResp1 extends javax.swing.JInternalFrame {
 
         txtNome.setFont(ClsEstilo.textoInputFonte);
         txtNome.setForeground(ClsEstilo.textoInputCor);
-        txtNome.setEnabled(false);
         txtNome.setFocusCycleRoot(true);
         txtNome.setNextFocusableComponent(txtCpf);
 
-        txtCpf.setFont(ClsEstilo.textoInputFonte);
-        txtCpf.setForeground(ClsEstilo.textoInputCor);
-        txtCpf.setEnabled(false);
-        txtCpf.setNextFocusableComponent(ftxtNascimento);
-
         txtTel.setFont(ClsEstilo.textoInputFonte);
         txtTel.setForeground(ClsEstilo.textoInputCor);
-        txtTel.setEnabled(false);
         txtTel.setNextFocusableComponent(btnCadastrar);
 
         btnCadastrar.setFont(ClsEstilo.botaoFonte);
@@ -185,6 +179,24 @@ public class IfrmCadResp1 extends javax.swing.JInternalFrame {
         btnCadastrar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnCadastrarKeyPressed(evt);
+            }
+        });
+
+        lblAviso.setForeground(new java.awt.Color(255, 0, 0));
+        lblAviso.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAviso.setText("Digite um CPF válido.");
+
+        txtCpf.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtCpf.setForeground(ClsEstilo.textoInputCor);
+        try {
+            txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtCpf.setFont(ClsEstilo.textoInputFonte);
+        txtCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCpfFocusLost(evt);
             }
         });
 
@@ -205,17 +217,21 @@ public class IfrmCadResp1 extends javax.swing.JInternalFrame {
                         .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ftxtNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(rdoFeminino)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(rdoMasculino))
-                                    .addComponent(txtNome)
-                                    .addComponent(txtCpf))
-                                .addGap(18, 18, 18))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtTel)
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtCpf, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblAviso, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(ftxtNascimento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(rdoFeminino)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(rdoMasculino)))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
                                 .addGap(18, 18, 18)))
                         .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -243,7 +259,9 @@ public class IfrmCadResp1 extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(22, 22, 22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblAviso)
+                        .addGap(2, 2, 2)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(ftxtNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -259,7 +277,7 @@ public class IfrmCadResp1 extends javax.swing.JInternalFrame {
                     .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnCadastrar)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         pack();
@@ -273,6 +291,7 @@ public class IfrmCadResp1 extends javax.swing.JInternalFrame {
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 
+        lblAviso.setVisible(false);
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
@@ -333,6 +352,17 @@ public class IfrmCadResp1 extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnCadastrarKeyPressed
 
+    private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
+        String cpf = txtCpf.getText();
+
+        if (Cpf.isCpf(cpf)) {
+            lblAviso.setVisible(false);
+        } else {
+            lblAviso.setVisible(true);
+            txtCpf.selectAll();
+        }
+    }//GEN-LAST:event_txtCpfFocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgpSexo;
@@ -344,10 +374,11 @@ public class IfrmCadResp1 extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel lblAviso;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JRadioButton rdoFeminino;
     private javax.swing.JRadioButton rdoMasculino;
-    private javax.swing.JTextField txtCpf;
+    private javax.swing.JFormattedTextField txtCpf;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtTel;
     // End of variables declaration//GEN-END:variables

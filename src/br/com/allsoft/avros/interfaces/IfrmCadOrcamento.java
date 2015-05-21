@@ -74,7 +74,6 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         spnSessoes = new javax.swing.JSpinner();
         txtNome = new javax.swing.JTextField();
-        txtCpf = new javax.swing.JTextField();
         lblLogo = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         lblValSessao = new javax.swing.JLabel();
@@ -86,6 +85,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         scrollDesc = new javax.swing.JScrollPane();
         txtDesc = new javax.swing.JTextPane();
+        txtCpf = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -165,16 +165,6 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         txtNome.setForeground(ClsEstilo.textoInputCor);
         txtNome.setNextFocusableComponent(rbtnCartao);
 
-        txtCpf.setFont(ClsEstilo.textoInputFonte);
-        txtCpf.setForeground(ClsEstilo.textoInputCor);
-        txtCpf.setFocusCycleRoot(true);
-        txtCpf.setNextFocusableComponent(txtNome);
-        txtCpf.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtCpfFocusLost(evt);
-            }
-        });
-
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/logopequeno.png"))); // NOI18N
 
@@ -241,6 +231,20 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         });
         scrollDesc.setViewportView(txtDesc);
 
+        txtCpf.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtCpf.setForeground(ClsEstilo.textoInputCor);
+        try {
+            txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtCpf.setFont(ClsEstilo.textoInputFonte);
+        txtCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCpfFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -250,7 +254,6 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,7 +279,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
                                                 .addComponent(jLabel7)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(lblValSessao)))
-                                        .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGap(0, 48, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabel3)
@@ -285,8 +288,11 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtNome)
-                                            .addComponent(txtCpf)
-                                            .addComponent(scrollDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))))
+                                            .addComponent(scrollDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                            .addComponent(txtCpf)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -301,7 +307,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(24, 24, 24)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -311,8 +317,8 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
                             .addComponent(btnImprimir)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                            .addComponent(jLabel3)
+                            .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblAviso)
                         .addGap(17, 17, 17)
@@ -342,7 +348,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(lblValSessao))))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();
@@ -378,41 +384,6 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
         FrmPrincipal.bNovoOrcamento = false;
     }//GEN-LAST:event_formInternalFrameClosed
-
-    private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
-        String cpf = txtCpf.getText();
-
-        if (Cpf.isCpf(cpf)) {
-            try {
-                cliente = JDBCConsulta.clienteCpf(cpf);
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar o cliente pelo CPF.", "Tente outra vez", JOptionPane.ERROR_MESSAGE);
-                Logger.getLogger(IfrmCadOrcamento.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (cliente.getCpf() == null) {
-                lblAviso.setText("O cliente não está cadastrado.");
-                lblAviso.setForeground(Color.RED);
-                lblAviso.setVisible(true);
-                btnSalvar.setEnabled(false);
-            } else {
-                lblAviso.setText("Cliente encontrado!");
-                lblAviso.setForeground(Color.GREEN);
-                lblAviso.setVisible(true);
-
-                txtNome.setText(cliente.getNome());
-
-                btnSalvar.setEnabled(true);
-            }
-        } else {
-            lblAviso.setForeground(Color.red);
-            lblAviso.setText("Digite um CPF válido.");
-            lblAviso.setVisible(true);
-
-            txtCpf.requestFocus();
-            txtCpf.selectAll();
-        }
-    }//GEN-LAST:event_txtCpfFocusLost
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         if (rbtnCartao.isSelected() | rbtnDinheiro.isSelected()) {
@@ -483,6 +454,41 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtDescFocusGained
 
+    private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
+        String cpf = txtCpf.getText();
+
+        if (Cpf.isCpf(cpf)) {
+            try {
+                cliente = JDBCConsulta.clienteCpf(cpf);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar o cliente pelo CPF.", "Tente outra vez", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(IfrmCadOrcamento.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (cliente.getCpf() == null) {
+                lblAviso.setText("O cliente não está cadastrado.");
+                lblAviso.setForeground(Color.RED);
+                lblAviso.setVisible(true);
+                btnSalvar.setEnabled(false);
+            } else {
+                lblAviso.setText("Cliente encontrado!");
+                lblAviso.setForeground(Color.GREEN);
+                lblAviso.setVisible(true);
+
+                txtNome.setText(cliente.getNome());
+
+                btnSalvar.setEnabled(true);
+            }
+        } else {
+            lblAviso.setForeground(Color.red);
+            lblAviso.setText("Digite um CPF válido.");
+            lblAviso.setVisible(true);
+
+            txtCpf.requestFocus();
+            txtCpf.selectAll();
+        }
+    }//GEN-LAST:event_txtCpfFocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgpPagamento;
@@ -505,7 +511,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbtnDinheiro;
     private javax.swing.JScrollPane scrollDesc;
     private javax.swing.JSpinner spnSessoes;
-    private javax.swing.JTextField txtCpf;
+    private javax.swing.JFormattedTextField txtCpf;
     private javax.swing.JTextPane txtDesc;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables

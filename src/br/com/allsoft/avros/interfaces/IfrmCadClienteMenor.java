@@ -55,6 +55,7 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
 
         txtQual.setVisible(false);
         lblQual.setVisible(false);
+        lblAviso.setVisible(false);
     }
 
     /**
@@ -97,6 +98,7 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         cboParentesco = new javax.swing.JComboBox();
         txtQual = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        lblAviso = new javax.swing.JLabel();
 
         label5.setText("label5");
 
@@ -203,6 +205,11 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         }
         txtCpf.setFont(ClsEstilo.textoInputFonte);
         txtCpf.setNextFocusableComponent(ftxtNascimento);
+        txtCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCpfFocusLost(evt);
+            }
+        });
 
         lblQual.setFont(ClsEstilo.labelFonte);
         lblQual.setForeground(ClsEstilo.labelCor);
@@ -236,6 +243,10 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         jLabel7.setFont(ClsEstilo.labelFonte);
         jLabel7.setForeground(ClsEstilo.labelCor);
         jLabel7.setText("Selecione o grau de parentesco do representante");
+
+        lblAviso.setForeground(new java.awt.Color(255, 0, 0));
+        lblAviso.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAviso.setText("Digite um CPF válido.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -271,7 +282,8 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(ftxtNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addComponent(lblLogo)
                                 .addGap(39, 39, 39))
@@ -309,7 +321,9 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(22, 22, 22)
+                        .addGap(2, 2, 2)
+                        .addComponent(lblAviso)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(ftxtNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -444,6 +458,17 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnCadastrar2ActionPerformed
 
+    private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
+        String cpf = txtCpf.getText();
+
+        if (Cpf.isCpf(cpf)) {
+            lblAviso.setVisible(false);
+        } else {
+            lblAviso.setVisible(true);
+            txtCpf.selectAll();
+        }
+    }//GEN-LAST:event_txtCpfFocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgpSexo;
@@ -459,6 +484,7 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JToggleButton jToggleButton1;
     private java.awt.Label label5;
+    private javax.swing.JLabel lblAviso;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblQual;
     private javax.swing.JRadioButton rdoFeminino;

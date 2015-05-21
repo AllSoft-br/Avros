@@ -87,6 +87,7 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="ftxtNascimento" min="-2" pref="111" max="-2" attributes="0"/>
                                           <Component id="txtCpf" min="-2" pref="111" max="-2" attributes="0"/>
+                                          <Component id="lblAviso" min="-2" pref="191" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="32767" attributes="0"/>
                                   </Group>
@@ -141,7 +142,9 @@
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtCpf" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                      <Component id="lblAviso" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="ftxtNascimento" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -349,6 +352,9 @@
           <ComponentRef name="ftxtNascimento"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCpfFocusLost"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField()"/>
       </AuxValues>
@@ -413,6 +419,15 @@
           <Connection code="ClsEstilo.labelCor" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Selecione o grau de parentesco do representante"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblAviso">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="ff" type="rgb"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Digite um CPF v&#xe1;lido."/>
       </Properties>
     </Component>
   </SubComponents>

@@ -68,9 +68,10 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtCpf = new javax.swing.JTextField();
         txtNome = new javax.swing.JTextField();
         txtNick = new javax.swing.JTextField();
+        lblAvisoCpf = new javax.swing.JLabel();
+        txtCpf = new javax.swing.JFormattedTextField();
 
         jLabel1.setText("jLabel1");
 
@@ -168,14 +169,8 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
         jLabel7.setForeground(ClsEstilo.labelCor);
         jLabel7.setText("CPF");
 
-        txtCpf.setColumns(11);
-        txtCpf.setFont(ClsEstilo.textoInputFonte);
-        txtCpf.setForeground(ClsEstilo.textoInputCor);
-        txtCpf.setNextFocusableComponent(pswSenha);
-
         txtNome.setFont(ClsEstilo.textoInputFonte);
         txtNome.setForeground(ClsEstilo.textoInputCor);
-        txtNome.setEnabled(false);
         txtNome.setFocusCycleRoot(true);
         txtNome.setNextFocusableComponent(txtNick);
         txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -189,8 +184,6 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
 
         txtNick.setFont(ClsEstilo.textoInputFonte);
         txtNick.setForeground(ClsEstilo.textoInputCor);
-        txtNick.setEnabled(false);
-        txtNick.setFocusCycleRoot(true);
         txtNick.setNextFocusableComponent(txtCpf);
         txtNick.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -201,38 +194,57 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
             }
         });
 
+        lblAvisoCpf.setForeground(new java.awt.Color(255, 0, 0));
+        lblAvisoCpf.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAvisoCpf.setText("Digite um CPF válido.");
+
+        txtCpf.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtCpf.setForeground(ClsEstilo.textoInputCor);
+        try {
+            txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtCpf.setFont(ClsEstilo.textoInputFonte);
+        txtCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCpfFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(10, 10, 10)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(5, 5, 5)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(rdoComum)
-                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNick, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                                    .addComponent(pswSenha)
+                                    .addComponent(pswConf, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(rdoComum)
+                                            .addComponent(lblAvisoCpf))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(txtCpf))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(rdoAdmin))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(pswConf, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-                                    .addComponent(pswSenha, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCpf, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNick, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(34, 34, 34)
-                                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
-                        .addComponent(btnCadastra)))
+                            .addComponent(txtNome))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCadastra, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(46, 46, 46))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,6 +259,10 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(68, Short.MAX_VALUE)
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(jLabel5)
                         .addGap(21, 21, 21)
@@ -257,26 +273,25 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(txtNick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(5, 5, 5)
+                        .addComponent(lblAvisoCpf)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(pswSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(pswConf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rdoComum)
-                    .addComponent(rdoAdmin))
-                .addGap(24, 24, 24)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(7, 7, 7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rdoComum)
+                            .addComponent(rdoAdmin))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addComponent(lblAviso)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCadastra)
@@ -294,6 +309,7 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 
         lblAviso.setVisible(false);
+        lblAvisoCpf.setVisible(false);
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnCadastraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastraActionPerformed
@@ -395,6 +411,17 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_rdoAdminKeyPressed
 
+    private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
+        String cpf = txtCpf.getText();
+
+        if (Cpf.isCpf(cpf)) {
+            lblAviso.setVisible(false);
+        } else {
+            lblAviso.setVisible(true);
+            txtCpf.selectAll();
+        }
+    }//GEN-LAST:event_txtCpfFocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup btgAdmin;
@@ -407,12 +434,13 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lblAviso;
+    private javax.swing.JLabel lblAvisoCpf;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JPasswordField pswConf;
     private javax.swing.JPasswordField pswSenha;
     private javax.swing.JRadioButton rdoAdmin;
     private javax.swing.JRadioButton rdoComum;
-    private javax.swing.JTextField txtCpf;
+    private javax.swing.JFormattedTextField txtCpf;
     private javax.swing.JTextField txtNick;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
