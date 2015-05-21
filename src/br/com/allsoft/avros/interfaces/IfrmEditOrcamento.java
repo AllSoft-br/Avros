@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.ClienteDAO;
@@ -37,46 +36,53 @@ import javax.swing.JOptionPane;
  * @author Luana
  */
 public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
+
     //Variáveis
+
     OrcamentoDAO orcamento;
     ClienteDAO cliente;
-    
+
     //Métodos
-    private void editPagamento() throws SQLException{
+    private void editPagamento() throws SQLException {
         String pagamento = "Não especificado";
-        
-        if(rdoCartao.isSelected()){
+
+        if (rdoCartao.isSelected()) {
             pagamento = "Cartão";
         }
-        if(rdoDinheiro.isSelected()){
+        if (rdoDinheiro.isSelected()) {
             pagamento = "Dinheiro";
         }
-        
+
         JDBCUpdate.orcamentoPagamento(orcamento.getId(), pagamento);
     }
-    
-    private void editValor() throws ValorInvalidoMoedaException, SQLException{
+
+    private void editValor() throws ValorInvalidoMoedaException, SQLException {
         double valor = Moeda.retornaDouble(ftxtValor.getText());
-        
+
         JDBCUpdate.orcamentoValor(orcamento.getId(), valor);
     }
-    
-    private void editSessoes() throws SQLException{
+
+    private void editSessoes() throws SQLException {
         int qtd = (int) spnSessoes.getValue();
-        
+
         int j = JDBCConsulta.sessaoIdOrc(orcamento.getId()).size();
-        
-        if(qtd < j){
+
+        if (qtd < j) {
             JOptionPane.showMessageDialog(this, "A quantidade de sessões inserida é menor que a quantidade de sessões já cadastrada neste orçamento. Por favor escolha um número maior.", "Erro", JOptionPane.ERROR_MESSAGE);
             throw new SQLException("Quantidade de sessões digitada menor que a quantidade cadastrada.");
-        } else if(qtd == j){
+        } else if (qtd == j) {
             JDBCUpdate.orcamentoSessoes(orcamento.getId(), qtd);
             lblValSessao.setText(Moeda.padraoVirgula(orcamento.getValor() / qtd));
         }
     }
     
+    private void editDesc() throws SQLException{
+        JDBCUpdate.orcamentoDesc(orcamento.getId(), txtDesc.getText());
+    }
+
     /**
      * Creates new form ifrmPesqOrcamento
+     *
      * @param orca orçamento
      * @param cli cliente
      */
@@ -118,7 +124,7 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
         lblEditarSessoes = new javax.swing.JLabel();
         btnExcluir = new javax.swing.JButton();
         scrollDesc2 = new javax.swing.JScrollPane();
-        txtDesc2 = new javax.swing.JTextPane();
+        txtDesc = new javax.swing.JTextPane();
         lblEditarDesc = new javax.swing.JLabel();
 
         setClosable(true);
@@ -227,10 +233,10 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
             }
         });
         spnSessoes.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 spnSessoesCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 
@@ -287,15 +293,15 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
             }
         });
 
-        txtDesc2.setFont(ClsEstilo.textoInputFonte);
-        txtDesc2.setForeground(ClsEstilo.textoInputCor);
-        txtDesc2.setEnabled(false);
-        txtDesc2.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtDesc.setEditable(false);
+        txtDesc.setFont(ClsEstilo.textoInputFonte);
+        txtDesc.setForeground(ClsEstilo.textoInputCor);
+        txtDesc.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                txtDesc2FocusGained(evt);
+                txtDescFocusGained(evt);
             }
         });
-        scrollDesc2.setViewportView(txtDesc2);
+        scrollDesc2.setViewportView(txtDesc);
 
         lblEditarDesc.setBackground(ClsEstilo.formbg);
         lblEditarDesc.setFont(ClsEstilo.linkFonte);
@@ -339,7 +345,7 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
                                                 .addComponent(jLabel7)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(lblValSessao)))
-                                        .addGap(0, 34, Short.MAX_VALUE))
+                                        .addGap(0, 36, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel5)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -368,17 +374,17 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
                                     .addComponent(lblEditarDesc, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnSalvar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnImprimir))
-                            .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnImprimir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnExcluir))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnExcluir)
-                .addContainerGap())
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -429,7 +435,7 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(lblValSessao))))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -438,7 +444,7 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
-        
+
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 
@@ -447,7 +453,12 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
         ftxtValor.setText(Moeda.padraoVirgula(orcamento.getValor()));
         spnSessoes.setValue(orcamento.getSessoes());
         lblValSessao.setText(Moeda.calculaSessao(orcamento.getValor(), orcamento.getSessoes()));
+        
+        if (orcamento.getDescricao() == null) {
+        txtDesc.setText("Sem descrição.");
+        } else {
         txtDesc.setText(orcamento.getDescricao());
+        }
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
@@ -455,13 +466,13 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameActivated
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-        
+
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         boolean certo = true;
-        
-        if(rdoCartao.isEnabled()){
+
+        if (rdoCartao.isEnabled()) {
             try {
                 editPagamento();
             } catch (SQLException ex) {
@@ -469,8 +480,8 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
                 Logger.getLogger(IfrmEditOrcamento.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        if(ftxtValor.isEnabled()){
+
+        if (ftxtValor.isEnabled()) {
             try {
                 editValor();
             } catch (ValorInvalidoMoedaException | SQLException ex) {
@@ -478,8 +489,8 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
                 Logger.getLogger(IfrmEditOrcamento.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        if(spnSessoes.isEnabled()){
+
+        if (spnSessoes.isEnabled()) {
             try {
                 editSessoes();
             } catch (SQLException ex) {
@@ -488,7 +499,16 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
             }
         }
         
-        if(certo){
+        if(txtDesc.isEditable()){
+            try {
+                editDesc();
+            } catch (SQLException ex) {
+                certo = false;
+                Logger.getLogger(IfrmEditOrcamento.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (certo) {
             JOptionPane.showMessageDialog(this, "Modificações salvas com sucesso");
         } else {
             JOptionPane.showMessageDialog(this, "Não foi possível salvar todas as informações.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -522,7 +542,7 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblEditarSessoesMouseClicked
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        
+
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
@@ -540,12 +560,14 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
-    private void txtDesc2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDesc2FocusGained
+    private void txtDescFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescFocusGained
 
-    }//GEN-LAST:event_txtDesc2FocusGained
+    }//GEN-LAST:event_txtDescFocusGained
 
     private void lblEditarDescMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarDescMouseClicked
-        txtDesc.setEnabled(true);
+        txtDesc.setEditable(true);
+        txtDesc.selectAll();
+        txtDesc.getCaret().setVisible(true);
     }//GEN-LAST:event_lblEditarDescMouseClicked
 
 
@@ -572,12 +594,8 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblValSessao;
     private javax.swing.JRadioButton rdoCartao;
     private javax.swing.JRadioButton rdoDinheiro;
-    private javax.swing.JScrollPane scrollDesc;
-    private javax.swing.JScrollPane scrollDesc1;
     private javax.swing.JScrollPane scrollDesc2;
     private javax.swing.JSpinner spnSessoes;
     private javax.swing.JTextPane txtDesc;
-    private javax.swing.JTextPane txtDesc1;
-    private javax.swing.JTextPane txtDesc2;
     // End of variables declaration//GEN-END:variables
 }

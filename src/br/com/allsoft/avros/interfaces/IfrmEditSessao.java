@@ -99,7 +99,12 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
             Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        txtDesc.setText(orcamento.getDescricao());
+        if (orcamento.getDescricao() == null) {
+            txtDesc.setText("Sem descrição.");
+        } else {
+            txtDesc.setText(orcamento.getDescricao());
+        }
+        
         lblOrcCod.setText(String.valueOf(orcamento.getId()));
         lblCodSes.setText(String.valueOf(sessao.getId()));
         lblNome.setText(cliente.getNome());

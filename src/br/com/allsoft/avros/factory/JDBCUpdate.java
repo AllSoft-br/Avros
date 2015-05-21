@@ -629,6 +629,42 @@ public class JDBCUpdate {
     }
     
     /**
+     * Muda a descrição de um orçamento
+     * 
+     * @param id do orçamento
+     * @param desc nova descrição
+     * @throws SQLException 
+     */
+    public static void orcamentoDesc(int id, String desc) throws SQLException{
+        nomeTabela = ClsBD.getTblOrcamento();
+        
+        OrcamentoDAO orcamento = JDBCConsulta.orcamento(id);
+
+        con = ConexaoMySQL.getConexaoMySQL();
+        String sql = "UPDATE " + nomeTabela
+                + " set " + ClsBD.getOrcDesc()+ "= ? "
+                + "where " + ClsBD.getOrcId() + " = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        // preenche os valores
+        stmt.setString(1, desc);
+        stmt.setInt(2, id);
+        
+        sql = stmt.toString();
+
+        stmt.execute();
+        stmt.close();
+        con.close();
+        
+        try {
+            AuditoriaUpdate.orcamentoDesc(FrmLogin.usuario, orcamento, desc, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDBCUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
      * Muda o valor de um orcamento
      * 
      * @param id

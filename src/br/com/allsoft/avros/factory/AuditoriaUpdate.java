@@ -710,6 +710,46 @@ public class AuditoriaUpdate extends JDBCAuditoria{
     }
     
     /**
+     * Grava modificações de telefone do cliente na auditoria
+     *
+     * @param resp usuário responsável pela modificação
+     * @param orcamento modificada, antes do update
+     * @param desc nova descrição
+     * @param codSql código sql utilizado
+     * @throws AuditoriaException
+     */
+    public static void orcamentoDesc(UsuarioDAO resp, OrcamentoDAO orcamento, String desc, String codSql) throws AuditoriaException {
+        try {
+            tabela = ClsBD.getTblOrcamento();
+            acao = "update";
+            descricao = resp.getNick() + " modificou a descrição do orçamento de código " + String.valueOf(orcamento.getId()) + " de '" + orcamento.getDescricao()+ "' para '" + desc + "'";
+            sql = codSql;
+            codDado = orcamento.getId();
+            idLogin = resp.getId();
+            con = ConexaoMySQL.getConexaoMySQL();
+            antes = orcamento.getDescricao();
+            depois = desc;
+            campo = ClsBD.getOrcDesc();
+            String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, tabela);
+            stmt.setInt(2, codDado);
+            stmt.setString(3, acao);
+            stmt.setString(4, descricao);
+            stmt.setInt(5, idLogin);
+            stmt.setString(6, sql);
+            stmt.setString(7, antes);
+            stmt.setString(8, depois);
+            stmt.setString(9, campo);
+            stmt.execute();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
+            throw new AuditoriaException(ex);
+        }
+    }
+    
+    /**
      * Grava modificações de valor do orcamento na auditoria
      *
      * @param resp usuário responsável pela modificação
