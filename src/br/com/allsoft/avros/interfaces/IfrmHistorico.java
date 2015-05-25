@@ -1190,6 +1190,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
             }
             public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -1656,10 +1657,10 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         mainPanel.add(cardDelete, "cardDelete");
 
         pnlMenu.setBackground(ClsEstilo.formSombra);
-        pnlMenu.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        pnlMenu.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
 
         pnlLogin.setBackground(new java.awt.Color(255, 255, 255));
-        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1707,7 +1708,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         );
 
         pnlCadastro.setBackground(new java.awt.Color(255, 255, 255));
-        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlCadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlCadastro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1754,7 +1755,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         );
 
         pnlEdicoes.setBackground(new java.awt.Color(255, 255, 255));
-        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlEdicoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlEdicoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlEdicoes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1798,7 +1799,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         );
 
         pnlExclusoes.setBackground(new java.awt.Color(255, 255, 255));
-        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnlExclusoes.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         pnlExclusoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlExclusoes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2029,6 +2030,10 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
     private void cbxLoginLogItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxLoginLogItemStateChanged
         
     }//GEN-LAST:event_cbxLoginLogItemStateChanged
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        FrmPrincipal.bHistorico = false;
+    }//GEN-LAST:event_formInternalFrameClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

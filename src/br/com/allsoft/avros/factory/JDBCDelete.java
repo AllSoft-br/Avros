@@ -57,8 +57,6 @@ public class JDBCDelete {
         con = ConexaoMySQL.getConexaoMySQL();
         
         String sql = "DELETE from " + nomeTabela + " where " + ClsBD.getRelRepresentanteId() + " = ?" + " and " + ClsBD.getRelClienteId() + " = ?";
-        System.out.println(idRepresentante);
-        System.out.println(idCliente);
         
         PreparedStatement stmt = con.prepareStatement(sql);
         
@@ -111,7 +109,7 @@ public class JDBCDelete {
     }
     
     /**
-     * Deleta uma sessao 
+     * Deleta um orçamento 
      * 
      * @param orcamento com nome do cliente setado
      * @throws SQLException 

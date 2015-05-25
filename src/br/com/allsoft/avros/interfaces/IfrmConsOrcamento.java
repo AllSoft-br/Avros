@@ -421,7 +421,7 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAbrirActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        FrmPrincipal.bPreAgendarSessao = false;
+        FrmPrincipal.bPesqOrcamento = false;
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void btnBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBuscarKeyPressed

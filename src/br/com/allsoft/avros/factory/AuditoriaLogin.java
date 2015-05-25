@@ -90,6 +90,7 @@ public class AuditoriaLogin extends JDBCAuditoria {
             antes = "-"; //No caso de updates, como o campo era antes
             depois = "-"; //No caso de updates, como o campo ficou no fim
             campo = "-"; //Campo alterado
+            sql = "-";
 
             String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 

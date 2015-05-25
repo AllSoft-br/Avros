@@ -206,7 +206,7 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBackupActionPerformed
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-
+        FrmPrincipal.bBackup = false;
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void btnRecuperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecuperarActionPerformed

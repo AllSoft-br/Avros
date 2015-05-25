@@ -45,6 +45,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public static boolean bPreAgendarSessao = false;
     public static boolean bPesqOrcamento = false;
     public static boolean bSenha = false;
+    public static boolean bHistorico = false;
+    public static boolean bBackup = false;
+    public static boolean bConsRep = false;
+    public static boolean bConsUsuario = false;
+    public static boolean bConsSessao = false;
+    public static boolean bConsOrcamento = false;
+    public static boolean bConsCliente = false;
 
     /**
      *
@@ -429,7 +436,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         URL url = this.getClass().getResource("/br/com/allsoft/avros/img/logo.png");
         Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
-        
+
         this.setIconImage(imagemTitulo);
     }//GEN-LAST:event_formWindowOpened
 
@@ -449,7 +456,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         } catch (AuditoriaException ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         new FrmLogin().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_mniSairActionPerformed
@@ -467,9 +474,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniVerClienteActionPerformed
 
     private void mniVerRepresentantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVerRepresentantesActionPerformed
-        IfrmConsRepresentante obj = new IfrmConsRepresentante();
-        deskPrincipal.add(obj);
-        obj.setVisible(true);
+        if (!bConsRep) {
+            IfrmConsRepresentante obj = new IfrmConsRepresentante();
+            deskPrincipal.add(obj);
+            obj.setVisible(true);
+            bConsRep = true;
+        }
     }//GEN-LAST:event_mniVerRepresentantesActionPerformed
 
     private void mniRepresentanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRepresentanteActionPerformed
@@ -491,7 +501,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniVerSessoesActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        
+
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -503,15 +513,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void mniHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniHistoricoActionPerformed
-        IfrmHistorico obj = new IfrmHistorico();
-        deskPrincipal.add(obj);
-        obj.setVisible(true);
+        if (!bHistorico) {
+            IfrmHistorico obj = new IfrmHistorico();
+            deskPrincipal.add(obj);
+            obj.setVisible(true);
+            bHistorico = true;
+        }
     }//GEN-LAST:event_mniHistoricoActionPerformed
 
     private void mniBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBackupActionPerformed
-        IfrmBackup obj = new IfrmBackup();
-        deskPrincipal.add(obj);
-        obj.setVisible(true);
+        if (!bBackup) {
+            IfrmBackup obj = new IfrmBackup();
+            deskPrincipal.add(obj);
+            obj.setVisible(true);
+            bBackup = true;
+        }
     }//GEN-LAST:event_mniBackupActionPerformed
 
     /**
