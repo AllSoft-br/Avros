@@ -16,6 +16,8 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.formulas.Cpf;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.modelo.Cliente;
@@ -57,7 +59,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
      */
     private void preencheCampos() {
         try {
-            qto = JDBCConsulta.qtdeDependentes(representante.getId());
+            qto = RepresentanteDAO.cqtdeDependentes(representante.getId());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar a quantidade de dependentes.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);
@@ -145,7 +147,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
                     int id = (int) tblDependentes.getValueAt(linha, 0);
 
                     try {
-                        cliente = JDBCConsulta.clienteId(id);
+                        cliente = ClienteDAO.cclienteId(id);
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "O cliente não pôde ser carregado.", "Erro", JOptionPane.ERROR_MESSAGE);
                         Logger.getLogger(IfrmConsCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -595,7 +597,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
             editado.setNome(txtNome.getText());
 
             try {
-                JDBCUpdate.clienteNome(editado.getNome(), id);
+                RepresentanteDAO.urepresentanteNome(editado.getNome(), id);
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -604,7 +606,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         if (ftxtNasc.isEnabled()) {
             editado.setNascimento(ftxtNasc.getText());
             try {
-                JDBCUpdate.clienteNasc(editado.getNascimento(), id);
+                RepresentanteDAO.urepresentanteNasc(editado.getNascimento(), id);
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -613,7 +615,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         if (txtTel.isEnabled()) {
             editado.setTel(txtTel.getText());
             try {
-                JDBCUpdate.clienteTel(editado.getTel(), id);
+                RepresentanteDAO.urepresentanteTel(editado.getTel(), id);
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -627,7 +629,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
             }
 
             try {
-                JDBCUpdate.clienteSexo(feminino, id);
+                RepresentanteDAO.urepresentanteSexo(feminino, id);
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -666,7 +668,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
             }
         } else {
             try {
-                List<Cliente> dependentes = JDBCConsulta.dependentes(representante.getId());
+                List<Cliente> dependentes = RepresentanteDAO.cdependentes(representante.getId());
                 criaEventoSelecao();
                 preencheTabela(dependentes);
             } catch (SQLException ex) {
@@ -725,7 +727,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         int j = JOptionPane.showConfirmDialog(this, "Você realmente deseja remover este dependente? Ao fazer isso o dependente ficará sem responvável.");
         if (j == JOptionPane.YES_OPTION) {
             try {
-                JDBCDelete.removeRel(representante.getId(), cliente.getId());
+                RepresentanteDAO.removeRel(representante.getId(), cliente.getId());
                 int q = jtblDependentes.getSelectedRow();
                 tblDependentes.removeRow(q);
             } catch (SQLException ex) {
@@ -738,7 +740,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
         preencheCampos();
         try {
-            List<Cliente> dependentes = JDBCConsulta.dependentes(representante.getId());
+            List<Cliente> dependentes = RepresentanteDAO.cdependentes(representante.getId());
             preencheTabela(dependentes);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não foi possível atualizar a lista de dependentes.", "Erro", JOptionPane.ERROR_MESSAGE);
