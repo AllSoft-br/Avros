@@ -16,11 +16,11 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.Representante;
-import br.com.allsoft.avros.factory.JDBCConsulta;
+import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.formulas.Consulta;
-import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.formulas.Datas;
+import br.com.allsoft.avros.modelo.Representante;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -63,7 +63,7 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
                     int id = (int) tblRepresentante.getValueAt(linha, 0);
 
                     try {
-                        representante = JDBCConsulta.representanteId(id);
+                        representante = RepresentanteDAO.crepresentanteId(id);
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "O representante não pôde ser carregado.", "Erro", JOptionPane.ERROR_MESSAGE);
                         Logger.getLogger(IfrmConsRepresentante.class.getName()).log(Level.SEVERE, null, ex);
@@ -354,7 +354,7 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
         if (!txtNome.getText().isEmpty()) {
             nome = txtNome.getText();
             try {
-                representantes = JDBCConsulta.representanteNome(nome);
+                representantes = RepresentanteDAO.crepresentanteNome(nome);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Ocorreu um erro ao pesquisar representantes pelo nome.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsRepresentante.class.getName()).log(Level.SEVERE, null, ex);
@@ -367,7 +367,7 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
             if (Cpf.isCpf(cpf)) {
                 Representante representante = new Representante();
                 try {
-                    representante = JDBCConsulta.representanteCpf(cpf);
+                    representante = RepresentanteDAO.crepresentanteCpf(cpf);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao pesquisar clientes pelo CPF.", "Erro", JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(IfrmConsRepresentante.class.getName()).log(Level.SEVERE, null, ex);
@@ -402,7 +402,7 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
     private void lblVerTodosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVerTodosMouseClicked
         List<Representante> representantes = new ArrayList<>();
         try {
-            representantes = JDBCConsulta.representanteTodos();
+            representantes = RepresentanteDAO.crepresentanteTodos();
             preencheTabela(representantes);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro durante a exibição dos representantes pesquisados.", "Erro", JOptionPane.ERROR_MESSAGE);

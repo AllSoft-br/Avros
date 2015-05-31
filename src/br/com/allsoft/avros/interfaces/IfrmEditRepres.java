@@ -16,13 +16,10 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.Cliente;
-import br.com.allsoft.avros.dao.Representante;
-import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.factory.JDBCDelete;
-import br.com.allsoft.avros.factory.JDBCUpdate;
-import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.formulas.Datas;
+import br.com.allsoft.avros.modelo.Cliente;
+import br.com.allsoft.avros.modelo.Representante;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -31,7 +28,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
