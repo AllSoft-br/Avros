@@ -17,8 +17,7 @@
 
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.factory.JDBCAuditoria;
-import br.com.allsoft.avros.factory.JDBCUpdate;
+import br.com.allsoft.avros.dao.UsuarioDAO;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -195,7 +194,7 @@ public class IfrmSenha extends javax.swing.JInternalFrame {
             if((Arrays.equals(nova, conf)) && (Arrays.equals(antiga, FrmLogin.usuario.getSenha()))){
                 
                 try {
-                    JDBCUpdate.usuarioSenha(pswNova.getPassword(), FrmLogin.usuario.getId());
+                    UsuarioDAO.uusuarioSenha(pswNova.getPassword(), FrmLogin.usuario.getId());
                 } catch (SQLException ex) {
                     Logger.getLogger(IfrmSenha.class.getName()).log(Level.SEVERE, null, ex);
                 }
