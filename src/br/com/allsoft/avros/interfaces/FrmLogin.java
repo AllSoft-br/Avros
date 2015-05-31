@@ -17,8 +17,6 @@
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.UsuarioDAO;
-import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.modelo.Usuario;
 import java.awt.Container;
 import java.awt.Image;
@@ -191,7 +189,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
             if (erros > 2) {
                 try {
-                    JDBCUpdate.usuarioAtivo(false, login);
+                    UsuarioDAO.uusuarioAtivo(false, login);
                     JOptionPane.showMessageDialog(this, "O usuário " + login + " foi bloqueado por conta do excesso de erros. Contate um administrador do sistema para desbloquear.", "Usuário bloqueado", JOptionPane.ERROR_MESSAGE);
                 } catch (SQLException ex) {
                     Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
