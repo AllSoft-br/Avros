@@ -16,6 +16,7 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.formulas.Cpf;
 import br.com.allsoft.avros.modelo.Usuario;
 import java.awt.Color;
@@ -69,7 +70,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         if (rdoAdmin.isSelected()) {
             usuario.setAdmin(true);
             try {
-                JDBCUpdate.usuarioAdmin(true, usuario.getId());
+                UsuarioDAO.uusuarioAdmin(true, usuario.getId());
                 lblSauda.setText("Usuário do tipo administrador.");
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,7 +80,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         if (rdoComum.isSelected()) {
             usuario.setAdmin(false);
             try {
-                JDBCUpdate.usuarioAdmin(false, usuario.getId());
+                UsuarioDAO.uusuarioAdmin(false, usuario.getId());
                 lblSauda.setText("Usuário do tipo comum.");
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -399,7 +400,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
             try {
                 String nome = txtNome.getText();
 
-                JDBCUpdate.usuarioNome(nome, usuario.getId());
+                UsuarioDAO.uusuarioNome(nome, usuario.getId());
 
                 usuario.setNome(nome);
 
@@ -421,7 +422,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
             try {
                 String nick = txtNickname.getText();
 
-                JDBCUpdate.usuarioNick(nick, usuario.getId());
+                UsuarioDAO.uusuarioNick(nick, usuario.getId());
 
                 usuario.setNome(nick);
 
@@ -452,7 +453,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         }
 
         try {
-            usuario = JDBCConsulta.usuarioId(usuario.getId());
+            usuario = UsuarioDAO.cusuarioId(usuario.getId());
             preencheCampos();
         } catch (SQLException ex) {
             Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -469,7 +470,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
 
     private void btnExcluiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluiActionPerformed
         try {
-            JDBCUpdate.usuarioAtivo(!usuario.isAtivo(), usuario.getId());
+            UsuarioDAO.uusuarioAtivo(!usuario.isAtivo(), usuario.getId());
             preencheCampos();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao mudar o status do usuário.", "Erro", JOptionPane.ERROR_MESSAGE);
