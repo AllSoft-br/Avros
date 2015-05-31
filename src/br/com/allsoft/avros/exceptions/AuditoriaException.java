@@ -17,7 +17,6 @@
 
 package br.com.allsoft.avros.exceptions;
 
-import br.com.allsoft.avros.factory.JDBCAuditoria;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +34,7 @@ public class AuditoriaException extends Exception{
     
     public AuditoriaException(SQLException ex){
         super("Erro na auditoria. " + ex);
-        Logger.getLogger(JDBCAuditoria.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(AuditoriaException.class.getName()).log(Level.SEVERE, null, ex);
     }
 }
 
