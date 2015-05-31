@@ -17,13 +17,11 @@
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.backup.MySQLBackup;
-import br.com.allsoft.avros.factory.JDBCUpdate;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
