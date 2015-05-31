@@ -16,13 +16,15 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.Cliente;
-import br.com.allsoft.avros.dao.Orcamento;
-import br.com.allsoft.avros.dao.Sessao;
-import br.com.allsoft.avros.factory.JDBCConsulta;
+import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.OrcamentoDAO;
+import br.com.allsoft.avros.dao.SessaoDAO;
+import br.com.allsoft.avros.formulas.Cpf;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Moeda;
-import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.modelo.Cliente;
+import br.com.allsoft.avros.modelo.Orcamento;
+import br.com.allsoft.avros.modelo.Sessao;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -67,9 +69,9 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
                     sessao.setCpf((String) tblSes.getValueAt(linha, 4));
                     
                     try {
-                        orcamento = JDBCConsulta.orcamento(sessao.getIdOrcamento());
-                        cliente = JDBCConsulta.clienteCpf(sessao.getCpf());
-                        sessao = JDBCConsulta.sessaoId(sessao.getId());
+                        orcamento = OrcamentoDAO.corcamento(sessao.getIdOrcamento());
+                        cliente = ClienteDAO.cclienteCpf(sessao.getCpf());
+                        sessao = SessaoDAO.csessaoId(sessao.getId());
                     } catch (SQLException ex) {
                         Logger.getLogger(IfrmConsSessao.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -344,7 +346,7 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
             if (Cpf.isCpf(cpf)) {
                 cliente.setCpf(cpf);
                 try {
-                    cliente = JDBCConsulta.clienteCpf(cpf);
+                    cliente = ClienteDAO.cclienteCpf(cpf);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(this, "Ocorreu ao carregar as informações do cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
                     cliente = null;
@@ -354,7 +356,7 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
                 if (!(cliente.getCpf() == null)) {
 
                     try {
-                        sessoes = JDBCConsulta.sessaoIdCli(cliente.getId());
+                        sessoes = SessaoDAO.csessaoIdCli(cliente.getId());
                         int qtde = sessoes.size();
 
                         for (int i = 0; i < qtde; i++) {
@@ -388,14 +390,14 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
             int codigo = Integer.valueOf(txtOrcamento.getText());
 
             try {
-                orcamento = JDBCConsulta.orcamento(codigo);
-                sessoes = JDBCConsulta.sessaoIdOrc(codigo);
+                orcamento = OrcamentoDAO.corcamento(codigo);
+                sessoes = SessaoDAO.csessaoIdOrc(codigo);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar o orçamento.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsSessao.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                cliente = JDBCConsulta.clienteId(orcamento.getIdCliente());
+                cliente = ClienteDAO.cclienteId(orcamento.getIdCliente());
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar o cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsSessao.class.getName()).log(Level.SEVERE, null, ex);
@@ -418,10 +420,10 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
             int id = Integer.valueOf(txtSessao.getText());
 
             try {
-                sessao = JDBCConsulta.sessaoId(id);
+                sessao = SessaoDAO.csessaoId(id);
                 orcamento.setId(sessao.getIdOrcamento());
-                orcamento = JDBCConsulta.orcamento(orcamento.getId());
-                cliente = JDBCConsulta.clienteId(orcamento.getIdCliente());
+                orcamento = OrcamentoDAO.corcamento(orcamento.getId());
+                cliente = ClienteDAO.cclienteId(orcamento.getIdCliente());
 
                 btnAbrir.setEnabled(true);
                 JOptionPane.showMessageDialog(this, "Sessão encontrada!");
