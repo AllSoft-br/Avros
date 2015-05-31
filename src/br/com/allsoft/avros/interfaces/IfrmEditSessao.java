@@ -16,6 +16,7 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
 import br.com.allsoft.avros.formulas.Cpf;
 import br.com.allsoft.avros.formulas.Moeda;
@@ -142,7 +143,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
             sessao.setPagamento("Não especificado");
         }
 
-        JDBCUpdate.sessaoPagamento(sessao.getId(), sessao.getPagamento());
+        SessaoDAO.usessaoPagamento(sessao.getId(), sessao.getPagamento());
     }
 
     private void editData() throws SQLException {
@@ -151,7 +152,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
         java.sql.Date dataSql = new java.sql.Date(dataUtil.getTime());
 
         sessao.setData(dataSql);
-        JDBCUpdate.sessaoData(sessao.getId(), dataSql);
+        SessaoDAO.usessaoData(sessao.getId(), dataSql);
     }
 
     private void editHorario() throws ParseException, SQLException {
@@ -168,14 +169,14 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
 
         sessao.setHora(horaSql);
 
-        JDBCUpdate.sessaoHora(sessao.getId(), horaSql);
+        SessaoDAO.usessaoHora(sessao.getId(), horaSql);
     }
 
     private void editDesconto() throws ValorInvalidoMoedaException, SQLException {
         double desconto = Moeda.retornaDouble(ftxtDesconto.getText());
         sessao.setDesconto(desconto);
 
-        JDBCUpdate.sessaoDesconto(sessao.getId(), desconto);
+        SessaoDAO.usessaoDesconto(sessao.getId(), desconto);
     }
 
     /**
@@ -763,7 +764,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
 
     private void lblEditarStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarStatusMouseClicked
         try {
-            JDBCUpdate.sessaoConcluida(sessao.getId(), !sessao.isConcluida(), sessao.getIdOrcamento());
+            SessaoDAO.usessaoConcluida(sessao.getId(), !sessao.isConcluida(), sessao.getIdOrcamento());
             sessao.setConcluida(!sessao.isConcluida());
 
             if (sessao.isConcluida()) {
@@ -795,7 +796,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
         int j = JOptionPane.showConfirmDialog(this, "Você realmente deseja excluir esta sessão?", "Excluir", JOptionPane.YES_NO_OPTION);
         if (j == JOptionPane.YES_OPTION) {
             try {
-                JDBCDelete.sessao(sessao);
+                SessaoDAO.dsessao(sessao);
                 JOptionPane.showMessageDialog(this, "A sessão foi excluída com sucesso.");
                 this.dispose();
             } catch (SQLException ex) {
