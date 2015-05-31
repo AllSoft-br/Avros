@@ -17,7 +17,7 @@
 
 package br.com.allsoft.avros.formulas;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -16,9 +16,9 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
-import br.com.allsoft.avros.dao.OrcamentoDAO;
-import br.com.allsoft.avros.dao.SessaoDAO;
+import br.com.allsoft.avros.dao.Cliente;
+import br.com.allsoft.avros.dao.Orcamento;
+import br.com.allsoft.avros.dao.Sessao;
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
 import br.com.allsoft.avros.factory.JDBCDelete;
 import br.com.allsoft.avros.factory.JDBCUpdate;
@@ -51,9 +51,9 @@ import net.sf.jasperreports.engine.JRException;
 public class IfrmEditSessao extends javax.swing.JInternalFrame {
 
     //Variáveis
-    OrcamentoDAO orcamento;
-    ClienteDAO cliente;
-    SessaoDAO sessao;
+    Orcamento orcamento;
+    Cliente cliente;
+    Sessao sessao;
 
     double vsessao;
     String pagamento;
@@ -188,7 +188,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
      * @param cliente cliente que fará a sessão
      * @param sessao sessao a ser editada
      */
-    public IfrmEditSessao(OrcamentoDAO orcamento, ClienteDAO cliente, SessaoDAO sessao) {
+    public IfrmEditSessao(Orcamento orcamento, Cliente cliente, Sessao sessao) {
         this.orcamento = orcamento;
         this.cliente = cliente;
         this.sessao = sessao;

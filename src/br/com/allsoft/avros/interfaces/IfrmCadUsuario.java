@@ -16,7 +16,7 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Usuario;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.factory.JDBCInsere;
 import br.com.allsoft.avros.formulas.Cpf;
@@ -324,7 +324,7 @@ public class IfrmCadUsuario extends javax.swing.JInternalFrame {
 
             if (Cpf.isCpf(cpf)) {
                 lblAviso.setVisible(false);
-                UsuarioDAO usuario = new UsuarioDAO();
+                Usuario usuario = new Usuario();
                 usuario.setNick(nick);
                 usuario.setNome(nome);
                 usuario.setCpf(cpf);

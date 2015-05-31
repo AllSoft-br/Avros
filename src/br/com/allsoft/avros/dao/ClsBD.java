@@ -79,13 +79,13 @@ public class ClsBD {
     private static final String parTipo = "tipo_parentesco";
 
     //Tabela Orçamento
-    private static final String orcId = "cod_orc";
+    private static final String orcId = "id_orc";
     private static final String orcCriacao = "criado_em";
     private static final String orcTipoPag = "Tipo_pagamento";
     private static final String orcValor = "valor_total";
     private static final String orcClienteId = "fk_id_cli_orc";
     private static final String orcNSessoes = "qntd_sessao";
-    private static final String orcDesc = "desc_tatto";
+    private static final String orcDesc = "desc_tattoo";
 
     //Tabela Sessão
     private static final String sesId = "id_sessao";
@@ -95,7 +95,7 @@ public class ClsBD {
     private static final String sesData = "data_agendada";
     private static final String sesHora = "hora_agendada";
     private static final String sesDesconto = "desconto";
-    private static final String sesIdOrc = "fk_cod_orc";
+    private static final String sesIdOrc = "fk_id_orc";
 
     //Views da auditoria
     private static final String audId = "id_reg";

@@ -17,8 +17,8 @@
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.ClsBD;
-import br.com.allsoft.avros.dao.RegistroDAO;
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Registro;
+import br.com.allsoft.avros.dao.Usuario;
 import br.com.allsoft.avros.event.ComboBoxItemListener;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.factory.JDBCViews;
@@ -65,7 +65,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @param registros
      * @throws SQLException
      */
-    private void preencheTabelaCad(List<RegistroDAO> registros) throws SQLException {
+    private void preencheTabelaCad(List<Registro> registros) throws SQLException {
         tblCad.setColumnIdentifiers(cabCad);
         jtblCad.setModel(tblCad);
         tblCad.setRowCount(0);
@@ -77,10 +77,10 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         
         int q = registros.size();
 
-        for (int i = q; i < q; i++) {
+        for (int i = 0; i < q; i++) {
             tblCad.addRow(new String[1]);
 
-            UsuarioDAO usuario = JDBCConsulta.usuarioId(registros.get(i).getIdLogin());
+            Usuario usuario = JDBCConsulta.usuarioId(registros.get(i).getIdLogin());
             String horario = Datas.timestrampParaString(registros.get(i).getData());
             String tipo = ClsBD.tipoItem(registros.get(i).getTabela());
 
@@ -90,6 +90,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             tblCad.setValueAt(registros.get(i).getDescricao(), i, 3);
             tblCad.setValueAt(horario, i, 4);
             tblCad.setValueAt(registros.get(i).getIdDado(), i, 5);
+            
         }
     }
 
@@ -99,7 +100,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @param registros
      * @throws SQLException
      */
-    private void preencheTabelaDel(List<RegistroDAO> registros) throws SQLException {
+    private void preencheTabelaDel(List<Registro> registros) throws SQLException {
         tblDel.setColumnIdentifiers(cabDel);
         jtblDelete.setModel(tblDel);
         tblDel.setRowCount(0);
@@ -109,7 +110,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         for (int i = 0; i < q; i++) {
             tblDel.addRow(new String[1]);
 
-            UsuarioDAO usuario = JDBCConsulta.usuarioId(registros.get(i).getIdLogin());
+            Usuario usuario = JDBCConsulta.usuarioId(registros.get(i).getIdLogin());
             String horario = Datas.timestrampParaString(registros.get(i).getData());
             String tipo = ClsBD.tipoItem(registros.get(i).getTabela());
 
@@ -128,7 +129,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @param registros
      * @throws SQLException
      */
-    private void preencheTabelaEdit(List<RegistroDAO> registros) throws SQLException {
+    private void preencheTabelaEdit(List<Registro> registros) throws SQLException {
         tblEdit.setColumnIdentifiers(cabEdit);
         jtblEdit.setModel(tblEdit);
         tblEdit.setRowCount(0);
@@ -143,7 +144,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         for (int i = 0; i < q; i++) {
             tblEdit.addRow(new String[1]);
 
-            UsuarioDAO usuario = JDBCConsulta.usuarioId(registros.get(i).getIdLogin());
+            Usuario usuario = JDBCConsulta.usuarioId(registros.get(i).getIdLogin());
             String horario = Datas.timestrampParaString(registros.get(i).getData());
             String tipo = ClsBD.tipoItem(registros.get(i).getTabela());
 
@@ -175,7 +176,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @param registros
      * @throws SQLException
      */
-    private void preencheTabelaLog(List<RegistroDAO> registros) throws SQLException {
+    private void preencheTabelaLog(List<Registro> registros) throws SQLException {
         tblLogin.setColumnIdentifiers(cabLog);
         jtblLogins.setModel(tblLogin);
         tblLogin.setRowCount(0);
@@ -185,7 +186,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
         for (int i = 0; i < q; i++) {
             tblLogin.addRow(new String[1]);
 
-            UsuarioDAO usuario = JDBCConsulta.usuarioId(registros.get(i).getIdLogin());
+            Usuario usuario = JDBCConsulta.usuarioId(registros.get(i).getIdLogin());
             String horario = Datas.timestrampParaString(registros.get(i).getData());
 
             tblLogin.setValueAt(registros.get(i).getId(), i, 0);
@@ -198,7 +199,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
     private void criaComponentes() {
 
         try {
-            List<UsuarioDAO> usuarios = JDBCConsulta.usuarioTodos();
+            List<Usuario> usuarios = JDBCConsulta.usuarioTodos();
             int s = usuarios.size();
 
             for (int i = 0; i < s; i++) {
@@ -614,7 +615,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void login24h() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditLogin24h();
+        List<Registro> registros = JDBCViews.auditLogin24h();
         preencheTabelaLog(registros);
     }
 
@@ -626,7 +627,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void login3d() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditLogin3d();
+        List<Registro> registros = JDBCViews.auditLogin3d();
         preencheTabelaLog(registros);
     }
 
@@ -638,7 +639,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void login7d() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditLogin7d();
+        List<Registro> registros = JDBCViews.auditLogin7d();
         preencheTabelaLog(registros);
     }
 
@@ -650,7 +651,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void login1m() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditLogin1m();
+        List<Registro> registros = JDBCViews.auditLogin1m();
         preencheTabelaLog(registros);
     }
 
@@ -662,7 +663,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void loginTodos() throws SQLException {
-        List<RegistroDAO> registros = JDBCConsulta.auditLogin();
+        List<Registro> registros = JDBCConsulta.auditLogin();
         preencheTabelaLog(registros);
     }
 
@@ -674,7 +675,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void login24h(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditLogin24h(nick);
+        List<Registro> registros = JDBCViews.auditLogin24h(nick);
         preencheTabelaLog(registros);
     }
 
@@ -686,7 +687,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void login3d(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditLogin3d(nick);
+        List<Registro> registros = JDBCViews.auditLogin3d(nick);
         preencheTabelaLog(registros);
     }
 
@@ -698,7 +699,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void login7d(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditLogin7d(nick);
+        List<Registro> registros = JDBCViews.auditLogin7d(nick);
         preencheTabelaLog(registros);
     }
 
@@ -710,7 +711,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void login1m(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditLogin1m(nick);
+        List<Registro> registros = JDBCViews.auditLogin1m(nick);
         preencheTabelaLog(registros);
     }
 
@@ -722,7 +723,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void loginTodos(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCConsulta.auditLogin(nick);
+        List<Registro> registros = JDBCConsulta.auditLogin(nick);
         preencheTabelaLog(registros);
     }
 
@@ -734,7 +735,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cad24h() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditCad24h();
+        List<Registro> registros = JDBCViews.auditCad24h();
         preencheTabelaCad(registros);
     }
 
@@ -746,7 +747,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cad3d() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditCad3d();
+        List<Registro> registros = JDBCViews.auditCad3d();
         preencheTabelaCad(registros);
     }
 
@@ -758,7 +759,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cad7d() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditCad7d();
+        List<Registro> registros = JDBCViews.auditCad7d();
         preencheTabelaCad(registros);
     }
 
@@ -770,7 +771,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cad1m() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditCad1m();
+        List<Registro> registros = JDBCViews.auditCad1m();
         preencheTabelaCad(registros);
     }
 
@@ -782,7 +783,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cadTodos() throws SQLException {
-        List<RegistroDAO> registros = JDBCConsulta.auditCad();
+        List<Registro> registros = JDBCConsulta.auditCad();
         preencheTabelaCad(registros);
     }
 
@@ -794,7 +795,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cad24h(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditCad24h(nick);
+        List<Registro> registros = JDBCViews.auditCad24h(nick);
         preencheTabelaCad(registros);
     }
 
@@ -806,7 +807,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cad3d(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditCad3d(nick);
+        List<Registro> registros = JDBCViews.auditCad3d(nick);
         preencheTabelaCad(registros);
     }
 
@@ -818,7 +819,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cad7d(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditCad7d(nick);
+        List<Registro> registros = JDBCViews.auditCad7d(nick);
         preencheTabelaCad(registros);
     }
 
@@ -830,7 +831,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cad1m(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditCad1m(nick);
+        List<Registro> registros = JDBCViews.auditCad1m(nick);
         preencheTabelaCad(registros);
     }
 
@@ -842,7 +843,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void cadTodos(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCConsulta.auditCad(nick);
+        List<Registro> registros = JDBCConsulta.auditCad(nick);
         preencheTabelaCad(registros);
     }
 
@@ -854,7 +855,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void del24h() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditDel24h();
+        List<Registro> registros = JDBCViews.auditDel24h();
         preencheTabelaDel(registros);
     }
 
@@ -866,7 +867,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void del3d() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditDel3d();
+        List<Registro> registros = JDBCViews.auditDel3d();
         preencheTabelaDel(registros);
     }
 
@@ -878,7 +879,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void del7d() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditDel7d();
+        List<Registro> registros = JDBCViews.auditDel7d();
         preencheTabelaDel(registros);
     }
 
@@ -890,7 +891,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void del1m() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditDel1m();
+        List<Registro> registros = JDBCViews.auditDel1m();
         preencheTabelaDel(registros);
     }
 
@@ -902,7 +903,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void delTodos() throws SQLException {
-        List<RegistroDAO> registros = JDBCConsulta.auditDel();
+        List<Registro> registros = JDBCConsulta.auditDel();
         preencheTabelaDel(registros);
     }
 
@@ -914,7 +915,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void del24h(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditDel24h(nick);
+        List<Registro> registros = JDBCViews.auditDel24h(nick);
         preencheTabelaDel(registros);
     }
 
@@ -926,7 +927,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void del3d(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditDel3d(nick);
+        List<Registro> registros = JDBCViews.auditDel3d(nick);
         preencheTabelaDel(registros);
     }
 
@@ -938,7 +939,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void del7d(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditDel7d(nick);
+        List<Registro> registros = JDBCViews.auditDel7d(nick);
         preencheTabelaDel(registros);
     }
 
@@ -950,7 +951,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void del1m(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditDel1m(nick);
+        List<Registro> registros = JDBCViews.auditDel1m(nick);
         preencheTabelaDel(registros);
     }
 
@@ -962,7 +963,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void delTodos(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCConsulta.auditDel(nick);
+        List<Registro> registros = JDBCConsulta.auditDel(nick);
         preencheTabelaDel(registros);
     }
 
@@ -974,7 +975,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void edit24h() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditEdit24h();
+        List<Registro> registros = JDBCViews.auditEdit24h();
         preencheTabelaEdit(registros);
     }
 
@@ -986,7 +987,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void edit3d() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditEdit3d();
+        List<Registro> registros = JDBCViews.auditEdit3d();
         preencheTabelaEdit(registros);
     }
 
@@ -998,7 +999,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void edit7d() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditEdit7d();
+        List<Registro> registros = JDBCViews.auditEdit7d();
         preencheTabelaEdit(registros);
     }
 
@@ -1010,7 +1011,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void edit1m() throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditEdit1m();
+        List<Registro> registros = JDBCViews.auditEdit1m();
         preencheTabelaEdit(registros);
     }
 
@@ -1022,7 +1023,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void editTodos() throws SQLException {
-        List<RegistroDAO> registros = JDBCConsulta.auditEdit();
+        List<Registro> registros = JDBCConsulta.auditEdit();
         preencheTabelaEdit(registros);
     }
 
@@ -1034,7 +1035,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void edit24h(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditEdit24h(nick);
+        List<Registro> registros = JDBCViews.auditEdit24h(nick);
         preencheTabelaEdit(registros);
     }
 
@@ -1046,7 +1047,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void edit3d(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditEdit3d(nick);
+        List<Registro> registros = JDBCViews.auditEdit3d(nick);
         preencheTabelaEdit(registros);
     }
 
@@ -1058,7 +1059,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void edit7d(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditEdit7d(nick);
+        List<Registro> registros = JDBCViews.auditEdit7d(nick);
         preencheTabelaEdit(registros);
     }
 
@@ -1070,7 +1071,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void edit1m(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCViews.auditEdit1m(nick);
+        List<Registro> registros = JDBCViews.auditEdit1m(nick);
         preencheTabelaEdit(registros);
     }
 
@@ -1082,7 +1083,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @throws SQLException
      */
     private void editTodos(String nick) throws SQLException {
-        List<RegistroDAO> registros = JDBCConsulta.auditEdit(nick);
+        List<Registro> registros = JDBCConsulta.auditEdit(nick);
         
         preencheTabelaEdit(registros);
     }
@@ -1094,11 +1095,11 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      * @param filtro
      * @return lista de registros filtrada
      */
-    private List<RegistroDAO> filtraRegistros(List<RegistroDAO> registros, String filtro){
+    private List<Registro> filtraRegistros(List<Registro> registros, String filtro){
         int q = registros.size();
         String tabela = ClsBD.itemTipo(filtro);
         
-        List<RegistroDAO> filtrados = new ArrayList<>();
+        List<Registro> filtrados = new ArrayList<>();
         
         for(int i = 0; i < q; i++){
             if(registros.get(i).getTabela().equalsIgnoreCase(tabela)){

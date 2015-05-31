@@ -17,12 +17,12 @@
 
 package br.com.allsoft.avros.factory;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.dao.ClsBD;
-import br.com.allsoft.avros.dao.OrcamentoDAO;
-import br.com.allsoft.avros.dao.RepresentanteDAO;
-import br.com.allsoft.avros.dao.SessaoDAO;
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Orcamento;
+import br.com.allsoft.avros.dao.Representante;
+import br.com.allsoft.avros.dao.Sessao;
+import br.com.allsoft.avros.dao.Usuario;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import static br.com.allsoft.avros.factory.JDBCAuditoria.tabela;
 import br.com.allsoft.avros.formulas.Cpf;
@@ -44,7 +44,7 @@ public class AuditoriaDelete extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void relRepMenor(UsuarioDAO resp, RepresentanteDAO representante, ClienteDAO menor, String codSql) throws AuditoriaException {
+    public static void relRepMenor(Usuario resp, Representante representante, Cliente menor, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblRel();
             acao = "delete";
@@ -89,7 +89,7 @@ public class AuditoriaDelete extends JDBCAuditoria{
      * @param codSql SQL utilizado
      * @throws AuditoriaException 
      */
-    public static void sessao(UsuarioDAO resp, SessaoDAO sessao, String codSql) throws AuditoriaException {
+    public static void sessao(Usuario resp, Sessao sessao, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblSessao();
             acao = "delete";
@@ -133,9 +133,9 @@ public class AuditoriaDelete extends JDBCAuditoria{
      * @param codSql SQL utilizado
      * @throws AuditoriaException 
      */
-    public static void orcamento(UsuarioDAO resp, OrcamentoDAO orcamento, String codSql) throws AuditoriaException {
+    public static void orcamento(Usuario resp, Orcamento orcamento, String codSql) throws AuditoriaException {
         try {
-            ClienteDAO cliente = JDBCConsulta.clienteId(orcamento.getIdCliente());
+            Cliente cliente = JDBCConsulta.clienteId(orcamento.getIdCliente());
             
             tabela = ClsBD.getTblOrcamento();
             acao = "delete";

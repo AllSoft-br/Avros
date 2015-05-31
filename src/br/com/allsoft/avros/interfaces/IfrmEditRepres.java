@@ -16,8 +16,8 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
-import br.com.allsoft.avros.dao.RepresentanteDAO;
+import br.com.allsoft.avros.dao.Cliente;
+import br.com.allsoft.avros.dao.Representante;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.factory.JDBCDelete;
 import br.com.allsoft.avros.factory.JDBCUpdate;
@@ -46,8 +46,8 @@ import javax.swing.text.MaskFormatter;
 public class IfrmEditRepres extends javax.swing.JInternalFrame {
 
     //Variáveis
-    RepresentanteDAO representante = new RepresentanteDAO();
-    ClienteDAO cliente = new ClienteDAO();
+    Representante representante = new Representante();
+    Cliente cliente = new Cliente();
     DefaultTableModel tblDependentes = new ClsTableModel();
 
     Dimension frame;
@@ -111,7 +111,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         jScrollPane2.setVisible(false);
     }
 
-    private void preencheTabela(List<ClienteDAO> clientes) {
+    private void preencheTabela(List<Cliente> clientes) {
         this.setSize(frame);
         jtblDependentes.setSize(tabela);
         jScrollPane2.setSize(scroll);
@@ -165,7 +165,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
      *
      * @param representante representante a ser visualizado
      */
-    public IfrmEditRepres(RepresentanteDAO representante) {
+    public IfrmEditRepres(Representante representante) {
         initComponents();
 
         this.representante = representante;
@@ -593,7 +593,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         int id = representante.getId();
-        ClienteDAO editado = new ClienteDAO();
+        Cliente editado = new Cliente();
 
         if (txtNome.isEnabled()) {
             editado.setNome(txtNome.getText());
@@ -670,7 +670,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
             }
         } else {
             try {
-                List<ClienteDAO> dependentes = JDBCConsulta.dependentes(representante.getId());
+                List<Cliente> dependentes = JDBCConsulta.dependentes(representante.getId());
                 criaEventoSelecao();
                 preencheTabela(dependentes);
             } catch (SQLException ex) {
@@ -742,7 +742,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
         preencheCampos();
         try {
-            List<ClienteDAO> dependentes = JDBCConsulta.dependentes(representante.getId());
+            List<Cliente> dependentes = JDBCConsulta.dependentes(representante.getId());
             preencheTabela(dependentes);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não foi possível atualizar a lista de dependentes.", "Erro", JOptionPane.ERROR_MESSAGE);

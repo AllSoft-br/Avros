@@ -17,7 +17,7 @@
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Usuario;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import java.awt.Container;
 import java.awt.Image;
@@ -35,7 +35,7 @@ import javax.swing.JOptionPane;
 public class FrmLogin extends javax.swing.JFrame {
 
     //Variáveis
-    public static UsuarioDAO usuario = new UsuarioDAO();
+    public static Usuario usuario = new Usuario();
     String logAntes = "";
     int erros = 0;
 

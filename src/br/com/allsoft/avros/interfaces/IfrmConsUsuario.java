@@ -17,7 +17,7 @@
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Usuario;
 import br.com.allsoft.avros.formulas.Consulta;
 import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
@@ -41,7 +41,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
 
     //Variáveis
     DefaultTableModel tblUsuario = new ClsTableModel();
-    UsuarioDAO usuario = new UsuarioDAO();
+    Usuario usuario = new Usuario();
     Dimension tabela, scroll, form;
     String nome = "";
     String nick = "";
@@ -82,11 +82,11 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
      * @param lista lista a verificar
      * @return lista sem dados repetidos
      */
-    private List<UsuarioDAO> excluiRepetidos(List<UsuarioDAO> lista) {
+    private List<Usuario> excluiRepetidos(List<Usuario> lista) {
         int qtos = lista.size();
 
         for (int i = 0; i < qtos; i++) {
-            UsuarioDAO ref = lista.get(i);
+            Usuario ref = lista.get(i);
 
             for (int j = i + 1; j < qtos; j++) {
                 if (ref.getId() == lista.get(j).getId()) {
@@ -105,7 +105,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
      * @param usuarios lista de usuários
      * @param qtde quantidade de usuários listados
      */
-    private void preencheTabela(List<UsuarioDAO> usuarios) {
+    private void preencheTabela(List<Usuario> usuarios) {
         usuarios = excluiRepetidos(usuarios);
         int qtde = usuarios.size();
 
@@ -355,7 +355,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        List<UsuarioDAO> usuarios = new ArrayList<>();
+        List<Usuario> usuarios = new ArrayList<>();
 
         if (!txtNome.getText().isEmpty()) {
             nome = txtNome.getText();
@@ -371,7 +371,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
             cpf = txtCpf.getText();
 
             if (Cpf.isCpf(cpf)) {
-                UsuarioDAO user = new UsuarioDAO();
+                Usuario user = new Usuario();
                 try {
                     user = JDBCConsulta.usuarioCpf(cpf);
                 } catch (SQLException ex) {
@@ -401,7 +401,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
 
         if (!txtNick.getText().isEmpty()) {
             nick = txtNick.getText();
-            UsuarioDAO user = new UsuarioDAO();
+            Usuario user = new Usuario();
             try {
                 user = JDBCConsulta.usuarioNick(nick);
             } catch (SQLException ex) {
@@ -438,7 +438,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAbrirActionPerformed
 
     private void lblVerTodosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVerTodosMouseClicked
-        List<UsuarioDAO> usuarios = new ArrayList<>();
+        List<Usuario> usuarios = new ArrayList<>();
         try {
             usuarios = JDBCConsulta.usuarioTodos();
         } catch (SQLException ex) {

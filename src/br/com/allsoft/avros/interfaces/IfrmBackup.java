@@ -34,6 +34,12 @@ import javax.swing.JOptionPane;
  */
 public class IfrmBackup extends javax.swing.JInternalFrame {
 
+    //Métodos
+    
+    /**
+     * Cria a ProgressBar
+     */
+    
     /**
      * Creates new form ifrmSenha
      */
@@ -51,12 +57,14 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jProgressBar1 = new javax.swing.JProgressBar();
         jLabel2 = new javax.swing.JLabel();
         btnBackup = new javax.swing.JButton();
         lblLogo = new javax.swing.JLabel();
         btnRecuperar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        lblCarregando = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
 
@@ -135,6 +143,10 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
         jLabel6.setText("O que você");
         jLabel6.setFocusable(false);
 
+        lblCarregando.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCarregando.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/loading.gif"))); // NOI18N
+        lblCarregando.setText("Carregando");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,17 +158,15 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(57, 57, 57)
-                                        .addComponent(btnBackup))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(23, 23, 23)
-                                        .addComponent(btnRecuperar)))
+                                .addGap(57, 57, 57)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                    .addComponent(btnBackup)
+                                    .addComponent(btnRecuperar)
+                                    .addComponent(lblCarregando, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -169,17 +179,20 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblCarregando, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnBackup)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnRecuperar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(23, 23, 23))))
         );
 
         pack();
@@ -192,12 +205,15 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 
+        lblCarregando.setVisible(false);
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackupActionPerformed
         try {
+            lblCarregando.setVisible(true);
             MySQLBackup.salvaBackup();
             JOptionPane.showMessageDialog(this, "Backup salvo com sucesso.");
+            lblCarregando.setVisible(false);
         } catch (Exception ex) {
             Logger.getLogger(IfrmBackup.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "ERRO: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
@@ -214,8 +230,10 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
 
         if (j == JOptionPane.YES_OPTION) {
             try {
+                lblCarregando.setVisible(true);
                 MySQLBackup.recuperaBackup();
                 JOptionPane.showMessageDialog(this, "Dados recuperados com êxito.");
+                lblCarregando.setVisible(false);
             } catch (IOException | SQLException ex) {
                 Logger.getLogger(IfrmBackup.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(this, "ERRO: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
@@ -245,6 +263,8 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JLabel lblCarregando;
     private javax.swing.JLabel lblLogo;
     // End of variables declaration//GEN-END:variables
 }

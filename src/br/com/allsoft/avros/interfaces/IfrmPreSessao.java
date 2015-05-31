@@ -17,9 +17,9 @@
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.dao.OrcamentoDAO;
+import br.com.allsoft.avros.dao.Orcamento;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
@@ -46,8 +46,8 @@ public class IfrmPreSessao extends javax.swing.JInternalFrame {
 
     //Variáveis
     DefaultTableModel tblOrc = new DefaultTableModel();
-    private OrcamentoDAO orcamento = new OrcamentoDAO();
-    private ClienteDAO cliente = new ClienteDAO();
+    private Orcamento orcamento = new Orcamento();
+    private Cliente cliente = new Cliente();
 
     //Métodos
     /**
@@ -88,7 +88,7 @@ public class IfrmPreSessao extends javax.swing.JInternalFrame {
  SimpleDateFormat("dd/MM/yyyy"); format.format(dataSql);rçamentos
      * @param qtde quantidade de orçamentos listados
      */
-    private void preencheTabela(List<OrcamentoDAO> orcamentos, int qtde) {
+    private void preencheTabela(List<Orcamento> orcamentos, int qtde) {
         //Preenche ela
         for (int i = 0; i < qtde; i++) {
             tblOrc.addRow(new String[1]);
@@ -302,7 +302,7 @@ public class IfrmPreSessao extends javax.swing.JInternalFrame {
                 }
 
                 if (!(cliente == null)) {
-                    List<OrcamentoDAO> orcamentos = new ArrayList<>();
+                    List<Orcamento> orcamentos = new ArrayList<>();
 
                     try {
                         orcamentos = JDBCConsulta.orcamentoIdCli(cliente.getId());

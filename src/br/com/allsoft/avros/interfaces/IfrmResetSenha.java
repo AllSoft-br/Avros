@@ -19,7 +19,7 @@ package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.factory.JDBCAuditoria;
 import br.com.allsoft.avros.factory.JDBCUpdate;
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Usuario;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -34,12 +34,12 @@ import javax.swing.JOptionPane;
  */
 public class IfrmResetSenha extends javax.swing.JInternalFrame {
     //Variáveis
-    UsuarioDAO usuario = new UsuarioDAO();
+    Usuario usuario = new Usuario();
     
     /**
      * Creates new form ifrmSenha
      */
-    public IfrmResetSenha(UsuarioDAO usuario) {
+    public IfrmResetSenha(Usuario usuario) {
         this.usuario = usuario;
         initComponents();
     }

@@ -31,23 +31,30 @@ import java.text.SimpleDateFormat;
  * 
  * @author Luana
  */
-public class ClienteDAO {
+public class Representante {
     //Variáveis
     private int id;
-    private int idUsuario;
-    private String nome;
+    private String nome; 
     private String cpf;
     private Date nascimento;
     private String tel;
+    private String grau;
     private boolean feminino; //verdadeiro = feminino, falso = masculino
 
-    //Getters e setters
+    public void setNascimento(Date nascimento) {
+        this.nascimento = nascimento;
+    }
+
+    public String getGrau() {
+        return grau;
+    }
+
+    public void setGrau(String grau) {
+        this.grau = grau;
+    }
+
     public void setId(int id) {
         this.id = id;
-    }
-    
-    public void setIdUsuario(int id) {
-        this.idUsuario = id;
     }
 
     public boolean isFeminino() {
@@ -58,13 +65,8 @@ public class ClienteDAO {
         this.feminino = feminino;
     }
     
-    
     public int getId() {
         return id;
-    }
-    
-    public int getIdUsuario() {
-        return idUsuario;
     }
     
     public String getNome() {
@@ -85,16 +87,6 @@ public class ClienteDAO {
 
     public Date getNascimento() {
         return nascimento;
-    }
-    
-    /**
-     * Escolhe a data de nascimento, passando um objeto
-     * do tipo Date como parâmetro
-     * 
-     * @param nascimento 
-     */
-    public void setNascimento(Date nascimento) {
-        this.nascimento = nascimento;
     }
 
     /**
@@ -130,7 +122,7 @@ public class ClienteDAO {
     //Métodos
     
     /**
-     * Método que retorna a idade do cliente
+     * Método que retorna a idade do responsável
      * 
      * @return idade do cliente
      * @throws SQLException 

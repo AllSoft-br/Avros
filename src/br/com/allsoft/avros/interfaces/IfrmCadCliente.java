@@ -16,7 +16,7 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.factory.JDBCInsere;
 import br.com.allsoft.avros.naoUsar.GeraCPF;
@@ -336,7 +336,7 @@ public class IfrmCadCliente extends javax.swing.JInternalFrame {
         String nascimento = ftxtNascimento.getText();
         String tel = txtTel.getText();
 
-        ClienteDAO cliente = new ClienteDAO();
+        Cliente cliente = new Cliente();
         cliente.setNome(nome);
         cliente.setCpf(cpf);
         cliente.setNascimento(nascimento);

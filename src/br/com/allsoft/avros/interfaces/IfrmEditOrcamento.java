@@ -16,8 +16,8 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
-import br.com.allsoft.avros.dao.OrcamentoDAO;
+import br.com.allsoft.avros.dao.Cliente;
+import br.com.allsoft.avros.dao.Orcamento;
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.factory.JDBCDelete;
@@ -39,8 +39,8 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
 
     //Variáveis
 
-    OrcamentoDAO orcamento;
-    ClienteDAO cliente;
+    Orcamento orcamento;
+    Cliente cliente;
 
     //Métodos
     private void editPagamento() throws SQLException {
@@ -86,7 +86,7 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
      * @param orca orçamento
      * @param cli cliente
      */
-    public IfrmEditOrcamento(OrcamentoDAO orca, ClienteDAO cli) {
+    public IfrmEditOrcamento(Orcamento orca, Cliente cli) {
         orcamento = orca;
         cliente = cli;
         initComponents();

@@ -17,11 +17,11 @@
 
 package br.com.allsoft.avros.factory;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.dao.ClsBD;
-import br.com.allsoft.avros.dao.OrcamentoDAO;
-import br.com.allsoft.avros.dao.RepresentanteDAO;
-import br.com.allsoft.avros.dao.SessaoDAO;
+import br.com.allsoft.avros.dao.Orcamento;
+import br.com.allsoft.avros.dao.Representante;
+import br.com.allsoft.avros.dao.Sessao;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.interfaces.FrmLogin;
 import java.sql.Connection;
@@ -51,8 +51,8 @@ public class JDBCDelete {
     public static void removeRel(int idRepresentante, int idCliente) throws SQLException {
         nomeTabela = ClsBD.getTblRel();
         
-        ClienteDAO cliente = JDBCConsulta.clienteId(idCliente);
-        RepresentanteDAO representante = JDBCConsulta.representanteId(idRepresentante);
+        Cliente cliente = JDBCConsulta.clienteId(idCliente);
+        Representante representante = JDBCConsulta.representanteId(idRepresentante);
         
         con = ConexaoMySQL.getConexaoMySQL();
         
@@ -82,7 +82,7 @@ public class JDBCDelete {
      * @param sessao com nome do cliente e id do orçamento setados
      * @throws SQLException 
      */
-    public static void sessao(SessaoDAO sessao) throws SQLException {
+    public static void sessao(Sessao sessao) throws SQLException {
         nomeTabela = ClsBD.getTblSessao();
         
         int id = sessao.getId();
@@ -114,7 +114,7 @@ public class JDBCDelete {
      * @param orcamento com nome do cliente setado
      * @throws SQLException 
      */
-    public static void orcamento(OrcamentoDAO orcamento) throws SQLException {
+    public static void orcamento(Orcamento orcamento) throws SQLException {
         nomeTabela = ClsBD.getTblSessao();
         
         int id = orcamento.getId();

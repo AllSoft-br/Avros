@@ -17,11 +17,11 @@
 
 package br.com.allsoft.avros.factory;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.dao.ClsBD;
-import br.com.allsoft.avros.dao.RegistroDAO;
-import br.com.allsoft.avros.dao.RepresentanteDAO;
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Registro;
+import br.com.allsoft.avros.dao.Representante;
+import br.com.allsoft.avros.dao.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,8 +47,8 @@ public class JDBCViews {
      * @param menor ClienteDAO com o menor
      * @return RepresentanteDAO com apenas o ID e o grau setados
      */
-    public static RepresentanteDAO parentesco(ClienteDAO menor) throws SQLException {
-        RepresentanteDAO representante = new RepresentanteDAO();
+    public static Representante parentesco(Cliente menor) throws SQLException {
+        Representante representante = new Representante();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewParente();
@@ -75,9 +75,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditLogin24h() throws SQLException {
+    public static List<Registro> auditLogin24h() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit24h();
@@ -90,7 +90,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -114,9 +114,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditLogin3d() throws SQLException {
+    public static List<Registro> auditLogin3d() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit3d();
@@ -128,7 +128,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -151,9 +151,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditLogin7d() throws SQLException {
+    public static List<Registro> auditLogin7d() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit7d();
@@ -165,7 +165,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -188,9 +188,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditLogin1m() throws SQLException {
+    public static List<Registro> auditLogin1m() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit1m();
@@ -201,7 +201,7 @@ public class JDBCViews {
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -225,10 +225,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditLogin24h(String nick) throws SQLException {
+    public static List<Registro> auditLogin24h(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit24h();
@@ -242,7 +242,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -267,10 +267,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditLogin3d(String nick) throws SQLException {
+    public static List<Registro> auditLogin3d(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit3d();
@@ -283,7 +283,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -307,10 +307,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditLogin7d(String nick) throws SQLException {
+    public static List<Registro> auditLogin7d(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit7d();
@@ -323,7 +323,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -347,10 +347,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditLogin1m(String nick) throws SQLException {
+    public static List<Registro> auditLogin1m(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit1m();
@@ -362,7 +362,7 @@ public class JDBCViews {
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -385,9 +385,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditCad24h() throws SQLException {
+    public static List<Registro> auditCad24h() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit24h();
@@ -401,7 +401,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setTabela(rs.getString(ClsBD.getAudTabela()));
             registro.setIdDado(rs.getInt(ClsBD.getAudRef()));
@@ -413,6 +413,7 @@ public class JDBCViews {
             
             
             registros.add(registro);
+            System.out.println("oi");
         }
         
         stmt.close();
@@ -429,9 +430,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditCad3d() throws SQLException {
+    public static List<Registro> auditCad3d() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit3d();
@@ -444,7 +445,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -469,9 +470,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditCad7d() throws SQLException {
+    public static List<Registro> auditCad7d() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit7d();
@@ -484,7 +485,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -509,9 +510,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditCad1m() throws SQLException {
+    public static List<Registro> auditCad1m() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit1m();
@@ -523,7 +524,7 @@ public class JDBCViews {
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -549,10 +550,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditCad24h(String nick) throws SQLException {
+    public static List<Registro> auditCad24h(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit24h();
@@ -566,7 +567,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -593,10 +594,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditCad3d(String nick) throws SQLException {
+    public static List<Registro> auditCad3d(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit3d();
@@ -609,7 +610,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -635,10 +636,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditCad7d(String nick) throws SQLException {
+    public static List<Registro> auditCad7d(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit7d();
@@ -651,7 +652,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -677,10 +678,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditCad1m(String nick) throws SQLException {
+    public static List<Registro> auditCad1m(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit1m();
@@ -692,7 +693,7 @@ public class JDBCViews {
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -717,9 +718,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditEdit24h() throws SQLException {
+    public static List<Registro> auditEdit24h() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit24h();
@@ -732,7 +733,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -760,9 +761,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditEdit3d() throws SQLException {
+    public static List<Registro> auditEdit3d() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit3d();
@@ -774,7 +775,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -801,9 +802,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditEdit7d() throws SQLException {
+    public static List<Registro> auditEdit7d() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit7d();
@@ -815,7 +816,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -842,9 +843,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditEdit1m() throws SQLException {
+    public static List<Registro> auditEdit1m() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit1m();
@@ -855,7 +856,7 @@ public class JDBCViews {
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -883,10 +884,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditEdit24h(String nick) throws SQLException {
+    public static List<Registro> auditEdit24h(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit24h();
@@ -900,7 +901,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -929,10 +930,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditEdit3d(String nick) throws SQLException {
+    public static List<Registro> auditEdit3d(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit3d();
@@ -945,7 +946,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -973,10 +974,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditEdit7d(String nick) throws SQLException {
+    public static List<Registro> auditEdit7d(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit7d();
@@ -989,7 +990,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -1017,10 +1018,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditEdit1m(String nick) throws SQLException {
+    public static List<Registro> auditEdit1m(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit1m();
@@ -1032,7 +1033,7 @@ public class JDBCViews {
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -1059,9 +1060,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditDel24h() throws SQLException {
+    public static List<Registro> auditDel24h() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit24h();
@@ -1074,7 +1075,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -1100,9 +1101,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditDel3d() throws SQLException {
+    public static List<Registro> auditDel3d() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit3d();
@@ -1114,7 +1115,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -1139,9 +1140,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditDel7d() throws SQLException {
+    public static List<Registro> auditDel7d() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit7d();
@@ -1153,7 +1154,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -1178,9 +1179,9 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditDel1m() throws SQLException {
+    public static List<Registro> auditDel1m() throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit1m();
@@ -1191,7 +1192,7 @@ public class JDBCViews {
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -1217,10 +1218,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditDel24h(String nick) throws SQLException {
+    public static List<Registro> auditDel24h(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit24h();
@@ -1234,7 +1235,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -1261,10 +1262,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditDel3d(String nick) throws SQLException {
+    public static List<Registro> auditDel3d(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit3d();
@@ -1277,7 +1278,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -1303,10 +1304,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditDel7d(String nick) throws SQLException {
+    public static List<Registro> auditDel7d(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit7d();
@@ -1319,7 +1320,7 @@ public class JDBCViews {
        
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -1345,10 +1346,10 @@ public class JDBCViews {
      * @return List com os registros encontrados
      * @throws SQLException 
      */
-    public static List<RegistroDAO> auditDel1m(String nick) throws SQLException {
+    public static List<Registro> auditDel1m(String nick) throws SQLException {
         
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         view = ClsBD.getViewAudit1m();
@@ -1360,7 +1361,7 @@ public class JDBCViews {
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
             
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));

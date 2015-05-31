@@ -21,7 +21,7 @@ package br.com.allsoft.avros.dao;
  *
  * @author Luana
  */
-public class UsuarioDAO {
+public class Usuario {
 
     //variáveis
     int id;

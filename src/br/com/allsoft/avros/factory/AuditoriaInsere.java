@@ -17,12 +17,12 @@
 
 package br.com.allsoft.avros.factory;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.dao.ClsBD;
-import br.com.allsoft.avros.dao.OrcamentoDAO;
-import br.com.allsoft.avros.dao.RepresentanteDAO;
-import br.com.allsoft.avros.dao.SessaoDAO;
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Orcamento;
+import br.com.allsoft.avros.dao.Representante;
+import br.com.allsoft.avros.dao.Sessao;
+import br.com.allsoft.avros.dao.Usuario;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import static br.com.allsoft.avros.factory.JDBCAuditoria.acao;
 import static br.com.allsoft.avros.factory.JDBCAuditoria.con;
@@ -45,7 +45,7 @@ public class AuditoriaInsere extends JDBCAuditoria{
      * @param codSql
      * @throws AuditoriaException
      */
-    public static void inserirCliente(UsuarioDAO usuario, ClienteDAO cliente, String codSql) throws AuditoriaException {
+    public static void inserirCliente(Usuario usuario, Cliente cliente, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblCliente();
             acao = "insert";
@@ -92,7 +92,7 @@ public class AuditoriaInsere extends JDBCAuditoria{
      * @param codSql código SQL utilizado
      * @throws AuditoriaException
      */
-    public static void inserirRel(UsuarioDAO usuario, ClienteDAO cliente, RepresentanteDAO representante, String parentesco, String codSql) throws AuditoriaException {
+    public static void inserirRel(Usuario usuario, Cliente cliente, Representante representante, String parentesco, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblRel();
             acao = "insert";
@@ -138,7 +138,7 @@ public class AuditoriaInsere extends JDBCAuditoria{
      * @param codSql codigo sql utilizado
      * @throws br.com.allsoft.avros.exceptions.AuditoriaException
      */
-    public static void inserirParentesco(UsuarioDAO usuario, String parentesco, int id, String codSql) throws AuditoriaException {
+    public static void inserirParentesco(Usuario usuario, String parentesco, int id, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblParentesco();
             acao = "insert";
@@ -183,7 +183,7 @@ public class AuditoriaInsere extends JDBCAuditoria{
      * @param codSql utilizado
      * @throws br.com.allsoft.avros.exceptions.AuditoriaException
      */
-    public static void inserirSessao(UsuarioDAO usuario, SessaoDAO sessao, String codSql) throws AuditoriaException {
+    public static void inserirSessao(Usuario usuario, Sessao sessao, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblSessao();
             acao = "insert";
@@ -228,7 +228,7 @@ public class AuditoriaInsere extends JDBCAuditoria{
      * @param responsavel responsavel pelo cliente menor de idade que for
      * cadastrar
      */
-    public static void inserirRespresentante(UsuarioDAO usuario, RepresentanteDAO responsavel, String codSql) throws AuditoriaException {
+    public static void inserirRespresentante(Usuario usuario, Representante responsavel, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblRepresentante();
             acao = "insert";
@@ -271,7 +271,7 @@ public class AuditoriaInsere extends JDBCAuditoria{
      * @param usuario usuário que fez o cadastro
      * @param novoUsuario usuário que foi cadastrado
      */
-    public static void inserirUsuario(UsuarioDAO usuario, UsuarioDAO novoUsuario, String codSql) throws AuditoriaException {
+    public static void inserirUsuario(Usuario usuario, Usuario novoUsuario, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblLogin();
             acao = "insert";
@@ -314,7 +314,7 @@ public class AuditoriaInsere extends JDBCAuditoria{
      * @param orcamento do tipo OrcamentoDAO
      * @param codSql codigo sql utilizado
      */
-    public static void inserirOrcamento(UsuarioDAO usuario, OrcamentoDAO orcamento, String codSql) throws AuditoriaException {
+    public static void inserirOrcamento(Usuario usuario, Orcamento orcamento, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblOrcamento();
             acao = "insert";

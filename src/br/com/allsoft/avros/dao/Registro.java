@@ -24,7 +24,7 @@ import java.sql.Timestamp;
  * 
  * @author Luana Nascimento
  */
-public class RegistroDAO {
+public class Registro {
     private int id;
     private int idDado; //ID do dado alterado
     private int idLogin; //ID do login que fez a alteração

@@ -16,9 +16,9 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.factory.JDBCInsere;
-import br.com.allsoft.avros.dao.RepresentanteDAO;
+import br.com.allsoft.avros.dao.Representante;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.naoUsar.GeraCPF;
 import br.com.allsoft.avros.formulas.Cpf;
@@ -305,7 +305,7 @@ public class IfrmCadResp1 extends javax.swing.JInternalFrame {
         String tel = txtTel.getText();
 
         if (Cpf.isCpf(cpf)) {
-            RepresentanteDAO responsavel = new RepresentanteDAO();
+            Representante responsavel = new Representante();
             responsavel.setNome(nome);
             responsavel.setCpf(cpf);
             responsavel.setNascimento(nascimento);

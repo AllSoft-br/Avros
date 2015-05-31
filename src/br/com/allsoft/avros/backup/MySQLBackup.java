@@ -56,6 +56,7 @@ public class MySQLBackup {
     private static String password = "";
 
     public static void salvaBackup() throws Exception {
+
         String command = MYSQL_PATH + "mysqldump.exe";
         String[] databases = DATABASES.split(" ");
 
@@ -85,6 +86,7 @@ public class MySQLBackup {
             try {
                 System.out.println("Backup do banco de dados (" + i + "): " + dbName + " ...");
                 pb.start();
+
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new Exception(e);
@@ -104,21 +106,13 @@ public class MySQLBackup {
         System.out.println("Tempo total de processamento: " + time + " ms\n");
 
         System.out.println("Finalizando...");
-        
+
         AuditoriaLogin.salvaBackup(FrmLogin.usuario);
-
-        try {
-
-            // Paralisa por 2 segundos
-            Thread.sleep(2000);
-
-        } catch (Exception e) {
-            System.out.println(e);
-            throw new Exception(e);
-        }
     }
 
     public static void recuperaBackup() throws IOException, Exception {
+        
+
         try {
             Connection con = ConexaoMySQL.getConexaoMySQL();
             con.setAutoCommit(false);
@@ -128,9 +122,8 @@ public class MySQLBackup {
 
             con.commit();
             con.close();
-            
             AuditoriaLogin.recuperaBackup(FrmLogin.usuario);
-            
+
         } catch (Exception ex) {
             String serverName = "localhost:3306"; //caminho do servidor do BD, ip da máquina do servido
             String url = "jdbc:mysql://" + serverName;
@@ -142,12 +135,11 @@ public class MySQLBackup {
 
             Statement s = con.createStatement();
             int result = s.executeUpdate("create database bd_estudio");
-            
+
             con.close();
-            
             throw new Exception("O sistema tentou recriar o banco de dados. Tente recuperar o backup novamente e contate"
                     + " os desenvolvedores do sistema o mais rápido possível.");
-            
+
         }
     }
 

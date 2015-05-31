@@ -17,7 +17,7 @@
 package br.com.allsoft.avros.factory;
 
 import br.com.allsoft.avros.dao.ClsBD;
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Usuario;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import static br.com.allsoft.avros.factory.JDBCAuditoria.tabela;
 import java.sql.PreparedStatement;
@@ -35,7 +35,7 @@ public class AuditoriaLogin extends JDBCAuditoria {
      * @param usuario usuário que fez o login
      * @param codSql codigo sql utilizado
      */
-    public static void login(UsuarioDAO usuario, String codSql) throws AuditoriaException {
+    public static void login(Usuario usuario, String codSql) throws AuditoriaException {
         try {
 
             tabela = ClsBD.getTblLogin();
@@ -78,7 +78,7 @@ public class AuditoriaLogin extends JDBCAuditoria {
      * @param usuario usuário que fez o logout
      * @throws AuditoriaException
      */
-    public static void logout(UsuarioDAO usuario) throws AuditoriaException {
+    public static void logout(Usuario usuario) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblLogin();
             acao = "login";
@@ -120,11 +120,11 @@ public class AuditoriaLogin extends JDBCAuditoria {
      * @param usuario que armazenou
      * @throws AuditoriaException 
      */
-    public static void salvaBackup(UsuarioDAO usuario) throws AuditoriaException {
+    public static void salvaBackup(Usuario usuario) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblLogin();
             acao = "login";
-            descricao = usuario.getNick() + " atualiou o arquivo de backup";
+            descricao = usuario.getNick() + " atualizou o arquivo de backup";
             codDado = usuario.getId();
             idLogin = usuario.getId();
             con = ConexaoMySQL.getConexaoMySQL();
@@ -161,7 +161,7 @@ public class AuditoriaLogin extends JDBCAuditoria {
      * @param usuario que armazenou
      * @throws AuditoriaException 
      */
-    public static void recuperaBackup(UsuarioDAO usuario) throws AuditoriaException {
+    public static void recuperaBackup(Usuario usuario) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblLogin();
             acao = "login";

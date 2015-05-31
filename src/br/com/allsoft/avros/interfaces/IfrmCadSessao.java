@@ -17,10 +17,10 @@
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.factory.JDBCInsere;
-import br.com.allsoft.avros.dao.OrcamentoDAO;
-import br.com.allsoft.avros.dao.SessaoDAO;
+import br.com.allsoft.avros.dao.Orcamento;
+import br.com.allsoft.avros.dao.Sessao;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.Cpf;
@@ -55,8 +55,8 @@ import net.sf.jasperreports.engine.JRException;
 public class IfrmCadSessao extends javax.swing.JInternalFrame {
 
     //Variáveis
-    OrcamentoDAO orcamento = new OrcamentoDAO();
-    ClienteDAO cliente = new ClienteDAO();
+    Orcamento orcamento = new Orcamento();
+    Cliente cliente = new Cliente();
 
     double vsessao;
     String pagamento;
@@ -107,7 +107,7 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
      * @param orcamento orçamento do qual a nova sessão fará parte
      * @param cliente cliente que fará a sessão
      */
-    public IfrmCadSessao(OrcamentoDAO orcamento, ClienteDAO cliente) {
+    public IfrmCadSessao(Orcamento orcamento, Cliente cliente) {
         this.orcamento = orcamento;
         this.cliente = cliente;
 
@@ -473,7 +473,7 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_ftxtDescontoKeyPressed
 
     private void btnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarActionPerformed
-        SessaoDAO sessao = new SessaoDAO();
+        Sessao sessao = new Sessao();
 
         Date horaUtil = new Date();
         Date dataUtil = dateData.getDate();

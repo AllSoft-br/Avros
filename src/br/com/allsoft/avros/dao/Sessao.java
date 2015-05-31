@@ -27,7 +27,7 @@ import java.sql.Time;
  */
 
 
-public class SessaoDAO {
+public class Sessao {
     private int id;
     private int idOrcamento;
     private double valor;

@@ -17,10 +17,10 @@
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.factory.JDBCInsere;
-import br.com.allsoft.avros.dao.OrcamentoDAO;
+import br.com.allsoft.avros.dao.Orcamento;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.Cpf;
@@ -42,8 +42,8 @@ import javax.swing.text.MaskFormatter;
 public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
 
     //Variáveis
-    ClienteDAO cliente = new ClienteDAO();
-    public static OrcamentoDAO orcamento = new OrcamentoDAO();
+    Cliente cliente = new Cliente();
+    public static Orcamento orcamento = new Orcamento();
     boolean continuar = false;
     boolean descricao = true;
 

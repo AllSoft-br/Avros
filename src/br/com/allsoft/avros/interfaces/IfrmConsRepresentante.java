@@ -16,7 +16,7 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.RepresentanteDAO;
+import br.com.allsoft.avros.dao.Representante;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.formulas.Consulta;
 import br.com.allsoft.avros.formulas.Datas;
@@ -43,7 +43,7 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
 
     //Variáveis
     DefaultTableModel tblRepresentante = new ClsTableModel();
-    RepresentanteDAO representante;
+    Representante representante;
     Dimension tabela, scroll, form;
     String cpf = "";
     String nome = "";
@@ -81,11 +81,11 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
      * @param lista lista a verificar
      * @return lista sem dados repetidos
      */
-    private List<RepresentanteDAO> excluiRepetidos(List<RepresentanteDAO> lista){
+    private List<Representante> excluiRepetidos(List<Representante> lista){
         int qtos = lista.size();
         
         for(int i = 0; i < qtos; i++){
-            RepresentanteDAO ref = lista.get(i);
+            Representante ref = lista.get(i);
             
             for(int j = i + 1; j < qtos; j++){
                 if(ref.getId() == lista.get(j).getId()){
@@ -104,7 +104,7 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
      * @param representantes lista de usuários
      * @param qtde quantidade de usuários listados
      */
-    private void preencheTabela(List<RepresentanteDAO> representantes) throws SQLException {
+    private void preencheTabela(List<Representante> representantes) throws SQLException {
         representantes = excluiRepetidos(representantes);
         
         int qtde = representantes.size();
@@ -349,7 +349,7 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        List<RepresentanteDAO> representantes = new ArrayList<>();
+        List<Representante> representantes = new ArrayList<>();
 
         if (!txtNome.getText().isEmpty()) {
             nome = txtNome.getText();
@@ -365,7 +365,7 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
             cpf = txtCpf.getText();
 
             if (Cpf.isCpf(cpf)) {
-                RepresentanteDAO representante = new RepresentanteDAO();
+                Representante representante = new Representante();
                 try {
                     representante = JDBCConsulta.representanteCpf(cpf);
                 } catch (SQLException ex) {
@@ -400,7 +400,7 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAbrirActionPerformed
 
     private void lblVerTodosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVerTodosMouseClicked
-        List<RepresentanteDAO> representantes = new ArrayList<>();
+        List<Representante> representantes = new ArrayList<>();
         try {
             representantes = JDBCConsulta.representanteTodos();
             preencheTabela(representantes);

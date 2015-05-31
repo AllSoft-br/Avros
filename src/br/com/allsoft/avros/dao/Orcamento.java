@@ -26,7 +26,7 @@ import java.sql.Date;
  */
 
 
-public class OrcamentoDAO {
+public class Orcamento {
     private int id;
     private int idCliente;
     private int sessoes;

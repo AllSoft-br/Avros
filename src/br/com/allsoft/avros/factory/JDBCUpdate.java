@@ -16,12 +16,12 @@
  */
 package br.com.allsoft.avros.factory;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.dao.ClsBD;
-import br.com.allsoft.avros.dao.OrcamentoDAO;
-import br.com.allsoft.avros.dao.RepresentanteDAO;
-import br.com.allsoft.avros.dao.SessaoDAO;
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Orcamento;
+import br.com.allsoft.avros.dao.Representante;
+import br.com.allsoft.avros.dao.Sessao;
+import br.com.allsoft.avros.dao.Usuario;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.interfaces.FrmLogin;
 import java.sql.Connection;
@@ -53,7 +53,7 @@ public class JDBCUpdate {
     public static void usuarioSenha(char[] senha, int id) throws SQLException {
         nomeTabela = ClsBD.getTblLogin();
         
-        UsuarioDAO usuario = JDBCConsulta.usuarioId(id);
+        Usuario usuario = JDBCConsulta.usuarioId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -93,7 +93,7 @@ public class JDBCUpdate {
     public static void usuarioAtivo(boolean ativo, String login) throws SQLException {
         nomeTabela = ClsBD.getTblLogin();
 
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(login);
+        Usuario usuario = JDBCConsulta.usuarioNick(login);
         
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -129,7 +129,7 @@ public class JDBCUpdate {
     public static void usuarioAtivo(boolean ativo, int id) throws SQLException {
         nomeTabela = ClsBD.getTblLogin();
         
-        UsuarioDAO usuario = JDBCConsulta.usuarioId(id);
+        Usuario usuario = JDBCConsulta.usuarioId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -165,7 +165,7 @@ public class JDBCUpdate {
     public static void usuarioNome(String nome, int id) throws SQLException {
         nomeTabela = ClsBD.getTblLogin();
         
-        UsuarioDAO usuario = JDBCConsulta.usuarioId(id);
+        Usuario usuario = JDBCConsulta.usuarioId(id);
         
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -201,7 +201,7 @@ public class JDBCUpdate {
     public static void usuarioNick(String nick, int id) throws SQLException {
         nomeTabela = ClsBD.getTblLogin();
         
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
         
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -237,7 +237,7 @@ public class JDBCUpdate {
     public static void usuarioAdmin(boolean admin, int id) throws SQLException {
         nomeTabela = ClsBD.getTblLogin();
         
-        UsuarioDAO usuario = JDBCConsulta.usuarioId(id);
+        Usuario usuario = JDBCConsulta.usuarioId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -274,7 +274,7 @@ public class JDBCUpdate {
     public static void clienteNome(String nome, int id) throws SQLException {
         nomeTabela = ClsBD.getTblCliente();
         
-        ClienteDAO cliente = JDBCConsulta.clienteId(id);
+        Cliente cliente = JDBCConsulta.clienteId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -311,7 +311,7 @@ public class JDBCUpdate {
     public static void clienteSexo(Boolean feminino, int id) throws SQLException {
         nomeTabela = ClsBD.getTblCliente();
         
-        ClienteDAO cliente = JDBCConsulta.clienteId(id);
+        Cliente cliente = JDBCConsulta.clienteId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -348,7 +348,7 @@ public class JDBCUpdate {
     public static void clienteNasc(Date data, int id) throws SQLException {
         nomeTabela = ClsBD.getTblCliente();
 
-        ClienteDAO cliente = JDBCConsulta.clienteId(id);
+        Cliente cliente = JDBCConsulta.clienteId(id);
         
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -384,7 +384,7 @@ public class JDBCUpdate {
     public static void clienteTel(String tel, int id) throws SQLException {
         nomeTabela = ClsBD.getTblCliente();
         
-        ClienteDAO cliente = JDBCConsulta.clienteId(id);
+        Cliente cliente = JDBCConsulta.clienteId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -420,7 +420,7 @@ public class JDBCUpdate {
     public static void representanteNome(String nome, int id) throws SQLException {
         nomeTabela = ClsBD.getTblRepresentante();
 
-        RepresentanteDAO representante = JDBCConsulta.representanteId(id);
+        Representante representante = JDBCConsulta.representanteId(id);
         
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -457,7 +457,7 @@ public class JDBCUpdate {
     public static void representanteSexo(Boolean feminino, int id) throws SQLException {
         nomeTabela = ClsBD.getTblRepresentante();
         
-        RepresentanteDAO representante = JDBCConsulta.representanteId(id);
+        Representante representante = JDBCConsulta.representanteId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -494,7 +494,7 @@ public class JDBCUpdate {
     public static void representanteNasc(Date data, int id) throws SQLException {
         nomeTabela = ClsBD.getTblRepresentante();
         
-        RepresentanteDAO representante = JDBCConsulta.representanteId(id);
+        Representante representante = JDBCConsulta.representanteId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -530,7 +530,7 @@ public class JDBCUpdate {
     public static void representanteTel(String tel, int id) throws SQLException {
         nomeTabela = ClsBD.getTblRepresentante();
         
-        RepresentanteDAO representante = JDBCConsulta.representanteId(id);
+        Representante representante = JDBCConsulta.representanteId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -566,7 +566,7 @@ public class JDBCUpdate {
     public static void sessaoPagamento(int id, String pagamento) throws SQLException{
         nomeTabela = ClsBD.getTblSessao();
         
-        SessaoDAO sessao = JDBCConsulta.sessaoId(id);
+        Sessao sessao = JDBCConsulta.sessaoId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -602,7 +602,7 @@ public class JDBCUpdate {
     public static void orcamentoPagamento(int id, String pagamento) throws SQLException{
         nomeTabela = ClsBD.getTblOrcamento();
         
-        OrcamentoDAO orcamento = JDBCConsulta.orcamento(id);
+        Orcamento orcamento = JDBCConsulta.orcamento(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -638,7 +638,7 @@ public class JDBCUpdate {
     public static void orcamentoDesc(int id, String desc) throws SQLException{
         nomeTabela = ClsBD.getTblOrcamento();
         
-        OrcamentoDAO orcamento = JDBCConsulta.orcamento(id);
+        Orcamento orcamento = JDBCConsulta.orcamento(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -674,7 +674,7 @@ public class JDBCUpdate {
     public static void orcamentoValor(int id, double valor) throws SQLException{
         nomeTabela = ClsBD.getTblOrcamento();
         
-        OrcamentoDAO orcamento = JDBCConsulta.orcamento(id);
+        Orcamento orcamento = JDBCConsulta.orcamento(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -709,7 +709,7 @@ public class JDBCUpdate {
     public static void orcamentoSessoes(int id, int sessoes) throws SQLException{
         nomeTabela = ClsBD.getTblOrcamento();
         
-        OrcamentoDAO orcamento = JDBCConsulta.orcamento(id);
+        Orcamento orcamento = JDBCConsulta.orcamento(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -745,7 +745,7 @@ public class JDBCUpdate {
     public static void sessaoData(int id, Date data) throws SQLException{
         nomeTabela = ClsBD.getTblSessao();
         
-        SessaoDAO sessao = JDBCConsulta.sessaoId(id);
+        Sessao sessao = JDBCConsulta.sessaoId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -780,7 +780,7 @@ public class JDBCUpdate {
     public static void sessaoHora(int id, Time hora) throws SQLException{
         nomeTabela = ClsBD.getTblSessao();
         
-        SessaoDAO sessao = JDBCConsulta.sessaoId(id);
+        Sessao sessao = JDBCConsulta.sessaoId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -815,7 +815,7 @@ public class JDBCUpdate {
     public static void sessaoDesconto(int id, double desconto) throws SQLException{
         nomeTabela = ClsBD.getTblSessao();
         
-        SessaoDAO sessao = JDBCConsulta.sessaoId(id);
+        Sessao sessao = JDBCConsulta.sessaoId(id);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela
@@ -850,7 +850,7 @@ public class JDBCUpdate {
     public static void sessaoConcluida(int idSes, boolean status, int idOrc) throws SQLException{
         nomeTabela = ClsBD.getTblSessao();
         
-        SessaoDAO sessao = JDBCConsulta.sessaoId(idSes);
+        Sessao sessao = JDBCConsulta.sessaoId(idSes);
 
         con = ConexaoMySQL.getConexaoMySQL();
         String sql = "UPDATE " + nomeTabela

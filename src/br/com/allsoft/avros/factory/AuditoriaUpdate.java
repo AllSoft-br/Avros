@@ -17,12 +17,12 @@
 
 package br.com.allsoft.avros.factory;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.dao.ClsBD;
-import br.com.allsoft.avros.dao.OrcamentoDAO;
-import br.com.allsoft.avros.dao.RepresentanteDAO;
-import br.com.allsoft.avros.dao.SessaoDAO;
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Orcamento;
+import br.com.allsoft.avros.dao.Representante;
+import br.com.allsoft.avros.dao.Sessao;
+import br.com.allsoft.avros.dao.Usuario;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import static br.com.allsoft.avros.factory.JDBCAuditoria.con;
 import static br.com.allsoft.avros.factory.JDBCAuditoria.tabela;
@@ -45,7 +45,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql
      * @throws java.sql.SQLException
      */
-    public static void modificaNick(UsuarioDAO resp, UsuarioDAO usuario, String nick, String codSql) throws AuditoriaException {
+    public static void modificaNick(Usuario resp, Usuario usuario, String nick, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblLogin();
             acao = "update"; 
@@ -89,7 +89,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql
      * @throws java.sql.SQLException
      */
-    public static void modificaNomeUsuario(UsuarioDAO resp, UsuarioDAO usuario, String nome, String codSql) throws AuditoriaException {
+    public static void modificaNomeUsuario(Usuario resp, Usuario usuario, String nome, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblLogin();
             acao = "update";
@@ -132,7 +132,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param nome novo nome que o usuário escolheu
      * @param codSql
      */
-    public static void modificaNomeCliente(UsuarioDAO usuario, ClienteDAO cliente, String nome, String codSql) throws AuditoriaException {
+    public static void modificaNomeCliente(Usuario usuario, Cliente cliente, String nome, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblCliente();
             acao = "update";
@@ -176,7 +176,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql
      * @throws java.sql.SQLException
      */
-    public static void modificaSenha(UsuarioDAO usuarioResp, UsuarioDAO usuarioModf, char[] senha, String codSql) throws AuditoriaException {
+    public static void modificaSenha(Usuario usuarioResp, Usuario usuarioModf, char[] senha, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblLogin();
             acao = "update";
@@ -219,7 +219,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql
      * @throws SQLException
      */
-    public static void modificaUsuarioAtivo(UsuarioDAO resp, UsuarioDAO usuario, boolean ativo, String codSql) throws AuditoriaException {
+    public static void modificaUsuarioAtivo(Usuario resp, Usuario usuario, boolean ativo, String codSql) throws AuditoriaException {
         try {
             String oq, oq1;
             int id;
@@ -275,7 +275,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void modificaUsuarioAdmin(UsuarioDAO resp, UsuarioDAO usuario, boolean admin, String codSql) throws AuditoriaException {
+    public static void modificaUsuarioAdmin(Usuario resp, Usuario usuario, boolean admin, String codSql) throws AuditoriaException {
         try {
             String oq, oq1;
             if (usuario.isAdmin()) {
@@ -326,7 +326,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void modificaClienteSexo(UsuarioDAO resp, ClienteDAO cliente, boolean feminino, String codSql) throws AuditoriaException {
+    public static void modificaClienteSexo(Usuario resp, Cliente cliente, boolean feminino, String codSql) throws AuditoriaException {
         try {
             String oq, oq1;
             if (cliente.isFeminino()) {
@@ -377,7 +377,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void modificaClienteNasc(UsuarioDAO resp, ClienteDAO cliente, java.sql.Date data, String codSql) throws AuditoriaException {
+    public static void modificaClienteNasc(Usuario resp, Cliente cliente, java.sql.Date data, String codSql) throws AuditoriaException {
         try {
             String nascimento = Datas.sqlparaString(data);
             String nascimentoAntes = Datas.sqlparaString(cliente.getNascimento());
@@ -420,7 +420,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void modificaClienteTel(UsuarioDAO resp, ClienteDAO cliente, String telefone, String codSql) throws AuditoriaException {
+    public static void modificaClienteTel(Usuario resp, Cliente cliente, String telefone, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblCliente();
             acao = "update";
@@ -460,7 +460,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws br.com.allsoft.avros.exceptions.AuditoriaException
      */
-    public static void modificaRepNome(UsuarioDAO resp, RepresentanteDAO representante, String nome, String codSql) throws AuditoriaException {
+    public static void modificaRepNome(Usuario resp, Representante representante, String nome, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblRepresentante();
             acao = "update";
@@ -504,7 +504,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void modificaRepSexo(UsuarioDAO resp, RepresentanteDAO representante, boolean feminino, String codSql) throws AuditoriaException {
+    public static void modificaRepSexo(Usuario resp, Representante representante, boolean feminino, String codSql) throws AuditoriaException {
         try {
             String oq, oq1;
             if (representante.isFeminino()) {
@@ -555,7 +555,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void modificaRepNasc(UsuarioDAO resp, RepresentanteDAO representante, java.sql.Date data, String codSql) throws AuditoriaException {
+    public static void modificaRepNasc(Usuario resp, Representante representante, java.sql.Date data, String codSql) throws AuditoriaException {
         try {
             String nascimento = Datas.sqlparaString(data);
             String nascimentoAntes = Datas.sqlparaString(representante.getNascimento());
@@ -598,7 +598,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void modificaRepTel(UsuarioDAO resp, RepresentanteDAO representante, String telefone, String codSql) throws AuditoriaException {
+    public static void modificaRepTel(Usuario resp, Representante representante, String telefone, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblRepresentante();
             acao = "update";
@@ -638,7 +638,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void sessaoPagamento(UsuarioDAO resp, SessaoDAO sessao, String pagamento, String codSql) throws AuditoriaException {
+    public static void sessaoPagamento(Usuario resp, Sessao sessao, String pagamento, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblSessao();
             acao = "update";
@@ -678,7 +678,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void orcamentoPagamento(UsuarioDAO resp, OrcamentoDAO orcamento, String pagamento, String codSql) throws AuditoriaException {
+    public static void orcamentoPagamento(Usuario resp, Orcamento orcamento, String pagamento, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblOrcamento();
             acao = "update";
@@ -718,7 +718,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void orcamentoDesc(UsuarioDAO resp, OrcamentoDAO orcamento, String desc, String codSql) throws AuditoriaException {
+    public static void orcamentoDesc(Usuario resp, Orcamento orcamento, String desc, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblOrcamento();
             acao = "update";
@@ -758,7 +758,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void orcamentoValor(UsuarioDAO resp, OrcamentoDAO orcamento, double valor, String codSql) throws AuditoriaException {
+    public static void orcamentoValor(Usuario resp, Orcamento orcamento, double valor, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblOrcamento();
             acao = "update";
@@ -798,7 +798,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void sessaoDesconto(UsuarioDAO resp, SessaoDAO sessao, double valor, String codSql) throws AuditoriaException {
+    public static void sessaoDesconto(Usuario resp, Sessao sessao, double valor, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblSessao();
             acao = "update";
@@ -838,7 +838,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void orcamentoSessoes(UsuarioDAO resp, OrcamentoDAO orcamento, int sessoes, String codSql) throws AuditoriaException {
+    public static void orcamentoSessoes(Usuario resp, Orcamento orcamento, int sessoes, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblOrcamento();
             acao = "update";
@@ -878,7 +878,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void sessaoData(UsuarioDAO resp, SessaoDAO sessao, java.sql.Date data, String codSql) throws AuditoriaException {
+    public static void sessaoData(Usuario resp, Sessao sessao, java.sql.Date data, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblSessao();
             acao = "update";
@@ -918,7 +918,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void sessaoHora(UsuarioDAO resp, SessaoDAO sessao, java.sql.Time hora, String codSql) throws AuditoriaException {
+    public static void sessaoHora(Usuario resp, Sessao sessao, java.sql.Time hora, String codSql) throws AuditoriaException {
         try {
             tabela = ClsBD.getTblSessao();
             acao = "update";
@@ -958,7 +958,7 @@ public class AuditoriaUpdate extends JDBCAuditoria{
      * @param codSql código sql utilizado
      * @throws AuditoriaException
      */
-    public static void sessaoConcluida(UsuarioDAO resp, SessaoDAO sessao, boolean concluida, String codSql) throws AuditoriaException {
+    public static void sessaoConcluida(Usuario resp, Sessao sessao, boolean concluida, String codSql) throws AuditoriaException {
         try {
             String oq, oq1;
             if (sessao.isConcluida()) {

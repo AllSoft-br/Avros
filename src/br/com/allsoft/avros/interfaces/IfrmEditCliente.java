@@ -16,10 +16,10 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.factory.JDBCUpdate;
-import br.com.allsoft.avros.dao.RepresentanteDAO;
+import br.com.allsoft.avros.dao.Representante;
 import br.com.allsoft.avros.factory.JDBCViews;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Cpf;
@@ -39,7 +39,7 @@ import javax.swing.text.MaskFormatter;
 public class IfrmEditCliente extends javax.swing.JInternalFrame {
 
     //Variáveis
-    ClienteDAO cliente = new ClienteDAO();
+    Cliente cliente = new Cliente();
     boolean sexo = false;
     
     //Métodos
@@ -85,7 +85,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
      *
      * @param cliente cliente a ser visualizado
      */
-    public IfrmEditCliente(ClienteDAO cliente) {
+    public IfrmEditCliente(Cliente cliente) {
         initComponents();
 
         this.cliente = cliente;
@@ -427,7 +427,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         int id = cliente.getId();
         boolean certo = true;
-        ClienteDAO editado = new ClienteDAO();
+        Cliente editado = new Cliente();
 
         if (txtNome.isEnabled()) {
             editado.setNome(txtNome.getText());
@@ -513,7 +513,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
 
     private void lblRespMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRespMouseClicked
         try {
-            RepresentanteDAO representante = new RepresentanteDAO();
+            Representante representante = new Representante();
 
             //Busca o grau de parentesco e ID do representante
             representante = JDBCViews.parentesco(cliente);

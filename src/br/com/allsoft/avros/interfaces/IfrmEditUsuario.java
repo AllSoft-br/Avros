@@ -17,7 +17,7 @@
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.factory.JDBCUpdate;
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Usuario;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Color;
@@ -35,7 +35,7 @@ import javax.swing.JOptionPane;
 public class IfrmEditUsuario extends javax.swing.JInternalFrame {
 
     //Variáveis
-    UsuarioDAO usuario = new UsuarioDAO();
+    Usuario usuario = new Usuario();
 
     //Métodos
     private void preencheCampos() {
@@ -94,7 +94,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
      *
      * @param usuario
      */
-    public IfrmEditUsuario(UsuarioDAO usuario) {
+    public IfrmEditUsuario(Usuario usuario) {
         initComponents();
 
         this.usuario = usuario;

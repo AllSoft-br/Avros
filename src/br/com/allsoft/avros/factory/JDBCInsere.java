@@ -16,12 +16,12 @@
  */
 package br.com.allsoft.avros.factory;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.dao.ClsBD;
-import br.com.allsoft.avros.dao.OrcamentoDAO;
-import br.com.allsoft.avros.dao.RepresentanteDAO;
-import br.com.allsoft.avros.dao.SessaoDAO;
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Orcamento;
+import br.com.allsoft.avros.dao.Representante;
+import br.com.allsoft.avros.dao.Sessao;
+import br.com.allsoft.avros.dao.Usuario;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.interfaces.FrmLogin;
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class JDBCInsere {
      * @param usuarioId ID do usuário que está inserindo o cliente
      * @throws SQLException
      */
-    public static void inserirCliente(ClienteDAO cliente, int usuarioId) throws SQLException {
+    public static void inserirCliente(Cliente cliente, int usuarioId) throws SQLException {
         nomeTabela = ClsBD.getTblCliente();
         cliente.setNome(cliente.getNome().trim());
         cliente.setCpf(cliente.getCpf().trim());
@@ -104,7 +104,7 @@ public class JDBCInsere {
      * @return ID do representante
      * @throws SQLException
      */
-    public static int inserirRepresentante(RepresentanteDAO representante) throws SQLException {
+    public static int inserirRepresentante(Representante representante) throws SQLException {
         nomeTabela = ClsBD.getTblRepresentante();
         representante.setNome(representante.getNome().trim());
         representante.setCpf(representante.getCpf().trim());
@@ -159,7 +159,7 @@ public class JDBCInsere {
      * quanto na caixa de seleção da tela de cadastro de responsável
      * @throws SQLException
      */
-    public static void inserirClienteMenor(RepresentanteDAO responsavel, ClienteDAO menor, int parentescoId, int usuarioId) throws SQLException {
+    public static void inserirClienteMenor(Representante responsavel, Cliente menor, int parentescoId, int usuarioId) throws SQLException {
 
         con = ConexaoMySQL.getConexaoMySQL();
         con.setAutoCommit(false);
@@ -241,7 +241,7 @@ public class JDBCInsere {
         con.commit();
         con.close();
 
-        RepresentanteDAO parentesco = JDBCViews.parentesco(menor);
+        Representante parentesco = JDBCViews.parentesco(menor);
 
         try {
             AuditoriaInsere.inserirCliente(FrmLogin.usuario, menor, sqlM);
@@ -283,8 +283,8 @@ public class JDBCInsere {
         stmt.close();
         con.close();
 
-        ClienteDAO cliente = JDBCConsulta.clienteId(cliId);
-        RepresentanteDAO representante = JDBCConsulta.representanteId(repId);
+        Cliente cliente = JDBCConsulta.clienteId(cliId);
+        Representante representante = JDBCConsulta.representanteId(repId);
         String parentesco = JDBCViews.parentesco(cliente).getGrau();
 
         try {
@@ -303,7 +303,7 @@ public class JDBCInsere {
      * @throws java.io.IOException
      * @throws java.sql.SQLException
      */
-    public static void inserirUsuario(UsuarioDAO usuario) throws IOException, SQLException {
+    public static void inserirUsuario(Usuario usuario) throws IOException, SQLException {
         nomeTabela = ClsBD.getTblLogin();
         con = ConexaoMySQL.getConexaoMySQL();
         con.setAutoCommit(false);
@@ -394,7 +394,7 @@ public class JDBCInsere {
         return retorno;
     }
 
-    public static int inserirOrcamento(OrcamentoDAO orcamento) throws SQLException, IOException {
+    public static int inserirOrcamento(Orcamento orcamento) throws SQLException, IOException {
         nomeTabela = ClsBD.getTblOrcamento();
         int cod = 0;
         con = ConexaoMySQL.getConexaoMySQL();
@@ -446,7 +446,7 @@ public class JDBCInsere {
      * @throws SQLException
      * @throws IOException
      */
-    public static int inserirSessao(SessaoDAO sessao) throws SQLException, IOException {
+    public static int inserirSessao(Sessao sessao) throws SQLException, IOException {
         nomeTabela = ClsBD.getTblSessao();
         int retorno = 0;
 

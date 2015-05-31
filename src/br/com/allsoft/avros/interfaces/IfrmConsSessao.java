@@ -16,9 +16,9 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
-import br.com.allsoft.avros.dao.OrcamentoDAO;
-import br.com.allsoft.avros.dao.SessaoDAO;
+import br.com.allsoft.avros.dao.Cliente;
+import br.com.allsoft.avros.dao.Orcamento;
+import br.com.allsoft.avros.dao.Sessao;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Moeda;
@@ -45,9 +45,9 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
 
     //Variáveis
     DefaultTableModel tblSes = new ClsTableModel();
-    private OrcamentoDAO orcamento = new OrcamentoDAO();
-    private ClienteDAO cliente = new ClienteDAO();
-    private SessaoDAO sessao = new SessaoDAO();
+    private Orcamento orcamento = new Orcamento();
+    private Cliente cliente = new Cliente();
+    private Sessao sessao = new Sessao();
     Dimension form, tabela, scroll;
 
     //Métodos
@@ -96,7 +96,7 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
      * SimpleDateFormat("dd/MM/yyyy"); format.format(dataSql);rçamentos
      * @param qtde quantidade de sessões listados
      */
-    private void preencheTabela(List<SessaoDAO> sessoes, int qtde) {
+    private void preencheTabela(List<Sessao> sessoes, int qtde) {
 
         this.setSize(form);
         jtblSes.setSize(tabela);
@@ -336,6 +336,8 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         //Pesquisa por CPF
+        List<Sessao> sessoes = new ArrayList<>();
+        
         if (rdoCpf.isSelected()) {
             String cpf = txtCpf.getText();
 
@@ -350,7 +352,6 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
                 }
 
                 if (!(cliente.getCpf() == null)) {
-                    List<SessaoDAO> sessoes = new ArrayList<>();
 
                     try {
                         sessoes = JDBCConsulta.sessaoIdCli(cliente.getId());
@@ -385,7 +386,6 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
 
         } else if (rdoOrca.isSelected()) {
             int codigo = Integer.valueOf(txtOrcamento.getText());
-            List<SessaoDAO> sessoes = new ArrayList<>();
 
             try {
                 orcamento = JDBCConsulta.orcamento(codigo);

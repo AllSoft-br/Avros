@@ -16,8 +16,8 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
-import br.com.allsoft.avros.dao.RepresentanteDAO;
+import br.com.allsoft.avros.dao.Cliente;
+import br.com.allsoft.avros.dao.Representante;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.factory.JDBCInsere;
 import br.com.allsoft.avros.formulas.Cpf;
@@ -42,7 +42,7 @@ import javax.swing.text.MaskFormatter;
 public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
 
     //Variáveis
-    RepresentanteDAO representante;
+    Representante representante;
     int parentescoId;
 
     //Metodos
@@ -63,7 +63,7 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
      *
      * @param rep representante deste cliente menor
      */
-    public IfrmCadClienteMenor(RepresentanteDAO rep) {
+    public IfrmCadClienteMenor(Representante rep) {
         representante = rep;
         initComponents();
     }
@@ -410,7 +410,7 @@ public class IfrmCadClienteMenor extends javax.swing.JInternalFrame {
         String nascimento = ftxtNascimento.getText();
         String tel = txtTel.getText();
 
-        ClienteDAO cliente = new ClienteDAO();
+        Cliente cliente = new Cliente();
         cliente.setNome(nome);
         cliente.setCpf(cpf);
         cliente.setNascimento(nascimento);

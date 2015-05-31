@@ -16,9 +16,9 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.factory.JDBCInsere;
-import br.com.allsoft.avros.dao.RepresentanteDAO;
+import br.com.allsoft.avros.dao.Representante;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.naoUsar.GeraCPF;
 import br.com.allsoft.avros.formulas.Cpf;
@@ -39,14 +39,14 @@ import javax.swing.text.MaskFormatter;
  */
 public class IfrmCadResp extends javax.swing.JInternalFrame {
 
-    ClienteDAO menor = new ClienteDAO();
+    Cliente menor = new Cliente();
 
     /**
      * Creates new form IfrmCadResp
      *
      * @param cliente cliente menor de idade
      */
-    public IfrmCadResp(ClienteDAO cliente) {
+    public IfrmCadResp(Cliente cliente) {
         initComponents();
 
         menor = cliente;
@@ -379,7 +379,7 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
 
             if (parentescoId > 0) {
                 if (Cpf.isCpf(cpf)) {
-                    RepresentanteDAO responsavel = new RepresentanteDAO();
+                    Representante responsavel = new Representante();
                     responsavel.setNome(nome);
                     responsavel.setCpf(cpf);
                     responsavel.setNascimento(nascimento);

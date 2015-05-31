@@ -16,13 +16,13 @@
  */
 package br.com.allsoft.avros.factory;
 
-import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.Cliente;
 import br.com.allsoft.avros.dao.ClsBD;
-import br.com.allsoft.avros.dao.OrcamentoDAO;
-import br.com.allsoft.avros.dao.RegistroDAO;
-import br.com.allsoft.avros.dao.RepresentanteDAO;
-import br.com.allsoft.avros.dao.SessaoDAO;
-import br.com.allsoft.avros.dao.UsuarioDAO;
+import br.com.allsoft.avros.dao.Orcamento;
+import br.com.allsoft.avros.dao.Registro;
+import br.com.allsoft.avros.dao.Representante;
+import br.com.allsoft.avros.dao.Sessao;
+import br.com.allsoft.avros.dao.Usuario;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -81,8 +81,8 @@ public class JDBCConsulta {
      * @return list de dependentes
      * @throws SQLException
      */
-    public static List<ClienteDAO> dependentes(int id) throws SQLException {
-        List<ClienteDAO> dependentes = new ArrayList<>();
+    public static List<Cliente> dependentes(int id) throws SQLException {
+        List<Cliente> dependentes = new ArrayList<>();
 
         abreCon();
         nomeTabela = ClsBD.getViewParente();
@@ -93,7 +93,7 @@ public class JDBCConsulta {
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             int idCli = rs.getInt("ids");
-            ClienteDAO menor = clienteId(idCli);
+            Cliente menor = clienteId(idCli);
             dependentes.add(menor);
         }
 
@@ -108,8 +108,8 @@ public class JDBCConsulta {
      * @return objeto UsuarioDAO com todas as informações do usuário que logou
      * no sistema
      */
-    public static UsuarioDAO login(String login, char[] senha) throws SQLException {
-        UsuarioDAO usuario = new UsuarioDAO();
+    public static Usuario login(String login, char[] senha) throws SQLException {
+        Usuario usuario = new Usuario();
 
         abreCon();
         nomeTabela = ClsBD.getTblLogin();
@@ -146,8 +146,8 @@ public class JDBCConsulta {
      * @param nome nome do usuarioCpf
      * @return UsuarioDAO encontrado
      */
-    public static List<UsuarioDAO> usuarioNome(String nome) throws SQLException {
-        List<UsuarioDAO> usuarios = new ArrayList<>();
+    public static List<Usuario> usuarioNome(String nome) throws SQLException {
+        List<Usuario> usuarios = new ArrayList<>();
 
         abreCon();
         nomeTabela = ClsBD.getTblLogin();
@@ -159,7 +159,7 @@ public class JDBCConsulta {
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            UsuarioDAO usuario = new UsuarioDAO();
+            Usuario usuario = new Usuario();
             usuario.setNome(rs.getString(ClsBD.getUsuarionome()));
             usuario.setNick(rs.getString(ClsBD.getUsuarionick()));
             usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAdmin()));
@@ -180,8 +180,8 @@ public class JDBCConsulta {
      *
      * @return List de UsuarioDAO
      */
-    public static List<UsuarioDAO> usuarioTodos() throws SQLException {
-        List<UsuarioDAO> usuarios = new ArrayList<>();
+    public static List<Usuario> usuarioTodos() throws SQLException {
+        List<Usuario> usuarios = new ArrayList<>();
 
         abreCon();
         nomeTabela = ClsBD.getTblLogin();
@@ -190,7 +190,7 @@ public class JDBCConsulta {
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            UsuarioDAO usuario = new UsuarioDAO();
+            Usuario usuario = new Usuario();
             usuario.setNome(rs.getString(ClsBD.getUsuarionome()));
             usuario.setNick(rs.getString(ClsBD.getUsuarionick()));
             usuario.setAdmin(rs.getBoolean(ClsBD.getUsuarioAdmin()));
@@ -212,8 +212,8 @@ public class JDBCConsulta {
      * @param cpf CPF do usuário
      * @return UsuarioDAO encontrado
      */
-    public static UsuarioDAO usuarioCpf(String cpf) throws SQLException {
-        UsuarioDAO usuario = new UsuarioDAO();
+    public static Usuario usuarioCpf(String cpf) throws SQLException {
+        Usuario usuario = new Usuario();
 
         abreCon();
         nomeTabela = ClsBD.getTblLogin();
@@ -243,8 +243,8 @@ public class JDBCConsulta {
      * @param cpf CPF do usuário
      * @return UsuarioDAO encontrado
      */
-    public static UsuarioDAO usuarioId(int id) throws SQLException {
-        UsuarioDAO usuario = new UsuarioDAO();
+    public static Usuario usuarioId(int id) throws SQLException {
+        Usuario usuario = new Usuario();
 
         abreCon();
         nomeTabela = ClsBD.getTblLogin();
@@ -273,8 +273,8 @@ public class JDBCConsulta {
      * @param nick nickname do usuário
      * @return UsuarioDAO encontrado
      */
-    public static UsuarioDAO usuarioNick(String nick) throws SQLException {
-        UsuarioDAO usuario = new UsuarioDAO();
+    public static Usuario usuarioNick(String nick) throws SQLException {
+        Usuario usuario = new Usuario();
 
         nick = nick.trim();
         abreCon();
@@ -308,8 +308,8 @@ public class JDBCConsulta {
      * @param cpf CPF do representante a ser pesquisado
      * @return objeto ClienteDAO caso o representante exista
      */
-    public static ClienteDAO clienteCpf(String cpf) throws SQLException {
-        ClienteDAO cliente = new ClienteDAO();
+    public static Cliente clienteCpf(String cpf) throws SQLException {
+        Cliente cliente = new Cliente();
         cpf = cpf.trim();
 
         abreCon();
@@ -338,8 +338,8 @@ public class JDBCConsulta {
      *
      * @return List de ClienteDAO
      */
-    public static List<ClienteDAO> clienteTodos() throws SQLException {
-        List<ClienteDAO> clientes = new ArrayList<>();
+    public static List<Cliente> clienteTodos() throws SQLException {
+        List<Cliente> clientes = new ArrayList<>();
 
         abreCon();
         nomeTabela = ClsBD.getTblCliente();
@@ -348,7 +348,7 @@ public class JDBCConsulta {
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            ClienteDAO cliente = new ClienteDAO();
+            Cliente cliente = new Cliente();
             cliente.setNome(rs.getString(ClsBD.getCliNome()));
             cliente.setId(rs.getInt(ClsBD.getCliId()));
             cliente.setIdUsuario(rs.getInt(ClsBD.getCliIdUsuario()));
@@ -369,8 +369,8 @@ public class JDBCConsulta {
      * @param id ID do representante a ser pesquisado
      * @return objeto ClienteDAO
      */
-    public static ClienteDAO clienteId(int id) throws SQLException {
-        ClienteDAO cliente = new ClienteDAO();
+    public static Cliente clienteId(int id) throws SQLException {
+        Cliente cliente = new Cliente();
 
         abreCon();
         nomeTabela = ClsBD.getTblCliente();
@@ -399,8 +399,8 @@ public class JDBCConsulta {
      * @param nome nome do representante
      * @return UsuarioDAO encontrado
      */
-    public static List<ClienteDAO> clienteNome(String nome) throws SQLException {
-        List<ClienteDAO> clientes = new ArrayList<>();
+    public static List<Cliente> clienteNome(String nome) throws SQLException {
+        List<Cliente> clientes = new ArrayList<>();
         nome = nome.trim();
 
         abreCon();
@@ -413,7 +413,7 @@ public class JDBCConsulta {
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            ClienteDAO cliente = new ClienteDAO();
+            Cliente cliente = new Cliente();
             cliente.setNome(rs.getString(ClsBD.getCliNome()));
             cliente.setId(rs.getInt(ClsBD.getCliId()));
             cliente.setIdUsuario(rs.getInt(ClsBD.getCliIdUsuario()));
@@ -434,8 +434,8 @@ public class JDBCConsulta {
      * @param id ID do representante a ser pesquisado
      * @return objeto ClienteDAO
      */
-    public static RepresentanteDAO representanteId(int id) throws SQLException {
-        RepresentanteDAO representante = new RepresentanteDAO();
+    public static Representante representanteId(int id) throws SQLException {
+        Representante representante = new Representante();
 
         abreCon();
         nomeTabela = ClsBD.getTblRepresentante();
@@ -463,8 +463,8 @@ public class JDBCConsulta {
      * @param cpf cpf do representante a ser pesquisado
      * @return objeto ClienteDAO
      */
-    public static RepresentanteDAO representanteCpf(String cpf) throws SQLException {
-        RepresentanteDAO representante = new RepresentanteDAO();
+    public static Representante representanteCpf(String cpf) throws SQLException {
+        Representante representante = new Representante();
         cpf = cpf.trim();
 
         abreCon();
@@ -494,8 +494,8 @@ public class JDBCConsulta {
      * @return representantes encontrados
      * @throws java.sql.SQLException
      */
-    public static List<RepresentanteDAO> representanteNome(String nome) throws SQLException {
-        List<RepresentanteDAO> representantes = new ArrayList<>();
+    public static List<Representante> representanteNome(String nome) throws SQLException {
+        List<Representante> representantes = new ArrayList<>();
         nome = nome.trim();
 
         abreCon();
@@ -508,7 +508,7 @@ public class JDBCConsulta {
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            RepresentanteDAO representante = new RepresentanteDAO();
+            Representante representante = new Representante();
             representante.setNome(rs.getString(ClsBD.getRepnome()));
             representante.setId(rs.getInt(ClsBD.getRepId()));
             representante.setCpf(rs.getString(ClsBD.getRepCpf()));
@@ -527,8 +527,8 @@ public class JDBCConsulta {
      *
      * @return todos os representantes encontrados
      */
-    public static List<RepresentanteDAO> representanteTodos() throws SQLException {
-        List<RepresentanteDAO> representantes = new ArrayList<>();
+    public static List<Representante> representanteTodos() throws SQLException {
+        List<Representante> representantes = new ArrayList<>();
 
         abreCon();
         nomeTabela = ClsBD.getTblRepresentante();
@@ -537,7 +537,7 @@ public class JDBCConsulta {
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            RepresentanteDAO representante = new RepresentanteDAO();
+            Representante representante = new Representante();
             representante.setNome(rs.getString(ClsBD.getRepnome()));
             representante.setId(rs.getInt(ClsBD.getRepId()));
             representante.setCpf(rs.getString(ClsBD.getRepCpf()));
@@ -558,8 +558,8 @@ public class JDBCConsulta {
      * @param id ID do cliente
      * @return ArrayList com os orçamentos encontrados
      */
-    public static List<OrcamentoDAO> orcamentoIdCli(int id) throws SQLException {
-        List<OrcamentoDAO> orcamentos = new ArrayList<>();
+    public static List<Orcamento> orcamentoIdCli(int id) throws SQLException {
+        List<Orcamento> orcamentos = new ArrayList<>();
 
         abreCon();
         nomeTabela = ClsBD.getTblOrcamento();
@@ -570,7 +570,7 @@ public class JDBCConsulta {
 
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
-            OrcamentoDAO orcamento = new OrcamentoDAO();
+            Orcamento orcamento = new Orcamento();
 
             orcamento.setId(rs.getInt(ClsBD.getOrcId()));
             orcamento.setCriacao(rs.getDate(ClsBD.getOrcCriacao()));
@@ -592,8 +592,8 @@ public class JDBCConsulta {
      * @param id ID do orçamento
      * @return OrcamentoDAO com o orçamento encontrado
      */
-    public static OrcamentoDAO orcamento(int id) throws SQLException {
-        OrcamentoDAO orcamento = new OrcamentoDAO();
+    public static Orcamento orcamento(int id) throws SQLException {
+        Orcamento orcamento = new Orcamento();
 
         abreCon();
         nomeTabela = ClsBD.getTblOrcamento();
@@ -624,9 +624,9 @@ public class JDBCConsulta {
      * @return ArrayList com os orçamentos encontrados
      * @throws java.sql.SQLException
      */
-    public static List<SessaoDAO> sessaoIdCli(int id) throws SQLException {
-        List<SessaoDAO> sessoes = new ArrayList<>();
-        List<OrcamentoDAO> orcamentos = new ArrayList<>();
+    public static List<Sessao> sessaoIdCli(int id) throws SQLException {
+        List<Sessao> sessoes = new ArrayList<>();
+        List<Orcamento> orcamentos = new ArrayList<>();
 
         abreCon();
         orcamentos = orcamentoIdCli(id);
@@ -641,7 +641,7 @@ public class JDBCConsulta {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                SessaoDAO sessao = new SessaoDAO();
+                Sessao sessao = new Sessao();
 
                 sessao.setId(rs.getInt(ClsBD.getSesId()));
                 sessao.setConcluida(rs.getBoolean(ClsBD.getSesConcluida()));
@@ -668,8 +668,8 @@ public class JDBCConsulta {
      * @return ArrayList com as sessoes encontradas
      * @throws java.sql.SQLException
      */
-    public static List<SessaoDAO> sessaoIdOrc(int id) throws SQLException {
-        List<SessaoDAO> sessoes = new ArrayList<>();
+    public static List<Sessao> sessaoIdOrc(int id) throws SQLException {
+        List<Sessao> sessoes = new ArrayList<>();
 
         abreCon();
         nomeTabela = ClsBD.getTblSessao();
@@ -680,7 +680,7 @@ public class JDBCConsulta {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            SessaoDAO sessao = new SessaoDAO();
+            Sessao sessao = new Sessao();
 
             sessao.setId(rs.getInt(ClsBD.getSesId()));
             sessao.setConcluida(rs.getBoolean(ClsBD.getSesConcluida()));
@@ -704,8 +704,8 @@ public class JDBCConsulta {
      * @return sessao
      * @throws SQLException
      */
-    public static SessaoDAO sessaoId(int id) throws SQLException {
-        SessaoDAO sessao = new SessaoDAO();
+    public static Sessao sessaoId(int id) throws SQLException {
+        Sessao sessao = new Sessao();
 
         abreCon();
         nomeTabela = ClsBD.getTblSessao();
@@ -735,9 +735,9 @@ public class JDBCConsulta {
      * @return
      * @throws SQLException
      */
-    public static List<RegistroDAO> auditLogin() throws SQLException {
+    public static List<Registro> auditLogin() throws SQLException {
 
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
 
         abreCon();
         nomeTabela = ClsBD.getTblAuditoria();
@@ -748,7 +748,7 @@ public class JDBCConsulta {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
 
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -768,10 +768,10 @@ public class JDBCConsulta {
      * @return
      * @throws SQLException
      */
-    public static List<RegistroDAO> auditLogin(String nick) throws SQLException {
+    public static List<Registro> auditLogin(String nick) throws SQLException {
 
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
 
         abreCon();
         nomeTabela = ClsBD.getTblAuditoria();
@@ -783,7 +783,7 @@ public class JDBCConsulta {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
 
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -803,10 +803,10 @@ public class JDBCConsulta {
      * @return
      * @throws SQLException
      */
-    public static List<RegistroDAO> auditCad(String nick) throws SQLException {
+    public static List<Registro> auditCad(String nick) throws SQLException {
 
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
 
         abreCon();
         nomeTabela = ClsBD.getTblAuditoria();
@@ -819,7 +819,7 @@ public class JDBCConsulta {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
 
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -841,10 +841,10 @@ public class JDBCConsulta {
      * @return
      * @throws SQLException
      */
-    public static List<RegistroDAO> auditEdit(String nick) throws SQLException {
+    public static List<Registro> auditEdit(String nick) throws SQLException {
 
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
 
         abreCon();
         nomeTabela = ClsBD.getTblAuditoria();
@@ -858,7 +858,7 @@ public class JDBCConsulta {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
 
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -882,10 +882,10 @@ public class JDBCConsulta {
      * @return
      * @throws SQLException
      */
-    public static List<RegistroDAO> auditDel(String nick) throws SQLException {
+    public static List<Registro> auditDel(String nick) throws SQLException {
 
-        List<RegistroDAO> registros = new ArrayList<>();
-        UsuarioDAO usuario = JDBCConsulta.usuarioNick(nick);
+        List<Registro> registros = new ArrayList<>();
+        Usuario usuario = JDBCConsulta.usuarioNick(nick);
 
         abreCon();
         nomeTabela = ClsBD.getTblAuditoria();
@@ -899,7 +899,7 @@ public class JDBCConsulta {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
 
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -922,9 +922,9 @@ public class JDBCConsulta {
      * @return
      * @throws SQLException
      */
-    public static List<RegistroDAO> auditCad() throws SQLException {
+    public static List<Registro> auditCad() throws SQLException {
 
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
 
         abreCon();
         nomeTabela = ClsBD.getTblAuditoria();
@@ -937,7 +937,7 @@ public class JDBCConsulta {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
 
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -959,9 +959,9 @@ public class JDBCConsulta {
      * @return
      * @throws SQLException
      */
-    public static List<RegistroDAO> auditEdit() throws SQLException {
+    public static List<Registro> auditEdit() throws SQLException {
 
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
 
         abreCon();
         nomeTabela = ClsBD.getTblAuditoria();
@@ -975,7 +975,7 @@ public class JDBCConsulta {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
 
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
@@ -999,9 +999,9 @@ public class JDBCConsulta {
      * @return
      * @throws SQLException
      */
-    public static List<RegistroDAO> auditDel() throws SQLException {
+    public static List<Registro> auditDel() throws SQLException {
 
-        List<RegistroDAO> registros = new ArrayList<>();
+        List<Registro> registros = new ArrayList<>();
 
         abreCon();
         nomeTabela = ClsBD.getTblAuditoria();
@@ -1014,7 +1014,7 @@ public class JDBCConsulta {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            RegistroDAO registro = new RegistroDAO();
+            Registro registro = new Registro();
 
             registro.setId(rs.getInt(ClsBD.getAudId()));
             registro.setIdLogin(rs.getInt(ClsBD.getAudIdLogin()));
