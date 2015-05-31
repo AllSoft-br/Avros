@@ -17,6 +17,7 @@
 
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.modelo.Usuario;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -210,7 +211,7 @@ public class IfrmResetSenha extends javax.swing.JInternalFrame {
             if((Arrays.equals(nova, conf)) && (Arrays.equals(senha, FrmLogin.usuario.getSenha()))){
                 
                 try {
-                    JDBCUpdate.usuarioSenha(pswNova.getPassword(), usuario.getId());
+                    UsuarioDAO.uusuarioSenha(pswNova.getPassword(), usuario.getId());
                     JOptionPane.showMessageDialog(null, "Senha atualizada com sucesso.");
                     this.dispose();
                 } catch (SQLException ex) {
