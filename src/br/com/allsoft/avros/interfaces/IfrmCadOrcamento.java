@@ -16,20 +16,18 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
-import br.com.allsoft.avros.dao.Cliente;
-import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.factory.JDBCInsere;
-import br.com.allsoft.avros.dao.Orcamento;
-import br.com.allsoft.avros.exceptions.AuditoriaException;
-import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.formulas.Moeda;
+import br.com.allsoft.avros.modelo.Cliente;
+import br.com.allsoft.avros.modelo.Orcamento;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -412,7 +410,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
             }
 
             try {
-                orcamento.setId(JDBCInsere.inserirOrcamento(orcamento));
+                orcamento.setId(OrcamentoDAO.inserirOrcamento(orcamento));
 
                 int j = JOptionPane.showConfirmDialog(this, "Orçamento salvo com sucesso. Deseja agendar uma sessão?", "Orçamento salvo", JOptionPane.OK_CANCEL_OPTION);
                 if (j == JOptionPane.OK_OPTION) {
@@ -459,7 +457,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
 
         if (Cpf.isCpf(cpf)) {
             try {
-                cliente = JDBCConsulta.clienteCpf(cpf);
+                cliente = ClienteDAO.cclienteCpf(cpf);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar o cliente pelo CPF.", "Tente outra vez", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmCadOrcamento.class.getName()).log(Level.SEVERE, null, ex);

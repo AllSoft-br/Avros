@@ -17,13 +17,11 @@
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
-import br.com.allsoft.avros.dao.Cliente;
-import br.com.allsoft.avros.factory.JDBCInsere;
-import br.com.allsoft.avros.dao.Orcamento;
-import br.com.allsoft.avros.dao.Sessao;
+import br.com.allsoft.avros.formulas.Cpf;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Moeda;
-import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.modelo.Cliente;
+import br.com.allsoft.avros.modelo.Orcamento;
 import br.com.allsoft.avros.relatorios.Relatorio;
 import java.awt.Container;
 import java.awt.Dimension;
