@@ -16,13 +16,9 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.Cliente;
-import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.factory.JDBCUpdate;
-import br.com.allsoft.avros.dao.Representante;
-import br.com.allsoft.avros.factory.JDBCViews;
-import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.formulas.Datas;
+import br.com.allsoft.avros.modelo.Cliente;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
