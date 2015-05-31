@@ -16,10 +16,8 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.factory.JDBCUpdate;
-import br.com.allsoft.avros.dao.Usuario;
-import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.modelo.Usuario;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
