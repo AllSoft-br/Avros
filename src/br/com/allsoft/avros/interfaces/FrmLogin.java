@@ -16,9 +16,10 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.dao.Usuario;
 import br.com.allsoft.avros.factory.JDBCUpdate;
+import br.com.allsoft.avros.modelo.Usuario;
 import java.awt.Container;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -171,7 +172,7 @@ public class FrmLogin extends javax.swing.JFrame {
         char[] senha = txtSenha.getPassword();
 
         try {
-            usuario = JDBCConsulta.login(login, senha);
+            usuario = UsuarioDAO.login(login, senha);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Verifique sua conexão com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
