@@ -16,21 +16,21 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
 import br.com.allsoft.avros.formulas.Cpf;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.modelo.Cliente;
 import br.com.allsoft.avros.modelo.Orcamento;
+import br.com.allsoft.avros.modelo.Sessao;
 import br.com.allsoft.avros.relatorios.Relatorio;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,7 +42,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
-import javax.swing.SpinnerModel;
 import javax.swing.text.MaskFormatter;
 import net.sf.jasperreports.engine.JRException;
 
@@ -502,7 +501,7 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
         sessao.setIdOrcamento(orcamento.getId());
 
         try {
-            int id = (JDBCInsere.inserirSessao(sessao));
+            int id = (SessaoDAO.inserirSessao(sessao));
             sessao.setId(id);
             
             int j = JOptionPane.showConfirmDialog(this, "Sessão cadastrada com sucesso! Deseja imprimir o comprovante?");
