@@ -17,8 +17,7 @@
  
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.factory.JDBCAuditoria;
-import br.com.allsoft.avros.factory.JDBCUpdate;
+import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -263,7 +262,7 @@ public class IfrmConta extends javax.swing.JInternalFrame {
             try {
                 String nome = txtNome.getText();
                 
-                JDBCUpdate.usuarioNome(nome, FrmLogin.usuario.getId());
+                UsuarioDAO.uusuarioNome(nome, FrmLogin.usuario.getId());
                 
                 FrmLogin.usuario.setNome(nome);
                 
@@ -285,7 +284,7 @@ public class IfrmConta extends javax.swing.JInternalFrame {
             try {
                 String nick = txtNickname.getText();
                 
-                JDBCUpdate.usuarioNick(nick, FrmLogin.usuario.getId());
+                UsuarioDAO.uusuarioNick(nick, FrmLogin.usuario.getId());
                 
                 FrmLogin.usuario.setNome(nick);
                 
