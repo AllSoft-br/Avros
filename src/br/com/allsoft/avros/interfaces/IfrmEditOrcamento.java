@@ -16,6 +16,8 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.OrcamentoDAO;
+import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
 import br.com.allsoft.avros.formulas.Cpf;
 import br.com.allsoft.avros.formulas.Moeda;
@@ -50,31 +52,31 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
             pagamento = "Dinheiro";
         }
 
-        JDBCUpdate.orcamentoPagamento(orcamento.getId(), pagamento);
+        OrcamentoDAO.uorcamentoPagamento(orcamento.getId(), pagamento);
     }
 
     private void editValor() throws ValorInvalidoMoedaException, SQLException {
         double valor = Moeda.retornaDouble(ftxtValor.getText());
 
-        JDBCUpdate.orcamentoValor(orcamento.getId(), valor);
+        OrcamentoDAO.uorcamentoValor(orcamento.getId(), valor);
     }
 
     private void editSessoes() throws SQLException {
         int qtd = (int) spnSessoes.getValue();
 
-        int j = JDBCConsulta.sessaoIdOrc(orcamento.getId()).size();
+        int j = SessaoDAO.csessaoIdOrc(orcamento.getId()).size();
 
         if (qtd < j) {
             JOptionPane.showMessageDialog(this, "A quantidade de sessões inserida é menor que a quantidade de sessões já cadastrada neste orçamento. Por favor escolha um número maior.", "Erro", JOptionPane.ERROR_MESSAGE);
             throw new SQLException("Quantidade de sessões digitada menor que a quantidade cadastrada.");
         } else if (qtd == j) {
-            JDBCUpdate.orcamentoSessoes(orcamento.getId(), qtd);
+            OrcamentoDAO.uorcamentoSessoes(orcamento.getId(), qtd);
             lblValSessao.setText(Moeda.padraoVirgula(orcamento.getValor() / qtd));
         }
     }
     
     private void editDesc() throws SQLException{
-        JDBCUpdate.orcamentoDesc(orcamento.getId(), txtDesc.getText());
+        OrcamentoDAO.uorcamentoDesc(orcamento.getId(), txtDesc.getText());
     }
 
     /**
@@ -546,7 +548,7 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
         int j = JOptionPane.showConfirmDialog(this, "Ao excluir um orçamento, todas as suas sessões cadastradas também serão excluidas. Você realmente deseja excluir este orçamento?", "Excluir", JOptionPane.YES_NO_OPTION);
         if (j == JOptionPane.YES_OPTION) {
             try {
-                JDBCDelete.orcamento(orcamento);
+                OrcamentoDAO.dorcamento(orcamento);
                 JOptionPane.showMessageDialog(this, "O orçamento foi excluído com sucesso.");
                 this.dispose();
             } catch (SQLException ex) {
