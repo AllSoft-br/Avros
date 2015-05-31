@@ -25,167 +25,91 @@ public class ClsBD {
 
     //Tabelas
 
-    private static final String tblRepresentante = "tbl_representante";
-    private static final String tblRel = "tbl_rel";
-    private static final String tblCliente = "tbl_cliente";
-    private static final String tblLogin = "tbl_login";
-    private static final String tblParentesco = "tbl_parentesco";
-    private static final String tblOrcamento = "tbl_orcamento";
-    private static final String tblSessao = "tbl_sessao";
-    private static final String tblAuditoria = "tbl_registro";
+    protected static final String tblRepresentante = "tbl_representante";
+    protected static final String tblRel = "tbl_rel";
+    protected static final String tblCliente = "tbl_cliente";
+    protected static final String tblLogin = "tbl_login";
+    protected static final String tblParentesco = "tbl_parentesco";
+    protected static final String tblOrcamento = "tbl_orcamento";
+    protected static final String tblSessao = "tbl_sessao";
+    protected static final String tblAuditoria = "tbl_registro";
 
     //Views
-    private static final String viewParente = "cliente_menor";
-    private static final String viewAudit24h = "auditoria_24h";
-    private static final String viewAudit3d = "auditoria_3d";
-    private static final String viewAudit7d = "auditoria_7d";
-    private static final String viewAudit1m = "auditoria_1m";
+    protected static final String viewParente = "cliente_menor";
+    protected static final String viewAudit24h = "auditoria_24h";
+    protected static final String viewAudit3d = "auditoria_3d";
+    protected static final String viewAudit7d = "auditoria_7d";
+    protected static final String viewAudit1m = "auditoria_1m";
 
     //Campos das tabelas
     //Tabela relacionadora
-    private static final String relClienteId = "fk_id_cli";
-    private static final String relParentescoId = "fk_id_parentesco";
-    private static final String relRepresentanteId = "fk_id_representante";
-    private static final String relId = "id_rel";
+    protected static final String relClienteId = "fk_id_cli";
+    protected static final String relParentescoId = "fk_id_parentesco";
+    protected static final String relRepresentanteId = "fk_id_representante";
+    protected static final String relId = "id_rel";
 
     //Tabela Representante
-    private static final String repCpf = "CPF";
-    private static final String repSexo = "sexo";
-    private static final String repId = "id_representante";
-    private static final String repnome = "nome";
-    private static final String repNasc = "data_nasc";
-    private static final String repTel = "tel";
+    protected static final String repCpf = "CPF";
+    protected static final String repSexo = "sexo";
+    protected static final String repId = "id_representante";
+    protected static final String repnome = "nome";
+    protected static final String repNasc = "data_nasc";
+    protected static final String repTel = "tel";
 
     //Tabela Cliente
-    private static final String cliSexo = "sexo";
-    private static final String cliId = "id_cli";
-    private static final String cliIdUsuario = "fk_id_login";
-    private static final String cliNome = "nome";
-    private static final String cliNasc = "data_nasc";
-    private static final String cliTel = "tel";
-    private static final String cliCpf = "CPF";
+    protected static final String cliSexo = "sexo";
+    protected static final String cliId = "id_cli";
+    protected static final String cliIdUsuario = "fk_id_login";
+    protected static final String cliNome = "nome";
+    protected static final String cliNasc = "data_nasc";
+    protected static final String cliTel = "tel";
+    protected static final String cliCpf = "CPF";
 
     //Tabela usuario
-    private static final String usuarioId = "id_login";
-    private static final String usuarioAtivo = "ativo";
-    private static final String usuarionome = "nome";
-    private static final String usuarioAdmin = "admin";
-    private static final String usuarioCpf = "CPF";
-    private static final String usuarionick = "login";
-    private static final String usuarioSenha = "senha";
+    protected static final String usuarioId = "id_login";
+    protected static final String usuarioAtivo = "ativo";
+    protected static final String usuarionome = "nome";
+    protected static final String usuarioAdmin = "admin";
+    protected static final String usuarioCpf = "CPF";
+    protected static final String usuarionick = "login";
+    protected static final String usuarioSenha = "senha";
 
     //Tabela parentesco
-    private static final String parId = "id_parentesco";
-    private static final String parTipo = "tipo_parentesco";
+    protected static final String parId = "id_parentesco";
+    protected static final String parTipo = "tipo_parentesco";
 
     //Tabela Orçamento
-    private static final String orcId = "id_orc";
-    private static final String orcCriacao = "criado_em";
-    private static final String orcTipoPag = "Tipo_pagamento";
-    private static final String orcValor = "valor_total";
-    private static final String orcClienteId = "fk_id_cli_orc";
-    private static final String orcNSessoes = "qntd_sessao";
-    private static final String orcDesc = "desc_tattoo";
+    protected static final String orcId = "id_orc";
+    protected static final String orcCriacao = "criado_em";
+    protected static final String orcTipoPag = "Tipo_pagamento";
+    protected static final String orcValor = "valor_total";
+    protected static final String orcClienteId = "fk_id_cli_orc";
+    protected static final String orcNSessoes = "qntd_sessao";
+    protected static final String orcDesc = "desc_tattoo";
 
     //Tabela Sessão
-    private static final String sesId = "id_sessao";
-    private static final String sesConcluida = "concluida";
-    private static final String sesValor = "valor_sessao";
-    private static final String sesTipoPagamento = "tipo_pagamento";
-    private static final String sesData = "data_agendada";
-    private static final String sesHora = "hora_agendada";
-    private static final String sesDesconto = "desconto";
-    private static final String sesIdOrc = "fk_id_orc";
+    protected static final String sesId = "id_sessao";
+    protected static final String sesConcluida = "concluida";
+    protected static final String sesValor = "valor_sessao";
+    protected static final String sesTipoPagamento = "tipo_pagamento";
+    protected static final String sesData = "data_agendada";
+    protected static final String sesHora = "hora_agendada";
+    protected static final String sesDesconto = "desconto";
+    protected static final String sesIdOrc = "fk_id_orc";
 
     //Views da auditoria
-    private static final String audId = "id_reg";
-    private static final String audTabela = "tabela_alt";
-    private static final String audRef = "cod_ref";
-    private static final String audAcao = "acao";
-    private static final String audDesc = "desc_acao";
-    private static final String audSql = "cod_sql";
-    private static final String audAntes = "dado_ant";
-    private static final String audDepois = "dado_novo";
-    private static final String audCampo = "campo";
-    private static final String audData = "data_alt";
-    private static final String audIdLogin = "fk_id_login";
-
-    /**
-     * Retorna a item do item que é armazenado em determinada item
-     *
-     * @param item a ser examinado
-     * @return tipo de item
-     */
-    public static String itemTipo(String item) {
-        String retorno = "desconhecido";
-        
-        if (!(item == null)) {
-            if (item.equalsIgnoreCase("login")) {
-                retorno = tblLogin;
-            }
-            if (item.equalsIgnoreCase("auditoria")) {
-                retorno = tblAuditoria;
-            }
-            if (item.equalsIgnoreCase("cliente")) {
-                retorno = tblCliente;
-            }
-            if (item.equalsIgnoreCase("orçamento")) {
-                retorno = tblOrcamento;
-            }
-            if (item.equalsIgnoreCase("parentesco")) {
-                retorno = tblParentesco;
-            }
-            if (item.equalsIgnoreCase("relação")) {
-                retorno = tblRel;
-            }
-            if (item.equalsIgnoreCase("representante")) {
-                retorno = tblRepresentante;
-            }
-            if (item.equalsIgnoreCase("sessão")) {
-                retorno = tblSessao;
-            }
-        }
-        return retorno;
-    }
+    protected static final String audId = "id_reg";
+    protected static final String audTabela = "tabela_alt";
+    protected static final String audRef = "cod_ref";
+    protected static final String audAcao = "acao";
+    protected static final String audDesc = "desc_acao";
+    protected static final String audSql = "cod_sql";
+    protected static final String audAntes = "dado_ant";
+    protected static final String audDepois = "dado_novo";
+    protected static final String audCampo = "campo";
+    protected static final String audData = "data_alt";
+    protected static final String audIdLogin = "fk_id_login";
     
-    /**
-     * Retorna o tipo de item que é armazenado em determinada tabela
-     *
-     * @param tabela a ser examinada
-     * @return tipo de item
-     */
-    public static String tipoItem(String tabela) {
-        String retorno = "desconhecido";
-        
-        if (!(tabela == null)) {
-            if (tabela.equalsIgnoreCase(tblLogin)) {
-                retorno = "usuário";
-            }
-            if (tabela.equalsIgnoreCase(tblAuditoria)) {
-                retorno = "registro";
-            }
-            if (tabela.equalsIgnoreCase(tblCliente)) {
-                retorno = "cliente";
-            }
-            if (tabela.equalsIgnoreCase(tblOrcamento)) {
-                retorno = "orçamento";
-            }
-            if (tabela.equalsIgnoreCase(tblParentesco)) {
-                retorno = "grau de parentesco";
-            }
-            if (tabela.equalsIgnoreCase(tblRel)) {
-                retorno = "relação maior/dependente";
-            }
-            if (tabela.equalsIgnoreCase(tblRepresentante)) {
-                retorno = "representante";
-            }
-            if (tabela.equalsIgnoreCase(tblSessao)) {
-                retorno = "sessão";
-            }
-        }
-        return retorno;
-    }
-
     public static String getOrcDesc() {
         return orcDesc;
     }

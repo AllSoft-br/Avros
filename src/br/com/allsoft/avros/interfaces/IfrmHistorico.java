@@ -20,7 +20,7 @@ import br.com.allsoft.avros.dao.AuditoriaDelete;
 import br.com.allsoft.avros.dao.AuditoriaInsere;
 import br.com.allsoft.avros.dao.AuditoriaLogin;
 import br.com.allsoft.avros.dao.AuditoriaUpdate;
-import br.com.allsoft.avros.dao.ClsBD;
+import br.com.allsoft.avros.dao.BDDAO;
 import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.event.ComboBoxItemListener;
 import br.com.allsoft.avros.formulas.Datas;
@@ -85,7 +85,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
 
             Usuario usuario = UsuarioDAO.cusuarioId(registros.get(i).getIdLogin());
             String horario = Datas.timestrampParaString(registros.get(i).getData());
-            String tipo = ClsBD.tipoItem(registros.get(i).getTabela());
+            String tipo = BDDAO.tipoItem(registros.get(i).getTabela());
 
             tblCad.setValueAt(registros.get(i).getId(), i, 0);
             tblCad.setValueAt(tipo, i, 1);
@@ -115,7 +115,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
 
             Usuario usuario = UsuarioDAO.cusuarioId(registros.get(i).getIdLogin());
             String horario = Datas.timestrampParaString(registros.get(i).getData());
-            String tipo = ClsBD.tipoItem(registros.get(i).getTabela());
+            String tipo = BDDAO.tipoItem(registros.get(i).getTabela());
 
             tblDel.setValueAt(registros.get(i).getId(), i, 0);
             tblDel.setValueAt(tipo, i, 1);
@@ -149,7 +149,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
 
             Usuario usuario = UsuarioDAO.cusuarioId(registros.get(i).getIdLogin());
             String horario = Datas.timestrampParaString(registros.get(i).getData());
-            String tipo = ClsBD.tipoItem(registros.get(i).getTabela());
+            String tipo = BDDAO.tipoItem(registros.get(i).getTabela());
 
             tblEdit.setValueAt(registros.get(i).getId(), i, 0);
             tblEdit.setValueAt(tipo, i, 1);
@@ -159,7 +159,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
             tblEdit.setValueAt(registros.get(i).getIdDado(), i, 5);
 
             if (tipo.equalsIgnoreCase("usuário")) {
-                if ((registros.get(i).getCampo().equalsIgnoreCase(ClsBD.getUsuarionome())) || (registros.get(i).getCampo().equalsIgnoreCase(ClsBD.getUsuarionick()))) {
+                if ((registros.get(i).getCampo().equalsIgnoreCase(BDDAO.getUsuarionome())) || (registros.get(i).getCampo().equalsIgnoreCase(BDDAO.getUsuarionick()))) {
                     tblEdit.setValueAt(registros.get(i).getAntes(), i, 6);
                     tblEdit.setValueAt(registros.get(i).getDepois(), i, 7);
                 } else {
@@ -1100,7 +1100,7 @@ public class IfrmHistorico extends javax.swing.JInternalFrame {
      */
     private List<Registro> filtraRegistros(List<Registro> registros, String filtro){
         int q = registros.size();
-        String tabela = ClsBD.itemTipo(filtro);
+        String tabela = BDDAO.itemTipo(filtro);
         
         List<Registro> filtrados = new ArrayList<>();
         
