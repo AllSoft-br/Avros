@@ -16,9 +16,13 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.RepresentanteDAO;
+import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.formulas.Cpf;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.modelo.Cliente;
+import br.com.allsoft.avros.modelo.Representante;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -68,7 +72,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
         }
 
         try {
-            txtUsuario.setText(JDBCConsulta.usuarioId(cliente.getIdUsuario()).getNick());
+            txtUsuario.setText(UsuarioDAO.cusuarioId(cliente.getIdUsuario()).getNick());
         } catch (SQLException ex) {
             this.dispose();
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar informações do cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -429,7 +433,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
             editado.setNome(txtNome.getText());
 
             try {
-                JDBCUpdate.clienteNome(editado.getNome(), id);
+                ClienteDAO.uclienteNome(editado.getNome(), id);
                 cliente.setNome(editado.getNome());
             } catch (SQLException ex) {
                 certo = false;
@@ -440,7 +444,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
         if (ftxtNasc.isEnabled()) {
             editado.setNascimento(ftxtNasc.getText());
             try {
-                JDBCUpdate.clienteNasc(editado.getNascimento(), id);
+                ClienteDAO.uclienteNasc(editado.getNascimento(), id);
                 cliente.setNascimento(editado.getNascimento());
             } catch (SQLException ex) {
                 certo = false;
@@ -451,7 +455,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
         if (txtTel.isEnabled()) {
             editado.setTel(txtTel.getText());
             try {
-                JDBCUpdate.clienteTel(editado.getTel(), id);
+                ClienteDAO.uclienteTel(editado.getTel(), id);
                 cliente.setTel(editado.getTel());
             } catch (SQLException ex) {
                 certo = false;
@@ -467,7 +471,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
             }
 
             try {
-                JDBCUpdate.clienteSexo(feminino, id);
+                ClienteDAO.uclienteSexo(feminino, id);
                 cliente.setFeminino(feminino);
             } catch (SQLException ex) {
                 certo = false;
@@ -512,8 +516,8 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
             Representante representante = new Representante();
 
             //Busca o grau de parentesco e ID do representante
-            representante = JDBCViews.parentesco(cliente);
-            representante = JDBCConsulta.representanteId(representante.getId());
+            representante = RepresentanteDAO.vparentesco(cliente);
+            representante = RepresentanteDAO.crepresentanteId(representante.getId());
 
             if(representante.getCpf() == null){
                 int j = JOptionPane.showConfirmDialog(this, "Este cliente não possui representante cadastrado. Deseja cadastrar agora?", "Representante não encontrado", JOptionPane.OK_CANCEL_OPTION);
