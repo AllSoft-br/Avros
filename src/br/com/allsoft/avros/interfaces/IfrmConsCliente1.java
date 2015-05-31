@@ -16,13 +16,13 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.Cliente;
-import br.com.allsoft.avros.dao.Representante;
-import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.factory.JDBCInsere;
+import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.formulas.Consulta;
-import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.formulas.Datas;
+import br.com.allsoft.avros.modelo.Cliente;
+import br.com.allsoft.avros.modelo.Representante;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -68,7 +68,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
                     int id = (int) tblCliente.getValueAt(linha, 0);
 
                     try {
-                        cliente = JDBCConsulta.clienteId(id);
+                        cliente = ClienteDAO.cclienteId(id);
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "O cliente não pôde ser carregado.", "Erro", JOptionPane.ERROR_MESSAGE);
                         Logger.getLogger(IfrmConsCliente1.class.getName()).log(Level.SEVERE, null, ex);
@@ -424,7 +424,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
         if (!txtNome.getText().isEmpty()) {
             nome = txtNome.getText();
             try {
-                clientes = JDBCConsulta.clienteNome(nome);
+                clientes = ClienteDAO.cclienteNome(nome);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Ocorreu um erro ao pesquisar clientes pelo nome.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsCliente1.class.getName()).log(Level.SEVERE, null, ex);
@@ -437,7 +437,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
             if (Cpf.isCpf(cpf)) {
                 Cliente cliente = new Cliente();
                 try {
-                    cliente = JDBCConsulta.clienteCpf(cpf);
+                    cliente = ClienteDAO.cclienteCpf(cpf);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Ocorreu um erro ao pesquisar clientes pelo CPF.", "Erro", JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(IfrmConsCliente1.class.getName()).log(Level.SEVERE, null, ex);
@@ -468,7 +468,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
     private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
         if (lblQual.isVisible()) {
             try {
-                parentesco = JDBCInsere.inserirParentesco(txtQual.getText());
+                parentesco = RepresentanteDAO.inserirParentesco(txtQual.getText());
             } catch (SQLException | IOException ex) {
                 JOptionPane.showMessageDialog(this, "Não foi possível criar o novo grau de parentesco.");
                 Logger.getLogger(IfrmConsCliente1.class.getName()).log(Level.SEVERE, null, ex);
@@ -479,7 +479,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
 
         if (parentesco > -1) {
             try {
-                JDBCInsere.inserirRelCliRep(representante.getId(), cliente.getId(), parentesco);
+                RepresentanteDAO.inserirRelCliRep(representante.getId(), cliente.getId(), parentesco);
                 JOptionPane.showMessageDialog(this, "Novo dependente adicionado com sucesso!");
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Não foi possível associar o dependente ao responsável desejado.");
@@ -494,7 +494,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
     private void lblVerTodosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVerTodosMouseClicked
         List<Cliente> clientes = new ArrayList<>();
         try {
-            clientes = JDBCConsulta.clienteTodos();
+            clientes = ClienteDAO.cclienteTodos();
             preencheTabela(clientes);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro durante a exibição dos clientes pesquisados.", "Erro", JOptionPane.ERROR_MESSAGE);
