@@ -16,8 +16,8 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.AuditoriaLogin;
 import br.com.allsoft.avros.exceptions.AuditoriaException;
-import br.com.allsoft.avros.factory.AuditoriaLogin;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
