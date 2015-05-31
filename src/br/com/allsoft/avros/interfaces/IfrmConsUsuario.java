@@ -177,6 +177,7 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -447,6 +448,10 @@ public class IfrmConsUsuario extends javax.swing.JInternalFrame {
         }
         preencheTabela(usuarios);
     }//GEN-LAST:event_lblVerTodosMouseClicked
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        FrmPrincipal.bConsUsuario = false;
+    }//GEN-LAST:event_formInternalFrameClosed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.UsuarioDAO;
@@ -179,29 +178,32 @@ public class IfrmSenha extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
-        
+
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
-        
+
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         char[] antiga = pswSenha.getPassword();
         char[] nova = pswNova.getPassword();
         char[] conf = pswConf.getPassword();
-        
-        if((antiga.length > 0) && (nova.length > 0) && (conf.length > 0)){
-            if((Arrays.equals(nova, conf)) && (Arrays.equals(antiga, FrmLogin.usuario.getSenha()))){
-                
+
+        if ((antiga.length > 0) && (nova.length > 0) && (conf.length > 0)) {
+            if ((Arrays.equals(nova, conf)) && (Arrays.equals(antiga, FrmLogin.usuario.getSenha()))) {
+
                 try {
                     UsuarioDAO.uusuarioSenha(pswNova.getPassword(), FrmLogin.usuario.getId());
+                    JOptionPane.showMessageDialog(null, "Senha modificada com sucesso.");
                 } catch (SQLException ex) {
                     Logger.getLogger(IfrmSenha.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "Ocorreu um erro durante a atualização de suas modificações.");
+                    return;
                 }
-                
+
             } else {
                 JOptionPane.showMessageDialog(null, "As senhas digitadas não coincidem.");
-            } 
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
         }

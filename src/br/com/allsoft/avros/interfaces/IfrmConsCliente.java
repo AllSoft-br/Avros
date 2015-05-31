@@ -176,6 +176,7 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -433,6 +434,10 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
             btnAbrir.doClick();
         }
     }//GEN-LAST:event_btnAbrirKeyPressed
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        FrmPrincipal.bConsCliente = false;
+    }//GEN-LAST:event_formInternalFrameClosed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

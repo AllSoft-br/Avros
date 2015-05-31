@@ -462,15 +462,23 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mniSairActionPerformed
 
     private void mniVerUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVerUsuarioActionPerformed
-        IfrmConsUsuario obj = new IfrmConsUsuario();
-        deskPrincipal.add(obj);
-        obj.setVisible(true);
+        if (!bConsUsuario) {
+            IfrmConsUsuario obj = new IfrmConsUsuario();
+            deskPrincipal.add(obj);
+            obj.setVisible(true);
+
+            bConsUsuario = true;
+        }
     }//GEN-LAST:event_mniVerUsuarioActionPerformed
 
     private void mniVerClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVerClienteActionPerformed
-        IfrmConsCliente obj = new IfrmConsCliente();
-        deskPrincipal.add(obj);
-        obj.setVisible(true);
+        if (!bConsCliente) {
+            IfrmConsCliente obj = new IfrmConsCliente();
+            deskPrincipal.add(obj);
+            obj.setVisible(true);
+
+            bConsCliente = true;
+        }
     }//GEN-LAST:event_mniVerClienteActionPerformed
 
     private void mniVerRepresentantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVerRepresentantesActionPerformed
@@ -479,25 +487,39 @@ public class FrmPrincipal extends javax.swing.JFrame {
             deskPrincipal.add(obj);
             obj.setVisible(true);
             bConsRep = true;
+
+            bConsRep = true;
         }
     }//GEN-LAST:event_mniVerRepresentantesActionPerformed
 
     private void mniRepresentanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRepresentanteActionPerformed
-        IfrmCadResp1 obj = new IfrmCadResp1();
-        deskPrincipal.add(obj);
-        obj.setVisible(true);
+        if (!bResp) {
+            IfrmCadResp1 obj = new IfrmCadResp1();
+            deskPrincipal.add(obj);
+            obj.setVisible(true);
+            
+            bResp = true;
+        }
     }//GEN-LAST:event_mniRepresentanteActionPerformed
 
     private void mniVerOrcamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVerOrcamentoActionPerformed
-        IfrmConsOrcamento obj = new IfrmConsOrcamento();
-        deskPrincipal.add(obj);
-        obj.setVisible(true);
+        if (!bConsOrcamento) {
+            IfrmConsOrcamento obj = new IfrmConsOrcamento();
+            deskPrincipal.add(obj);
+            obj.setVisible(true);
+            
+            bConsOrcamento = true;
+        }
     }//GEN-LAST:event_mniVerOrcamentoActionPerformed
 
     private void mniVerSessoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVerSessoesActionPerformed
-        IfrmConsSessao obj = new IfrmConsSessao();
-        deskPrincipal.add(obj);
-        obj.setVisible(true);
+        if (!bConsSessao) {
+            IfrmConsSessao obj = new IfrmConsSessao();
+            deskPrincipal.add(obj);
+            obj.setVisible(true);
+            
+            bConsSessao = true;
+        }
     }//GEN-LAST:event_mniVerSessoesActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -517,6 +539,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             IfrmHistorico obj = new IfrmHistorico();
             deskPrincipal.add(obj);
             obj.setVisible(true);
+            
             bHistorico = true;
         }
     }//GEN-LAST:event_mniHistoricoActionPerformed
@@ -526,6 +549,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             IfrmBackup obj = new IfrmBackup();
             deskPrincipal.add(obj);
             obj.setVisible(true);
+            
             bBackup = true;
         }
     }//GEN-LAST:event_mniBackupActionPerformed
