@@ -16,6 +16,7 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.factory.JDBCAuditoria;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.formulas.Cpf;
@@ -67,6 +68,7 @@ public class IfrmEditConta extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/Users 2.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -153,9 +155,9 @@ public class IfrmEditConta extends javax.swing.JInternalFrame {
         jLabel2.setForeground(ClsEstilo.labelCor);
         jLabel2.setText("CPF");
 
+        txtCpf.setEditable(false);
         txtCpf.setFont(ClsEstilo.textoInputFonte);
         txtCpf.setForeground(ClsEstilo.textoInputCor);
-        txtCpf.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -260,7 +262,7 @@ public class IfrmEditConta extends javax.swing.JInternalFrame {
             try {
                 String nome = txtNome.getText();
 
-                JDBCUpdate.usuarioNome(nome, FrmLogin.usuario.getId());
+                UsuarioDAO.uusuarioNome(nome, FrmLogin.usuario.getId());
 
                 FrmLogin.usuario.setNome(nome);
 
@@ -282,7 +284,7 @@ public class IfrmEditConta extends javax.swing.JInternalFrame {
             try {
                 String nick = txtNickname.getText();
 
-                JDBCUpdate.usuarioNick(nick, FrmLogin.usuario.getId());
+                UsuarioDAO.uusuarioNick(nick, FrmLogin.usuario.getId());
 
                 FrmLogin.usuario.setNome(nick);
 

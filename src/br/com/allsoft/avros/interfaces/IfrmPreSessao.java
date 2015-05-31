@@ -84,7 +84,7 @@ public class IfrmPreSessao extends javax.swing.JInternalFrame {
      * Da corpo a tabela e a cria com os orçamentos listados
      *
      * @param orcamentos lista de ojava.sql.Date dataSql =
- orcamentoIdCli.get(i).getCriacao(); SimpleDateFormat format = new
+ corcamentoIdCli.get(i).getCriacao(); SimpleDateFormat format = new
  SimpleDateFormat("dd/MM/yyyy"); format.format(dataSql);rçamentos
      * @param qtde quantidade de orçamentos listados
      */
@@ -144,6 +144,7 @@ public class IfrmPreSessao extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/orcapesq.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -292,7 +293,7 @@ public class IfrmPreSessao extends javax.swing.JInternalFrame {
             if (Cpf.isCpf(cpf)) {
                 cliente.setCpf(cpf);
                 try {
-                    cliente = JDBCConsulta.clienteCpf(cpf);
+                    cliente = ClienteDAO.cclienteCpf(cpf);
 
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar informações do representante.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -304,7 +305,7 @@ public class IfrmPreSessao extends javax.swing.JInternalFrame {
                     List<OrcamentoDAO> orcamentos = new ArrayList<>();
 
                     try {
-                        orcamentos = JDBCConsulta.orcamentoIdCli(cliente.getId());
+                        orcamentos = OrcamentoDAO.corcamentoIdCli(br.com.allsoft.avros.dao.ClienteDAO.getId());
 
                         int qtde = orcamentos.size();
 
@@ -318,7 +319,7 @@ public class IfrmPreSessao extends javax.swing.JInternalFrame {
 
                             criaEventoSelecao();
                             preencheTabela(orcamentos, qtde);
-                            cliente = JDBCConsulta.clienteCpf(cpf);
+                            cliente = ClienteDAO.cclienteCpf(cpf);
 
                         } else {
                             if (cliente.getCpf() == null) {
@@ -337,13 +338,13 @@ public class IfrmPreSessao extends javax.swing.JInternalFrame {
             int codigo = Integer.valueOf(txtOrcamento.getText());
 
             try {
-                orcamento = JDBCConsulta.orcamento(codigo);
+                orcamento = OrcamentoDAO.corcamento(codigo);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar o orçamento.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmPreSessao.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                cliente = JDBCConsulta.clienteId(orcamento.getIdCliente());
+                cliente = ClienteDAO.cclienteId(br.com.allsoft.avros.dao.OrcamentoDAO.getIdCliente());
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar o cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmPreSessao.class.getName()).log(Level.SEVERE, null, ex);

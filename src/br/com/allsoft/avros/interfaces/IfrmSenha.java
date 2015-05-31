@@ -17,6 +17,7 @@
 
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.factory.JDBCAuditoria;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import java.awt.Container;
@@ -64,6 +65,7 @@ public class IfrmSenha extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/Keychain.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -194,7 +196,7 @@ public class IfrmSenha extends javax.swing.JInternalFrame {
             if((Arrays.equals(nova, conf)) && (Arrays.equals(antiga, FrmLogin.usuario.getSenha()))){
                 
                 try {
-                    JDBCUpdate.usuarioSenha(pswNova.getPassword(), FrmLogin.usuario.getId());
+                    UsuarioDAO.uusuarioSenha(pswNova.getPassword(), FrmLogin.usuario.getId());
                 } catch (SQLException ex) {
                     Logger.getLogger(IfrmSenha.class.getName()).log(Level.SEVERE, null, ex);
                 }

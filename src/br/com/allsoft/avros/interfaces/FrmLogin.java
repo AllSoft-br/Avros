@@ -16,10 +16,13 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.factory.JDBCUpdate;
+import br.com.allsoft.avros.modelo.Usuario;
 import java.awt.Container;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +35,7 @@ import javax.swing.JOptionPane;
 public class FrmLogin extends javax.swing.JFrame {
 
     //Variáveis
-    public static UsuarioDAO usuario = new UsuarioDAO();
+    public static Usuario usuario = new Usuario();
     String logAntes = "";
     int erros = 0;
 
@@ -64,6 +67,7 @@ public class FrmLogin extends javax.swing.JFrame {
         setTitle("Avros - Login");
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setIconImage(getIconImage());
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -167,7 +171,7 @@ public class FrmLogin extends javax.swing.JFrame {
         char[] senha = txtSenha.getPassword();
 
         try {
-            usuario = JDBCConsulta.login(login, senha);
+            usuario = UsuarioDAO.login(login, senha);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Verifique sua conexão com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
@@ -186,7 +190,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
             if (erros > 2) {
                 try {
-                    JDBCUpdate.usuarioAtivo(false, login);
+                    UsuarioDAO.uusuarioAtivo(false, login);
                     JOptionPane.showMessageDialog(this, "O usuário " + login + " foi bloqueado por conta do excesso de erros. Contate um administrador do sistema para desbloquear.", "Usuário bloqueado", JOptionPane.ERROR_MESSAGE);
                 } catch (SQLException ex) {
                     Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
@@ -201,6 +205,11 @@ public class FrmLogin extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
+
+        URL url = this.getClass().getResource("/br/com/allsoft/avros/img/logo.png");
+        Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
+        
+        this.setIconImage(imagemTitulo);
     }//GEN-LAST:event_formWindowOpened
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked

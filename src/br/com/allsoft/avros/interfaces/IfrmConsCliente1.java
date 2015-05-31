@@ -18,13 +18,14 @@ package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
-import br.com.allsoft.avros.exceptions.AuditoriaException;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.factory.JDBCInsere;
+import br.com.allsoft.avros.formulas.Consulta;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -44,10 +45,12 @@ import javax.swing.table.DefaultTableModel;
 public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblCliente = new DefaultTableModel();
+    DefaultTableModel tblCliente = new ClsTableModel();
     ClienteDAO cliente = new ClienteDAO();
     RepresentanteDAO representante;
     Dimension tabela, scroll, form;
+    String cpf = "";
+    String nome = "";
     int parentesco;
 
     //Métodos
@@ -65,13 +68,14 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
                     int id = (int) tblCliente.getValueAt(linha, 0);
 
                     try {
-                        cliente = JDBCConsulta.clienteId(id);
+                        cliente = ClienteDAO.cclienteId(id);
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "O cliente não pôde ser carregado.", "Erro", JOptionPane.ERROR_MESSAGE);
                         Logger.getLogger(IfrmConsCliente1.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
-                    btnAbrir.setEnabled(true);
+                    if (cboParentesco.getSelectedIndex() > 0) {
+                        btnAbrir.setEnabled(true);
+                    }
                 }
             }
         });
@@ -122,6 +126,8 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
         for (int i = 0; i < qtde; i++) {
             tblCliente.addRow(new String[1]);
             String data = Datas.sqlparaString(clientes.get(i).getNascimento());
+            String cliCpf = Consulta.grifar(cpf, clientes.get(i).getCpf());
+            String cliNome = Consulta.grifar(nome, clientes.get(i).getNome());
 
             String tipo = "-";
             if (clientes.get(i).idade() < 18) {
@@ -129,8 +135,8 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
             }
 
             tblCliente.setValueAt(clientes.get(i).getId(), i, 0);
-            tblCliente.setValueAt(clientes.get(i).getNome(), i, 1);
-            tblCliente.setValueAt(clientes.get(i).getCpf(), i, 2);
+            tblCliente.setValueAt(cliNome, i, 1);
+            tblCliente.setValueAt(cliCpf, i, 2);
             tblCliente.setValueAt(data, i, 3);
             tblCliente.setValueAt(clientes.get(i).getTel(), i, 4);
             tblCliente.setValueAt(tipo, i, 5);
@@ -183,6 +189,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/Users.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -235,6 +242,11 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
                 btnPesquisarActionPerformed(evt);
             }
         });
+        btnPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnPesquisarKeyPressed(evt);
+            }
+        });
 
         txtNome.setFont(ClsEstilo.textoInputFonte);
         txtNome.setForeground(ClsEstilo.textoInputCor);
@@ -259,6 +271,11 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
                 btnAbrirActionPerformed(evt);
             }
         });
+        btnAbrir.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnAbrirKeyPressed(evt);
+            }
+        });
 
         lblQual.setFont(ClsEstilo.labelFonte);
         lblQual.setForeground(ClsEstilo.labelCor);
@@ -269,7 +286,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
 
         cboParentesco.setFont(ClsEstilo.labelFonte);
         cboParentesco.setForeground(ClsEstilo.labelCor);
-        cboParentesco.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecionar", "Avô", "Avó", "Madrasta", "Mãe", "Padrasto", "Pai", "Outro" }));
+        cboParentesco.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecionar", "Avô", "Avó", "Tia", "Tio", "Mãe", "Pai", "Madrasta", "Padrasto", "Outro" }));
         cboParentesco.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cboParentescoItemStateChanged(evt);
@@ -402,12 +419,12 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        List<ClienteDAO> clientes = new ArrayList<>();
+
 
         if (!txtNome.getText().isEmpty()) {
-            String nome = txtNome.getText();
+            nome = txtNome.getText();
             try {
-                clientes = JDBCConsulta.clienteNome(nome);
+                clientes = ClienteDAO.cclienteNome(nome);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Ocorreu um erro ao pesquisar clientes pelo nome.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsCliente1.class.getName()).log(Level.SEVERE, null, ex);
@@ -415,12 +432,12 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
         }
 
         if (!txtCpf.getText().isEmpty()) {
-            String cpf = txtCpf.getText();
+            cpf = txtCpf.getText();
 
             if (Cpf.isCpf(cpf)) {
                 ClienteDAO cliente = new ClienteDAO();
                 try {
-                    cliente = JDBCConsulta.clienteCpf(cpf);
+                    cliente = ClienteDAO.cclienteCpf(cpf);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Ocorreu um erro ao pesquisar clientes pelo CPF.", "Erro", JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(IfrmConsCliente1.class.getName()).log(Level.SEVERE, null, ex);
@@ -451,7 +468,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
     private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
         if (lblQual.isVisible()) {
             try {
-                parentesco = JDBCInsere.inserirParentesco(txtQual.getText());
+                parentesco = RepresentanteDAO.inserirParentesco(txtQual.getText());
             } catch (SQLException | IOException ex) {
                 JOptionPane.showMessageDialog(this, "Não foi possível criar o novo grau de parentesco.");
                 Logger.getLogger(IfrmConsCliente1.class.getName()).log(Level.SEVERE, null, ex);
@@ -462,7 +479,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
 
         if (parentesco > -1) {
             try {
-                JDBCInsere.inserirRelCliRep(representante.getId(), cliente.getId(), parentesco);
+                RepresentanteDAO.inserirRelCliRep(br.com.allsoft.avros.dao.RepresentanteDAO.getId(), br.com.allsoft.avros.dao.ClienteDAO.getId(), parentesco);
                 JOptionPane.showMessageDialog(this, "Novo dependente adicionado com sucesso!");
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Não foi possível associar o dependente ao responsável desejado.");
@@ -477,7 +494,7 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
     private void lblVerTodosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVerTodosMouseClicked
         List<ClienteDAO> clientes = new ArrayList<>();
         try {
-            clientes = JDBCConsulta.clienteTodos();
+            clientes = ClienteDAO.cclienteTodos();
             preencheTabela(clientes);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro durante a exibição dos clientes pesquisados.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -498,7 +515,25 @@ public class IfrmConsCliente1 extends javax.swing.JInternalFrame {
             lblQual.setVisible(false);
             txtQual.setVisible(false);
         }
+        
+        if(cboParentesco.getSelectedIndex() > 0){
+            if (jtblCliente.getSelectedRow() > -1) {
+                btnAbrir.setEnabled(true);
+            }
+        }
     }//GEN-LAST:event_cboParentescoItemStateChanged
+
+    private void btnPesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPesquisarKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnPesquisar.doClick();
+        }
+    }//GEN-LAST:event_btnPesquisarKeyPressed
+
+    private void btnAbrirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAbrirKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnAbrir.doClick();
+        }
+    }//GEN-LAST:event_btnAbrirKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

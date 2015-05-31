@@ -48,7 +48,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
     //Variáveis
     RepresentanteDAO representante = new RepresentanteDAO();
     ClienteDAO cliente = new ClienteDAO();
-    DefaultTableModel tblDependentes = new DefaultTableModel();
+    DefaultTableModel tblDependentes = new ClsTableModel();
 
     Dimension frame;
     Dimension tabela;
@@ -61,7 +61,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
      */
     private void preencheCampos() {
         try {
-            qto = JDBCConsulta.qtdeDependentes(representante.getId());
+            qto = RepresentanteDAO.cqtdeDependentes(br.com.allsoft.avros.dao.RepresentanteDAO.getId());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar a quantidade de dependentes.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);
@@ -149,7 +149,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
                     int id = (int) tblDependentes.getValueAt(linha, 0);
 
                     try {
-                        cliente = JDBCConsulta.clienteId(id);
+                        cliente = ClienteDAO.cclienteId(id);
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "O cliente não pôde ser carregado.", "Erro", JOptionPane.ERROR_MESSAGE);
                         Logger.getLogger(IfrmConsCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -268,6 +268,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/Users.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -284,6 +285,11 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
             }
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameOpened(evt);
+            }
+        });
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
             }
         });
 
@@ -333,9 +339,9 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         jLabel2.setForeground(ClsEstilo.labelCor);
         jLabel2.setText("CPF");
 
+        txtCpf.setEditable(false);
         txtCpf.setFont(ClsEstilo.textoInputFonte);
         txtCpf.setForeground(ClsEstilo.textoInputCor);
-        txtCpf.setEnabled(false);
 
         bgpTipo.add(rdoF);
         rdoF.setFont(ClsEstilo.labelFonte);
@@ -593,7 +599,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
             editado.setNome(txtNome.getText());
 
             try {
-                JDBCUpdate.clienteNome(editado.getNome(), id);
+                ClienteDAO.uclienteNome(br.com.allsoft.avros.dao.ClienteDAO.getNome(), id);
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -602,7 +608,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         if (ftxtNasc.isEnabled()) {
             editado.setNascimento(ftxtNasc.getText());
             try {
-                JDBCUpdate.clienteNasc(editado.getNascimento(), id);
+                ClienteDAO.uclienteNasc(br.com.allsoft.avros.dao.ClienteDAO.getNascimento(), id);
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -611,7 +617,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         if (txtTel.isEnabled()) {
             editado.setTel(txtTel.getText());
             try {
-                JDBCUpdate.clienteTel(editado.getTel(), id);
+                ClienteDAO.uclienteTel(br.com.allsoft.avros.dao.ClienteDAO.getTel(), id);
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -625,7 +631,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
             }
 
             try {
-                JDBCUpdate.clienteSexo(feminino, id);
+                ClienteDAO.uclienteSexo(feminino, id);
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -664,7 +670,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
             }
         } else {
             try {
-                List<ClienteDAO> dependentes = JDBCConsulta.dependentes(representante.getId());
+                List<ClienteDAO> dependentes = RepresentanteDAO.cdependentes(br.com.allsoft.avros.dao.RepresentanteDAO.getId());
                 criaEventoSelecao();
                 preencheTabela(dependentes);
             } catch (SQLException ex) {
@@ -692,7 +698,7 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_verMouseClicked
 
     private void lblAddDepMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAddDepMouseClicked
-        // TODO add your handling code here:
+        FrmPrincipal.addFrame(new IfrmCadClienteMenor(representante));
     }//GEN-LAST:event_lblAddDepMouseClicked
 
     private void cadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadMouseClicked
@@ -723,13 +729,26 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
         int j = JOptionPane.showConfirmDialog(this, "Você realmente deseja remover este dependente? Ao fazer isso o dependente ficará sem responvável.");
         if (j == JOptionPane.YES_OPTION) {
             try {
-                JDBCDelete.removeRel(representante.getId(), cliente.getId());
+                RepresentanteDAO.removeRel(br.com.allsoft.avros.dao.RepresentanteDAO.getId(), br.com.allsoft.avros.dao.ClienteDAO.getId());
+                int q = jtblDependentes.getSelectedRow();
+                tblDependentes.removeRow(q);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Não foi possível remover o dependente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_removerActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        preencheCampos();
+        try {
+            List<ClienteDAO> dependentes = RepresentanteDAO.cdependentes(br.com.allsoft.avros.dao.RepresentanteDAO.getId());
+            preencheTabela(dependentes);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível atualizar a lista de dependentes.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(IfrmEditRepres.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

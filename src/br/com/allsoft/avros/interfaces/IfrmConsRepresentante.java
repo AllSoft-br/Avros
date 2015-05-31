@@ -18,10 +18,12 @@ package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
+import br.com.allsoft.avros.formulas.Consulta;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +42,11 @@ import javax.swing.table.DefaultTableModel;
 public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblRepresentante = new DefaultTableModel();
+    DefaultTableModel tblRepresentante = new ClsTableModel();
     RepresentanteDAO representante;
     Dimension tabela, scroll, form;
+    String cpf = "";
+    String nome = "";
 
     //Métodos
     /**
@@ -59,7 +63,7 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
                     int id = (int) tblRepresentante.getValueAt(linha, 0);
 
                     try {
-                        representante = JDBCConsulta.representanteId(id);
+                        representante = RepresentanteDAO.crepresentanteId(id);
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "O representante não pôde ser carregado.", "Erro", JOptionPane.ERROR_MESSAGE);
                         Logger.getLogger(IfrmConsRepresentante.class.getName()).log(Level.SEVERE, null, ex);
@@ -116,10 +120,12 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
         for (int i = 0; i < qtde; i++) {
             tblRepresentante.addRow(new String[1]);
             String data = Datas.sqlparaString(representantes.get(i).getNascimento());
+            String cliCpf = Consulta.grifar(cpf, representantes.get(i).getCpf());
+            String cliNome = Consulta.grifar(nome, representantes.get(i).getNome());
 
             tblRepresentante.setValueAt(representantes.get(i).getId(), i, 0);
-            tblRepresentante.setValueAt(representantes.get(i).getNome(), i, 1);
-            tblRepresentante.setValueAt(representantes.get(i).getCpf(), i, 2);
+            tblRepresentante.setValueAt(cliNome, i, 1);
+            tblRepresentante.setValueAt(cliCpf, i, 2);
             tblRepresentante.setValueAt(data, i, 3);
             tblRepresentante.setValueAt(representantes.get(i).getTel(), i, 4);
         }
@@ -158,12 +164,14 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/orcapesq.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
             }
             public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -210,6 +218,11 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
                 btnPesquisarActionPerformed(evt);
             }
         });
+        btnPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnPesquisarKeyPressed(evt);
+            }
+        });
 
         txtNome.setFont(ClsEstilo.textoInputFonte);
         txtNome.setForeground(ClsEstilo.textoInputCor);
@@ -232,6 +245,11 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
         btnAbrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAbrirActionPerformed(evt);
+            }
+        });
+        btnAbrir.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnAbrirKeyPressed(evt);
             }
         });
 
@@ -331,12 +349,12 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        List<RepresentanteDAO> representantes = new ArrayList<>();
+
 
         if (!txtNome.getText().isEmpty()) {
-            String nome = txtNome.getText();
+            nome = txtNome.getText();
             try {
-                representantes = JDBCConsulta.representanteNome(nome);
+                representantes = RepresentanteDAO.crepresentanteNome(nome);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Ocorreu um erro ao pesquisar representantes pelo nome.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsRepresentante.class.getName()).log(Level.SEVERE, null, ex);
@@ -344,12 +362,12 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
         }
 
         if (!txtCpf.getText().isEmpty()) {
-            String cpf = txtCpf.getText();
+            cpf = txtCpf.getText();
 
             if (Cpf.isCpf(cpf)) {
                 RepresentanteDAO representante = new RepresentanteDAO();
                 try {
-                    representante = JDBCConsulta.representanteCpf(cpf);
+                    representante = RepresentanteDAO.crepresentanteCpf(cpf);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao pesquisar clientes pelo CPF.", "Erro", JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(IfrmConsRepresentante.class.getName()).log(Level.SEVERE, null, ex);
@@ -384,13 +402,29 @@ public class IfrmConsRepresentante extends javax.swing.JInternalFrame {
     private void lblVerTodosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVerTodosMouseClicked
         List<RepresentanteDAO> representantes = new ArrayList<>();
         try {
-            representantes = JDBCConsulta.representanteTodos();
+            representantes = RepresentanteDAO.crepresentanteTodos();
             preencheTabela(representantes);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro durante a exibição dos representantes pesquisados.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmConsRepresentante.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_lblVerTodosMouseClicked
+
+    private void btnPesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPesquisarKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnPesquisar.doClick();
+        }
+    }//GEN-LAST:event_btnPesquisarKeyPressed
+
+    private void btnAbrirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAbrirKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnAbrir.doClick();
+        }
+    }//GEN-LAST:event_btnAbrirKeyPressed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        FrmPrincipal.bConsRep = false;
+    }//GEN-LAST:event_formInternalFrameClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

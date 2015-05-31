@@ -9,11 +9,15 @@
     <Property name="iconifiable" type="boolean" value="true"/>
     <Property name="maximizable" type="boolean" value="true"/>
     <Property name="resizable" type="boolean" value="true"/>
+    <Property name="frameIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+      <Image iconType="3" name="/br/com/allsoft/avros/img/Customize.png"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
   <Events>
+    <EventHandler event="internalFrameClosing" listener="javax.swing.event.InternalFrameListener" parameters="javax.swing.event.InternalFrameEvent" handler="formInternalFrameClosing"/>
     <EventHandler event="internalFrameOpened" listener="javax.swing.event.InternalFrameListener" parameters="javax.swing.event.InternalFrameEvent" handler="formInternalFrameOpened"/>
   </Events>
   <AuxValues>
@@ -202,7 +206,7 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblPeriodo" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cbxPeriodo" min="-2" pref="111" max="-2" attributes="0"/>
+                                      <Component id="cbxPeriodoLog" min="-2" pref="111" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="lblDesconto" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -221,7 +225,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbxPeriodo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbxPeriodoLog" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblPeriodo" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cbxLoginLog" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -257,7 +261,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Filtrar resultados"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Cursor Default"/>
+                  <Color id="Default Cursor"/>
                 </Property>
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
@@ -265,7 +269,7 @@
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblDescontoMouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbxPeriodo">
+            <Component class="javax.swing.JComboBox" name="cbxPeriodoLog">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="ClsEstilo.textoInputFonte" type="code"/>
@@ -284,8 +288,8 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbxPeriodoItemStateChanged"/>
-                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="cbxPeriodoPropertyChange"/>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbxPeriodoLogItemStateChanged"/>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="cbxPeriodoLogPropertyChange"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblPeriodo">
@@ -375,11 +379,11 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblPeriodo2" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cbxTipo" min="-2" pref="111" max="-2" attributes="0"/>
+                                      <Component id="cbxTipoCad" min="-2" pref="111" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblPeriodo1" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cbxPeriodo1" min="-2" pref="111" max="-2" attributes="0"/>
+                                      <Component id="cbxPeriodoCad" min="-2" pref="111" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="38" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jScrollPane2" max="32767" attributes="0"/>
@@ -398,11 +402,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="cbxPeriodo1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbxPeriodoCad" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblPeriodo1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="cbxTipo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbxTipoCad" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblPeriodo2" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -461,7 +465,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Filtrar resultados"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Cursor Default"/>
+                  <Color id="Default Cursor"/>
                 </Property>
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
@@ -469,7 +473,7 @@
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblDesconto1MouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbxPeriodo1">
+            <Component class="javax.swing.JComboBox" name="cbxPeriodoCad">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="ClsEstilo.textoInputFonte" type="code"/>
@@ -531,7 +535,7 @@
                 <Property name="text" type="java.lang.String" value="Tipo"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbxTipo">
+            <Component class="javax.swing.JComboBox" name="cbxTipoCad">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="ClsEstilo.textoInputFonte" type="code"/>
@@ -584,11 +588,11 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblPeriodo4" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cbxTipo1" min="-2" pref="111" max="-2" attributes="0"/>
+                                      <Component id="cbxTipoEdit" min="-2" pref="111" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblPeriodo3" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cbxPeriodo2" min="-2" pref="111" max="-2" attributes="0"/>
+                                      <Component id="cbxPeriodoEdit" min="-2" pref="111" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jScrollPane3" alignment="0" pref="511" max="32767" attributes="0"/>
@@ -608,9 +612,9 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="cbxLoginEdit" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblUsuario2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbxPeriodo2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbxPeriodoEdit" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblPeriodo3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbxTipo1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbxTipoEdit" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblPeriodo4" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -664,7 +668,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Filtrar resultados"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Cursor Default"/>
+                  <Color id="Default Cursor"/>
                 </Property>
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
@@ -672,7 +676,7 @@
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblDesconto2MouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbxPeriodo2">
+            <Component class="javax.swing.JComboBox" name="cbxPeriodoEdit">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="ClsEstilo.textoInputFonte" type="code"/>
@@ -734,7 +738,7 @@
                 <Property name="text" type="java.lang.String" value="Tipo"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbxTipo1">
+            <Component class="javax.swing.JComboBox" name="cbxTipoEdit">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="ClsEstilo.textoInputFonte" type="code"/>
@@ -784,7 +788,7 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblPeriodo5" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cbxPeriodo3" min="-2" pref="111" max="-2" attributes="0"/>
+                                      <Component id="cbxPeriodoDel" min="-2" pref="111" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="lblDesconto3" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -804,7 +808,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="cbxLoginDelete" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblUsuario3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbxPeriodo3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbxPeriodoDel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblPeriodo5" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -858,7 +862,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Filtrar resultados"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Cursor Default"/>
+                  <Color id="Default Cursor"/>
                 </Property>
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
@@ -866,7 +870,7 @@
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblDesconto3MouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbxPeriodo3">
+            <Component class="javax.swing.JComboBox" name="cbxPeriodoDel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="ClsEstilo.textoInputFonte" type="code"/>
@@ -976,7 +980,7 @@
               </Border>
             </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Cursor em Forma de M&#xe3;o"/>
+              <Color id="Default Cursor"/>
             </Property>
           </Properties>
           <Events>
@@ -1016,7 +1020,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Logins"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Cursor em Forma de M&#xe3;o"/>
+                  <Color id="Default Cursor"/>
                 </Property>
               </Properties>
               <Events>
@@ -1038,7 +1042,7 @@
               </Border>
             </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Cursor em Forma de M&#xe3;o"/>
+              <Color id="Default Cursor"/>
             </Property>
           </Properties>
           <Events>
@@ -1097,7 +1101,7 @@
               </Border>
             </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Cursor em Forma de M&#xe3;o"/>
+              <Color id="Default Cursor"/>
             </Property>
           </Properties>
           <Events>
@@ -1155,7 +1159,7 @@
               </Border>
             </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Cursor em Forma de M&#xe3;o"/>
+              <Color id="Default Cursor"/>
             </Property>
           </Properties>
           <Events>

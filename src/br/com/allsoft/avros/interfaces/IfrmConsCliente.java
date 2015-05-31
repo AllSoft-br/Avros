@@ -18,10 +18,12 @@ package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.formulas.Datas;
+import br.com.allsoft.avros.formulas.Consulta;
 import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.formulas.Datas;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +42,11 @@ import javax.swing.table.DefaultTableModel;
 public class IfrmConsCliente extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblCliente = new DefaultTableModel();
+    DefaultTableModel tblCliente = new ClsTableModel();
     ClienteDAO cliente = new ClienteDAO();
     Dimension tabela, scroll, form;
+    String cpf = "";
+    String nome = "";
 
     //Métodos
     /**
@@ -59,7 +63,7 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
                     int id = (int) tblCliente.getValueAt(linha, 0);
 
                     try {
-                        cliente = JDBCConsulta.clienteId(id);
+                        cliente = ClienteDAO.cclienteId(id);
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "O cliente não pôde ser carregado.", "Erro", JOptionPane.ERROR_MESSAGE);
                         Logger.getLogger(IfrmConsCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -70,29 +74,30 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
             }
         });
     }
-    
+
     /**
      * Exclui dados repetidos da lista
-     * 
+     *
      * @param lista lista a verificar
      * @return lista sem dados repetidos
      */
-    private List<ClienteDAO> excluiRepetidos(List<ClienteDAO> lista){
+    private List<ClienteDAO> excluiRepetidos(List<ClienteDAO> lista) {
         int qtos = lista.size();
-        
-        for(int i = 0; i < qtos; i++){
+
+        for (int i = 0; i < qtos; i++) {
             ClienteDAO ref = lista.get(i);
-            
-            for(int j = i + 1; j < qtos; j++){
-                if(ref.getId() == lista.get(j).getId()){
+
+            for (int j = i + 1; j < qtos; j++) {
+                if (ref.getId() == lista.get(j).getId()) {
                     lista.remove(j);
                     qtos = lista.size();
                 }
             }
         }
-        
+
         return lista;
     }
+
 
     /**
      * Da corpo a tabela e a cria com os usuários listados
@@ -102,9 +107,9 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
      */
     private void preencheTabela(List<ClienteDAO> clientes) throws SQLException {
         clientes = excluiRepetidos(clientes);
-        
+
         int qtde = clientes.size();
-        
+
         this.setSize(form);
         jScrollPane1.setSize(scroll);
         jtblCliente.setSize(tabela);
@@ -116,6 +121,8 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
         for (int i = 0; i < qtde; i++) {
             tblCliente.addRow(new String[1]);
             String data = Datas.sqlparaString(clientes.get(i).getNascimento());
+            String cliCpf = Consulta.grifar(cpf, clientes.get(i).getCpf());
+            String cliNome = Consulta.grifar(nome, clientes.get(i).getNome());
 
             String tipo = "-";
             if (clientes.get(i).idade() < 18) {
@@ -123,8 +130,8 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
             }
 
             tblCliente.setValueAt(clientes.get(i).getId(), i, 0);
-            tblCliente.setValueAt(clientes.get(i).getNome(), i, 1);
-            tblCliente.setValueAt(clientes.get(i).getCpf(), i, 2);
+            tblCliente.setValueAt(cliNome, i, 1);
+            tblCliente.setValueAt(cliCpf, i, 2);
             tblCliente.setValueAt(data, i, 3);
             tblCliente.setValueAt(clientes.get(i).getTel(), i, 4);
             tblCliente.setValueAt(tipo, i, 5);
@@ -164,6 +171,7 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/orcapesq.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -207,18 +215,27 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
 
         txtCpf.setFont(ClsEstilo.textoInputFonte);
         txtCpf.setForeground(ClsEstilo.textoInputCor);
+        txtCpf.setFocusCycleRoot(true);
+        txtCpf.setNextFocusableComponent(txtNome);
 
         btnPesquisar.setFont(ClsEstilo.botaoFonte);
         btnPesquisar.setForeground(ClsEstilo.botaoCor);
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.setNextFocusableComponent(jtblCliente);
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
             }
         });
+        btnPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnPesquisarKeyPressed(evt);
+            }
+        });
 
         txtNome.setFont(ClsEstilo.textoInputFonte);
         txtNome.setForeground(ClsEstilo.textoInputCor);
+        txtNome.setNextFocusableComponent(btnPesquisar);
 
         jLabel2.setText("Por CPF");
 
@@ -226,6 +243,8 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
 
         jtblCliente.setFont(ClsEstilo.labelFonte);
         jtblCliente.setModel(tblCliente);
+        jtblCliente.setName(""); // NOI18N
+        jtblCliente.setNextFocusableComponent(lblVerTodos);
         jScrollPane1.setViewportView(jtblCliente);
 
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -238,6 +257,11 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
         btnAbrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAbrirActionPerformed(evt);
+            }
+        });
+        btnAbrir.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnAbrirKeyPressed(evt);
             }
         });
 
@@ -337,12 +361,12 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        List<ClienteDAO> clientes = new ArrayList<>();
+
 
         if (!txtNome.getText().isEmpty()) {
-            String nome = txtNome.getText();
+            nome = txtNome.getText();
             try {
-                clientes = JDBCConsulta.clienteNome(nome);
+                clientes = ClienteDAO.cclienteNome(nome);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Ocorreu um erro ao pesquisar clientes pelo nome.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -350,12 +374,12 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
         }
 
         if (!txtCpf.getText().isEmpty()) {
-            String cpf = txtCpf.getText();
+            cpf = txtCpf.getText();
 
             if (Cpf.isCpf(cpf)) {
                 ClienteDAO cliente = new ClienteDAO();
                 try {
-                    cliente = JDBCConsulta.clienteCpf(cpf);
+                    cliente = ClienteDAO.cclienteCpf(cpf);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Ocorreu um erro ao pesquisar clientes pelo CPF.", "Erro", JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(IfrmConsCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -390,13 +414,25 @@ public class IfrmConsCliente extends javax.swing.JInternalFrame {
     private void lblVerTodosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVerTodosMouseClicked
         List<ClienteDAO> clientes = new ArrayList<>();
         try {
-            clientes = JDBCConsulta.clienteTodos();
+            clientes = ClienteDAO.cclienteTodos();
             preencheTabela(clientes);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro durante a exibição dos clientes pesquisados.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmConsCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_lblVerTodosMouseClicked
+
+    private void btnPesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPesquisarKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnPesquisar.doClick();
+        }
+    }//GEN-LAST:event_btnPesquisarKeyPressed
+
+    private void btnAbrirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAbrirKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnAbrir.doClick();
+        }
+    }//GEN-LAST:event_btnAbrirKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

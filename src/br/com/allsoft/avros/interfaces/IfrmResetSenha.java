@@ -69,6 +69,7 @@ public class IfrmResetSenha extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/Keychain.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -211,7 +212,7 @@ public class IfrmResetSenha extends javax.swing.JInternalFrame {
             if((Arrays.equals(nova, conf)) && (Arrays.equals(senha, FrmLogin.usuario.getSenha()))){
                 
                 try {
-                    JDBCUpdate.usuarioSenha(pswNova.getPassword(), usuario.getId());
+                    UsuarioDAO.uusuarioSenha(pswNova.getPassword(), br.com.allsoft.avros.dao.UsuarioDAO.getId());
                     JOptionPane.showMessageDialog(null, "Senha atualizada com sucesso.");
                     this.dispose();
                 } catch (SQLException ex) {

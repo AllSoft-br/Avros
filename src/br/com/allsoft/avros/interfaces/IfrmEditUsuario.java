@@ -71,7 +71,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         if (rdoAdmin.isSelected()) {
             usuario.setAdmin(true);
             try {
-                JDBCUpdate.usuarioAdmin(true, usuario.getId());
+                UsuarioDAO.uusuarioAdmin(true, br.com.allsoft.avros.dao.UsuarioDAO.getId());
                 lblSauda.setText("Usuário do tipo administrador.");
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,7 +81,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         if (rdoComum.isSelected()) {
             usuario.setAdmin(false);
             try {
-                JDBCUpdate.usuarioAdmin(false, usuario.getId());
+                UsuarioDAO.uusuarioAdmin(false, br.com.allsoft.avros.dao.UsuarioDAO.getId());
                 lblSauda.setText("Usuário do tipo comum.");
             } catch (SQLException ex) {
                 Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -135,6 +135,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/Users 2.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -221,9 +222,9 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         jLabel2.setForeground(ClsEstilo.labelCor);
         jLabel2.setText("CPF");
 
+        txtCpf.setEditable(false);
         txtCpf.setFont(ClsEstilo.textoInputFonte);
         txtCpf.setForeground(ClsEstilo.textoInputCor);
-        txtCpf.setEnabled(false);
 
         btnSenha.setText("Resetar senha");
         btnSenha.addActionListener(new java.awt.event.ActionListener() {
@@ -400,7 +401,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
             try {
                 String nome = txtNome.getText();
 
-                JDBCUpdate.usuarioNome(nome, usuario.getId());
+                UsuarioDAO.uusuarioNome(nome, br.com.allsoft.avros.dao.UsuarioDAO.getId());
 
                 usuario.setNome(nome);
 
@@ -422,7 +423,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
             try {
                 String nick = txtNickname.getText();
 
-                JDBCUpdate.usuarioNick(nick, usuario.getId());
+                UsuarioDAO.uusuarioNick(nick, br.com.allsoft.avros.dao.UsuarioDAO.getId());
 
                 usuario.setNome(nick);
 
@@ -453,7 +454,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
         }
 
         try {
-            usuario = JDBCConsulta.usuarioId(usuario.getId());
+            usuario = UsuarioDAO.cusuarioId(br.com.allsoft.avros.dao.UsuarioDAO.getId());
             preencheCampos();
         } catch (SQLException ex) {
             Logger.getLogger(IfrmEditUsuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -470,7 +471,7 @@ public class IfrmEditUsuario extends javax.swing.JInternalFrame {
 
     private void btnExcluiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluiActionPerformed
         try {
-            JDBCUpdate.usuarioAtivo(!usuario.isAtivo(), usuario.getId());
+            UsuarioDAO.uusuarioAtivo(!br.com.allsoft.avros.dao.UsuarioDAO.isAtivo(), br.com.allsoft.avros.dao.UsuarioDAO.getId());
             preencheCampos();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao mudar o status do usuário.", "Erro", JOptionPane.ERROR_MESSAGE);

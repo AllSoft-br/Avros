@@ -17,6 +17,9 @@
 
 package br.com.allsoft.avros.dao;
 
+import br.com.allsoft.avros.factory.ConexaoMySQL;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 /**
@@ -25,103 +28,19 @@ import java.sql.Timestamp;
  * @author Luana Nascimento
  */
 public class RegistroDAO {
-    private int id;
-    private int codDado; //ID do dado alterado
-    private int idLogin; //ID do login que fez a alteração
-    private String tabela; //Nome da tabela alterada
-    private String acao; //Update, insert, login ou delete
-    private String descricao; //Descrição da ação ocorrida. Texto que ficará à mostra no histórico
-    private String sql = "-"; //Código sql utilizado
-    private String antes = "-"; //No caso de updates, como o campo era antes
-    private String depois = "-"; //No caso de updates, como o campo ficou no fim
-    private String campo = "-";
-    private Timestamp data;
+    //Variáveis
+    public static Connection con = null;
+    static String nomeTabela;
 
-    public Timestamp getData() {
-        return data;
-    }
-
-    public void setData(Timestamp data) {
-        this.data = data;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getCodDado() {
-        return codDado;
-    }
-
-    public void setCodDado(int codDado) {
-        this.codDado = codDado;
-    }
-
-    public int getIdLogin() {
-        return idLogin;
-    }
-
-    public void setIdLogin(int idLogin) {
-        this.idLogin = idLogin;
-    }
-
-    public String getTabela() {
-        return tabela;
-    }
-
-    public void setTabela(String tabela) {
-        this.tabela = tabela;
-    }
-
-    public String getAcao() {
-        return acao;
-    }
-
-    public void setAcao(String acao) {
-        this.acao = acao;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public String getSql() {
-        return sql;
-    }
-
-    public void setSql(String sql) {
-        this.sql = sql;
-    }
-
-    public String getAntes() {
-        return antes;
-    }
-
-    public void setAntes(String antes) {
-        this.antes = antes;
-    }
-
-    public String getDepois() {
-        return depois;
-    }
-
-    public void setDepois(String depois) {
-        this.depois = depois;
-    }
-
-    public String getCampo() {
-        return campo;
-    }
-
-    public void setCampo(String campo) {
-        this.campo = campo;
+//Métodos
+    
+    /**
+     * Abre uma conexão e fecha a antiga
+     * @throws SQLException 
+     */
+    private static void abreCon() throws SQLException {
+        if ((con == null) || (con.isClosed())) {
+            con = ConexaoMySQL.getConexaoMySQL();
+        }
     }
 }

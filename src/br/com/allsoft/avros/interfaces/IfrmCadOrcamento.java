@@ -45,6 +45,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
     ClienteDAO cliente = new ClienteDAO();
     public static OrcamentoDAO orcamento = new OrcamentoDAO();
     boolean continuar = false;
+    boolean descricao = true;
 
     /**
      * Creates new form ifrmNovoOrcamento
@@ -73,7 +74,6 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         spnSessoes = new javax.swing.JSpinner();
         txtNome = new javax.swing.JTextField();
-        txtCpf = new javax.swing.JTextField();
         lblLogo = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         lblValSessao = new javax.swing.JLabel();
@@ -82,9 +82,14 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         ftxtValor = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
         lblAviso = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        scrollDesc = new javax.swing.JScrollPane();
+        txtDesc = new javax.swing.JTextPane();
+        txtCpf = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setIconifiable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/Folder Actions Setup.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -125,11 +130,13 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         rbtnCartao.setFont(ClsEstilo.labelFonte);
         rbtnCartao.setForeground(ClsEstilo.labelCor);
         rbtnCartao.setText("Cartão");
+        rbtnCartao.setNextFocusableComponent(rbtnDinheiro);
 
         bgpPagamento.add(rbtnDinheiro);
         rbtnDinheiro.setFont(ClsEstilo.labelFonte);
         rbtnDinheiro.setForeground(ClsEstilo.labelCor);
         rbtnDinheiro.setText("Dinheiro");
+        rbtnDinheiro.setNextFocusableComponent(ftxtValor);
 
         jLabel5.setFont(ClsEstilo.labelFonte);
         jLabel5.setForeground(ClsEstilo.labelCor);
@@ -140,6 +147,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         jLabel6.setText("Sessões");
 
         spnSessoes.setModel(new javax.swing.SpinnerNumberModel(1, 1, 20, 1));
+        spnSessoes.setNextFocusableComponent(btnImprimir);
         spnSessoes.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 spnSessoesStateChanged(evt);
@@ -155,16 +163,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
 
         txtNome.setFont(ClsEstilo.textoInputFonte);
         txtNome.setForeground(ClsEstilo.textoInputCor);
-        txtNome.setNextFocusableComponent(ftxtValor);
-
-        txtCpf.setFont(ClsEstilo.textoInputFonte);
-        txtCpf.setForeground(ClsEstilo.textoInputCor);
-        txtCpf.setNextFocusableComponent(txtNome);
-        txtCpf.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtCpfFocusLost(evt);
-            }
-        });
+        txtNome.setNextFocusableComponent(rbtnCartao);
 
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/logopequeno.png"))); // NOI18N
@@ -190,6 +189,9 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         btnImprimir.setFont(ClsEstilo.botaoFonte);
         btnImprimir.setForeground(ClsEstilo.botaoCor);
         btnImprimir.setText("Imprimir");
+        btnImprimir.setEnabled(false);
+        btnImprimir.setName(""); // NOI18N
+        btnImprimir.setNextFocusableComponent(btnSalvar);
 
         MaskFormatter dateMask = new MaskFormatter();
         dateMask.setPlaceholderCharacter('0') ;
@@ -199,6 +201,12 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         ftxtValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         ftxtValor.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         ftxtValor.setFont(ClsEstilo.textoInputFonte);
+        ftxtValor.setNextFocusableComponent(spnSessoes);
+        ftxtValor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ftxtValorKeyTyped(evt);
+            }
+        });
 
         jLabel8.setFont(ClsEstilo.textoInputFonte);
         jLabel8.setForeground(ClsEstilo.textoInputCor);
@@ -208,34 +216,39 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         lblAviso.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAviso.setText("Digite um CPF válido.");
 
+        jLabel9.setFont(ClsEstilo.labelFonte);
+        jLabel9.setForeground(ClsEstilo.labelCor);
+        jLabel9.setText("Descrição");
+
+        txtDesc.setContentType("text/html"); // NOI18N
+        txtDesc.setFont(ClsEstilo.textoInputFonte);
+        txtDesc.setForeground(ClsEstilo.textoInputCor);
+        txtDesc.setText("<html><i><font color = 'gray'>Adicione aqui uma descrição do serviço a ser feito.</font></i></html>");
+        txtDesc.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtDescFocusGained(evt);
+            }
+        });
+        scrollDesc.setViewportView(txtDesc);
+
+        txtCpf.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtCpf.setForeground(ClsEstilo.textoInputCor);
+        try {
+            txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtCpf.setFont(ClsEstilo.textoInputFonte);
+        txtCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCpfFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(rbtnCartao)
-                        .addGap(22, 22, 22)
-                        .addComponent(rbtnDinheiro))
-                    .addComponent(jLabel4)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel8)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(ftxtValor))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(spnSessoes, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblValSessao)))
-                .addGap(205, 205, 205))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -244,13 +257,42 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNome)
-                                    .addComponent(txtCpf)))
-                            .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(rbtnCartao)
+                                                .addGap(22, 22, 22)
+                                                .addComponent(rbtnDinheiro))
+                                            .addComponent(jLabel4)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addComponent(jLabel8)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(ftxtValor))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                    .addComponent(jLabel6)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addComponent(spnSessoes, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel7)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(lblValSessao)))
+                                        .addGap(0, 48, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel9))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtNome)
+                                            .addComponent(scrollDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                            .addComponent(txtCpf)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -265,7 +307,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(24, 24, 24)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -275,15 +317,19 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
                             .addComponent(btnImprimir)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                            .addComponent(jLabel3)
+                            .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblAviso)
                         .addGap(17, 17, 17)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(scrollDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -302,7 +348,7 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(lblValSessao))))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();
@@ -316,6 +362,8 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 
         lblAviso.setVisible(false);
+
+        txtDesc.setText("<html><i><font color='gray'>Adicione aqui uma descrição do serviço a ser feito.</font></i></html>");
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void spnSessoesCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_spnSessoesCaretPositionChanged
@@ -329,18 +377,89 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         } catch (ValorInvalidoMoedaException ex) {
             Logger.getLogger(IfrmCadOrcamento.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+
     }//GEN-LAST:event_spnSessoesStateChanged
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
         FrmPrincipal.bNovoOrcamento = false;
     }//GEN-LAST:event_formInternalFrameClosed
 
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        if (rbtnCartao.isSelected() | rbtnDinheiro.isSelected()) {
+            continuar = true;
+        }
+
+        if (continuar) {
+            //Garante que o valor nunca tenha mais que 2 algarismos
+            //depois da vírgula
+            double vtotal = Double.parseDouble(ftxtValor.getText().replace(",", "."));
+
+            String pagamento = "Não especificado";
+            if (rbtnCartao.isSelected()) {
+                pagamento = "Cartão";
+            } else if (rbtnDinheiro.isSelected()) {
+                pagamento = "Dinheiro";
+            }
+
+            orcamento.setTipoPagamento(pagamento);
+            orcamento.setIdCliente(cliente.getId());
+            orcamento.setValor(vtotal);
+            orcamento.setSessoes((Integer) spnSessoes.getValue());
+
+            if (!descricao) {
+                orcamento.setDescricao(txtDesc.getText());
+            }
+
+            try {
+                orcamento.setId(JDBCInsere.inserirOrcamento(orcamento));
+
+                int j = JOptionPane.showConfirmDialog(this, "Orçamento salvo com sucesso. Deseja agendar uma sessão?", "Orçamento salvo", JOptionPane.OK_CANCEL_OPTION);
+                if (j == JOptionPane.OK_OPTION) {
+                    FrmPrincipal.addFrame(new IfrmCadSessao(orcamento, cliente));
+                }
+
+                rbtnCartao.setSelected(false);
+                rbtnDinheiro.setSelected(false);
+                ftxtValor.setText("0,00");
+                lblValSessao.setText("R$ 0,00");
+            } catch (SQLException | IOException ex) {
+                Logger.getLogger(IfrmCadOrcamento.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao salvar o orçamento.", "Tente outra vez", JOptionPane.ERROR_MESSAGE);
+
+            }
+
+        } else {
+            int decisao = JOptionPane.showConfirmDialog(this, "O tipo de pagamento não foi especificado. Deseja continuar?", "Aviso", JOptionPane.OK_CANCEL_OPTION);
+            if (decisao == JOptionPane.OK_OPTION) {
+                continuar = true;
+                btnSalvar.doClick();
+            }
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void ftxtValorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftxtValorKeyTyped
+        if (!(txtNome.getText().isEmpty()) && !(txtCpf.getText().isEmpty())) {
+            btnImprimir.setEnabled(true);
+        }
+    }//GEN-LAST:event_ftxtValorKeyTyped
+
+    private void txtDescFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescFocusGained
+        if (descricao) {
+            descricao = false;
+            
+            txtDesc.setContentType("text/plain");
+            txtDesc.setText("Adicione aqui uma descrição do serviço a ser feito.");
+            txtDesc.selectAll();
+        }
+    }//GEN-LAST:event_txtDescFocusGained
+
     private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
         String cpf = txtCpf.getText();
 
         if (Cpf.isCpf(cpf)) {
             try {
-                cliente = JDBCConsulta.clienteCpf(cpf);
+                cliente = ClienteDAO.cclienteCpf(cpf);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar o cliente pelo CPF.", "Tente outra vez", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmCadOrcamento.class.getName()).log(Level.SEVERE, null, ex);
@@ -370,56 +489,6 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtCpfFocusLost
 
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        if (rbtnCartao.isSelected() | rbtnDinheiro.isSelected()) {
-            continuar = true;
-        }
-
-        if (continuar) {
-            //Garante que o valor nunca tenha mais que 2 algarismos
-            //depois da vírgula
-            double vtotal = Double.parseDouble(ftxtValor.getText().replace(",", "."));
-
-            String pagamento = "Não especificado";
-            if (rbtnCartao.isSelected()) {
-                pagamento = "Cartão";
-            } else if (rbtnDinheiro.isSelected()) {
-                pagamento = "Dinheiro";
-            }
-
-            orcamento.setTipoPagamento(pagamento);
-            orcamento.setIdCliente(cliente.getId());
-            orcamento.setValor(vtotal);
-            orcamento.setSessoes((Integer) spnSessoes.getValue());
-            try {
-                orcamento.setId(JDBCInsere.inserirOrcamento(orcamento));
-
-                int j = JOptionPane.showConfirmDialog(this, "Orçamento salvo com sucesso. Deseja agendar uma sessão?", "Orçamento salvo", JOptionPane.OK_CANCEL_OPTION);
-                if (j == JOptionPane.OK_OPTION) {
-                    FrmPrincipal.addFrame(new IfrmCadSessao(orcamento, cliente));
-                }
-
-                rbtnCartao.setSelected(false);
-                rbtnDinheiro.setSelected(false);
-                ftxtValor.setText("0,00");
-                lblValSessao.setText("R$ 0,00");
-                
-                JOptionPane.showMessageDialog(this, "Orçamento cadastrado com sucesso.");
-            } catch (SQLException | IOException ex) {
-                Logger.getLogger(IfrmCadOrcamento.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao salvar o orçamento.", "Tente outra vez", JOptionPane.ERROR_MESSAGE);
-                
-            }
-
-        } else {
-            int decisao = JOptionPane.showConfirmDialog(this, "O tipo de pagamento não foi especificado. Deseja continuar?", "Aviso", JOptionPane.OK_CANCEL_OPTION);
-            if (decisao == JOptionPane.OK_OPTION) {
-                continuar = true;
-                btnSalvar.doClick();
-            }
-        }
-    }//GEN-LAST:event_btnSalvarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgpPagamento;
@@ -434,13 +503,16 @@ public class IfrmCadOrcamento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lblAviso;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblValSessao;
     private javax.swing.JRadioButton rbtnCartao;
     private javax.swing.JRadioButton rbtnDinheiro;
+    private javax.swing.JScrollPane scrollDesc;
     private javax.swing.JSpinner spnSessoes;
-    private javax.swing.JTextField txtCpf;
+    private javax.swing.JFormattedTextField txtCpf;
+    private javax.swing.JTextPane txtDesc;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 }

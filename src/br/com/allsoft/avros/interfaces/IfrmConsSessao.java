@@ -25,6 +25,7 @@ import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ import javax.swing.table.DefaultTableModel;
 public class IfrmConsSessao extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblSes = new DefaultTableModel();
+    DefaultTableModel tblSes = new ClsTableModel();
     private OrcamentoDAO orcamento = new OrcamentoDAO();
     private ClienteDAO cliente = new ClienteDAO();
     private SessaoDAO sessao = new SessaoDAO();
@@ -66,9 +67,9 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
                     sessao.setCpf((String) tblSes.getValueAt(linha, 4));
                     
                     try {
-                        orcamento = JDBCConsulta.orcamento(sessao.getIdOrcamento());
-                        cliente = JDBCConsulta.clienteCpf(sessao.getCpf());
-                        sessao = JDBCConsulta.sessaoId(sessao.getId());
+                        orcamento = OrcamentoDAO.corcamento(br.com.allsoft.avros.dao.SessaoDAO.getIdOrcamento());
+                        cliente = ClienteDAO.cclienteCpf(br.com.allsoft.avros.dao.SessaoDAO.getCpf());
+                        sessao = SessaoDAO.csessaoId(br.com.allsoft.avros.dao.SessaoDAO.getId());
                     } catch (SQLException ex) {
                         Logger.getLogger(IfrmConsSessao.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -151,6 +152,7 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/orcapesq.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -215,6 +217,11 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
                 rdoCpfStateChanged(evt);
             }
         });
+        rdoCpf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                rdoCpfKeyPressed(evt);
+            }
+        });
 
         btgBuscar.add(rdoOrca);
         rdoOrca.setFont(ClsEstilo.labelFonte);
@@ -223,6 +230,11 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
         rdoOrca.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 rdoOrcaStateChanged(evt);
+            }
+        });
+        rdoOrca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                rdoOrcaKeyPressed(evt);
             }
         });
 
@@ -246,6 +258,11 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
         rdoSessao.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 rdoSessaoStateChanged(evt);
+            }
+        });
+        rdoSessao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                rdoSessaoKeyPressed(evt);
             }
         });
 
@@ -319,13 +336,15 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         //Pesquisa por CPF
+        List<SessaoDAO> sessoes = new ArrayList<>();
+        
         if (rdoCpf.isSelected()) {
             String cpf = txtCpf.getText();
 
             if (Cpf.isCpf(cpf)) {
                 cliente.setCpf(cpf);
                 try {
-                    cliente = JDBCConsulta.clienteCpf(cpf);
+                    cliente = ClienteDAO.cclienteCpf(cpf);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(this, "Ocorreu ao carregar as informações do cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
                     cliente = null;
@@ -333,10 +352,9 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
                 }
 
                 if (!(cliente.getCpf() == null)) {
-                    List<SessaoDAO> sessoes = new ArrayList<>();
 
                     try {
-                        sessoes = JDBCConsulta.sessaoIdCli(cliente.getId());
+                        sessoes = SessaoDAO.csessaoIdCli(br.com.allsoft.avros.dao.ClienteDAO.getId());
                         int qtde = sessoes.size();
 
                         for (int i = 0; i < qtde; i++) {
@@ -368,17 +386,16 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
 
         } else if (rdoOrca.isSelected()) {
             int codigo = Integer.valueOf(txtOrcamento.getText());
-            List<SessaoDAO> sessoes = new ArrayList<>();
 
             try {
-                orcamento = JDBCConsulta.orcamento(codigo);
-                sessoes = JDBCConsulta.sessaoIdOrc(codigo);
+                orcamento = OrcamentoDAO.corcamento(codigo);
+                sessoes = SessaoDAO.csessaoIdOrc(codigo);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar o orçamento.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsSessao.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                cliente = JDBCConsulta.clienteId(orcamento.getIdCliente());
+                cliente = ClienteDAO.cclienteId(br.com.allsoft.avros.dao.OrcamentoDAO.getIdCliente());
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar o cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsSessao.class.getName()).log(Level.SEVERE, null, ex);
@@ -401,10 +418,10 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
             int id = Integer.valueOf(txtSessao.getText());
 
             try {
-                sessao = JDBCConsulta.sessaoId(id);
+                sessao = SessaoDAO.csessaoId(id);
                 orcamento.setId(sessao.getIdOrcamento());
-                orcamento = JDBCConsulta.orcamento(orcamento.getId());
-                cliente = JDBCConsulta.clienteId(orcamento.getIdCliente());
+                orcamento = OrcamentoDAO.corcamento(br.com.allsoft.avros.dao.OrcamentoDAO.getId());
+                cliente = ClienteDAO.cclienteId(br.com.allsoft.avros.dao.OrcamentoDAO.getIdCliente());
 
                 btnAbrir.setEnabled(true);
                 JOptionPane.showMessageDialog(this, "Sessão encontrada!");
@@ -477,6 +494,7 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         FrmPrincipal.bPreAgendarSessao = false;
+        FrmPrincipal.bPagarSessao = false;
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void rdoSessaoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rdoSessaoStateChanged
@@ -490,6 +508,24 @@ public class IfrmConsSessao extends javax.swing.JInternalFrame {
     private void txtSessaoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSessaoKeyTyped
         btnBuscar.setEnabled(true);
     }//GEN-LAST:event_txtSessaoKeyTyped
+
+    private void rdoCpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rdoCpfKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            rdoCpf.setSelected(rdoCpf.isSelected());
+        }
+    }//GEN-LAST:event_rdoCpfKeyPressed
+
+    private void rdoOrcaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rdoOrcaKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            rdoOrca.setSelected(rdoOrca.isSelected());
+        }
+    }//GEN-LAST:event_rdoOrcaKeyPressed
+
+    private void rdoSessaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rdoSessaoKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            rdoSessao.setSelected(rdoSessao.isSelected());
+        }
+    }//GEN-LAST:event_rdoSessaoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

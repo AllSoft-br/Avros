@@ -14,70 +14,76 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package br.com.allsoft.avros.interfaces;
 
 import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.dao.OrcamentoDAO;
+import br.com.allsoft.avros.dao.SessaoDAO;
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
 import br.com.allsoft.avros.factory.JDBCConsulta;
+import br.com.allsoft.avros.factory.JDBCDelete;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.text.MaskFormatter;
 
 /**
  *
  * @author Luana
  */
 public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
+
     //Variáveis
+
     OrcamentoDAO orcamento;
     ClienteDAO cliente;
-    
+
     //Métodos
-    private void editPagamento() throws SQLException{
+    private void editPagamento() throws SQLException {
         String pagamento = "Não especificado";
-        
-        if(rdoCartao.isSelected()){
+
+        if (rdoCartao.isSelected()) {
             pagamento = "Cartão";
         }
-        if(rdoDinheiro.isSelected()){
+        if (rdoDinheiro.isSelected()) {
             pagamento = "Dinheiro";
         }
-        
-        JDBCUpdate.orcamentoPagamento(orcamento.getId(), pagamento);
+
+        OrcamentoDAO.uorcamentoPagamento(br.com.allsoft.avros.dao.OrcamentoDAO.getId(), pagamento);
     }
-    
-    private void editValor() throws ValorInvalidoMoedaException, SQLException{
+
+    private void editValor() throws ValorInvalidoMoedaException, SQLException {
         double valor = Moeda.retornaDouble(ftxtValor.getText());
-        
-        JDBCUpdate.orcamentoValor(orcamento.getId(), valor);
+
+        OrcamentoDAO.uorcamentoValor(br.com.allsoft.avros.dao.OrcamentoDAO.getId(), valor);
     }
-    
-    private void editSessoes() throws SQLException{
+
+    private void editSessoes() throws SQLException {
         int qtd = (int) spnSessoes.getValue();
-        
-        int j = JDBCConsulta.sessaoIdOrc(orcamento.getId()).size();
-        
-        if(qtd < j){
+
+        int j = SessaoDAO.csessaoIdOrc(br.com.allsoft.avros.dao.OrcamentoDAO.getId()).size();
+
+        if (qtd < j) {
             JOptionPane.showMessageDialog(this, "A quantidade de sessões inserida é menor que a quantidade de sessões já cadastrada neste orçamento. Por favor escolha um número maior.", "Erro", JOptionPane.ERROR_MESSAGE);
             throw new SQLException("Quantidade de sessões digitada menor que a quantidade cadastrada.");
-        } else if(qtd == j){
-            JDBCUpdate.orcamentoSessoes(orcamento.getId(), qtd);
+        } else if (qtd == j) {
+            OrcamentoDAO.uorcamentoSessoes(br.com.allsoft.avros.dao.OrcamentoDAO.getId(), qtd);
             lblValSessao.setText(Moeda.padraoVirgula(orcamento.getValor() / qtd));
         }
     }
     
+    private void editDesc() throws SQLException{
+        OrcamentoDAO.uorcamentoDesc(br.com.allsoft.avros.dao.OrcamentoDAO.getId(), txtDesc.getText());
+    }
+
     /**
      * Creates new form ifrmPesqOrcamento
+     *
      * @param orca orçamento
      * @param cli cliente
      */
@@ -117,9 +123,14 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
         lblEditarPag = new javax.swing.JLabel();
         lblEditarValor = new javax.swing.JLabel();
         lblEditarSessoes = new javax.swing.JLabel();
+        btnExcluir = new javax.swing.JButton();
+        scrollDesc2 = new javax.swing.JScrollPane();
+        txtDesc = new javax.swing.JTextPane();
+        lblEditarDesc = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/Caixa.PNG"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameActivated(evt);
@@ -274,6 +285,37 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
             }
         });
 
+        btnExcluir.setFont(ClsEstilo.botaoFonte);
+        btnExcluir.setForeground(ClsEstilo.botaoCor);
+        btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
+
+        txtDesc.setEditable(false);
+        txtDesc.setFont(ClsEstilo.textoInputFonte);
+        txtDesc.setForeground(ClsEstilo.textoInputCor);
+        txtDesc.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtDescFocusGained(evt);
+            }
+        });
+        scrollDesc2.setViewportView(txtDesc);
+
+        lblEditarDesc.setBackground(ClsEstilo.formbg);
+        lblEditarDesc.setFont(ClsEstilo.linkFonte);
+        lblEditarDesc.setForeground(ClsEstilo.linkCor);
+        lblEditarDesc.setText("Editar");
+        lblEditarDesc.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lblEditarDesc.setOpaque(true);
+        lblEditarDesc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblEditarDescMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -281,51 +323,69 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNome)
-                            .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGap(55, 55, 55)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel6)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(spnSessoes, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(lblEditarSessoes))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(rdoCartao)
+                                                .addGap(22, 22, 22)
+                                                .addComponent(rdoDinheiro)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(lblEditarPag))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel7)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(lblValSessao)))
+                                        .addGap(0, 36, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ftxtValor))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
+                                        .addComponent(ftxtValor)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(spnSessoes, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(lblEditarValor))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(52, 52, 52)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblEditarValor)
-                                    .addComponent(lblEditarSessoes)))
-                            .addComponent(lblCpf)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(rdoCartao)
-                                .addGap(22, 22, 22)
-                                .addComponent(rdoDinheiro)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblEditarPag))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblValSessao)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblCpf)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(scrollDesc2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblNome)
+                                        .addGap(114, 114, 114))
+                                    .addComponent(lblEditarDesc, javax.swing.GroupLayout.Alignment.TRAILING))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnSalvar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnImprimir))
-                            .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnImprimir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnExcluir))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,16 +395,26 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(lblNome)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblCpf)
-                                .addComponent(jLabel3)))
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSalvar)
+                            .addComponent(btnImprimir)
+                            .addComponent(btnExcluir)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCpf)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(lblNome))
+                        .addGap(12, 12, 12)
+                        .addComponent(lblEditarDesc)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollDesc2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -365,14 +435,8 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(lblValSessao)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSalvar)
-                            .addComponent(btnImprimir))))
-                .addContainerGap(34, Short.MAX_VALUE))
+                            .addComponent(lblValSessao))))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -381,7 +445,7 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         Container a = this.getContentPane();
         a.setBackground(ClsEstilo.formbg);
-        
+
         Dimension dim = this.getParent().getSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 50);
 
@@ -390,6 +454,12 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
         ftxtValor.setText(Moeda.padraoVirgula(orcamento.getValor()));
         spnSessoes.setValue(orcamento.getSessoes());
         lblValSessao.setText(Moeda.calculaSessao(orcamento.getValor(), orcamento.getSessoes()));
+        
+        if (orcamento.getDescricao() == null) {
+        txtDesc.setText("Sem descrição.");
+        } else {
+        txtDesc.setText(orcamento.getDescricao());
+        }
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
@@ -397,13 +467,13 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameActivated
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-        
+
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         boolean certo = true;
-        
-        if(rdoCartao.isEnabled()){
+
+        if (rdoCartao.isEnabled()) {
             try {
                 editPagamento();
             } catch (SQLException ex) {
@@ -411,8 +481,8 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
                 Logger.getLogger(IfrmEditOrcamento.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        if(ftxtValor.isEnabled()){
+
+        if (ftxtValor.isEnabled()) {
             try {
                 editValor();
             } catch (ValorInvalidoMoedaException | SQLException ex) {
@@ -420,8 +490,8 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
                 Logger.getLogger(IfrmEditOrcamento.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        if(spnSessoes.isEnabled()){
+
+        if (spnSessoes.isEnabled()) {
             try {
                 editSessoes();
             } catch (SQLException ex) {
@@ -430,7 +500,16 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
             }
         }
         
-        if(certo){
+        if(txtDesc.isEditable()){
+            try {
+                editDesc();
+            } catch (SQLException ex) {
+                certo = false;
+                Logger.getLogger(IfrmEditOrcamento.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (certo) {
             JOptionPane.showMessageDialog(this, "Modificações salvas com sucesso");
         } else {
             JOptionPane.showMessageDialog(this, "Não foi possível salvar todas as informações.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -464,11 +543,37 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblEditarSessoesMouseClicked
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        
+
     }//GEN-LAST:event_btnImprimirActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int j = JOptionPane.showConfirmDialog(this, "Ao excluir um orçamento, todas as suas sessões cadastradas também serão excluidas. Você realmente deseja excluir este orçamento?", "Excluir", JOptionPane.YES_NO_OPTION);
+        if (j == JOptionPane.YES_OPTION) {
+            try {
+                JDBCDelete.orcamento(orcamento);
+                JOptionPane.showMessageDialog(this, "O orçamento foi excluído com sucesso.");
+                this.dispose();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Não foi possível excluir este orçamento.", "Erro", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
+                return;
+            }
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void txtDescFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescFocusGained
+
+    }//GEN-LAST:event_txtDescFocusGained
+
+    private void lblEditarDescMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarDescMouseClicked
+        txtDesc.setEditable(true);
+        txtDesc.selectAll();
+        txtDesc.getCaret().setVisible(true);
+    }//GEN-LAST:event_lblEditarDescMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JFormattedTextField ftxtValor;
@@ -481,6 +586,7 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel lblCpf;
+    private javax.swing.JLabel lblEditarDesc;
     private javax.swing.JLabel lblEditarPag;
     private javax.swing.JLabel lblEditarSessoes;
     private javax.swing.JLabel lblEditarValor;
@@ -489,6 +595,8 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblValSessao;
     private javax.swing.JRadioButton rdoCartao;
     private javax.swing.JRadioButton rdoDinheiro;
+    private javax.swing.JScrollPane scrollDesc2;
     private javax.swing.JSpinner spnSessoes;
+    private javax.swing.JTextPane txtDesc;
     // End of variables declaration//GEN-END:variables
 }

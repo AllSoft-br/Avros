@@ -20,6 +20,7 @@ import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.factory.JDBCConsulta;
 import br.com.allsoft.avros.factory.JDBCUpdate;
 import br.com.allsoft.avros.dao.RepresentanteDAO;
+import br.com.allsoft.avros.dao.UsuarioDAO;
 import br.com.allsoft.avros.factory.JDBCViews;
 import br.com.allsoft.avros.formulas.Datas;
 import br.com.allsoft.avros.formulas.Cpf;
@@ -72,7 +73,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
         }
 
         try {
-            txtUsuario.setText(JDBCConsulta.usuarioId(cliente.getIdUsuario()).getNick());
+            txtUsuario.setText(UsuarioDAO.cusuarioId(br.com.allsoft.avros.dao.ClienteDAO.getIdUsuario()).getNick());
         } catch (SQLException ex) {
             this.dispose();
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao carregar informações do cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -129,6 +130,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/Users 2.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -194,9 +196,9 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
         jLabel2.setForeground(ClsEstilo.labelCor);
         jLabel2.setText("CPF");
 
+        txtCpf.setEditable(false);
         txtCpf.setFont(ClsEstilo.textoInputFonte);
         txtCpf.setForeground(ClsEstilo.textoInputCor);
-        txtCpf.setEnabled(false);
 
         bgpTipo.add(rdoF);
         rdoF.setFont(ClsEstilo.labelFonte);
@@ -287,7 +289,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        ftxtNasc.setBorder(new javax.swing.border.SoftBevelBorder(1));
+        ftxtNasc.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         ftxtNasc.setForeground(ClsEstilo.textoInputCor);
         ftxtNasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         ftxtNasc.setEnabled(false);
@@ -432,7 +434,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
             editado.setNome(txtNome.getText());
 
             try {
-                JDBCUpdate.clienteNome(editado.getNome(), id);
+                ClienteDAO.uclienteNome(br.com.allsoft.avros.dao.ClienteDAO.getNome(), id);
                 cliente.setNome(editado.getNome());
             } catch (SQLException ex) {
                 certo = false;
@@ -443,7 +445,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
         if (ftxtNasc.isEnabled()) {
             editado.setNascimento(ftxtNasc.getText());
             try {
-                JDBCUpdate.clienteNasc(editado.getNascimento(), id);
+                ClienteDAO.uclienteNasc(br.com.allsoft.avros.dao.ClienteDAO.getNascimento(), id);
                 cliente.setNascimento(editado.getNascimento());
             } catch (SQLException ex) {
                 certo = false;
@@ -454,7 +456,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
         if (txtTel.isEnabled()) {
             editado.setTel(txtTel.getText());
             try {
-                JDBCUpdate.clienteTel(editado.getTel(), id);
+                ClienteDAO.uclienteTel(br.com.allsoft.avros.dao.ClienteDAO.getTel(), id);
                 cliente.setTel(editado.getTel());
             } catch (SQLException ex) {
                 certo = false;
@@ -470,7 +472,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
             }
 
             try {
-                JDBCUpdate.clienteSexo(feminino, id);
+                ClienteDAO.uclienteSexo(feminino, id);
                 cliente.setFeminino(feminino);
             } catch (SQLException ex) {
                 certo = false;
@@ -514,9 +516,9 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
         try {
             RepresentanteDAO representante = new RepresentanteDAO();
 
-            //Busca o grau de parentesco e ID do representante
+            //Busca o grau de vparentesco e ID do representante
             representante = JDBCViews.parentesco(cliente);
-            representante = JDBCConsulta.representanteId(representante.getId());
+            representante = RepresentanteDAO.crepresentanteId(br.com.allsoft.avros.dao.RepresentanteDAO.getId());
 
             if(representante.getCpf() == null){
                 int j = JOptionPane.showConfirmDialog(this, "Este cliente não possui representante cadastrado. Deseja cadastrar agora?", "Representante não encontrado", JOptionPane.OK_CANCEL_OPTION);

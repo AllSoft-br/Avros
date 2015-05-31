@@ -24,6 +24,7 @@ import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.Cpf;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -44,7 +45,7 @@ import javax.swing.table.DefaultTableModel;
 public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
 
     //Variáveis
-    DefaultTableModel tblOrc = new DefaultTableModel();
+    DefaultTableModel tblOrc = new ClsTableModel();
     private OrcamentoDAO orcamento = new OrcamentoDAO();
     private ClienteDAO cliente = new ClienteDAO();
 
@@ -83,7 +84,7 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
      * Da corpo a tabela e a cria com os orçamentos listados
      *
      * @param orcamentos lista de ojava.sql.Date dataSql =
- orcamentoIdCli.get(i).getCriacao(); SimpleDateFormat format = new
+ corcamentoIdCli.get(i).getCriacao(); SimpleDateFormat format = new
  SimpleDateFormat("dd/MM/yyyy"); format.format(dataSql);rçamentos
      * @param qtde quantidade de orçamentos listados
      */
@@ -143,6 +144,7 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/allsoft/avros/img/orcapesq.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -174,6 +176,11 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
+            }
+        });
+        btnBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnBuscarKeyPressed(evt);
             }
         });
 
@@ -228,6 +235,11 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
         btnAbrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAbrirActionPerformed(evt);
+            }
+        });
+        btnAbrir.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnAbrirKeyPressed(evt);
             }
         });
 
@@ -291,7 +303,7 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
             if (Cpf.isCpf(cpf)) {
                 cliente.setCpf(cpf);
                 try {
-                    cliente = JDBCConsulta.clienteCpf(cpf);
+                    cliente = ClienteDAO.cclienteCpf(cpf);
 
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar informações do representante.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -303,7 +315,7 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
                     List<OrcamentoDAO> orcamentos = new ArrayList<>();
 
                     try {
-                        orcamentos = JDBCConsulta.orcamentoIdCli(cliente.getId());
+                        orcamentos = OrcamentoDAO.corcamentoIdCli(br.com.allsoft.avros.dao.ClienteDAO.getId());
 
                         int qtde = orcamentos.size();
 
@@ -317,7 +329,7 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
 
                             criaEventoSelecao();
                             preencheTabela(orcamentos, qtde);
-                            cliente = JDBCConsulta.clienteCpf(cpf);
+                            cliente = ClienteDAO.cclienteCpf(cpf);
 
                         } else {
                             if (cliente.getCpf() == null) {
@@ -336,13 +348,13 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
             int codigo = Integer.valueOf(txtOrcamento.getText());
 
             try {
-                orcamento = JDBCConsulta.orcamento(codigo);
+                orcamento = OrcamentoDAO.corcamento(codigo);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar o orçamento.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsOrcamento.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                cliente = JDBCConsulta.clienteId(orcamento.getIdCliente());
+                cliente = ClienteDAO.cclienteId(br.com.allsoft.avros.dao.OrcamentoDAO.getIdCliente());
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar o cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsOrcamento.class.getName()).log(Level.SEVERE, null, ex);
@@ -409,8 +421,20 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAbrirActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        FrmPrincipal.bPreAgendarSessao = false;
+        FrmPrincipal.bPesqOrcamento = false;
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void btnBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBuscarKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnBuscar.doClick();
+        }
+    }//GEN-LAST:event_btnBuscarKeyPressed
+
+    private void btnAbrirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAbrirKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnAbrir.doClick();
+        }
+    }//GEN-LAST:event_btnAbrirKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
