@@ -16,16 +16,13 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.Cliente;
-import br.com.allsoft.avros.factory.JDBCInsere;
-import br.com.allsoft.avros.dao.Representante;
-import br.com.allsoft.avros.exceptions.AuditoriaException;
-import br.com.allsoft.avros.naoUsar.GeraCPF;
+import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.modelo.Representante;
+import br.com.allsoft.avros.naoUsar.GeraCPF;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
@@ -313,7 +310,7 @@ public class IfrmCadResp1 extends javax.swing.JInternalFrame {
             responsavel.setFeminino(rdoFeminino.isSelected());
 
             try {
-                responsavel.setId(JDBCInsere.inserirRepresentante(responsavel));
+                responsavel.setId(RepresentanteDAO.inserir(responsavel));
 
                 int j = JOptionPane.showConfirmDialog(this, "O representante foi cadastrado com sucesso. Deseja cadastrar seu dependente agora?", "Cadastrar cliente?", JOptionPane.YES_NO_OPTION);
                 if (j == JOptionPane.YES_OPTION) {
