@@ -16,12 +16,13 @@
  */
 package br.com.allsoft.avros.interfaces;
 
+import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.OrcamentoDAO;
 import br.com.allsoft.avros.exceptions.ValorInvalidoMoedaException;
-import br.com.allsoft.avros.dao.Cliente;
-import br.com.allsoft.avros.factory.JDBCConsulta;
-import br.com.allsoft.avros.dao.Orcamento;
-import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.formulas.Moeda;
+import br.com.allsoft.avros.modelo.Cliente;
+import br.com.allsoft.avros.modelo.Orcamento;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -303,7 +304,7 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
             if (Cpf.isCpf(cpf)) {
                 cliente.setCpf(cpf);
                 try {
-                    cliente = JDBCConsulta.clienteCpf(cpf);
+                    cliente = ClienteDAO.cclienteCpf(cpf);
 
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar informações do representante.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -315,7 +316,7 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
                     List<Orcamento> orcamentos = new ArrayList<>();
 
                     try {
-                        orcamentos = JDBCConsulta.orcamentoIdCli(cliente.getId());
+                        orcamentos = OrcamentoDAO.corcamentoIdCli(cliente.getId());
 
                         int qtde = orcamentos.size();
 
@@ -329,7 +330,7 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
 
                             criaEventoSelecao();
                             preencheTabela(orcamentos, qtde);
-                            cliente = JDBCConsulta.clienteCpf(cpf);
+                            cliente = ClienteDAO.cclienteCpf(cpf);
 
                         } else {
                             if (cliente.getCpf() == null) {
@@ -348,13 +349,13 @@ public class IfrmConsOrcamento extends javax.swing.JInternalFrame {
             int codigo = Integer.valueOf(txtOrcamento.getText());
 
             try {
-                orcamento = JDBCConsulta.orcamento(codigo);
+                orcamento = OrcamentoDAO.corcamento(codigo);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar o orçamento.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsOrcamento.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                cliente = JDBCConsulta.clienteId(orcamento.getIdCliente());
+                cliente = ClienteDAO.cclienteId(orcamento.getIdCliente());
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar o cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(IfrmConsOrcamento.class.getName()).log(Level.SEVERE, null, ex);
