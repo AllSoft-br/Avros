@@ -265,7 +265,7 @@ public class RepresentanteDAO {
      * @return ID do representante
      * @throws SQLException
      */
-    public static int inserirRepresentante(Representante representante) throws SQLException {
+    public static int inserir(Representante representante) throws SQLException {
         nomeTabela = ClsBD.getTblRepresentante();
         representante.setNome(representante.getNome().trim());
         representante.setCpf(representante.getCpf().trim());

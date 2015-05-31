@@ -16,9 +16,11 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.exceptions.AuditoriaException;
+import br.com.allsoft.avros.dao.ClienteDAO;
+import br.com.allsoft.avros.dao.RepresentanteDAO;
 import br.com.allsoft.avros.formulas.Cpf;
 import br.com.allsoft.avros.modelo.Cliente;
+import br.com.allsoft.avros.modelo.Representante;
 import br.com.allsoft.avros.naoUsar.GeraCPF;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -367,7 +369,7 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
 
             if (cboParentesco.getSelectedIndex() == (cboParentesco.getItemCount() - 1)) {
                 try {
-                    parentescoId = JDBCInsere.inserirParentesco(txtQual.getText());
+                    parentescoId = RepresentanteDAO.inserirParentesco(txtQual.getText());
                 } catch (SQLException | IOException ex) {
                     Logger.getLogger(IfrmCadResp.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -386,15 +388,15 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
 
                     if (menor.getId() < 1) {
                         try {
-                            JDBCInsere.inserirClienteMenor(responsavel, menor, parentescoId, FrmLogin.usuario.getId());
+                            ClienteDAO.inserirClienteMenor(responsavel, menor, parentescoId, FrmLogin.usuario.getId());
                             this.dispose();
                         } catch (SQLException ex) {
                             Logger.getLogger(IfrmCadResp.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else {
                         try {
-                            responsavel.setId(JDBCInsere.inserirRepresentante(responsavel));
-                            JDBCInsere.inserirRelCliRep(responsavel.getId(), menor.getId(), parentescoId);
+                            responsavel.setId(RepresentanteDAO.inserir(responsavel));
+                            RepresentanteDAO.inserirRelCliRep(responsavel.getId(), menor.getId(), parentescoId);
 
                             JOptionPane.showMessageDialog(this, "O representante de " + menor.getNome() + " foi cadastrado com sucesso.");
                         } catch (SQLException ex) {
