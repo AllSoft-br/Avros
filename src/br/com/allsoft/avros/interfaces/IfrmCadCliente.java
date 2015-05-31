@@ -16,20 +16,17 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.dao.Cliente;
-import br.com.allsoft.avros.exceptions.AuditoriaException;
-import br.com.allsoft.avros.factory.JDBCInsere;
-import br.com.allsoft.avros.naoUsar.GeraCPF;
+import br.com.allsoft.avros.dao.ClienteDAO;
 import br.com.allsoft.avros.formulas.Cpf;
+import br.com.allsoft.avros.modelo.Cliente;
+import br.com.allsoft.avros.naoUsar.GeraCPF;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 
@@ -356,7 +353,7 @@ public class IfrmCadCliente extends javax.swing.JInternalFrame {
                     limpaCampos();
                 } else {
                     try {
-                        JDBCInsere.inserirCliente(cliente, FrmLogin.usuario.getId());
+                        ClienteDAO.inserirCliente(cliente, FrmLogin.usuario.getId());
                         JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso.");
                         limpaCampos();
                     } catch (SQLException ex) {
