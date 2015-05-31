@@ -16,6 +16,7 @@
  */
 package br.com.allsoft.avros.backup;
 
+import br.com.allsoft.avros.dao.AuditoriaLogin;
 import br.com.allsoft.avros.factory.ConexaoMySQL;
 import br.com.allsoft.avros.factory.conexao.ScriptRunner;
 import br.com.allsoft.avros.interfaces.FrmLogin;
