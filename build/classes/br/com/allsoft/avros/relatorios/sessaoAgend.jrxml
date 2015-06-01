@@ -234,7 +234,7 @@ AND
 				<staticText>
 					<reportElement x="20" y="20" width="300" height="43" forecolor="#FFFFFF" uuid="51857cb1-7558-4092-8cce-4f91dc320e39"/>
 					<textElement>
-						<font size="34" isBold="true"/>
+						<font size="34" isBold="true" isUnderline="false"/>
 					</textElement>
 					<text><![CDATA[Sessão agendada]]></text>
 				</staticText>

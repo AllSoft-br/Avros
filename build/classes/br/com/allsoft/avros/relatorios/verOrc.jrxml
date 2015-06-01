@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="verOrc" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="52529b8f-cacb-4d20-b5ed-cbd122587056">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="8"/>
+	<parameter name="id_orc" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[5]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     tbl_orcamento.`id_orc` AS tbl_orcamento_id_orc,
+     tbl_orcamento.`criado_em` AS tbl_orcamento_criado_em,
+     tbl_orcamento.`desc_tatoo` AS tbl_orcamento_desc_tatoo,
+     tbl_orcamento.`tipo_pagamento` AS tbl_orcamento_tipo_pagamento,
+     tbl_orcamento.`valor_total` AS tbl_orcamento_valor_total,
+     tbl_orcamento.`qntd_sessao` AS tbl_orcamento_qntd_sessao,
+     tbl_cliente.`nome` AS tbl_cliente_nome,
+     tbl_cliente.`CPF` AS tbl_cliente_CPF,
+     tbl_cliente.`sexo` AS tbl_cliente_sexo,
+     tbl_cliente.`data_nasc` AS tbl_cliente_data_nasc,
+     tbl_cliente.`tel` AS tbl_cliente_tel,
+     empresa_dados.`cnpj` AS empresa_dados_cnpj,
+     empresa_dados.`razao_social` AS empresa_dados_razao_social,
+     empresa_dados.`tel` AS empresa_dados_tel,
+     empresa_dados.`uf` AS empresa_dados_uf,
+     empresa_dados.`cidade` AS empresa_dados_cidade,
+     empresa_dados.`bairro` AS empresa_dados_bairro,
+     empresa_dados.`logradouro` AS empresa_dados_logradouro,
+     empresa_dados.`cep` AS empresa_dados_cep,
+     empresa_dados.`nro` AS empresa_dados_nro,
+     empresa_dados.`complemento` AS empresa_dados_complemento
+FROM
+     `tbl_cliente` tbl_cliente INNER JOIN `tbl_orcamento` tbl_orcamento ON tbl_cliente.`id_cli` = tbl_orcamento.`fk_id_cli_orc`,
+     `empresa_dados` empresa_dados
+WHERE
+     tbl_orcamento.`id_orc` = $P!{id_orc}]]>
+	</queryString>
+	<field name="tbl_orcamento_id_orc" class="java.lang.Long"/>
+	<field name="tbl_orcamento_criado_em" class="java.sql.Timestamp"/>
+	<field name="tbl_orcamento_desc_tatoo" class="java.lang.String"/>
+	<field name="tbl_orcamento_tipo_pagamento" class="java.lang.String"/>
+	<field name="tbl_orcamento_valor_total" class="java.math.BigDecimal"/>
+	<field name="tbl_orcamento_qntd_sessao" class="java.lang.Integer"/>
+	<field name="tbl_cliente_nome" class="java.lang.String"/>
+	<field name="tbl_cliente_CPF" class="java.lang.String"/>
+	<field name="tbl_cliente_sexo" class="java.lang.Boolean"/>
+	<field name="tbl_cliente_data_nasc" class="java.sql.Date"/>
+	<field name="tbl_cliente_tel" class="java.lang.String"/>
+	<field name="empresa_dados_cnpj" class="java.lang.String"/>
+	<field name="empresa_dados_razao_social" class="java.lang.String"/>
+	<field name="empresa_dados_tel" class="java.lang.String"/>
+	<field name="empresa_dados_uf" class="java.lang.String"/>
+	<field name="empresa_dados_cidade" class="java.lang.String"/>
+	<field name="empresa_dados_bairro" class="java.lang.String"/>
+	<field name="empresa_dados_logradouro" class="java.lang.String"/>
+	<field name="empresa_dados_cep" class="java.lang.String"/>
+	<field name="empresa_dados_nro" class="java.lang.String"/>
+	<field name="empresa_dados_complemento" class="java.lang.String"/>
+	<group name="tbl_orcamento_id_orc">
+		<groupExpression><![CDATA[$F{tbl_orcamento_id_orc}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#666666" backcolor="#E6E6E6" uuid="509bf9f3-0603-4cf9-9d3a-308d78909286"/>
+					<textElement textAlignment="Center">
+						<font size="24" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ID]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="100" y="0" width="455" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="86dfa85a-5eb1-4e85-8598-c17d91cfc9d2"/>
+					<textElement>
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tbl_orcamento_id_orc}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="-20" y="32" width="595" height="1" forecolor="#666666" uuid="b177dad8-aab1-495f-8fb0-d3570cb096c7"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="e0d2648f-fc87-4fc9-b632-d4d403864abb"/>
+				<staticText>
+					<reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="bd05ab72-767f-4343-afe9-7496032aae4f"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Orçamento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="324" y="43" width="251" height="20" forecolor="#FFFFFF" uuid="6a6800d0-7ec2-4f6f-bef2-863cdd1284b3"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Comprovante de orçamento cadastrado]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="536b5519-0aa5-411b-b6a4-618452b6f11b"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="254">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="e2d92f99-765a-4c62-9c29-5bbe6206f620"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="108" y="130" width="432" height="20" uuid="f51a2d7a-c91c-48d6-9466-87d7f7299ceb"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_orcamento_criado_em}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="108" y="150" width="432" height="20" uuid="27685b66-496f-4464-8f79-0c8e614f91ca"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_orcamento_desc_tatoo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="108" y="170" width="432" height="20" uuid="eb45c8ce-36ce-46f4-aa57-dab9eaa7c6b5"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_orcamento_tipo_pagamento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="108" y="226" width="432" height="20" forecolor="#00CC33" uuid="2049c101-945e-4152-9a64-1e480422d030"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_orcamento_valor_total}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="108" y="190" width="432" height="20" uuid="84eac537-8045-4a20-b768-54aad9b05290"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_orcamento_qntd_sessao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="108" y="0" width="432" height="20" uuid="58ae80e8-549c-4390-a775-6e9d6a3b74ed"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_cliente_nome}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="108" y="20" width="432" height="20" uuid="ff4f18b0-1fe9-40c9-9397-6ca4cd850cf9"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_cliente_CPF}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="108" y="40" width="432" height="20" uuid="bf357539-9ee7-40e6-883b-7185352592d5"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_cliente_sexo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="108" y="60" width="432" height="20" uuid="cf4fa4ae-f90f-4c0d-b872-6bdb235628f3"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_cliente_data_nasc}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="108" y="80" width="432" height="20" uuid="529785b0-52f5-48d0-97ab-9633058ac06e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_cliente_tel}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="130" width="108" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="ff374e1c-2526-4794-9950-0c8f5b596b61"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de criação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="150" width="108" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="f893b8a4-bb7a-4339-926a-4da6556a85d4"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="170" width="108" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="e9f9ac13-3d66-4370-8d52-4d499fd68a2c"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pagamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="226" width="108" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="03eddc63-f5fb-49b2-a6c2-9f120524abf4"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="190" width="108" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="4a0ad07e-9e37-4680-9814-8fee1e34ef7a"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sessões]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="108" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="3ef7f3d5-2b74-4ba2-a1ac-1cdb0ae4060b"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="20" width="108" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="48c97b3a-0d00-4bd0-98ca-f70f01464364"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="40" width="108" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="3b6679e2-f247-4b89-8910-a9d10881a907"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sexo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="60" width="108" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="bf6f6913-7442-4d5d-ba47-379693841044"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nascimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="80" width="108" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="b52376e5-94d6-43f5-881a-26dc32c48287"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefone]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="110">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="93" width="515" height="13" backcolor="#E6E6E6" uuid="4efadc0c-8ecb-4b41-9b80-3d835e671833"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="93" width="40" height="13" backcolor="#E6E6E6" uuid="b3bd8cfe-e704-4821-b977-96c85206b993"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="93" width="100" height="13" uuid="c4fea84d-7e4c-438b-9aa7-d6b12fb6cfcd"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="3" y="27" width="83" height="16" forecolor="#666666" backcolor="#FFFFFF" uuid="50bfb35f-80d3-40ce-bd6d-8dd2b1179ff4"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[CNPJ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="86" y="27" width="134" height="16" uuid="f2ab5fbb-bccb-4e4b-8d33-7c70d95d9088"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empresa_dados_cnpj}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="3" y="43" width="83" height="16" forecolor="#666666" backcolor="#FFFFFF" uuid="ddf089b5-0d79-4c97-9301-ec762c301830"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Razão Social]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="86" y="43" width="134" height="16" uuid="d52ed29b-857d-40c3-bbd4-493871d8f1d9"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empresa_dados_razao_social}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="3" y="59" width="83" height="16" forecolor="#666666" backcolor="#FFFFFF" uuid="1569e003-c7f5-460c-9040-d4fb60ba499b"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Telefone]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="86" y="59" width="134" height="16" uuid="238d6fa5-b8d7-4814-a9cf-5ae41252e4a3"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empresa_dados_tel}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="234" y="0" width="70" height="16" forecolor="#666666" backcolor="#FFFFFF" uuid="4b60c5df-16b2-4a25-bfdb-4bede4b80bad"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Endereço]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="234" y="16" width="306" height="43" uuid="62823650-e718-485e-97f2-2787202a9e1c"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empresa_dados_logradouro} + ", " + $F{empresa_dados_nro} + ", " + $F{empresa_dados_cidade} + " - " + $F{empresa_dados_uf}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="3" y="75" width="83" height="16" forecolor="#666666" backcolor="#FFFFFF" uuid="73f877fa-06ac-4577-a69f-2b8f56c12986"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[CEP]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="86" y="75" width="134" height="16" uuid="aaa3684b-7ade-4656-9cba-798ff80ea198"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empresa_dados_cep}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="234" y="59" width="306" height="34" uuid="c8b585b3-49ec-49dd-87c8-5aaf266266e5"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empresa_dados_complemento}==null?"":$F{empresa_dados_complemento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

@@ -36,6 +36,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,17 +82,17 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
 
         lblValor.setText("R$ " + sessao);
     }
-    
-    private void verificaData() throws ParseException, SQLException{
+
+    private void verificaData() throws ParseException, SQLException {
         Date hoje = new Date();
-        
+
         Time horaEscolhida = Datas.dateParaTime((Date) spnHorario.getValue());
         Time horaAgora = Datas.dateParaTime(hoje);
-        
+
         java.sql.Date escolhidaSql = Datas.unificaData(new java.sql.Date(dateData.getDate().getTime()), horaEscolhida);
         Date dataEscolhida = new Date(escolhidaSql.getTime());
-        
-        if(dataEscolhida.before(hoje)){
+
+        if (dataEscolhida.before(hoje)) {
             throw new SQLException("A data escolhida já aconteceu.");
         } else {
             //TODO procedure que verifica se o horário esta em uso
@@ -503,13 +504,17 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
         try {
             int id = (SessaoDAO.inserirSessao(sessao));
             sessao.setId(id);
-            
+
             int j = JOptionPane.showConfirmDialog(this, "Sessão cadastrada com sucesso! Deseja imprimir o comprovante?");
             if (j == JOptionPane.YES_OPTION) {
                 Relatorio relatorio = new Relatorio();
-                relatorio.criaRelatorio(cliente.getCpf(), sessao.getId(), "sessaoAgend");
+                HashMap hm = new HashMap();
+                hm.put("id_sessao", sessao.getId());
+                hm.put("cpf_cliente", cliente.getCpf());
+
+                relatorio.criaRelatorio(hm, "sessaoAgend");
             }
-            
+
             this.dispose();
         } catch (SQLException | IOException | JRException ex) {
             Logger.getLogger(IfrmCadSessao.class.getName()).log(Level.SEVERE, null, ex);
@@ -518,7 +523,7 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAgendarActionPerformed
 
     private void btnAgendarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAgendarKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnAgendar.doClick();
         }
     }//GEN-LAST:event_btnAgendarKeyPressed

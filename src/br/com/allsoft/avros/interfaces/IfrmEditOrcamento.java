@@ -23,12 +23,15 @@ import br.com.allsoft.avros.formulas.Cpf;
 import br.com.allsoft.avros.formulas.Moeda;
 import br.com.allsoft.avros.modelo.Cliente;
 import br.com.allsoft.avros.modelo.Orcamento;
+import br.com.allsoft.avros.relatorios.Relatorio;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -37,7 +40,6 @@ import javax.swing.JOptionPane;
 public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
 
     //Variáveis
-
     Orcamento orcamento;
     Cliente cliente;
 
@@ -74,8 +76,8 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
             lblValSessao.setText(Moeda.padraoVirgula(orcamento.getValor() / qtd));
         }
     }
-    
-    private void editDesc() throws SQLException{
+
+    private void editDesc() throws SQLException {
         OrcamentoDAO.uorcamentoDesc(orcamento.getId(), txtDesc.getText());
     }
 
@@ -452,11 +454,11 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
         ftxtValor.setText(Moeda.padraoVirgula(orcamento.getValor()));
         spnSessoes.setValue(orcamento.getSessoes());
         lblValSessao.setText(Moeda.calculaSessao(orcamento.getValor(), orcamento.getSessoes()));
-        
+
         if (orcamento.getDescricao() == null) {
-        txtDesc.setText("Sem descrição.");
+            txtDesc.setText("Sem descrição.");
         } else {
-        txtDesc.setText(orcamento.getDescricao());
+            txtDesc.setText(orcamento.getDescricao());
         }
     }//GEN-LAST:event_formInternalFrameOpened
 
@@ -497,8 +499,8 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
                 Logger.getLogger(IfrmEditOrcamento.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        if(txtDesc.isEditable()){
+
+        if (txtDesc.isEditable()) {
             try {
                 editDesc();
             } catch (SQLException ex) {
@@ -541,7 +543,17 @@ public class IfrmEditOrcamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_lblEditarSessoesMouseClicked
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        try {
+            Relatorio relatorio = new Relatorio();
 
+            HashMap hm = new HashMap();
+            hm.put("id_orc", orcamento.getId());
+
+            relatorio.criaRelatorio(hm, "verOrc");
+        } catch (SQLException | JRException ex) {
+            JOptionPane.showMessageDialog(this, "Não foi possível exibir o relatório.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(IfrmEditOrcamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed

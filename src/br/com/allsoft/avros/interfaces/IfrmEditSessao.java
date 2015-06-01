@@ -33,6 +33,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -102,7 +103,7 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
         } else {
             txtDesc.setText(orcamento.getDescricao());
         }
-        
+
         lblOrcCod.setText(String.valueOf(orcamento.getId()));
         lblCodSes.setText(String.valueOf(sessao.getId()));
         lblNome.setText(cliente.getNome());
@@ -738,7 +739,12 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
                     int j = JOptionPane.showConfirmDialog(this, "Informações salvas com sucesso! Deseja imprimir o comprovante?");
                     if (j == JOptionPane.YES_OPTION) {
                         Relatorio relatorio = new Relatorio();
-                        relatorio.criaRelatorio(cliente.getCpf(), sessao.getId(), "sessaoAgend");
+
+                        HashMap hm = new HashMap();
+                        hm.put("id_sessao", sessao.getId());
+                        hm.put("cpf_cliente", cliente.getCpf());
+
+                        relatorio.criaRelatorio(hm, "sessaoAgend");
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);
@@ -785,7 +791,11 @@ public class IfrmEditSessao extends javax.swing.JInternalFrame {
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
         try {
             Relatorio relatorio = new Relatorio();
-            relatorio.criaRelatorio(cliente.getCpf(), sessao.getId(), "sessaoAgend");
+            HashMap hm = new HashMap();
+            hm.put("id_sessao", sessao.getId());
+            hm.put("cpf_cliente", cliente.getCpf());
+
+            relatorio.criaRelatorio(hm, "sessaoAgend");
         } catch (SQLException | JRException ex) {
             JOptionPane.showMessageDialog(this, "Não foi possível gerar o relatório.", "Erro", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(IfrmEditSessao.class.getName()).log(Level.SEVERE, null, ex);

@@ -41,27 +41,23 @@ import net.sf.jasperreports.view.JasperViewer;
 public class Relatorio {
 
     private Connection con = null;
-    
-    public void criaRelatorio(String cpf, int idSessao, String nomeJasper) throws SQLException, JRException {
+
+    public void criaRelatorio(HashMap hm, String nomeJasper) throws SQLException, JRException {
         con = ConexaoMySQL.getConexaoMySQL();
 
         //Path to your .jasper file in your package
         URL reportName = getClass().getResource("/br/com/allsoft/avros/relatorios/" + nomeJasper + ".jasper");
-                
+
         //Get a stream to read the file
         JasperReport url = (JasperReport) JRLoader.loadObject(reportName);
 
         try {
-            HashMap hm = new HashMap();
-            hm.put("cpf_cliente", cpf);
-            hm.put("id_sessao", idSessao);
-            
             //Fill the report with parameter, connection and the stream reader     
             JasperPrint jp = JasperFillManager.fillReport(url, hm, con);
 
             //Viewer for Relatorio
             JRViewer jv = new JRViewer(jp);
-            
+
             //Insert viewer to a JFrame to make it showable
             JFrame jf = new JFrame();
             jf.getContentPane().add(jv);
@@ -69,7 +65,7 @@ public class Relatorio {
             jf.setVisible(true);
             jf.setSize(new Dimension(800, 600));
             jf.setLocation(300, 100);
-            
+
         } catch (JRException ex) {
             System.out.println(ex);
             con.close();
@@ -80,8 +76,11 @@ public class Relatorio {
 
     public static void main(String[] args) throws SQLException, JRException {
 
+        HashMap hm = new HashMap();
+        hm.put("id_orc", 5);
+
         Relatorio ma = new Relatorio();
-        ma.criaRelatorio("64837748274", 1, "sessaoAgend");
-        
+        ma.criaRelatorio(hm, "verOrc");
+
     }
 }
