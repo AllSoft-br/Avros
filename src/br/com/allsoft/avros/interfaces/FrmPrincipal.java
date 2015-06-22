@@ -52,6 +52,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public static boolean bConsSessao = false;
     public static boolean bConsOrcamento = false;
     public static boolean bConsCliente = false;
+    public static boolean bRelatorios = false;
 
     /**
      *
@@ -103,6 +104,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mnuAvancado = new javax.swing.JMenu();
         mniHistorico = new javax.swing.JMenuItem();
         mniBackup = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(601, 500));
@@ -339,6 +341,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         mnuAvancado.add(mniBackup);
 
+        jMenuItem1.setFont(ClsEstilo.labelMenuFonte);
+        jMenuItem1.setForeground(ClsEstilo.labelCor);
+        jMenuItem1.setText("Relatórios");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        mnuAvancado.add(jMenuItem1);
+
         if(FrmLogin.usuario.isAdmin()){
 
             menuBar.add(mnuAvancado);
@@ -554,6 +566,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mniBackupActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        if (!bRelatorios) {
+            IfrmRelatorios obj = new IfrmRelatorios();
+            deskPrincipal.add(obj);
+            obj.setVisible(true);
+            
+            bRelatorios = true;
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -591,6 +613,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected static javax.swing.JDesktopPane deskPrincipal;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mniAgendar;
     private javax.swing.JMenuItem mniBackup;

@@ -389,6 +389,7 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
                     if (menor.getId() < 1) {
                         try {
                             ClienteDAO.inserirClienteMenor(responsavel, menor, parentescoId, FrmLogin.usuario.getId());
+                            JOptionPane.showMessageDialog(null, "O representante de " + menor.getNome() + " foi cadastrado com sucesso.");
                             this.dispose();
                         } catch (SQLException ex) {
                             Logger.getLogger(IfrmCadResp.class.getName()).log(Level.SEVERE, null, ex);
@@ -398,7 +399,7 @@ public class IfrmCadResp extends javax.swing.JInternalFrame {
                             responsavel.setId(RepresentanteDAO.inserir(responsavel));
                             RepresentanteDAO.inserirRelCliRep(responsavel.getId(), menor.getId(), parentescoId);
 
-                            JOptionPane.showMessageDialog(this, "O representante de " + menor.getNome() + " foi cadastrado com sucesso.");
+                            JOptionPane.showMessageDialog(null, "O representante de " + menor.getNome() + " foi cadastrado com sucesso.");
                         } catch (SQLException ex) {
                             if (ex.getErrorCode() == ClsEstilo.duplicateKeyError) {
                                 JOptionPane.showMessageDialog(this, "CPF já cadastrado.", "Erro", JOptionPane.ERROR_MESSAGE);

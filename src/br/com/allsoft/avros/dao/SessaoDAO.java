@@ -24,6 +24,7 @@ import br.com.allsoft.avros.modelo.ClsBD;
 import br.com.allsoft.avros.modelo.Orcamento;
 import br.com.allsoft.avros.modelo.Sessao;
 import java.io.IOException;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -59,6 +60,33 @@ public class SessaoDAO {
         if ((con == null) || (con.isClosed())) {
             con = ConexaoMySQL.getConexaoMySQL();
         }
+    }
+    
+    /**
+     * Verifica se o cliente está autorizado para
+     * cadastrar uma nova sessão
+     * 
+     * @param idCli id do cliente
+     * @throws SQLException 
+     */
+    public static boolean isAutorizada(int idCli) throws SQLException {
+        boolean autorizacao = true;
+        
+        con = ConexaoMySQL.getConexaoMySQL();
+        
+        String sql = "{? = CALL " + ClsBD.funcAutorizaSessao + "(?)}";
+        CallableStatement stmt = con.prepareCall(sql);
+        
+        stmt.registerOutParameter(1,java.sql.Types.BOOLEAN);
+        stmt.setInt(2, idCli);
+        stmt.execute();
+        
+        autorizacao = stmt.getBoolean(1);
+        
+        stmt.close();
+        con.close();
+        
+        return autorizacao;
     }
 
     /**

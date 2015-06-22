@@ -123,6 +123,15 @@ public class ClsBD {
      */
     public static final String procDelCli = "del_cliente";
     
+    //Funções
+    /**
+     * Verifica se o cliente está autorizado a cadastrar uma 
+     * nova sessão.
+     * 
+     * @param idCli do cliente
+     */
+    public static final String funcAutorizaSessao = "is_autorizado";
+    
     public static String getOrcDesc() {
         return orcDesc;
     }

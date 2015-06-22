@@ -98,6 +98,10 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
             //TODO procedure que verifica se o horário esta em uso
         }
     }
+    
+    private boolean verificaAutorizacao() throws SQLException{
+        return SessaoDAO.isAutorizada(cliente.getId());
+    }
 
     /**
      * Creates new form ifrmPagamentos
@@ -109,7 +113,21 @@ public class IfrmCadSessao extends javax.swing.JInternalFrame {
         this.orcamento = orcamento;
         this.cliente = cliente;
 
+        boolean autoriza = true;
+        
+        try {
+            autoriza = verificaAutorizacao();
+        } catch (SQLException ex) {
+            Logger.getLogger(IfrmCadSessao.class.getName()).log(Level.SEVERE, null, ex);
+            autoriza = true;
+        }
+        
+        if(autoriza){
         initComponents();
+        } else {
+            JOptionPane.showMessageDialog(null, "Este cliente não está autorizado a cadastrar uma nova sessão.");
+            this.dispose();
+        }
     }
 
     /**
