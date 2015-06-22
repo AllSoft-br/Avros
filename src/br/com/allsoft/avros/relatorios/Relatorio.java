@@ -77,7 +77,7 @@ public class Relatorio {
     public static void main(String[] args) throws SQLException, JRException {
 
         HashMap hm = new HashMap();
-        hm.put("id_orc", 5);
+        hm.put("id_orc", 2);
 
         Relatorio ma = new Relatorio();
         ma.criaRelatorio(hm, "verOrc");

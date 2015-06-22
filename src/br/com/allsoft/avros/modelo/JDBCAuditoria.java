@@ -16,7 +16,11 @@
  */
 package br.com.allsoft.avros.modelo;
 
+import static br.com.allsoft.avros.dao.AuditoriaDelete.con;
+import br.com.allsoft.avros.factory.ConexaoMySQL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * Classe que insere e busca dados da auditoria
@@ -37,4 +41,26 @@ public class JDBCAuditoria {
     protected static int idLogin; //ID do login que fez a alteração
 
     protected static Connection con;
+
+    protected static void insereRegistro() throws SQLException {
+        con = ConexaoMySQL.getConexaoMySQL();
+        
+        String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement stmt = con.prepareStatement(query);
+
+        stmt.setString(1, tabela);
+        stmt.setInt(2, codDado);
+        stmt.setString(3, acao);
+        stmt.setString(4, descricao);
+        stmt.setInt(5, idLogin);
+        stmt.setString(6, sql);
+        stmt.setString(7, antes);
+        stmt.setString(8, depois);
+        stmt.setString(9, campo);
+
+        stmt.execute();
+        stmt.close();
+        con.close();
+    }
 }

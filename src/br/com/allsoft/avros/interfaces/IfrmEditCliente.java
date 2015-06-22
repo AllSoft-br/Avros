@@ -114,7 +114,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
         rdoF = new javax.swing.JRadioButton();
         rdoM = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
-        btnSenha1 = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         lblEditarNasc = new javax.swing.JLabel();
         txtTel = new javax.swing.JTextField();
@@ -223,12 +223,12 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
         jLabel5.setForeground(ClsEstilo.labelCor);
         jLabel5.setText("Sexo:");
 
-        btnSenha1.setFont(ClsEstilo.botaoFonte);
-        btnSenha1.setForeground(ClsEstilo.botaoCor);
-        btnSenha1.setText("Excluir cliente");
-        btnSenha1.addActionListener(new java.awt.event.ActionListener() {
+        btnExcluir.setFont(ClsEstilo.botaoFonte);
+        btnExcluir.setForeground(ClsEstilo.botaoCor);
+        btnExcluir.setText("Excluir cliente");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSenha1ActionPerformed(evt);
+                btnExcluirActionPerformed(evt);
             }
         });
 
@@ -349,7 +349,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btnSalvar)
                                         .addGap(34, 34, 34)
-                                        .addComponent(btnSenha1)
+                                        .addComponent(btnExcluir)
                                         .addGap(32, 32, 32)))
                                 .addGap(0, 22, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -403,7 +403,7 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
-                    .addComponent(btnSenha1))
+                    .addComponent(btnExcluir))
                 .addContainerGap())
         );
 
@@ -491,9 +491,15 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_formInternalFrameClosed
 
-    private void btnSenha1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSenha1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSenha1ActionPerformed
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        try {
+            ClienteDAO.dcliente(cliente);
+            JOptionPane.showMessageDialog(this, "Cliente deletado com sucesso.");
+        } catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Um erro ocorreu ao excluir este clietne.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void lblEditarNascMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarNascMouseClicked
         ftxtNasc.setEnabled(true);
@@ -536,8 +542,8 @@ public class IfrmEditCliente extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgpTipo;
+    private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JButton btnSenha1;
     private javax.swing.JFormattedTextField ftxtNasc;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

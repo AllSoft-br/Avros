@@ -28,8 +28,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -378,5 +376,33 @@ public class ClienteDAO {
         }
     }
     
+    
+    /**
+     * Deleta um cliente.
+     *
+     * @param cliente a ser deletado
+     * @throws SQLException
+     */
+    public static void dcliente(Cliente cliente) throws SQLException {
+        con = ConexaoMySQL.getConexaoMySQL();
+        
+        String sql = "CALL " + ClsBD.procDelCli + "(?)";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        
+        stmt.setInt(1, cliente.getId());
+        
+        sql = stmt.toString();
+        
+        stmt.execute();
+        stmt.close();
+        con.close();
+        
+        try {
+            AuditoriaDelete.cliente(FrmLogin.usuario, cliente, sql);
+        } catch (AuditoriaException ex) {
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

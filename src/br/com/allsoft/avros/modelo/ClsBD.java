@@ -110,6 +110,19 @@ public class ClsBD {
     protected static final String audData = "data_alt";
     protected static final String audIdLogin = "fk_id_login";
     
+    //Procedures
+    
+    /**
+     * Procedure que deleta o representante e a sua respectiva relação
+     * O parâmetro de entrada é o ID do representante a ser excluido.
+     */
+    public static final String procDelRep = "del_representante";
+    /**
+     * Procedure que deleta o cliente
+     * O parâmetro de entrada é o ID do cliente a ser excluido.
+     */
+    public static final String procDelCli = "del_cliente";
+    
     public static String getOrcDesc() {
         return orcDesc;
     }

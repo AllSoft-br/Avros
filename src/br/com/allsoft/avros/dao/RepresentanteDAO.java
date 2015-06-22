@@ -464,4 +464,25 @@ public class RepresentanteDAO {
         return representante;
     }
 
+    public static void drepresentante(Representante rep) throws SQLException {
+        con = ConexaoMySQL.getConexaoMySQL();
+        
+        String sql = "CALL " + ClsBD.procDelRep + "(?)";
+        
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setInt(1, rep.getId());
+        
+        sql = stmt.toString();
+        
+        stmt.execute();
+        stmt.close();
+        con.close();
+        
+        try {
+            AuditoriaDelete.representante(FrmLogin.usuario, rep, sql);
+        } catch (AuditoriaException ex) {
+            Logger.getLogger(RepresentanteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro de auditoria.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }

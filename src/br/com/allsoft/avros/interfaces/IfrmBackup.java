@@ -16,12 +16,11 @@
  */
 package br.com.allsoft.avros.interfaces;
 
-import br.com.allsoft.avros.backup.MySQLBackup;
+import br.com.allsoft.avros.backup.RecuperaBackup;
+import br.com.allsoft.avros.backup.SalvaBackup;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -33,11 +32,12 @@ import javax.swing.JOptionPane;
 public class IfrmBackup extends javax.swing.JInternalFrame {
 
     //Métodos
-    
+    Runnable salvar = new SalvaBackup();
+    Runnable recupera = new RecuperaBackup();
+
     /**
      * Cria a ProgressBar
      */
-    
     /**
      * Creates new form ifrmSenha
      */
@@ -208,10 +208,7 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
 
     private void btnBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackupActionPerformed
         try {
-            lblCarregando.setVisible(true);
-            MySQLBackup.salvaBackup();
-            JOptionPane.showMessageDialog(this, "Backup salvo com sucesso.");
-            lblCarregando.setVisible(false);
+            new Thread(salvar).start();
         } catch (Exception ex) {
             Logger.getLogger(IfrmBackup.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "ERRO: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
@@ -228,13 +225,9 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
 
         if (j == JOptionPane.YES_OPTION) {
             try {
-                lblCarregando.setVisible(true);
-                MySQLBackup.recuperaBackup();
-                JOptionPane.showMessageDialog(this, "Dados recuperados com êxito.");
-                lblCarregando.setVisible(false);
-            } catch (IOException | SQLException ex) {
-                Logger.getLogger(IfrmBackup.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(this, "ERRO: " + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+                Thread backup = new Thread(recupera);
+                backup.start();
+                
             } catch (Exception ex) {
                 Logger.getLogger(IfrmBackup.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -242,13 +235,13 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnRecuperarActionPerformed
 
     private void btnBackupKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBackupKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnBackup.doClick();
         }
     }//GEN-LAST:event_btnBackupKeyPressed
 
     private void btnRecuperarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnRecuperarKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnRecuperar.doClick();
         }
     }//GEN-LAST:event_btnRecuperarKeyPressed
@@ -262,7 +255,7 @@ public class IfrmBackup extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JProgressBar jProgressBar1;
-    private javax.swing.JLabel lblCarregando;
+    public static javax.swing.JLabel lblCarregando;
     private javax.swing.JLabel lblLogo;
     // End of variables declaration//GEN-END:variables
 }

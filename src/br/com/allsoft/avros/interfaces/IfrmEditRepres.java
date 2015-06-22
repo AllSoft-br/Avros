@@ -641,7 +641,13 @@ public class IfrmEditRepres extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void btnSenha1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSenha1ActionPerformed
-        // TODO add your handling code here:
+        try {
+            RepresentanteDAO.drepresentante(representante);
+            JOptionPane.showMessageDialog(this, "Representante deletado com sucesso.");
+        } catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Um erro ocorreu ao excluir este representante.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
     }//GEN-LAST:event_btnSenha1ActionPerformed
 
     private void lblEditarNascMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarNascMouseClicked

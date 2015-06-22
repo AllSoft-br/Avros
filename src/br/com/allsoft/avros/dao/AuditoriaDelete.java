@@ -195,7 +195,78 @@ public class AuditoriaDelete extends JDBCAuditoria{
             throw new AuditoriaException(ex);
         }
     }
+    
+    /**
+     * Grava delete de um orçamento na auditoria
+     * @param resp usuário responsável 
+     * @param representante 
+     * @param codSql SQL utilizado
+     * @throws AuditoriaException 
+     */
+    public static void representante(Usuario resp, Representante representante, String codSql) throws AuditoriaException {
+        try {
+            tabela = ClsBD.getTblRepresentante();
+            acao = "delete";
+            descricao = resp.getNick() + " deletou o representante " + representante.getNome();
+            sql = codSql;
+            codDado = representante.getId();
+            idLogin = resp.getId();
+            con = ConexaoMySQL.getConexaoMySQL();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
+            
+            String query = "call insere_registro(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            PreparedStatement stmt = con.prepareStatement(query);
+            
+            stmt.setString(1, tabela);
+            stmt.setInt(2, codDado);
+            stmt.setString(3, acao);
+            stmt.setString(4, descricao);
+            stmt.setInt(5, idLogin);
+            stmt.setString(6, sql);
+            stmt.setString(7, antes);
+            stmt.setString(8, depois);
+            stmt.setString(9, campo);
+            
+            stmt.execute();
+            stmt.close();
+            con.close();
+            
+        } catch (SQLException ex) {
+            throw new AuditoriaException(ex);
+        }
+    }
 
+    /**
+     * Grava delete de um orçamento na auditoria
+     * @param resp usuário responsável 
+     * @param cliente 
+     * @param codSql SQL utilizado
+     * @throws AuditoriaException 
+     */
+    public static void cliente(Usuario resp, Cliente cliente, String codSql) throws AuditoriaException {
+        try {
+            tabela = ClsBD.getTblCliente();
+            acao = "delete";
+            descricao = resp.getNick() + " deletou o cliente " + cliente.getNome();
+            sql = codSql;
+            codDado = cliente.getId();
+            idLogin = resp.getId();
+            
+            antes = "-"; //No caso de updates, como o campo era antes
+            depois = "-"; //No caso de updates, como o campo ficou no fim
+            campo = "-"; //Campo alterado
+            
+            insereRegistro();
+            
+        } catch (SQLException ex) {
+            throw new AuditoriaException(ex);
+        }
+    }
+    
     /**
      * Retorna todos os registros de delete da auditoria
      *

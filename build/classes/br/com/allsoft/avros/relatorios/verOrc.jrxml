@@ -10,7 +10,7 @@
 		<![CDATA[SELECT
      tbl_orcamento.`id_orc` AS tbl_orcamento_id_orc,
      tbl_orcamento.`criado_em` AS tbl_orcamento_criado_em,
-     tbl_orcamento.`desc_tatoo` AS tbl_orcamento_desc_tatoo,
+     tbl_orcamento.`desc_tattoo` AS tbl_orcamento_desc_tatoo,
      tbl_orcamento.`tipo_pagamento` AS tbl_orcamento_tipo_pagamento,
      tbl_orcamento.`valor_total` AS tbl_orcamento_valor_total,
      tbl_orcamento.`qntd_sessao` AS tbl_orcamento_qntd_sessao,
@@ -35,7 +35,9 @@ FROM
 WHERE
      tbl_orcamento.`id_orc` = $P!{id_orc}]]>
 	</queryString>
-	<field name="tbl_orcamento_id_orc" class="java.lang.Long"/>
+	<field name="tbl_orcamento_id_orc" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="tbl_orcamento_criado_em" class="java.sql.Timestamp"/>
 	<field name="tbl_orcamento_desc_tatoo" class="java.lang.String"/>
 	<field name="tbl_orcamento_tipo_pagamento" class="java.lang.String"/>
